@@ -78,10 +78,14 @@
 		<condition>Obbligatorio</condition>
 	</element>
 	<element name="gmd:issueIdentification">
-		<label>Id livello superiore</label>
+		<label>ID livello superiore</label>
 		<description>Identificatore del file di metadati di livello superiore</description>
 		<condition>Obbligatorio</condition>
 	</element>
+  <element name="gmd:presentationForm">
+    <label>Formato di presentazione</label>
+    <description>Modalità in cui la risorsa è rappresentata</description>
+  </element>
 	<element name="gmd:hierarchyLevel">
 		<label>Livello gerarchico</label>
 		<description>Categoria di informazione cui vengono applicati metadati</description>
@@ -137,16 +141,14 @@
 		<description>Formato di distribuzione</description>
 		<condition>Obbligatorio</condition>
 	</element>
-	<element name="gmd:numberOfDimensions">
-		<label>Numero di dimensioni</label>
-		<description>Numero degli assi spaziali-temporali indipendenti</description>
-		<condition>obbligatorio</condition>
-	</element>
-	<element name="gmd:cornerPoints">
-		<label>Punto del pixel</label>
-		<description>Posizione sulla Terra nel sistema di riferimento definito dall' SRS e dalla coordinata griglia delle celle agli estremi opposti di un'immagine raster lungo le due diagonali</description>
-		<condition>obbligatorio</condition>
-	</element>
+  <element name="gmd:valueUnit" id="135.0">
+    <label>Unità di misura</label>
+    <description>Unità di misura dei valori di qualità dei dati</description>
+  </element>
+  <element name="gco:Record">
+    <label>Record</label>
+    <description/>
+  </element>
 	<element name="srv:couplingType">
 		<label>Tipo di aggancio</label>
 		<description>Tipo di accoppiamento</description>
@@ -176,7 +178,7 @@
 	</element>
 	<element name="srv:operatesOn">
 		<label>Risorsa accoppiata</label>
-		<description>Fornisce informazioni sui dataset su cui opera il servizio</description>
+		<description>Riferimento univoco (identificatore) del set di dati agganciato dal servizio</description>
 	</element>
 	<element name="srv:DCP">
 		<label>DCP (Distributed Computing Platforms)</label>
@@ -190,11 +192,20 @@
 		<label>Nome richiesta</label>
 		<description>Il nome utilizzato per richiamare questa interfaccia nel contesto del DCP. Il nome è identico per tutti i DCP</description>
 	</element>
+  <element name="gmd:MD_ImageDescription" id="243.0">
+    <label>Descrizione dell'immagine</label>
+    <description>Informazioni sull’idoneità dell’immagine all’uso</description>
+  </element>
 	<element name="gmd:attributeDescription">
 		<label>Descrizione degli attributi</label>
 		<description>Descrizione dell'attributo descritto dal valore di misura</description>
 		<condition>obbligatorio</condition>
 	</element>
+  <element name="gmd:contentType">
+    <label>Tipo di contenuto</label>
+    <description>Tipo di informazione rappresentato dal valore della cella.</description>
+    <condition>obbligatorio</condition>
+  </element>
 	<element name="gmd:bitsPerValue">
 		<label>Risoluzione radiometrica</label>
 		<description>Numero massimo di bit significativi con cui può essere rappresentata l'intensità radiometrica di ogni pixel</description>
@@ -226,29 +237,44 @@
 		<help>Linguaggio utilizzato per i dati</help>
 		<_condition>Obbligatorio</_condition>
 	</element>
-	<!--element name="gmd:language" context="gmd:MD_Metadata">
+	<element name="gmd:language" context="gmd:MD_Metadata">
 		<label>Lingua dei metadati</label>
 		<description>Linguaggio nel quale sono espressi i metadati</description>
 		<condition>Obbligatorio</condition>
-	</element-->
-	<!--element name="gmd:language">
-		<label>Lingua della risorsa</label>
-		<description>Linguaggio utilizzato per i dati</description>
-		<help>Linguaggio utilizzato per i dati</help>
-		<condition>Obbligatorio</condition>
-	</element-->
+	</element>
 	<element name="gmd:CI_Series">
 		<label>Id livello superiore</label>
 		<description>Riferimento univoco relativo alla serie di cui il dataset è parte</description>
 		<help>L'elemento è utile per gestire le relazioni tra i livelli gerarchici. Nel caso non esista un livello gerarchico di rango superiore (serie o dataset "flat", cioè che non appartiene a nessuna serie), l’elemento deve assumere lo stesso valore dell'elemento "Identificatore"</help>
 		<condition>Obbligatorio</condition>
 	</element>
+  <element name="gmd:onlineResource">
+    <label>Risorsa on-line</label>
+    <description>Informazioni sulle fonti online attraverso le quali la risorsa può essere
+      ottenuta</description>
+    <condition>obbligatorio</condition>
+    <help>Formato URL. Specificare obbligatoriamente il protocollo (es. http).</help>
+  </element>
 	<element name="gmd:abstract">
 		<label>Descrizione</label>
 		<description>Breve testo di descrizione del contenuto della risorsa</description>
 		<condition>obbligatorio</condition>
 		<help>Testo libero. Fornire una descrizione dei dati che si stanno documentando.</help>
 	</element>
+  <element name="gmd:CI_Citation" id="359.0">
+    <label>Riferimento</label>
+    <description>Riferimento standardizzato ad una risorsa</description>
+    <_condition>L'obbligatorietà di questo campo dipende dal soggetto referente</_condition>
+  </element>
+  <element name="gmd:EX_Extent" id="334.0">
+    <label>Estensione</label>
+    <description>Informazioni sull’estensione verticale, planimetrica e temporale dei dati
+    </description>
+  </element>
+  <element name="gmd:MD_DataIdentification" id="36.0">
+    <label>Identificazione dei dati</label>
+    <description>Classe di informazioni per identificare il set di dati descritti</description>
+  </element>
 	<element name="gmd:descriptiveKeywords">
 		<label>Parole chiave</label>
 		<description>Parola formalizzata o utilizzata comunemente per descrivere la risorsa</description>
@@ -260,6 +286,19 @@
 		<description>Rinvio ad un thesaurus specifico contenente le parole chiave da utilizzare</description>
 		<help>Nel caso delle parole chiave relative ai temi INSPIRE è obbligatorio citare le informazioni relative al thesaurus GEMET – INSPIRE Themes</help>
 	</element>
+  <element name="gmd:handlingDescription">
+    <label>Descrizione del trattamento</label>
+    <description>Ulteriori informazioni sulle restrizioni sulla gestione della risorsa
+    </description>
+  </element>
+  <element name="gmd:MD_RepresentativeFraction" id="56.0">
+    <label>Frazione rappresentativa</label>
+    <description>Derivata da ISO 19103</description>
+  </element>
+  <element name="gml:relatedTime">
+    <label>Relazione temporale</label>
+    <description>Definisce la relazione di un dato tempo all'oggetto.</description>
+  </element>
 	<element name="gmd:citation" context="gmd:thesaurusName">
 		<label>Riferimento</label>
 		<description>Riferimento al thesaurus</description>
@@ -292,6 +331,12 @@
       <option value="Recommended values">Valori suggeriti</option>
 		</helper>
 	</element>
+  <element name="gmd:MD_Constraints">
+    <label>Vincoli</label>
+    <description>Classe di informazioni sulle restrizioni di accesso e utilizzo dei dati e dei
+      relativi metadati
+    </description>
+  </element>
 	<element name="gmd:accessConstraints">
 		<label>Vincoli di accesso</label>
 		<condition>Obbligatorio</condition>
@@ -343,6 +388,10 @@
 		<condition>obbligatorio</condition>
 		<help>L'elemento puo assumere uno dei valori della lista “CI_DateTypeCode” (§ 3.4.3.1 - all. 2 DM). Vista l’estensione della codelist effettuata dal RNDT con l’aggiunta del valore “rilievo”, per garantire la conformità con INSPIRE è necessario che sia presente almeno una data il cui tipo sia o “creazione (creation)” o “pubblicazione (publication)” o “revisione (revision)”. Il tipo di data per il thesaurus GEMET – INSPIRE Themes è “pubblicazione”. </help>
 	</element>
+  <element name="gmd:EX_VerticalExtent">
+    <label>Estensione verticale</label>
+    <description>Dominio verticale dei dati</description>
+  </element>
 	<element name="gmd:EX_TemporalExtent">
 		<label>Estensione temporale</label>
 		<description>Periodo di tempo coperto dal contenuto della risorsa</description>
@@ -366,6 +415,13 @@
 		<condition>obbligatorio</condition>
 		<help>Esso deve assumere uno dei valori della lista “MD_ScopeCode” (§ 3.4.3.13 - all. 2 DM).</help>
 	</element>
+  <element name="gmd:levelDescription" id="141.0">
+    <label>Descrizione del livello</label>
+    <description>Descrizione dettagliata circa il livello dei dati specificati dal
+      campo
+    </description>
+    <_condition>Conditional / level not equal 'dataset' or 'series'?</_condition>
+  </element>
 	<element name="gmd:report">
 		<label>Report</label>
 		<description>Informazioni quantitative sulla qualità dei dati</description>
@@ -402,11 +458,16 @@
 		<description>Informazione sulla valutazione di soddisfacimento del livello accettabile di qualità</description>
 		<condition>Obbligatorio</condition>
 	</element>
-	<element name="gmd:specification" id="130.0" context="gmd:DQ_ConformanceResult">
+  <element name="gmd:explanation">
+    <label>Spiegazione</label>
+    <condition>Obbligatorio</condition>
+    <description>Spiegazione dell'importanza della conformità per il risultato</description>
+  </element>
+	<!--element name="gmd:specification" id="130.0" context="gmd:DQ_ConformanceResult">
 		<label>Specifiche</label>
 		<description>Citazione delle specifiche cui la risorsa si conforma</description>
 		<help>L’elemento deve esprimere la conformità alle disposizioni di esecuzione di cui all’articolo 7, paragrafo 1 della Direttiva INSPIRE. Deve essere quindi citato il Regolamento (UE) n.1089/2010 relativo all'interoperabilità di dati e servizi (Titolo = REGOLAMENTO (UE) N. 1089/2010 DELLA COMMISSIONE del 23 novembre 2010 recante attuazione della direttiva 2007/2/CE del Parlamento europeo e del Consiglio per quanto riguarda l'interoperabilità dei set di dati territoriali e dei servizi di dati territoriali, data (aaaa-mm-gg o aaaammgg) = 2010-12-08, tipo data = pubblicazione). E' possibile tuttavia indicare la conformità della risorsa ad altre specifiche.</help>
-	</element>
+	</element-->
 	<element name="gmd:specification" context="gmd:MD_Format">
 		<label>Specifiche</label>
 		<description>Nome di un sottoinsieme, profilo o del formato delle specifiche del prodotto</description>
@@ -417,9 +478,13 @@
 		<condition>Obbligatorio</condition>
 		<help>Per la compilazione dell'lemento stesso  valgono le indicazioni fornite nel dizionario al § 3.4.2 dell’allegato 2 al DM (true = conforme, false = non conforme e se non viene espresso nessun grado di conformità, allora si considera il grado pari al valore “non valutato”). Ciò significa che in tal caso, nel file XML deve essere comunque presente il tag relativo anche se non valorizzato.</help>
 	</element>
+  <element name="gmd:MD_Keywords" id="52.0">
+    <label>Parole chiave</label>
+    <description>Classe di informazioni per le parole chiave</description>
+  </element>
 	<element name="gmd:referenceSystemInfo" id="13.0">
 		<label>Sistema di riferimento</label>
-		<description>Descrizione del sistema di riferimento spaziale dei dati</description>
+		<description>Descrizione del sistema di riferimento spaziale o temporale dei dati</description>
 	</element>
 	<element name="gmd:topicCategory" id="41.0">
 		<!--label>Tema</label-->
@@ -434,6 +499,19 @@
 		<condition>Obbligatorio</condition>
 		<help>L’elemento deve assumere uno dei valori della lista “MD_TopicCategoryCode” (§ 3.4.3.15 – all. 2 DM).</help>
 	</element>
+  <element name="gmd:DQ_DomainConsistency" id="113.0">
+    <label>Coerenza del dominio</label>
+    <description>Conformità dei valori a quelli del dominio</description>
+  </element>
+  <element name="gmd:DQ_TopologicalConsistency" id="115.0">
+    <label>Coerenza topologica</label>
+    <description>Correttezza delle caratteristiche topologiche esplicitamente codificate</description>
+  </element>
+  <element name="gmd:DQ_ConceptualConsistency">
+    <label>Qualità del servizio</label>
+    <description>Qualità minima del servizio stimata dalla parte responsabile del servizio
+      di dati territoriali e che dovrebbe essere valida per un periodo di tempo</description>
+  </element>
 	<element name="gmd:classification" id="74.0">
 		<condition>Obbligatorio</condition>
 		<label>Vincoli di sicurezza</label>
@@ -445,6 +523,10 @@
 		<condition>Obbligatorio</condition>
 		<help>L'identificatore deve obbligatoriamente avere come prefisso il il codice IPA assegnato all’Amministrazione nel momento dell’accreditamento come da comma 1 dell’art. 19 dell’allegato A del DPCM 1 aprile 2008 seguito dai due punti (:).</help>
 	</element>
+  <element name="gmd:otherCitationDetails">
+    <label>Altri dettagli</label>
+    <description>Ulteriori informazioni di citazione</description>
+  </element>
 	<element name="gmd:referenceSystemIdentifier">
 		<label>Identificatore del sistema di riferimento</label>
 		<description>Identificartore del sistema di riferimento</description>
@@ -457,6 +539,24 @@
 		<condition>Obbligatorio</condition>
 		<help>E' obbligatorio indicare il nome dell'organizzazione, ruolo = distributore (CI_RoleCode), indirizzo e-mail e almeno uno tra sito web (url) e numero telefonico dell'organizzazione </help>
 	</element>
+  <element name="gmd:distributionFormat">
+    <label>Formato di distribuzione</label>
+    <condition>obbligatorio</condition>
+    <description>Descrizione del concetto (o dei concetti) del linguaggio informatico
+      che specifica la rappresentazione degli oggetti di dati in un registro,
+      un file, un messaggio, un supporto di memorizza- zione o un canale
+      di trasmissione.</description>
+  </element>
+  <element name="gmd:distributorContact">
+    <label>Distributore</label>
+    <description>Soggetto da cui può essere ottenuta la risorsa</description>
+    <condition>obbligatorio</condition>
+  </element>
+  <element name="gmd:status">
+    <label>Status</label>
+    <description>Fase di programmazione/realizzazione</description>
+    <condition>Obbligatorio</condition>
+  </element>
 	<element name="gmd:characterSet" context="gmd:MD_Metadata">
 		<label>Set dei caratteri dei metadati</label>
 		<description>Nome dello standard del set di caratteri utilizzato per i metadati</description>
@@ -501,15 +601,36 @@
 		<description>Identificatore</description>
 		<label>Identificatore</label>
 	</element>
+  <element name="gmd:triangulationIndicator">
+    <label>Triangolazione aerea</label>
+    <description>Indica se una triangolazione è stata eseguita sull'immagine</description>
+  </element>
 	<element name="gmd:positionName">
 		<label>Ruolo del responsabile</label>
 		<description>Ruolo o funzione della persona responsabile</description>
 		<condition>obbligatorio</condition>
 	</element>
-	<element name="gco:Real">
+  <element name="gmd:minimumValue">
+    <label>Quota minima</label>
+    <description>Quota minima espressa in m</description>
+  </element>
+  <element name="gmd:maximumValue">
+    <label>Quota massima</label>
+    <description>Quota massima espressa in m</description>
+  </element>
+	<element name="gco:Real" >
 		<label>Numero reale</label>
 		<description>Quantità espressa come valore numerico reale</description>
 	</element>
+	<element name= "gco:Measure">
+		<label>Risoluzione</label>
+		<description>risoluzione</description>
+	</element>
+  <element name="gco:Distance">
+    <label>Distance</label>
+    <description>Distance</description>
+    <condition></condition>
+  </element>
 	<element name="gml:BaseUnit">
 		<label>Unità di misura elementare</label>
 		<description>Unità di misura che non può essere derivata da altre unità di misura elementari nell'ambito di dato sistema di misura</description>
@@ -542,6 +663,10 @@
 		<label>Titolo XLink</label>
 		<description>Descrizione human-readable del XLink</description>
 	</element>
+  <element name="xlink:href">
+    <label>Href XLink</label>
+    <description>Riferimento ad una risorsa tramite IRI</description>
+  </element>
 	<element name="xlink:show">
 		<label>Visualizzazione XLink (show)</label>
 		<description>Specifica in che modo deve essere visualizzato il contenuto corrispondete al XLink (es. : nuova finestra)</description>
@@ -554,12 +679,169 @@
 		<label>Sistema di unità di misura</label>
 		<description>Riferimento o descrizione del sistema di unità di misura utilizzato</description>
 	</element>
-	<element name="gmd:contact" context="gmd:MD_MaintenanceInformation">
-		<label>Contatti</label>
-		<description>Identificazione, e mezzi di comunicazione con persone ed enti aventi responsabilità di mantenere i metadati</description>
-	</element>
+  <element name="gmd:contact" id="148.1" context="gmd:MD_MaintenanceInformation">
+    <label>Contatto</label>
+    <description>Identificazione, e mezzi di comunicazione con persone ed enti aventi responsabilità
+      di mantenere i metadati
+    </description>
+  </element>
 	<element name="gmd:verticalElement">
 		<label>Elemento verticale</label>
 		<description>Componenti verticali dell’estensione dei dati</description>
 	</element>
+  <element name="gmd:extension">
+    <label>Estensione</label>
+    <description>Estensione dei dati</description>
+  </element>
+  <element name="gmd:language">
+    <label>Lingua</label>
+    <description>Lingua dei dati</description>
+  </element>
+  <element name="gmd:maintenanceAndUpdateFrequency">
+    <label>Frequenza di aggiornamento</label>
+    <description>Frequenza con la quale sono registrati gli aggiornamenti dei dati</description>
+  </element>
+
+  <!-- raster labels -->
+
+  <element name="gmd:numberOfDimensions">
+    <label>Numero di dimensioni</label>
+    <description>Numero degli assi spaziali-temporali indipendenti.</description>
+    <condition>obbligatorio</condition>
+  </element>
+  <element name="gmd:pointInPixel">
+    <label>Punto del pixel</label>
+    <description>Punto del pixel a cui si riferiscono le coordinate.</description>
+    <condition>obbligatorio</condition>
+  </element>
+  <element name="gmd:MD_Dimension">
+    <label>Proprietà dimensioni</label>
+    <description>Informazioni sulle proprietà degli assi spaziali-temporali.</description>
+    <condition>obbligatorio</condition>
+  </element>
+  <element name="gmd:axisDimensionProperties">
+    <label>Proprietà dimensioni</label>
+    <description>Informazioni sulle proprietà delle dimensioni spazio-temporali</description>
+    <_condition>obbligatorio</_condition>
+  </element>
+
+  <element name="gmd:georeferencedParameters">
+    <label>Parametri per la georeferenziazione</label>
+    <description>Termini che supportano la georeferenziazione dei dati.</description>
+    <condition>obbligatorio</condition>
+  </element>
+
+  <element name="gmd:cellGeometry">
+    <label>Geometria della cella</label>
+    <description>Indicazione dei dati raster come punti o celle.</description>
+    <condition>obbligatorio</condition>
+  </element>
+
+  <element name="gmd:transformationParameterAvailability">
+    <label>Disponibilità dei coefficienti di trasformazione</label>
+    <description>Indicazione se esistono o meno punti di controllo.</description>
+    <condition>obbligatorio</condition>
+  </element>
+
+  <element name="gmd:orientationParameterAvailability">
+    <label>Disponibilità dei parametri di orientamento</label>
+    <description>Indicazione se sono disponibili o meno i parametri di orientamento.</description>
+    <condition>obbligatorio</condition>
+  </element>
+
+  <element name="gmd:controlPointAvailability">
+    <label>Disponibilità dei punti di controllo</label>
+    <description>Indicazione se esistono o meno punti di controllo.</description>
+    <condition>obbligatorio</condition>
+  </element>
+
+  <element name="gmd:cornerPoints">
+    <label>Coordinate del vertice</label>
+    <description>Coordinate dei vertici della griglia espresse nel proprio sistema di
+      riferimento spaziale. Sono richiesti almeno il vertice origine della
+      griglia e quello opposto lungo la diagonale.</description>
+    <condition>obbligatorio</condition>
+  </element>
+
+  <element name="gmd:checkPointAvailability">
+    <label>Disponibilità dei check-points</label>
+    <description>Indicazione sulla disponibilità dei check-points.</description>
+  </element>
+
+  <element name="gmd:checkPointDescription">
+    <label>Descrizione check-points</label>
+    <description>Breve descrizione dei check-points disponibili.</description>
+  </element>
+
+  <element name="gmd:scope">
+    <label>Ambito</label>
+    <description>Ambito cui sono applicate le informazioni di qualità</description>
+  </element>
+
+  <element name="gmd:DQ_Scope">
+    <label>Ambito</label>
+    <description>Ambito cui sono applicate le informazioni di qualità</description>
+  </element>
+  <element name="srv:SV_ServiceIdentification">
+    <label>Identificazione dei servizi</label>
+    <description>Informazioni di indentificazione dei servizi ISO 19119-2005 </description>
+  </element>
+  <element name="srv:serviceTypeVersion">
+    <label>Versione del tipo di servizio</label>
+    <description>Fornisce la ricerca in base alla versione del tipo di servizio. Per esempio, si
+      potrebbe essere interessati ai soli servizi di catalogo OGC V1.1. Se la versione è mantenuta
+      come un attributo separato, gli utenti possono ricercare facilmente tutti i servizi di un
+      tipo, indipendentemente dalla versione
+    </description>
+  </element>
+  <element name="gmd:lensDistortionInformationAvailability" id="255.0">
+    <label>Disponibilità di informazioni sulla distorsione della lente</label>
+    <description>Indicare se le informazioni sulla correzione della distorsione dell'obiettivo sono disponibili
+    </description>
+  </element>
+  <element name="gmd:filmDistortionInformationAvailability">
+    <label>Disponibilità di informazioni sulla distorsione del film</label>
+    <description>Indicare se l'informazione sulla distorsione del film è disponibile</description>
+  </element>
+  <element name="gmd:radiometricCalibrationDataAvailability" id="252.0">
+    <label>Disponibilità dei dati di calibrazione radiometrica</label>
+    <description>Indicare se sono disponibili i dati sulla calibrazione radiometica
+      per la generazione del radiometrically calibrated standard
+    </description>
+  </element>
+  <element name="gmd:illuminationElevationAngle" id="244.0">
+    <label>Illuminazione dell'angolo di elevazione</label>
+    <description>Altitudine dell'illuminazione misurata in gradi in senso orario, dal piano di
+      proiezione all'intersezione della linea visiva con la superficie terrestre. Per immagini
+      provenienti da scansionamento, riferimento al pixel centrale dell'immagine.
+    </description>
+  </element>
+  <element name="gmd:illuminationAzimuthAngle" id="245.0">
+    <label>Azimuth dell'angolo di illuminazione</label>
+    <description>l'azimuth dell'illuminazione misurato in gradi in senso orario dal polo nord
+      geografico nell'orario in cui l'immagine è catturata. Per immagini provenienti da
+      scansionamento, riferimento al pixel centrale dell'immagine.
+    </description>
+  </element>
+  <element name="gmd:imagingCondition" id="246.0">
+    <label>Condizioni di realizzazione dell'immagine</label>
+    <description>Condizioni che hanno influenzato l'immagine</description>
+  </element>
+  <element name="gmd:processingLevelCode" id="249.0">
+    <label>Codice del livello di elaborazione</label>
+    <description>Codice del distributore dell'immagine che identifica il livello di elaborazione
+      radiometrica e geometrica che è stato applicato
+    </description>
+  </element>
+  <element name="srv:coupledResource">
+    <label>Risorsa accoppiata</label>
+    <description>Dettagli del servizio accoppiato</description>
+    <inspireInfo>Optional in INSPIRE</inspireInfo>
+  </element>
+  <element name="gmd:offLine" id="278.0">
+    <label>Offline</label>
+    <description>Informazioni sui supporti offline dai quali la risorsa può essere ottenuta
+    </description>
+  </element>
 </labels>
+

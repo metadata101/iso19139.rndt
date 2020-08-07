@@ -621,15 +621,15 @@
         gmx:Anchor is usually used for linking element using xlink.
         TODO : Currently gmx:Anchor is not supported
     -->
-    <xsl:template match="gmx:Anchor">
+    <!--xsl:template match="gmx:Anchor">
         <gco:CharacterString>
             <xsl:value-of select="."/>
         </gco:CharacterString>
-    </xsl:template>
+    </xsl:template-->
 
     <!-- Don't save some gmd:thesaurusName|gmd:MD_Keywords sub elements because not required by RNDT -->
-    <xsl:template match="gmd:thesaurusName/gmd:CI_Citation/gmd:identifier"/>
-    <xsl:template match="gmd:MD_Keywords/gmd:type"/>
+    <!--xsl:template match="gmd:thesaurusName/gmd:CI_Citation/gmd:identifier"/>
+    <xsl:template match="gmd:MD_Keywords/gmd:type"/-->
     <!-- ======== -->
 
     <xsl:template match="gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:pass">
@@ -722,19 +722,19 @@
 
     <!-- prendi solo l'ultimo nodo, che dovrebbe essere l'ultimo aggiunto -->
 
-    <xsl:template match="gmd:referenceSystemInfo">
+    <!--xsl:template match="gmd:referenceSystemInfo">
         <xsl:message>Elimino CRS <xsl:value-of select=".//gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code"/></xsl:message>
-    </xsl:template>
+    </xsl:template-->
 
-    <xsl:template match="gmd:referenceSystemInfo[last()]">
+    <!--xsl:template match="gmd:referenceSystemInfo[last()]">
         <xsl:copy>
             <xsl:apply-templates select="@*|node()"/>
         </xsl:copy>
-    </xsl:template>
+    </xsl:template-->
 
     <!-- parsa il CRS e imposta il formato RNDT -->
 
-    <xsl:template match="gmd:referenceSystemIdentifier/gmd:RS_Identifier">
+    <!--xsl:template match="gmd:referenceSystemIdentifier/gmd:RS_Identifier">
 
        <xsl:variable name="fullcode" select="gmd:code/gco:CharacterString/text()"/>
        <xsl:variable name="epsgcode" select="substring-before(substring-after($fullcode,'(EPSG:'), ')')"/>
@@ -743,21 +743,21 @@
        <xsl:message>EPSG: <xsl:value-of select="$epsgcode"/></xsl:message>
 
         <xsl:copy>
-            <xsl:choose>
+            <xsl:choose-->
                 <!-- se e' un numero, consideralo un codice EPSG -->
-                <xsl:when test="string(number($fullcode)) != 'NaN'">
+                <!--xsl:when test="string(number($fullcode)) != 'NaN'">
                     <xsl:call-template name="srsEPSGsnippet">
                         <xsl:with-param name="epsg" select="$fullcode"/>
                     </xsl:call-template>
-                </xsl:when>
+                </xsl:when-->
                 <!-- se il code contiene la stringa "(EPSG:nnnn)" dovrebbe essere un codice preso dal CRS selector -->
-                <xsl:when test="string(number($epsgcode)) != 'NaN'">
+                <!--xsl:when test="string(number($epsgcode)) != 'NaN'">
                     <xsl:call-template name="srsEPSGsnippet">
                         <xsl:with-param name="epsg" select="$epsgcode"/>
                     </xsl:call-template>
-                </xsl:when>
+                </xsl:when-->
                 <!-- altrimenti copia solo il codice, che dovrebbe essere stringa RNDT -->
-                <xsl:otherwise>
+                <!--xsl:otherwise>
                     <xsl:apply-templates select="gmd:code"/>
                 </xsl:otherwise>
             </xsl:choose>
@@ -775,7 +775,7 @@
             <gmd:codeSpace>
                 <gco:CharacterString>http://www.epsg-registry.org/</gco:CharacterString>
             </gmd:codeSpace>
-    </xsl:template>
+    </xsl:template-->
 
     <!-- ================================================================= -->
     <!-- copy everything else as is -->
