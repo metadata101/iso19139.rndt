@@ -21,4 +21,7 @@
   <rndtTabQua>Quality</rndtTabQua>
   <rndtTabAcc>Access constraints</rndtTabAcc>
   <rndtTabMd>Metadata</rndtTabMd>-->
+  <datasetAndSeries>Dataset e serie</datasetAndSeries>
+  <services>Servizi</services>
+  <raster>Dati raster</raster>
 </strings>

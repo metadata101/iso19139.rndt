@@ -105,7 +105,8 @@
   <!-- New strings added for the AngularJS editor -->
   <!-- View and tabs -->
   <advanced>Full</advanced>
-  <default>RNDT</default>
+  <default>Base</default>
+  <rndt-view>RNDT</rndt-view>
   <simple>Simple</simple>
   <inspire>Parole chiave &amp; Temi INSPIRE</inspire>
   <resource>Resource</resource>
@@ -170,7 +171,8 @@
   <conformity_title>Titolo</conformity_title>
   <conformity_date>Data</conformity_date>
   <pass>Grado di conformità</pass>
-  <explanation>Explanation</explanation>
+  <title>Titolo</title>
+  <explanation>Spiegazione</explanation>
   <characterSet>Set di caratteri</characterSet>
   <indeterminatePosition>Indeterminate position</indeterminatePosition>
   <pointOfContact>Punto di contatto</pointOfContact>
@@ -222,4 +224,8 @@
   <add-extent-from-geokeywords>Compute extent from keyword</add-extent-from-geokeywords>
   <add-extent-from-geokeywordsHelp>Analyze each keyword of type place and add matching extent.</add-extent-from-geokeywordsHelp>
   <sds-add-qualityofservice>Qualità dei servizi</sds-add-qualityofservice>
+  <common>Comuni</common>
+  <datasetAndSeries>Dataset e serie</datasetAndSeries>
+  <services>Servizi</services>
+  <raster>Dati raster</raster>
 </strings>
