@@ -762,7 +762,10 @@
       griglia e quello opposto lungo la diagonale.</description>
     <condition>obbligatorio</condition>
   </element>
-
+  <element name="gmd:MD_PixelOrientationCode">
+    <label>Codice di orientamento del pixel</label>
+    <description>Punto in un pixel corrispondente alla posizione del pixel sulla Terra.</description>
+  </element>
   <element name="gmd:checkPointAvailability">
     <label>Disponibilità dei check-points</label>
     <description>Indicazione sulla disponibilità dei check-points.</description>

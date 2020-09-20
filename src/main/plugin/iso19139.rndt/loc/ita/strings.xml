@@ -119,6 +119,8 @@
   <distributionInfo>Distribution</distributionInfo>
   <distributorContact>Distributore</distributorContact>
   <presentationForm>Formato di presentazione</presentationForm>
+  <qualityInfo>Informazioni sulla qualità</qualityInfo>
+  <servicesQualityInfo>Qualità dei servizi</servicesQualityInfo>
   <dataQualityInfo>Qualità dei dati</dataQualityInfo>
   <dataQualityLevel>Livello di qualità</dataQualityLevel>
   <axisDimensionProperties>Proprietà dimensioni</axisDimensionProperties>
@@ -204,7 +206,8 @@
   <uomRecord>Accuratezza posizionale dei dati</uomRecord>
   <conformitySpecifications>Conformità: specifiche</conformitySpecifications>
   <spatialReferenceSystem>Sistema di riferimento spaziale</spatialReferenceSystem>
-  <georectifiedSpatialRepresentation>Raster georettificati</georectifiedSpatialRepresentation>
+  <georectifiedRaster>Raster georettificati</georectifiedRaster>
+  <georeferenceableRaster>Raster georeferenziabili</georeferenceableRaster>
   <spatialRepresentation>Rappresentazione spaziale</spatialRepresentation>
   <temporalReferenceSystem>Sistema di riferimento temporale</temporalReferenceSystem>
   <referenceSystems>Sistemi di riferimento</referenceSystems>
@@ -219,6 +222,8 @@
   <lineage>Genealogia</lineage>
   <topologicalConsistency>Coerenza topologica</topologicalConsistency>
   <positionalAccuracy>Accuratezza posizionale</positionalAccuracy>
+  <callbackMetadata>Metadati di richiamata</callbackMetadata>
+  <sds-category>Categoria</sds-category>
   <add-resource-id>Compute resource identifier</add-resource-id>
   <add-resource-idHelp>Compose the resource identifier using the catalog URL and the metadata identifier (eg. http://www.organization.org/catalogue/5391bf69-44bc-4ea0-8cc0-6cf6c3bc81ae).</add-resource-idHelp>
   <add-extent-from-geokeywords>Compute extent from keyword</add-extent-from-geokeywords>
