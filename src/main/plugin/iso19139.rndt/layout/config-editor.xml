@@ -5267,11 +5267,40 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
         </section>
         <section name="dataQualityInfo">
 
-          <field name="dataQualityLevel" xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope/gmd:level"/>
-          <action type="process"
-                  process="sds-add-dataquality"
-                  if="count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service'])=0
-            and count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+          <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope/gmd:level"/>
+
+          <action type="add" or="scope"
+                  in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
+                  if="count(/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope)=0">
+            <template>
+            <snippet label="dataset">
+              <gmd:scope>
+                <gmd:DQ_Scope>
+                  <gmd:level>
+                    <gmd:MD_ScopeCode
+                      codeListValue="dataset"
+                      codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode">
+                      dataset
+                    </gmd:MD_ScopeCode>
+                  </gmd:level>
+                </gmd:DQ_Scope>
+              </gmd:scope>
+            </snippet>
+              <snippet label="dataset">
+                <gmd:scope>
+                  <gmd:DQ_Scope>
+                    <gmd:level>
+                      <gmd:MD_ScopeCode
+                        codeListValue="series"
+                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode">
+                        series
+                      </gmd:MD_ScopeCode>
+                    </gmd:level>
+                  </gmd:DQ_Scope>
+                </gmd:scope>
+              </snippet>
+            </template>
+          </action>
 
           <section name="positionalAccuracy" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
             <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/
@@ -6106,16 +6135,43 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
           </template>
           </action>
 
-          <field name="dataQualityLevel" xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope"/>
+          <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope/gmd:level"/>
+
+          <action type="add" or="scope"
+                  in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
+                  if="count(/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope)=0">
+            <template>
+              <snippet>
+                <gmd:scope>
+                  <gmd:DQ_Scope>
+                    <gmd:level>
+                      <gmd:MD_ScopeCode codeListValue="service"
+                                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode">
+                        servizio
+                      </gmd:MD_ScopeCode>
+                    </gmd:level>
+                    <gmd:levelDescription>
+                      <gmd:MD_ScopeDescription>
+                        <gmd:other>
+                          <gco:CharacterString>servizio</gco:CharacterString>
+                        </gmd:other>
+                      </gmd:MD_ScopeDescription>
+                    </gmd:levelDescription>
+                  </gmd:DQ_Scope>
+                </gmd:scope>
+              </snippet>
+            </template>
+          </action>
+
+
+          <field
+            xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_ConceptualConsistency" del=".."/>
 
           <action type="process"
                   process="sds-add-qualityofservice"
                   if="(count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service']/gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[text()='availability'])=0 or
                        count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service']/gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[text()='performance'])=0 or
                        count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service']/gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[text()='capacity'])=0 )"/>
-
-          <field
-            xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_ConceptualConsistency" del=".."/>
 
           </section>
       </tab>
@@ -6334,8 +6390,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                  in="/gmd:MD_Metadata"/>
       </tab>
       <tab id="dataQuality">
-        <!-- Conformity - datasets -->
-        <section name="dataQualityInfo">
+        <section name="qualityInfo">
 
           <field name="conformitySpecifications" templateModeOnly="true"
                  xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/
@@ -6347,7 +6402,11 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                  del="../..">
             <template>
               <values>
-                <key label="title"
+                <key label="explanation"
+                     xpath="gmd:DQ_ConformanceResult/gmd:explanation/gco:CharacterString/text()"
+                >
+                </key>
+                <key label="conformity_desc"
                      xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gmx:Anchor/text()"
                      tooltip="gmd:pass">
                   <helper name="gmd:title"
@@ -6374,7 +6433,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                     <gmd:specification>
                       <gmd:CI_Citation>
                         <gmd:title>
-                          <gmx:Anchor xlink:href="{{conformity_linkage}}">{{title}}</gmx:Anchor>
+                          <gmx:Anchor xlink:href="{{conformity_linkage}}">{{conformity_desc}}</gmx:Anchor>
                         </gmd:title>
                         <gmd:date>
                           <gmd:CI_Date>
@@ -6390,6 +6449,9 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                         </gmd:date>
                       </gmd:CI_Citation>
                     </gmd:specification>
+                    <gmd:explanation>
+                      <gco:CharacterString>{{explanation}}</gco:CharacterString>
+                    </gmd:explanation>
                   </gmd:DQ_ConformanceResult>
                 </gmd:result>
               </snippet>
@@ -6404,7 +6466,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                  del="../..">
             <template>
               <values>
-                <key label="title"
+                <key label="conformity_title"
                      xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gco:CharacterString"
                      tooltip="gmd:pass">
                   <helper name="gmd:title"
@@ -6421,6 +6483,9 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                     data-nilreason="eval#gmd:DQ_ConformanceResult/gmd:pass/@gco:nilReason"
                     data-labels='{"true": "conformant", "false": "notConformant", "unknown": "notEvaluated"}'/>
                 </key>
+                <key label="explanation"
+                     xpath="gmd:DQ_ConformanceResult/gmd:explanation/gco:CharacterString"
+                />
               </values>
               <snippet>
                 <gmd:result>
@@ -6428,7 +6493,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                     <gmd:specification>
                       <gmd:CI_Citation>
                         <gmd:title>
-                          <gco:CharacterString>{{title}}</gco:CharacterString>
+                          <gco:CharacterString>{{conformity_title}}</gco:CharacterString>
                         </gmd:title>
                         <gmd:date>
                           <gmd:CI_Date>
@@ -6444,6 +6509,9 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                         </gmd:date>
                       </gmd:CI_Citation>
                     </gmd:specification>
+                    <gmd:explanation>
+                      <gco:CharacterString>{{explanation}}</gco:CharacterString>
+                    </gmd:explanation>
                   </gmd:DQ_ConformanceResult>
                 </gmd:result>
               </snippet>
@@ -6452,6 +6520,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
 
 
           <action type="add" name="conformity" or="report"
+                  btnLabel="conformitySpecifications"
                   in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
                   if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0 and
                     count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult)=0">
@@ -6464,12 +6533,16 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                         <gmd:specification>
                           <gmd:CI_Citation>
                             <gmd:title>
-                              <gco:CharacterString/>
+                              <gmx:Anchor xlink:href="http://data.europa.eu/eli/reg/2010/1089">
+                                REGOLAMENTO (UE) N. 1089/2010 DELLA COMMISSIONE del 23 novembre 2010
+                                recante attuazione della direttiva 2007/2/CE del Parlamento europeo e del Consiglio per quanto
+                                riguarda l'interoperabilità dei set di dati territoriali e dei servizi di dati territoriali
+                              </gmx:Anchor>
                             </gmd:title>
                             <gmd:date>
                               <gmd:CI_Date>
                                 <gmd:date>
-                                  <gco:Date/>
+                                  <gco:Date>2010-12-08</gco:Date>
                                 </gmd:date>
                                 <gmd:dateType>
                                   <gmd:CI_DateTypeCode
@@ -6495,6 +6568,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
           </action>
 
           <action type="add" name="serviceSpecification" or="report"
+                  btnLabel="conformitySpecifications"
                   in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
                   if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0 and
                     count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult) = 0">
@@ -6576,6 +6650,95 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                   </gmd:DQ_DomainConsistency>
                 </gmd:report>
               </snippet>
+              <snippet label="freeText">
+                <gmd:report>
+                  <gmd:DQ_DomainConsistency>
+                    <gmd:result>
+                      <gmd:DQ_ConformanceResult>
+                        <gmd:specification>
+                          <gmd:CI_Citation>
+                            <gmd:title>
+                              <gmx:Anchor
+                                xlink:href=""></gmx:Anchor>
+                            </gmd:title>
+                            <gmd:date>
+                              <gmd:CI_Date>
+                                <gmd:date>
+                                  <gco:Date></gco:Date>
+                                </gmd:date>
+                                <gmd:dateType>
+                                  <gmd:CI_DateTypeCode
+                                    codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                                    codeListValue="publication"/>
+                                </gmd:dateType>
+                              </gmd:CI_Date>
+                            </gmd:date>
+                          </gmd:CI_Citation>
+                        </gmd:specification>
+                        <gmd:explanation>
+                          <gco:CharacterString>Fare riferimento alle
+                            specifiche indicate</gco:CharacterString>
+                        </gmd:explanation>
+                        <gmd:pass gco:nilReason="">
+                          <gco:Boolean>true</gco:Boolean>
+                        </gmd:pass>
+                      </gmd:DQ_ConformanceResult>
+                    </gmd:result>
+                  </gmd:DQ_DomainConsistency>
+                </gmd:report>
+              </snippet>
+            </template>
+          </action>
+
+          <action type="add" or="report"
+                  btnLabel="sds-category"
+                  in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
+                  if="gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType/
+                  gco:LocalName/text()='other' and count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/
+                  gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult[gmd:specification/
+                  gmd:CI_Citation/gmd:title/gmx:Anchor/text()!='invocable']) = 0">
+            <template>
+              <snippet>
+                <gmd:report>
+                  <gmd:DQ_DomainConsistency>
+                    <gmd:result>
+                      <gmd:DQ_ConformanceResult>
+                        <gmd:specification>
+                          <gmd:CI_Citation>
+                            <gmd:title>
+                              <gmx:Anchor
+                                xlink:href="http://inspire.ec.europa.eu/id/ats/metadata/2.0/sds-invocable"
+                                xlink:title="INSPIRE Invocable Spatial Data Services metadata">
+                                invocable
+                              </gmx:Anchor>
+                            </gmd:title>
+                            <gmd:date>
+                              <gmd:CI_Date>
+                                <gmd:date>
+                                  <gco:Date>2016-05-01</gco:Date>
+                                </gmd:date>
+                                <gmd:dateType>
+                                  <gmd:CI_DateTypeCode
+                                    codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                                    codeListValue="publication"/>
+                                </gmd:dateType>
+                              </gmd:CI_Date>
+                            </gmd:date>
+                          </gmd:CI_Citation>
+                        </gmd:specification>
+                        <gmd:explanation>
+                          <gco:CharacterString>Questo servizio di dati
+                            territoriali è conforme ai requisiti INSPIRE per i Servizi di Dati Territoriali
+                            Invocabili</gco:CharacterString>
+                        </gmd:explanation>
+                        <gmd:pass>
+                          <gco:Boolean>true</gco:Boolean>
+                        </gmd:pass>
+                      </gmd:DQ_ConformanceResult>
+                    </gmd:result>
+                  </gmd:DQ_DomainConsistency>
+                </gmd:report>
+              </snippet>
             </template>
           </action>
 
@@ -6585,11 +6748,14 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                   if="count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service'])=0
             and count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
 
-          <field xpath="gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_ConceptualConsistency"/>
+          <field
+            xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_ConceptualConsistency"/>
+
           <action type="process"
                   process="sds-add-qualityofservice"
-                  if="count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service'])=0
-            and count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0"/>
+                  if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0"/>
+
+
 
 
           <section name="positionalAccuracy" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
@@ -6603,6 +6769,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             />
 
             <action type="add"
+                    btnLabel="positionalAccuracy"
                     or="report"
                     in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality">
               <template>
@@ -6611,7 +6778,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                     <gmd:DQ_AbsoluteExternalPositionalAccuracy>
                       <gmd:result>
                         <gmd:DQ_QuantitativeResult>
-                          <gmd:valueUnit xlink:href="http://www.opengis.net/def/uom/OGC/1.0/unity">
+                          <gmd:valueUnit>
                             <gml:BaseUnit gml:id="m">
                               <gml:identifier
                                 codeSpace="http://www.bipm.org/en/si/base_units">m</gml:identifier>
@@ -6621,7 +6788,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           </gmd:valueUnit>
                           <gmd:value>
                             <gco:Record>
-                              <gco:Real/>
+                              <gco:Real>0.0</gco:Real>
                             </gco:Record>
                           </gmd:value>
                         </gmd:DQ_QuantitativeResult>
@@ -6633,100 +6800,98 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </action>
           </section>
 
-          <section name="topologicalConsistency" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
-            <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_TopologicalConsistency">
-              <template>
-                <values>
-                  <key label="name_of_measures"
-                       xpath="gmd:nameOfMeasure/gco:CharacterString">
-                  </key>
-                  <key label="evaluation_method_type"
-                       xpath="gmd:evaluationMethodType/gmd:DQ_EvaluationMethodTypeCode"
-                  />
-                  <key label="evaluation_method_descr"
-                       xpath="gmd:evaluationMethodDescription/gco:CharacterString"
-                  />
-                  <key label="conformity_date"
-                       xpath="gmd:date/gco:DateTime"
-                       use="gn-date-picker"/>
-                  <key label="value_unit"
-                       xpath="gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/@xlink:href"
-                       use="gn-date-picker"/>
-                  <key label="topological_record"
-                       xpath="gmd:result/gmd:DQ_QuantitativeResult/gmd:value/gco:Record"
-                  />
-                </values>
-                <snippet>
+          <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_TopologicalConsistency">
+            <template>
+              <values>
+                <key label="name_of_measures"
+                     xpath="gmd:nameOfMeasure/gco:CharacterString">
+                </key>
+                <key label="evaluation_method_type"
+                     xpath="gmd:evaluationMethodType/gmd:DQ_EvaluationMethodTypeCode"
+                />
+                <key label="evaluation_method_descr"
+                     xpath="gmd:evaluationMethodDescription/gco:CharacterString"
+                />
+                <key label="conformity_date"
+                     xpath="gmd:date/gco:DateTime"
+                     use="gn-date-picker"/>
+                <key label="value_unit"
+                     xpath="gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/@xlink:href"
+                     use="gn-date-picker"/>
+                <key label="topological_record"
+                     xpath="gmd:result/gmd:DQ_QuantitativeResult/gmd:value/gco:Record"
+                />
+              </values>
+              <snippet>
+                <gmd:DQ_TopologicalConsistency>
+                  <gmd:nameOfMeasure>
+                    <gco:CharacterString>{{name_of_measure}}</gco:CharacterString>
+                  </gmd:nameOfMeasure>
+                  <gmd:evaluationMethodType>
+                    {{evaluation_method_type}}
+                  </gmd:evaluationMethodType>
+                  <gmd:evaluationMethodDescription>
+                    <gco:CharacterString>{{evaluation_method_descr}}</gco:CharacterString>
+                  </gmd:evaluationMethodDescription>
+                  <gmd:dateTime>
+                    {{date_time}}
+                  </gmd:dateTime>
+                  <gmd:result>
+                    <gmd:DQ_QuantitativeResult>
+                      <gmd:valueUnit
+                        xlink:href="{{value_unit}}"/>
+                      <gmd:value>
+                        <gco:Record xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                    xsi:type="xs:integer">{{topological_record}}</gco:Record>
+                      </gmd:value>
+                    </gmd:DQ_QuantitativeResult>
+                  </gmd:result>
+                </gmd:DQ_TopologicalConsistency>
+              </snippet>
+            </template>
+          </field>
+
+          <action type ="add" or ="report" btnLabel="topologicalConsistency"
+                  in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
+                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
+            <template>
+              <snippet>
+                <gmd:report>
                   <gmd:DQ_TopologicalConsistency>
                     <gmd:nameOfMeasure>
-                      <gco:CharacterString>{{name_of_measure}}</gco:CharacterString>
+                      <gco:CharacterString/>
                     </gmd:nameOfMeasure>
                     <gmd:evaluationMethodType>
-                      {{evaluation_method_type}}
+                      <gmd:DQ_EvaluationMethodTypeCode
+                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#DQ_EvaluationMethodTypeCode"
+                        codeListValue="indirect"/>
                     </gmd:evaluationMethodType>
                     <gmd:evaluationMethodDescription>
-                      <gco:CharacterString>{{evaluation_method_descr}}</gco:CharacterString>
+                      <gco:CharacterString/>
                     </gmd:evaluationMethodDescription>
                     <gmd:dateTime>
-                      {{date_time}}
+                      <gco:DateTime></gco:DateTime>
                     </gmd:dateTime>
                     <gmd:result>
                       <gmd:DQ_QuantitativeResult>
                         <gmd:valueUnit
-                          xlink:href="{{value_unit}}"/>
+                          xlink:href="http://www.opengis.net/def/uom/OGC/1.0/unity"/>
                         <gmd:value>
                           <gco:Record xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                      xsi:type="xs:integer">{{topological_record}}</gco:Record>
+                                      xsi:type="xs:integer"/>
                         </gmd:value>
                       </gmd:DQ_QuantitativeResult>
                     </gmd:result>
                   </gmd:DQ_TopologicalConsistency>
-                </snippet>
-              </template>
-            </field>
-
-            <action type ="add" or ="report"
-                    in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
-                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
-              <template>
-                <snippet>
-                  <gmd:report>
-                    <gmd:DQ_TopologicalConsistency>
-                      <gmd:nameOfMeasure>
-                        <gco:CharacterString/>
-                      </gmd:nameOfMeasure>
-                      <gmd:evaluationMethodType>
-                        <gmd:DQ_EvaluationMethodTypeCode
-                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#DQ_EvaluationMethodTypeCode"
-                          codeListValue="indirect"/>
-                      </gmd:evaluationMethodType>
-                      <gmd:evaluationMethodDescription>
-                        <gco:CharacterString/>
-                      </gmd:evaluationMethodDescription>
-                      <gmd:dateTime>
-                        <gco:DateTime/>
-                      </gmd:dateTime>
-                      <gmd:result>
-                        <gmd:DQ_QuantitativeResult>
-                          <gmd:valueUnit
-                            xlink:href="http://www.opengis.net/def/uom/OGC/1.0/unity"/>
-                          <gmd:value>
-                            <gco:Record xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                        xsi:type="xs:integer"/>
-                          </gmd:value>
-                        </gmd:DQ_QuantitativeResult>
-                      </gmd:result>
-                    </gmd:DQ_TopologicalConsistency>
-                  </gmd:report>
-                </snippet>
-              </template>
-            </action>
-          </section>
+                </gmd:report>
+              </snippet>
+            </template>
+          </action>
 
           <field name="lineage"
                  xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage/gmd:statement"/>
 
-          <action type="add" name="lineage" or="statement"
+          <action type="add" name="lineage" or="statement" btnLabel="lineage"
                   in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage">
             <template>
               <snippet>
