@@ -105,7 +105,7 @@
   <!-- New strings added for the AngularJS editor -->
   <!-- View and tabs -->
   <advanced>Full</advanced>
-  <default>Base</default>
+  <default>Comuni</default>
   <rndt-view>RNDT</rndt-view>
   <simple>Simple</simple>
   <inspire>Parole chiave &amp; Temi INSPIRE</inspire>
@@ -229,7 +229,6 @@
   <add-extent-from-geokeywords>Compute extent from keyword</add-extent-from-geokeywords>
   <add-extent-from-geokeywordsHelp>Analyze each keyword of type place and add matching extent.</add-extent-from-geokeywordsHelp>
   <sds-add-qualityofservice>Qualità dei servizi</sds-add-qualityofservice>
-  <common>Comuni</common>
   <datasetAndSeries>Dataset e serie</datasetAndSeries>
   <services>Servizi</services>
   <raster>Dati raster</raster>
