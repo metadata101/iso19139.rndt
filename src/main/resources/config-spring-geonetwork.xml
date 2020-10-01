@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="iso19139.rndtSchemaPlugin"
-        class="org.fao.geonet.schema.iso19139.ISO19139SchemaPlugin"/>
+        class="org.fao.geonet.schema.iso19139_rndt.ISO19139RNDTSchemaPlugin"/>
 
     <bean name="metadataManager" primary="true" class="org.fao.geonet.schema.iso19139_rndt.RNDTMetadataManager"/>
 </beans>

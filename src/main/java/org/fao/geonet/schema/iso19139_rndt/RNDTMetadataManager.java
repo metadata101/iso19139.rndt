@@ -94,7 +94,6 @@ public class RNDTMetadataManager extends BaseMetadataManager {
 
         // --- force namespace prefix for iso19139 metadata
         setNamespacePrefixUsingSchemas(schema, metadataXml);
-
         if (updateFixedInfo && newMetadata.getDataInfo().getType() == MetadataType.METADATA) {
             String parentUuid = null;
             metadataXml = updateFixedInfo(newMetadata.getSourceInfo().getGroupOwner(), schema, Optional.<Integer>absent(), newMetadata.getUuid(), metadataXml,
@@ -183,7 +182,9 @@ public class RNDTMetadataManager extends BaseMetadataManager {
 
             Element env = setUpEnvironment(context, md, result,schema, id, uuid,
                 parentUuid, metadataId, updateDatestamp);
-            env=addGroupToEnv(env, metadata);
+            if (metadata!=null) {
+                env = addGroupToEnv(env, metadata);
+            }
             result.addContent(env);
             // apply update-fixed-info.xsl
             Path styleSheet = metadataSchemaUtils.getSchemaDir(schema)

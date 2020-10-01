@@ -875,10 +875,14 @@
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <xsl:for-each select="gmd:parentIdentifier/gco:CharacterString">
+    <xsl:for-each select="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:series/
+     gmd:CI_Series/gmd:issueIdentification/gco:CharacterString">
       <Field name="parentUuid" string="{string(.)}" store="true" index="true"/>
     </xsl:for-each>
-    <Field name="isChild" string="{exists(gmd:parentIdentifier)}" store="true" index="true"/>
+    <Field name="isChild" string="{not(gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:series/
+     gmd:CI_Series/gmd:issueIdentification/gco:CharacterString = gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/
+     gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString)}" store="true" index="true"/>
+
 
 
     <xsl:for-each select="gmd:metadataStandardName/gco:CharacterString">

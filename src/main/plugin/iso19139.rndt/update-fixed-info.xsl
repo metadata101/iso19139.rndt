@@ -243,12 +243,21 @@
 
         <xsl:choose>
             <!-- no iPA defined -->
-            <xsl:when test="not($ipaDefined)">
+            <!--xsl:when test="not($ipaDefined)">
                 <xsl:message>ATTENZIONE: CODICE iPA NON DEFINITO: series identifier rimosso</xsl:message>
                 <xsl:copy>
                     <gco:CharacterString><xsl:value-of select="concat('NON DEFINITO___', $fileId)"/></gco:CharacterString>
                 </xsl:copy>
-            </xsl:when>
+            </xsl:when-->
+
+          <xsl:when test=" exists(/root/env/parentUuid) and contains(/root/env/parentUuid,':')">
+            <xsl:message>INFO: series identifier impostato per metadato figlio</xsl:message>
+            <xsl:copy>
+              <gco:CharacterString>
+                <xsl:value-of select="/root/env/parentUuid"/>
+              </gco:CharacterString>
+            </xsl:copy>
+          </xsl:when>
             <!-- empty series: fill with current resId-->
             <xsl:when test="./gco:CharacterString/text() = ''">
                 <xsl:message>ATTENZIONE: serie vuota: copia da resourceId</xsl:message>
@@ -268,12 +277,12 @@
             </xsl:when>
             <!-- ipa defined, different from the one in code -->
             <!-- redefine the current code since it may no longer be valid -->
-            <xsl:when test="not(starts-with(./gco:CharacterString , $iPA))">
+            <!--xsl:when test="not(starts-with(./gco:CharacterString , $iPA))">
                 <xsl:message>ATTENZIONE: iPA non corrispondente: series identifier ricreato</xsl:message>
                 <xsl:copy>
                     <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
                 </xsl:copy>
-            </xsl:when>
+            </xsl:when-->
             <!-- ipa defined, right one, but metadata is new-->
             <!-- redefine the current code since it may no longer be valid -->
 
@@ -288,7 +297,7 @@
                         <xsl:message>INFO: series identifier impostato per metadato figlio</xsl:message>
                         <xsl:copy>
                             <gco:CharacterString>
-                                <xsl:value-of select="concat($iPA, substring-after(/root/env/parentUuid,':'), '_resource')"/>
+                                <xsl:value-of select="/root/env/parentUuid"/>
                             </gco:CharacterString>
                         </xsl:copy>
                     </xsl:when>
