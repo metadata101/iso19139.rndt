@@ -37,6 +37,10 @@
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                 exclude-result-prefixes="#all">
 
+  <xsl:import href="../convert/functions.xsl"/>
+  <xsl:include href="../../../xsl/utils-fn.xsl"/>
+  <xsl:include href="inspire-util.xsl" />
+
   <!--This file defines what parts of the metadata are indexed by Lucene
       Searches can be conducted on indexes defined here.
       The Field@name attribute defines the name of the search variable.
@@ -47,9 +51,6 @@
   <!-- ========================================================================================= -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="no"/>
-  <xsl:include href="../convert/functions.xsl"/>
-  <xsl:include href="../../../xsl/utils-fn.xsl"/>
-  <xsl:include href="inspire-util.xsl" />
 
   <xsl:param name="thesauriDir"/>
   <xsl:param name="inspire">false</xsl:param>
