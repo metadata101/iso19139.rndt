@@ -7,7 +7,7 @@
 
 
   <xsl:import href="../iso19139/index-fields/default.xsl"/>
-  <xsl:include href="../iso19139/convert/functions.xsl"/>
+  <xsl:import href="../iso19139/convert/functions.xsl"/>
 
     <xsl:template mode="index" match="gmd:fileIdentifier/gco:CharacterString">
 

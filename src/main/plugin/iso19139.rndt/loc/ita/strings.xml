@@ -28,7 +28,12 @@
     <keywords>
         <title>Parole chiave &amp; Temi INSPIRE</title>
     </keywords>
-    <service>
+   <freeTextKeywords>Altre parole chiave</freeTextKeywords>
+   <thesaurus>Thesaurus</thesaurus>
+   <territorial>Ambito territoriale</territorial>
+   <priority>Dataset Prioritario</priority>
+   <gemet>Gemet Inspire</gemet>
+    <!--service>
         <title>Identificazione dei servizi</title>
     </service>
     <constraint>
@@ -49,6 +54,9 @@
 		    </crs>
 		</verticalCRSValues>
     </geoloc>
+    <abstract>
+      <title>Descrizione</title>
+    </abstract>
     <verticalExtent>
         <title>Estensione verticale</title>
     </verticalExtent>
@@ -61,9 +69,6 @@
     <distribution>
         <title>Distribuzione dei dati</title>
     </distribution>
-    <metadata>
-        <title>Metadati</title>
-    </metadata>
     <rasterContent>
         <title>Contenuto dei dati Raster</title>
     </rasterContent>
@@ -73,27 +78,59 @@
     <positionalAccuracy>
         <title>Accuratezza posizionale</title>
     </positionalAccuracy>
+    <equivalentScale>
+      <title>Scala Equivalente</title>
+    </equivalentScale>
+    <spatialRepresentationType>
+      <title>Tipo di rappresentazione spaziale</title>
+    </spatialRepresentationType>
+    <issueIdentification>
+      <title>ID livello superiore</title>
+    </issueIdentification-->
+  <resourceMaintenace>Gestione dei dati</resourceMaintenace>
+  <operatesOn>Risorsa accoppiata</operatesOn>
+  <useConstraints>
+    Vincoli di fruibilità
+  </useConstraints>
+  <accessConstraints>
+    Vincoli di accesso
+  </accessConstraints>
+    <securityConstraints>
+      Vincoli di sicurezza
+    </securityConstraints>
+
+  <noConditionApply>Nessuna condizione applicabile</noConditionApply>
+  <freeText>Testo libero</freeText>
 
   <!-- New strings added for the AngularJS editor -->
   <!-- View and tabs -->
   <advanced>Full</advanced>
-  <default>Base</default>
+  <default>Comuni</default>
+  <rndt-view>RNDT</rndt-view>
   <simple>Simple</simple>
   <inspire>Parole chiave &amp; Temi INSPIRE</inspire>
   <resource>Resource</resource>
   <xml>XML</xml>
-  <metadata>Metadata</metadata>
-  <identificationInfo>Identification</identificationInfo>
+  <metadata>Metadati</metadata>
+  <identificationInfo>Informazioni di identificazione</identificationInfo>
+  <serviceType>Tipo di servizio</serviceType>
+  <descriptiveKeywords>Parole chiave</descriptiveKeywords>
+  <keyword>Parola chiave</keyword>
   <distributionInfo>Distribution</distributionInfo>
-  <dataQualityInfo>Quality</dataQualityInfo>
-  <spatialRepresentationInfo>Spatial rep.</spatialRepresentationInfo>
-  <referenceSystemInfo>Ref. system</referenceSystemInfo>
-  <contentInfo>Content</contentInfo>
+  <distributorContact>Distributore</distributorContact>
+  <presentationForm>Formato di presentazione</presentationForm>
+  <qualityInfo>Informazioni sulla qualità</qualityInfo>
+  <servicesQualityInfo>Qualità dei servizi</servicesQualityInfo>
+  <dataQualityInfo>Qualità dei dati</dataQualityInfo>
+  <dataQualityLevel>Livello di qualità</dataQualityLevel>
+  <axisDimensionProperties>Proprietà dimensioni</axisDimensionProperties>
+  <referenceSystemInfo>Sistema di riferimento</referenceSystemInfo>
+  <contentInfo>Informazioni sul contenuto</contentInfo>
   <portrayalCatalogueInfo>Portrayal</portrayalCatalogueInfo>
-  <metadataConstraints>Md. constraints</metadataConstraints>
-  <metadataMaintenance>Md. maintenance</metadataMaintenance>
-  <applicationSchemaInfo>Schema info</applicationSchemaInfo>
 
+  <metadataConstraints>Vincoli sui metadati</metadataConstraints>
+  <metadataMaintenance>Gestione del metadato</metadataMaintenance>
+  <applicationSchemaInfo>Schema info</applicationSchemaInfo>
   <!-- XSD error translation -->
   <invalidElement>Invalid element. Invalid content was found starting with element: </invalidElement>
   <onElementOf>One of the following elements </onElementOf>
@@ -108,6 +145,10 @@
   <enum1>Value </enum1>
   <enum2> is not valid for the field </enum2>
   <enum3>List of values is :</enum3>
+  <specification>Specifiche</specification>
+  <network_services>Servizi di rete</network_services>
+  <callable_service>Servizi invocabili</callable_service>
+  <cellGeometry>Geometria della cella</cellGeometry>
 
   <!-- INSPIRE view labels and help -->
   <url>Sito web</url>
@@ -115,43 +156,80 @@
   <identifier>Resource identifier</identifier>
   <rsIdentifier>Projection</rsIdentifier>
   <referenceDate>Temporal information</referenceDate>
+  <responsibleParty>Responsabile dei metadati</responsibleParty>
+  <responsible>Responsabile</responsible>
   <creationDate>Creation date</creationDate>
   <hierarchyLevel>Hierarchy level</hierarchyLevel>
   <publicationDate>Publication date</publicationDate>
   <revisionDate>Revision date</revisionDate>
-  <temporalRangeSection>Temporal extent</temporalRangeSection>
-  <beginPosition>Begin</beginPosition>
-  <endPosition>End</endPosition>
+  <temporalSection>Estensione temporale</temporalSection>
+  <beginPosition>Data inizio</beginPosition>
+  <endPosition>Data fine</endPosition>
+  <verticalSection>Estensione verticale</verticalSection>
+  <minimumValue>Quota minima</minimumValue>
+  <maximumValue>Quota massima</maximumValue>
+  <verticalCRS>CRS verticale</verticalCRS>
   <conformity>Conformity</conformity>
-  <conformity_title>Title</conformity_title>
-  <conformity_date>Date</conformity_date>
-  <explanation>Explanation</explanation>
-  <pass>Pass</pass>
+  <conformity_title>Titolo</conformity_title>
+  <conformity_date>Data</conformity_date>
+  <pass>Grado di conformità</pass>
+  <title>Titolo</title>
+  <explanation>Spiegazione</explanation>
+  <characterSet>Set di caratteri</characterSet>
   <indeterminatePosition>Indeterminate position</indeterminatePosition>
   <pointOfContact>Punto di contatto</pointOfContact>
   <metadataPointOfContact>Contact for the metadata</metadataPointOfContact>
   <organisationName>Nome dell'Ente</organisationName>
   <electronicMailAddress>Email</electronicMailAddress>
+  <numberOfDimensions>Numero di dimensioni</numberOfDimensions>
+  <pointInPixel>Punto del pixel</pointInPixel>
+  <language>Lingua</language>
   <role>Ruolo</role>
   <phone>Telefono</phone>
-  <encoding>Codifica</encoding>
-  <inspireTheme>INSPIRE</inspireTheme>
- <extent>Estensione spazio temporale</extent>
+  <inspireTheme>Tema INSPIRE</inspireTheme>
+  <priorityDataset> Dataset prioritario</priorityDataset>
+  <spatialScope> Ambito territoriale</spatialScope>
+  <extent>Estensione dei dati</extent>
   <referenceSystemIdentifier>Sistema di riferimento</referenceSystemIdentifier>
   <format>Formato</format>
   <format_version>Versione</format_version>
-  <spatialResolution>Spatial resolution (scale)</spatialResolution>
-  <spatialDistance>Spatial resolution (distance)</spatialDistance>
-  <accessConstraints>Access constraints</accessConstraints>
-  <useLimitation>Use limitation</useLimitation>
+  <spatialResolution>Risoluzione spaziale</spatialResolution>
+  <spatialResolutionScale>Risoluzione spaziale (scala)</spatialResolutionScale>
+  <spatialResolutionDistance>Risoluzione spaziale (distanza)</spatialResolutionDistance>
+  <containsOperations>Operazioni</containsOperations>
+  <useLimitation>Limitazione d'uso</useLimitation>
+  <otherConstraints>Altri vincoli</otherConstraints>
+  <otherCitationDetails>Altri dettagli</otherCitationDetails>
+  <cornerPoints>Coordinate dei vertici</cornerPoints>
+  <datasetcode>Identificatore</datasetcode>
   <notEvaluated>Not evaluated</notEvaluated>
   <uomRecord>Accuratezza posizionale dei dati</uomRecord>
+  <conformitySpecifications>Conformità: specifiche</conformitySpecifications>
+  <spatialReferenceSystem>Sistema di riferimento spaziale</spatialReferenceSystem>
+  <georectifiedRaster>Raster georettificati</georectifiedRaster>
+  <georeferenceableRaster>Raster georeferenziabili</georeferenceableRaster>
+  <spatialRepresentation>Rappresentazione spaziale</spatialRepresentation>
+  <temporalReferenceSystem>Sistema di riferimento temporale</temporalReferenceSystem>
+  <referenceSystems>Sistemi di riferimento</referenceSystems>
+  <referenceSystem>Sistema di riferimento</referenceSystem>
+  <dataDistribution>Distribuzione dei dati</dataDistribution>
+  <distributionFormat>Formato di distribuzione</distributionFormat>
+  <resourceMaintenance>Gestione dei dati</resourceMaintenance>
   <addDate>Aggiungi Data</addDate>
   <addPointOfContact>Aggiungi Punto di Contatto</addPointOfContact>
   <addTopic>Aggiungi tema</addTopic>
-  <addTransferOption>Aggiungi risorsa</addTransferOption>
+  <transferOption>Risorsa on-line</transferOption>
+  <lineage>Genealogia</lineage>
+  <topologicalConsistency>Coerenza topologica</topologicalConsistency>
+  <positionalAccuracy>Accuratezza posizionale</positionalAccuracy>
+  <callbackMetadata>Metadati di richiamata</callbackMetadata>
+  <sds-category>Categoria</sds-category>
   <add-resource-id>Compute resource identifier</add-resource-id>
   <add-resource-idHelp>Compose the resource identifier using the catalog URL and the metadata identifier (eg. http://www.organization.org/catalogue/5391bf69-44bc-4ea0-8cc0-6cf6c3bc81ae).</add-resource-idHelp>
   <add-extent-from-geokeywords>Compute extent from keyword</add-extent-from-geokeywords>
   <add-extent-from-geokeywordsHelp>Analyze each keyword of type place and add matching extent.</add-extent-from-geokeywordsHelp>
+  <sds-add-qualityofservice>Qualità dei servizi</sds-add-qualityofservice>
+  <datasetAndSeries>Dataset e serie</datasetAndSeries>
+  <services>Servizi</services>
+  <raster>Dati raster</raster>
 </strings>

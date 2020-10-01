@@ -35,9 +35,9 @@
                 version="2.0"
                 exclude-result-prefixes="#all">
 
-  <xsl:include href="../iso19139/convert/functions.xsl"/>
+  <xsl:import href="../iso19139/convert/functions.xsl"/>
 
-  <xsl:function name="gn-fn-rel:translate">
+  <!--xsl:function name="gn-fn-rel:translate">
     <xsl:param name="el"/>
     <xsl:param name="lang"/>
     <xsl:choose>
@@ -54,7 +54,7 @@
           select="($el/gmd:PT_FreeText//gmd:LocalisedCharacterString[text() != ''])[1]"/>
       </xsl:otherwise>
     </xsl:choose>
-  </xsl:function>
+  </xsl:function-->
 
   <!-- Convert an element gco:CharacterString
   to the GN localized string structure -->
