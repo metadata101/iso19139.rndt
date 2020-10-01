@@ -53,7 +53,7 @@
           select="($el/gmd:PT_FreeText//gmd:LocalisedCharacterString[text() != ''])[1]"/>
       </xsl:otherwise>
     </xsl:choose>
-  </xsl:function-->
+  </xsl:function>
 
   <!-- Convert an element gco:CharacterString
   to the GN localized string structure -->
