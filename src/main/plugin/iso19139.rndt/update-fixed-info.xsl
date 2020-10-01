@@ -11,6 +11,27 @@
 
     <xsl:include href="../iso19139/convert/functions.xsl"/>
 
+
+  <!-- ================================================================== -->
+
+  <xsl:template name="substring-before-last">
+    <xsl:param name="string1" select="''" />
+    <xsl:param name="string2" select="''" />
+
+    <xsl:if test="$string1 != '' and $string2 != ''">
+      <xsl:variable name="head" select="substring-before($string1, $string2)" />
+      <xsl:variable name="tail" select="substring-after($string1, $string2)" />
+      <xsl:value-of select="$head" />
+      <xsl:if test="contains($tail, $string2)">
+        <xsl:value-of select="$string2" />
+        <xsl:call-template name="substring-before-last">
+          <xsl:with-param name="string1" select="$tail" />
+          <xsl:with-param name="string2" select="$string2" />
+        </xsl:call-template>
+      </xsl:if>
+    </xsl:if>
+  </xsl:template>
+
     <!-- ================================================================= -->
 
     <xsl:template match="/root">
@@ -41,24 +62,33 @@
     -->
 
 
-    <xsl:variable name="isNew" select="not(contains(//gmd:fileIdentifier/gco:CharacterString, /root/env/uuid))"/>
+  <xsl:variable name="ipaJustAssigned" select="string(/root/env/uuid) != string(//gmd:fileIdentifier/gco:CharacterString) and ends-with(//gmd:fileIdentifier/gco:CharacterString, /root/env/uuid)"/>
 
-    <xsl:variable name="ipaJustAssigned" select="string(/root/env/uuid) != string(//gmd:fileIdentifier/gco:CharacterString) and ends-with(//gmd:fileIdentifier/gco:CharacterString, /root/env/uuid)"/>
+  <xsl:variable name="iPA">
+    <xsl:variable name="iPAPrefixed">
+    <xsl:call-template name="substring-before-last">
+      <xsl:with-param name="string1" select="/root/env/group/description"/>
+      <xsl:with-param name="string2" select="':'"/>
+    </xsl:call-template>
+    </xsl:variable>
+    <xsl:value-of select="substring-after($iPAPrefixed,'iPA:')"/>
+  </xsl:variable>
 
-    <xsl:variable name="fileId">
+  <xsl:variable name="iPAExists" select="not($iPA='')"/>
+  <xsl:variable name="isNew" select="not(contains(//gmd:fileIdentifier/gco:CharacterString,':'))"/>
+
+  <xsl:variable name="fileId">
         <xsl:choose>
-            <xsl:when test="$isNew">
-
-                <xsl:value-of select="concat('p_tn:',/root/env/uuid)"/>
+            <xsl:when test="$isNew and $iPAExists">
+                <xsl:value-of select="concat(concat($iPA,':'),/root/env/uuid)"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="//gmd:fileIdentifier/gco:CharacterString"/>
+                  <xsl:value-of select="//gmd:fileIdentifier/gco:CharacterString"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
 
     <xsl:variable name="ipaDefined" select="contains($fileId, ':')"/>
-    <xsl:variable name="ipa" select="substring-before($fileId, ':')"/>
 
     <!-- ================================================================= -->
 
@@ -69,13 +99,16 @@
             <xsl:if test="$isNew">
                 <xsl:message>INFO: creazione di nuovo metadato</xsl:message>
             </xsl:if>
-            <xsl:message>INFO: /root/env/uuid is <xsl:value-of select="/root/env/uuid"/></xsl:message>
+          <xsl:if test="not($iPAExists)">
+            <xsl:message>INFO: iPA not found in /root/env/group/description. Value is <xsl:value-of select="/root/env/group/description"/></xsl:message>
+          </xsl:if>
+          <xsl:message>INFO: /root/env/uuid is <xsl:value-of select="/root/env/uuid"/></xsl:message>
             <xsl:message>INFO: /root/env/parentUuid is <xsl:value-of select="/root/env/parentUuid"/></xsl:message>
             <xsl:message>INFO: old fileId is <xsl:value-of select="//gmd:fileIdentifier/gco:CharacterString"/></xsl:message>
             <xsl:message>INFO: old parentiId is <xsl:value-of select="//gmd:parentIdentifier/gco:CharacterString"/></xsl:message>
             <xsl:message>INFO: iPA is defined: <xsl:value-of select="$ipaDefined"/></xsl:message>
             <xsl:message>INFO: iPA is just assigned: <xsl:value-of select="$ipaJustAssigned"/></xsl:message>
-            <xsl:message>INFO: iPA is <xsl:value-of select="$ipa"/></xsl:message>
+            <xsl:message>INFO: iPA is <xsl:value-of select="$iPA"/></xsl:message>
             <xsl:message>INFO: fileId is <xsl:value-of select="$fileId"/></xsl:message>
 
             <!-- fileIdentifier : handling RNDT iPA-->
@@ -100,7 +133,7 @@
                     </gmd:parentIdentifier>
                 </xsl:when>
                 <xsl:when test="/root/env/parentUuid!=''">
-                    <xsl:if test="starts-with(/root/env/parentUuid, $ipa)">
+                    <xsl:if test="starts-with(/root/env/parentUuid, $iPA)">
                         <xsl:message>INFO: parentId richiesto OK</xsl:message>
                         <gmd:parentIdentifier>
                             <gco:CharacterString>
@@ -108,7 +141,7 @@
                             </gco:CharacterString>
                         </gmd:parentIdentifier>
                     </xsl:if>
-                    <xsl:if test="not(starts-with(/root/env/parentUuid, $ipa))">
+                    <xsl:if test="not(starts-with(/root/env/parentUuid, $iPA))">
                         <xsl:message>ATTENZIONE: parentId: codice iPA non corrisponde. Eliminazione parentId (<xsl:value-of select="/root/env/parentUuid"/>)</xsl:message>
                         <gmd:parentIdentifier>
                             <gco:CharacterString/>
@@ -117,23 +150,23 @@
                 </xsl:when>
                 <xsl:when test="gmd:parentIdentifier!=''">
                     <xsl:choose>
-                        <xsl:when test="starts-with(gmd:parentIdentifier/gco:CharacterString, $ipa)">
+                        <xsl:when test="starts-with(gmd:parentIdentifier/gco:CharacterString, $iPA)">
                             <xsl:message>INFO: parentId esterno OK</xsl:message>
                             <xsl:copy-of select="gmd:parentIdentifier"/>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:message>ATTENZIONE: iPA non corrispondente nel parentId esterno. Eliminazione parentId (<xsl:value-of select="gmd:parentIdentifier/gco:CharacterString"/>)</xsl:message>
-                            <gmd:parentIdentifier>
-                                <gco:CharacterString/>
-                            </gmd:parentIdentifier>
+                          <gmd:parentIdentifier>
+                            <gco:CharacterString/>
+                          </gmd:parentIdentifier>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:message>INFO: parentId non trovato: env[<xsl:value-of select="/root/env/parentUuid"/>] md[<xsl:value-of select="gmd:parentIdentifier/gco:CharacterString"/>]</xsl:message>
-                    <gmd:parentIdentifier>
-                        <gco:CharacterString/>
-                    </gmd:parentIdentifier>
+                  <gmd:parentIdentifier>
+                    <gco:CharacterString/>
+                  </gmd:parentIdentifier>
                 </xsl:otherwise>
             </xsl:choose>
 
@@ -173,7 +206,7 @@
             </xsl:when>
             <!-- ipa defined, different from the one in code -->
             <!-- redefine the current code since it may no longer be valid -->
-            <xsl:when test="not(starts-with($oldResId , $ipa))">
+            <xsl:when test="not(starts-with($oldResId , $iPA))">
                 <xsl:message>ATTENZIONE: iPA non corrispondente: resource identifier ricreato</xsl:message>
                 <xsl:value-of select="concat($fileId,'_resource')"/>
             </xsl:when>
@@ -235,7 +268,7 @@
             </xsl:when>
             <!-- ipa defined, different from the one in code -->
             <!-- redefine the current code since it may no longer be valid -->
-            <xsl:when test="not(starts-with(./gco:CharacterString , $ipa))">
+            <xsl:when test="not(starts-with(./gco:CharacterString , $iPA))">
                 <xsl:message>ATTENZIONE: iPA non corrispondente: series identifier ricreato</xsl:message>
                 <xsl:copy>
                     <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
@@ -255,7 +288,7 @@
                         <xsl:message>INFO: series identifier impostato per metadato figlio</xsl:message>
                         <xsl:copy>
                             <gco:CharacterString>
-                                <xsl:value-of select="concat($ipa, substring-after(/root/env/parentUuid,':'), '_resource')"/>
+                                <xsl:value-of select="concat($iPA, substring-after(/root/env/parentUuid,':'), '_resource')"/>
                             </gco:CharacterString>
                         </xsl:copy>
                     </xsl:when>
@@ -516,7 +549,7 @@
     error on XSD validation. -->
     <xsl:template match="srv:operatesOn">
         <xsl:choose>
-            <xsl:when test="$ipaDefined and not(starts-with(@uuidref, $ipa))">
+            <xsl:when test="$ipaDefined and not(starts-with(@uuidref, $iPA))">
                 <xsl:message>ATTENZIONE: operatesOn: codice iPA non corrisponde. Eliminazione operatesOn (<xsl:value-of select="@uuidref"/>)</xsl:message>
             </xsl:when>
             <xsl:when test=".[not(@uuidref)]">

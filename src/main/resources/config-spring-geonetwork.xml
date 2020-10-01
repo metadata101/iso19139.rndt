@@ -6,4 +6,6 @@
 
     <bean id="iso19139.rndtSchemaPlugin"
         class="org.fao.geonet.schema.iso19139.ISO19139SchemaPlugin"/>
+
+    <bean name="metadataManager" primary="true" class="org.fao.geonet.schema.iso19139_rndt.RNDTMetadataManager"/>
 </beans>
