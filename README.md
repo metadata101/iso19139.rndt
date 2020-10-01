@@ -17,4 +17,12 @@ The code is donated to the geonetwork community for its public usage.
 
  The development of this plugin is based on rndt plugin built for Geonetwork 2.x, you can find it  here: https://github.com/geonetwork/schema-plugins
  
-
+##Configurazione iPA
+  Il codice iPA deve essere definito nel campo descrizione del Gruppo cui è associato.
+  GeoNetwork riconoscerà una descrizione del gruppo come identificativo iPA se inizia con "iPA:" e termina con “:”.
+  Tra il prefisso iPA: e l'ultimo ":", è consentita la presenza di ulteriori ":".
+  
+  Saranno dunque possibili i formati seguenti:
+  
+  - iPA:{codiceiPA}:
+  - iPA:{codiceiPA}:{codiceEnte}:
