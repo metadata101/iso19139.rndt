@@ -65,12 +65,12 @@ e" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
 	<gmd:dateStamp>
 		<gco:Date>2011-12-19</gco:Date>
 	</gmd:dateStamp>
-	<gmd:metadataStandardName>
-		<gco:CharacterString>DM - Regole tecniche RNDT</gco:CharacterString>
-	</gmd:metadataStandardName>
-	<gmd:metadataStandardVersion>
-		<gco:CharacterString>10 novembre 2011</gco:CharacterString>
-	</gmd:metadataStandardVersion>
+  <gmd:metadataStandardName>
+    <gco:CharacterString>Linee Guida  RNDT</gco:CharacterString>
+  </gmd:metadataStandardName>
+  <gmd:metadataStandardVersion>
+    <gco:CharacterString>2.0</gco:CharacterString>
+  </gmd:metadataStandardVersion>
 	<gmd:referenceSystemInfo>
 		<gmd:MD_ReferenceSystem>
 			<gmd:referenceSystemIdentifier>

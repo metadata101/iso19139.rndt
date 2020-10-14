@@ -64,12 +64,12 @@ e" codeListValue="utf8">utf8</gmd:MD_CharacterSetCode>
 	<gmd:dateStamp>
 		<gco:Date>2012-11-07</gco:Date>
 	</gmd:dateStamp>
-	<gmd:metadataStandardName>
-		<gco:CharacterString>DM - Regole tecniche RNDT</gco:CharacterString>
-	</gmd:metadataStandardName>
-	<gmd:metadataStandardVersion>
-		<gco:CharacterString>10 novembre 2011</gco:CharacterString>
-	</gmd:metadataStandardVersion>
+  <gmd:metadataStandardName>
+    <gco:CharacterString>Linee Guida  RNDT</gco:CharacterString>
+  </gmd:metadataStandardName>
+  <gmd:metadataStandardVersion>
+    <gco:CharacterString>2.0</gco:CharacterString>
+  </gmd:metadataStandardVersion>
 	<!-- RAPPRESENTAZIONE SPAZIALE DEI DATI RASTER -->
 	<gmd:spatialRepresentationInfo>
 		<gmd:MD_Georeferenceable>
