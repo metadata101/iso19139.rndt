@@ -21,13 +21,13 @@
     <for name="gmd:purpose" use="textarea"/>
     <for name="gmd:orderingInstructions" use="textarea"/>
     <for name="gmd:otherConstraints" use="textarea"/>
-    <for name="gmd:MD_Constraints" use="textarea"/>
     <for name="gmd:statement" use="textarea"/>
     <for name="gmd:supplementalInformation" use="textarea"/>
     <for name="gmd:specificUsage" use="textarea"/>
     <for name="gmd:userNote" use="textarea"/>
     <for name="gmd:useLimitation" use="textarea"/>
     <for name="gmd:title" use="textarea"/>
+    <for name="gmd:URL" use="textarea"/>
 
     <for name="gmd:individualName" use="textarea"/>
     <for name="gml:identifier" use="textarea"/>
@@ -64,21 +64,14 @@
     <for name="gmd:languageCode" use="data-gn-language-picker"/>
     <for name="gmd:country" use="data-gn-country-picker"/>
     <for name="gmd:referenceSystemInfo" addDirective="data-gn-crs-selector"/>
-
     <for name="gmd:contact" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
         data-template-add-action="true"
         data-search-action="true"
         data-popup-action="true"
         data-template-type="contact"
-        data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
-    </for>
-    <for name="gmd:citedResponsibleParty" addDirective="data-gn-directory-entry-selector">
-      <directiveAttributes
-        data-template-add-action="true"
-        data-search-action="true"
-        data-popup-action="true"
-        data-template-type="contact"
+        data-insert-modes=""
+        data-filter='{"_root": "gmd:CI_ResponsibleParty"}'
         data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
     </for>
     <for name="gmd:pointOfContact" addDirective="data-gn-directory-entry-selector">
@@ -87,6 +80,7 @@
         data-search-action="true"
         data-popup-action="true"
         data-template-type="contact"
+        data-insert-modes=""
         data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
     </for>
     <for name="gmd:distributorContact" addDirective="data-gn-directory-entry-selector">
@@ -95,6 +89,7 @@
         data-search-action="true"
         data-popup-action="true"
         data-template-type="contact"
+        data-insert-modes=""
         data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
     </for>
     <for name="gmd:processor" addDirective="data-gn-directory-entry-selector">
@@ -103,99 +98,93 @@
         data-search-action="true"
         data-popup-action="true"
         data-template-type="contact"
+        data-insert-modes=""
         data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
     </for>
-
-    <!-- Example configuration: Add onLine source from subtemplate
-    <for name="gmd:onLine" addDirective="data-gn-directory-entry-selector">
-      <directiveAttributes
-              data-template-add-action="true"
-              data-template-type="onLine"
-              data-filter='{"_root": "gmd:CI_OnlineResource"}'/>
-    </for>
-    -->
-    <!--for name="gmd:report" addDirective="data-gn-directory-entry-selector">
+    <for name="gmd:citedResponsibleParty" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
         data-template-add-action="true"
         data-search-action="true"
         data-popup-action="true"
+        data-template-type="contact"
         data-insert-modes=""
-        data-template-type="report"/>
-    </for-->
+        data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
+    </for>
     <for name="gmd:descriptiveKeywords" addDirective="data-gn-thesaurus-selector">
-      <directiveAttributes
-        data-allow-free-text-keywords="true"
-        data-include="xpath::string-join(gmd:MD_Metadata/gmd:identificationInfo
+
+      <directiveAttributes data-include="xpath::string-join(gmd:MD_Metadata/gmd:identificationInfo
                                           //gmd:thesaurusName/*/gmd:identifier/*/
                                             gmd:code/gmx:Anchor/
                                               concat('-', substring-after(text()[. != ''], 'geonetwork.thesaurus.')), ',')"/>
     </for>
-  </fields>
+
+    <for name="gmd:keyword" use="data-gn-keyword-picker">
+      <directiveAttributes
+        data-display-definition="true"
+        data-thesaurus-concept-id-attribute="xlinkCOLONhref"/>
+    </for>
+
+ </fields>
 
 
-  <fieldsWithFieldset>
-    <name>gmd:MD_Metadata</name>
-    <name>gmd:identificationInfo</name>
-    <name>gmd:distributionInfo</name>
-    <name>gmd:portrayalCatalogueInfo</name>
-    <name>gmd:portrayalCatalogueCitation</name>
-    <name>gmd:thesaurusName</name>
-    <name>gmd:resourceConstraints</name>
-    <name>gmd:spatialRepresentationInfo</name>
-    <name>gmd:pointOfContact</name>
-    <name>gmd:contact</name>
-    <name>gmd:graphicOverview</name>
-    <name>gmd:citedResponsibleParty</name>
-    <name>gmd:dataQualityInfo</name>
-    <name>gmd:contentInfo</name>
-    <name>gmd:distributionFormat</name>
-    <name>gmd:referenceSystemInfo</name>
-    <name>gmd:spatialResolution</name>
-    <name>gmd:offLine</name>
-    <name>gmd:onLine</name>
-    <name>gmd:address</name>
-    <name>gmd:projection</name>
-    <name>gmd:ellipsoid</name>
-    <name>gmd:attributes</name>
-    <name>gmd:RS_Identifier</name>
+ <fieldsWithFieldset>
+   <name>gmd:MD_Metadata</name>
+   <name>gmd:identificationInfo</name>
+   <name>gmd:distributionInfo</name>
+   <name>gmd:portrayalCatalogueInfo</name>
+   <name>gmd:portrayalCatalogueCitation</name>
+   <name>gmd:spatialRepresentationInfo</name>
+   <name>gmd:pointOfContact</name>
+   <name>gmd:contact</name>
+   <name>gmd:graphicOverview</name>
+   <name>gmd:citedResponsibleParty</name>
+   <name>gmd:dataQualityInfo</name>
+   <name>gmd:contentInfo</name>
+   <name>gmd:distributionFormat</name>
+   <name>gmd:referenceSystemInfo</name>
+   <name>gmd:offLine</name>
+   <name>gmd:onLine</name>
+   <name>gmd:address</name>
+   <name>gmd:projection</name>
+   <name>gmd:ellipsoid</name>
+   <name>gmd:attributes</name>
+   <name>gmd:RS_Identifier</name>
+   <name>gmd:thesaurusName</name>
+   <name>gmd:geographicBox</name>
+   <name>gmd:EX_TemporalExtent</name>
+   <name>gmd:MD_Distributor</name>
+   <name>srv:containsOperations</name>
+   <name>srv:SV_OperationMetadata</name>
+   <name>srv:parameters</name>
+   <name>srv:SV_Parameter</name>
+   <name>gmd:metadataConstraints</name>
+   <name>gmd:aggregationInfo</name>
+   <name>gmd:processStep</name>
+   <name>gmd:lineage</name>
+   <name>gmd:centerPoint</name>
+   <name>gmd:EX_VerticalExtent</name>
+   <name>gml:verticalCS</name>
+   <name>gml:verticalDatum</name>
+   <name>gmd:identifier</name>
+   <name>gmd:valueUnit</name>
+   <name>gmd:specification</name>
+   <name>gmd:axisDimensionProperties</name>
+   <name>gmd:MD_ImageDescription</name>
+   <name>gmd:contentType</name>
+   <name>gmd:dimension</name>
+   <name>gmd:presentationForm</name>
+   <name>gco:Record</name>
+   <name>gmd:resourceMaintenance</name>
+   <name>gmd:MD_MaintenanceInformation</name>
+   <name>gmd:minimumValue</name>
+   <name>gmd:maximumValue</name>
+   <name>gmd:descriptiveKeywords</name>
+ </fieldsWithFieldset>
 
-    <!--<name>gmd:verticalCRS</name>-->
-    <name>gmd:geographicBox</name>
-    <name>gmd:EX_TemporalExtent</name>
-    <name>gmd:MD_Distributor</name>
-    <name>srv:containsOperations</name>
-    <name>srv:parameters</name>
-    <name>srv:SV_Parameter</name>
-    <name>srv:operatesOn</name>
-    <name>gmd:metadataConstraints</name>
-    <name>gmd:aggregationInfo</name>
-    <name>gmd:processStep</name>
-    <name>gmd:lineage</name>
-    <name>gmd:centerPoint</name>
-    <name>gmd:EX_VerticalExtent</name>
-    <name>gml:verticalCS</name>
-    <name>gml:verticalDatum</name>
-    <name>gmd:identifier</name>
-    <name>gmd:valueUnit</name>
-    <name>gmd:specification</name>
-    <name>gmd:axisDimensionProperties</name>
-    <name>gmd:MD_ImageDescription</name>
-    <name>gmd:contentType</name>
-    <name>gmd:dimension</name>
-    <name>gmd:presentationForm</name>
-    <name>gco:Record</name>
-    <name>gmd:descriptiveKeywords</name>
-    <name>gmd:MD_Keywords</name>
-    <name>gmd:resourceMaintenance</name>
-    <name>gmd:MD_MaintenanceInformation</name>
-    <name>gmd:minimumValue</name>
-    <name>gmd:maximumValue</name>
-  </fieldsWithFieldset>
-
-  <multilingualFields>
-    <!-- In multilingual mode, define which mode
-    the widget should have. If expanded, then one
-    field per language is displayed. -->
+ <multilingualFields>
+   <!-- In multilingual mode, define which mode
+   the widget should have. If expanded, then one
+   field per language is displayed. -->
     <expanded>
       <name>gmd:title</name>
       <name>gmd:abstract</name>
@@ -252,58 +241,30 @@
       <name>srv:serviceTypeVersion</name>
       <name>srv:operationName</name>
       <name>srv:identifier</name>
+      <name ancestor="gmd:thesaurusName">gmd:code</name>
+      <name ancestor="gmd:aggregateDataSetIdentifier">gmd:code</name>
+      <name ancestor="gmd:CI_Citation">gmd:code</name>
     </exclude>
   </multilingualFields>
   <tableFields>
-    <table for="gmd:CI_ResponsibleParty">
+    <!--table for="gmd:CI_ResponsibleParty">
       <header>
-        <!-- TODO: Add label from strings.xml / label with context-->
         <col label="gmd:organisationName"/>
-        <col label="gmd:individualName"/>
         <col label="gmd:electronicMailAddress"/>
+        <col label="gmd:phone"/>
+        <col label="gmd:url"/>
         <col label="gmd:role"/>
         <col/>
       </header>
       <row>
         <col xpath="gmd:organisationName"/>
-        <col xpath="gmd:individualName"/>
-        <col xpath="gmd:contactInfo/*/gmd:address/*/gmd:electronicMailAddress"/>
-        <col xpath="gmd:role"/>
+        <col xpath="gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress"/>
+        <col xpath="gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:phone"/>
+        <col xpath="gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:onlineResource/gmd:CI_OnlineResource/gmd:linkage"/>
+        <col xpath="gmd:CI_ResponsibleParty/gmd:role"/>
         <col del=".."/>
       </row>
-    </table>
-    <table for="gmd:CI_OnlineResource">
-      <header>
-        <col label="gmd:protocol"/>
-        <col label="gmd:linkage"/>
-        <col label="gmd:name"/>
-        <col/>
-      </header>
-      <row>
-        <col xpath="gmd:protocol"/>
-        <col xpath="gmd:linkage"/>
-        <col xpath="gmd:name"/>
-        <col del=".."/>
-      </row>
-    </table>
-    <!--table for="srv:SV_OperationMetadata">
-      <header>
-        <col label="srv:operationName"/>
-        <col label="srv:DCP"/>
-        <col label="srv:connectPoint"/>
-        <col/>
-      </header>
-      <row>
-        <col xpath="srv:operationName"/>
-        <col xpath="srv:DCP"/>
-        <col xpath="srv:connectPoint/gmd:CI_OnlineResource/gmd:linkage"/>
-        <col del=".."/-->
-        <!--<section xpath="srv:SV_OperationMetadata/srv:parameters"-->
-                 <!--or="parameters" in="srv:SV_OperationMetadata"/>-->
-      <!--/row>
     </table-->
-
-
 
     <table for="srv:SV_CoupledResource">
       <header>
@@ -343,8 +304,6 @@
         <col del=".."/>
       </row>
     </table>
-
-
   </tableFields>
 
   <!-- View configuration -->
@@ -367,12 +326,26 @@
 
       <tab id="default" default="true" mode="flat">
 
-        <section name="metadata">
+        <section name="metadataInfo">
 
           <field xpath="/gmd:MD_Metadata/gmd:fileIdentifier"/>
 
           <field
-            xpath="/gmd:MD_Metadata/gmd:language"/>
+            xpath="/gmd:MD_Metadata/gmd:language">
+            <template>
+              <values>
+                <key label="language"
+                     xpath="gmd:LanguageCode/@codeListValue"
+                     >
+                </key>
+              </values>
+              <snippet>
+                <gmd:LangueCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="{{language}}">
+                  {{language}}
+                </gmd:LangueCode>
+              </snippet>
+            </template>
+          </field>
 
           <action type="add" btnLabel="metadataLanguage"
                   or="language"
@@ -380,7 +353,9 @@
             <template>
               <snippet>
                 <gmd:language>
-                  <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ita"/>
+                  <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/#LanguageCode" codeListValue="ita">
+                  {{language}}
+                  </gmd:LanguageCode>
                 </gmd:language>
               </snippet>
             </template>
@@ -390,6 +365,7 @@
           <field xpath="/gmd:MD_Metadata/gmd:characterSet" or="characterSet" in ="/gmd:MD_Metadata"/>
 
           <field xpath="/gmd:MD_Metadata/gmd:parentIdentifier" or="parentIdentifier" in ="/gmd:MD_Metadata"/>
+
 
           <section name="responsibleParty">
             <field xpath="/gmd:MD_Metadata/gmd:contact">
@@ -456,7 +432,10 @@
               </template>
             </field>
 
-            <action type="add"  btnLabel="responsibleParty" or="contact" in="/gmd:MD_Metadata">
+            <action type="add"
+                    name="responsibleParty"
+                    btnClass="fa fa-user-plus" or="contact" in="/gmd:MD_Metadata"
+                    >
               <template>
                 <snippet>
                   <gmd:contact>
@@ -499,11 +478,66 @@
                 </snippet>
               </template>
             </action>
+
+            <action type="add"
+                    or="contact" in="/gmd:MD_Metadata"
+                    addDirective="data-gn-directory-entry-selector">
+              <directiveAttributes
+                data-template-add-action="true"
+                data-search-action="true"
+                data-popup-action="true"
+                data-template-type="contact"
+                data-insert-modes=""
+                data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
+              <!--template>
+                <snippet>
+                  <gmd:contact>
+                    <gmd:CI_ResponsibleParty>
+                      <gmd:organisationName>
+                        <gco:CharacterString/>
+                      </gmd:organisationName>
+                      <gmd:contactInfo>
+                        <gmd:CI_Contact>
+                          <gmd:phone>
+                            <gmd:CI_Telephone>
+                              <gmd:voice>
+                                <gco:CharacterString/>
+                              </gmd:voice>
+                            </gmd:CI_Telephone>
+                          </gmd:phone>
+                          <gmd:address>
+                            <gmd:CI_Address>
+                              <gmd:electronicMailAddress>
+                                <gco:CharacterString/>
+                              </gmd:electronicMailAddress>
+                            </gmd:CI_Address>
+                          </gmd:address>
+                          <gmd:onlineResource>
+                            <gmd:CI_OnlineResource>
+                              <gmd:linkage>
+                                <gmd:URL/>
+                              </gmd:linkage>
+                            </gmd:CI_OnlineResource>
+                          </gmd:onlineResource>
+                        </gmd:CI_Contact>
+                      </gmd:contactInfo>
+                      <gmd:role>
+                        <gmd:CI_RoleCode
+                          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
+                          codeListValue="{{role}}"/>
+                      </gmd:role>
+                    </gmd:CI_ResponsibleParty>
+                  </gmd:contact>
+                </snippet>
+              </template-->
+            </action>
           </section>
 
           <field xpath="/gmd:MD_Metadata/gmd:dateStamp" or ="dateStamp" in="/gmd:MD_Metadata"/>
           <field xpath="/gmd:MD_Metadata/gmd:metadataStandardName" or="metadataStandardName" in="/gmd:MD_Metadata"/>
+
           <field xpath="/gmd:MD_Metadata/gmd:metadataStandardVersion" or="metadataStandardVersion" in="/gmd:MD_Metadata"/>
+
         </section>
 
         <section name="identificationInfo">
@@ -535,10 +569,9 @@
             </template>
           </action>
 
-
           <section name="responsible">
 
-            <field name="responsible" templateModeOnly="true"
+            <field templateModeOnly="true"
                    xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty">
               <template>
                 <values readonlyIf="count(@xlink:href) > 0">
@@ -605,7 +638,7 @@
               </template>
             </field>
 
-            <action type="add" name="gmd:citedResponsibleParty" btnLabel="responsible" or="citedResponsibleParty"
+            <action type="add" btnClass="fa fa-user-plus" or="citedResponsibleParty"
                     in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation">
               <template>
                 <snippet>
@@ -649,6 +682,17 @@
                 </snippet>
               </template>
             </action>
+
+            <action type="add" name="responsible" or="citedResponsibleParty"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation" addDirective="data-gn-directory-entry-selector">
+              <directiveAttributes
+                data-template-add-action="true"
+                data-search-action="true"
+                data-popup-action="true"
+                data-template-type="contact"
+                data-insert-modes=""
+                data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
+            </action>
           </section>
 
           <field name="datasetcode"
@@ -665,213 +709,15 @@
 
             <field
               name="descriptiveKeywords"
-              xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords"
-              del=".."/>
-
-            <!-- FIXME: MUST be provided in template and thesaurus available in the catalog, to be displayed properly -->
-            <action type="add"
-                    btnLabel="thesaurus"
-                    name="gmd:descriptiveKeywords"
-                    or="descriptiveKeywords"
-                    in="gmd:MD_Metadata/gmd:identificationInfo/*"
-                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
-
-              <template>
-                <snippet label="gemet">
-                  <gmd:descriptiveKeywords>
-                    <gmd:MD_Keywords>
-                      <gmd:keyword>
-                        <gco:CharacterString></gco:CharacterString>
-                      </gmd:keyword>
-                      <gmd:type>
-                        <gmd:MD_KeywordTypeCode
-                          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
-                          codeListValue="theme"/>
-                      </gmd:type>
-                      <gmd:thesaurusName>
-                        <gmd:CI_Citation>
-                          <gmd:title>
-                            <gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
-                          </gmd:title>
-                          <gmd:date>
-                            <gmd:CI_Date>
-                              <gmd:date>
-                                <gco:Date>2008-06-01</gco:Date>
-                              </gmd:date>
-                              <gmd:dateType>
-                                <gmd:CI_DateTypeCode
-                                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
-                                  codeListValue="publication"/>
-                              </gmd:dateType>
-                            </gmd:CI_Date>
-                          </gmd:date>
-                          <gmd:identifier>
-                            <gmd:MD_Identifier>
-                              <gmd:code>
-                                <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
-                                            xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.inspire-theme">
-                                  geonetwork.thesaurus.external.theme.httpinspireeceuropaeutheme-theme
-                                </gmx:Anchor>
-                              </gmd:code>
-                            </gmd:MD_Identifier>
-                          </gmd:identifier>
-                        </gmd:CI_Citation>
-                      </gmd:thesaurusName>
-                    </gmd:MD_Keywords>
-                  </gmd:descriptiveKeywords>
-                </snippet>
-                <snippet label="priority">
-                  <gmd:descriptiveKeywords>
-                    <gmd:MD_Keywords>
-                      <gmd:keyword>
-                        <gco:CharacterString></gco:CharacterString>
-                      </gmd:keyword>
-                      <gmd:type>
-                        <gmd:MD_KeywordTypeCode
-                          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
-                          codeListValue="theme"/>
-                      </gmd:type>
-                      <gmd:thesaurusName>
-                        <gmd:CI_Citation>
-                          <gmd:title>
-                            <gco:CharacterString>INSPIRE priority data set</gco:CharacterString>
-                          </gmd:title>
-                          <gmd:date>
-                            <gmd:CI_Date>
-                              <gmd:date>
-                                <gco:Date>2018-04-04</gco:Date>
-                              </gmd:date>
-                              <gmd:dateType>
-                                <gmd:CI_DateTypeCode
-                                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
-                                  codeListValue="publication"/>
-                              </gmd:dateType>
-                            </gmd:CI_Date>
-                          </gmd:date>
-                          <gmd:identifier>
-                            <gmd:MD_Identifier>
-                              <gmd:code>
-                                <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
-                                            xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.inspire-theme">
-                                  external.theme.httpinspireeceuropaeumetadatacodelistPriorityDataset-PriorityDataset
-                                </gmx:Anchor>
-                              </gmd:code>
-                            </gmd:MD_Identifier>
-                          </gmd:identifier>
-                        </gmd:CI_Citation>
-                      </gmd:thesaurusName>
-                    </gmd:MD_Keywords>
-                  </gmd:descriptiveKeywords>
-                </snippet>
-                <snippet label="territorial">
-                  <gmd:descriptiveKeywords>
-                    <gmd:MD_Keywords>
-                      <gmd:keyword>
-                        <gco:CharacterString></gco:CharacterString>
-                      </gmd:keyword>
-                      <gmd:type>
-                        <gmd:MD_KeywordTypeCode
-                          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
-                          codeListValue="theme"/>
-                      </gmd:type>
-                      <gmd:thesaurusName>
-                        <gmd:CI_Citation>
-                          <gmd:title>
-                            <gco:CharacterString>Spatial scope</gco:CharacterString>
-                          </gmd:title>
-                          <gmd:date>
-                            <gmd:CI_Date>
-                              <gmd:date>
-                                <gco:Date>2019-05-22</gco:Date>
-                              </gmd:date>
-                              <gmd:dateType>
-                                <gmd:CI_DateTypeCode
-                                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
-                                  codeListValue="publication"/>
-                              </gmd:dateType>
-                            </gmd:CI_Date>
-                          </gmd:date>
-                          <gmd:identifier>
-                            <gmd:MD_Identifier>
-                              <gmd:code>
-                                <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
-                                            xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.inspire-theme">
-                                  external.theme.httpinspireeceuropaeumetadatacodelistSpatialScope-SpatialScope
-                                </gmx:Anchor>
-                              </gmd:code>
-                            </gmd:MD_Identifier>
-                          </gmd:identifier>
-                        </gmd:CI_Citation>
-                      </gmd:thesaurusName>
-                    </gmd:MD_Keywords>
-                  </gmd:descriptiveKeywords>
-                </snippet>
-              </template>
-            </action>
-
-            <action type="add"
-                    btnLabel="inspireTheme"
-                    or="descriptiveKeywords"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                    if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0">
-
-              <template>
-                <snippet>
-                  <gmd:descriptiveKeywords>
-                    <gmd:MD_Keywords>
-                      <gmd:keyword>
-                        <gco:CharacterString></gco:CharacterString>
-                      </gmd:keyword>
-                      <gmd:type>
-                        <gmd:MD_KeywordTypeCode
-                          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
-                          codeListValue="theme"/>
-                      </gmd:type>
-                      <gmd:thesaurusName>
-                        <gmd:CI_Citation>
-                          <gmd:title>
-                            <gco:CharacterString>INSPIRE Service taxonomy
-                            </gco:CharacterString>
-                          </gmd:title>
-                          <gmd:date>
-                            <gmd:CI_Date>
-                              <gmd:date>
-                                <gco:Date>2008-06-01</gco:Date>
-                              </gmd:date>
-                              <gmd:dateType>
-                                <gmd:CI_DateTypeCode
-                                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
-                                  codeListValue="publication"/>
-                              </gmd:dateType>
-                            </gmd:CI_Date>
-                          </gmd:date>
-                          <gmd:identifier>
-                            <gmd:MD_Identifier>
-                              <gmd:code>
-                                <gmx:Anchor
-                                  xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.inspire-service-taxonomy">
-                                  geonetwork.thesaurus.external.theme.inspire-service-taxonomy
-                                </gmx:Anchor>
-                              </gmd:code>
-                            </gmd:MD_Identifier>
-                          </gmd:identifier>
-                        </gmd:CI_Citation>
-                      </gmd:thesaurusName>
-                    </gmd:MD_Keywords>
-                  </gmd:descriptiveKeywords>
-                </snippet>
-              </template>
-            </action>
-
-            <!-- Keywords without thesaurus information of type theme -->
-
+              xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[not(../gmd:thesaurusName)]"
+              del="../.."/>
 
             <action type="add"
                     btnLabel="freeTextKeywords"
                     name="gmd:descriptiveKeywords"
                     or="descriptiveKeywords"
                     in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
+                    >
 
               <template>
                 <snippet>
@@ -886,30 +732,11 @@
               </template>
             </action>
 
-            <action type="add"
-                    btnLabel="freeTextKeywords"
-                    name="gmd:descriptiveKeywords"
-                    or="descriptiveKeywords"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:SV_ServiceIdentification) > 0">
-
-              <template>
-                <snippet>
-                  <gmd:descriptiveKeywords>
-                    <gmd:MD_Keywords>
-                      <gmd:keyword>
-                        <gco:CharacterString></gco:CharacterString>
-                      </gmd:keyword>
-                    </gmd:MD_Keywords>
-                  </gmd:descriptiveKeywords>
-                </snippet>
-              </template>
-            </action>
 
           </section>
 
-          <section name="pointOfContact">
-            <field name="gmd:pointOfContact" templateModeOnly="true" notDisplayedIfMissing="true"
+          <section  name="pointOfContact">
+            <field templateModeOnly="true" notDisplayedIfMissing="true"
                    xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:pointOfContact"
                    del="."
                    if="count(gmd:MD_Metadata/gmd:identificationInfo/*) > 0">
@@ -979,7 +806,7 @@
             </field>
 
 
-            <action type="add" btnLabel="pointOfContact" or="pointOfContact"
+            <action type="add" btnClass="fa fa-user-plus" or="pointOfContact"
                     in="/gmd:MD_Metadata/gmd:identificationInfo/*">
 
               <template>
@@ -1025,43 +852,85 @@
                 </snippet>
               </template>
             </action>
+
+            <action type="add" or="pointOfContact"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/*" addDirective="data-gn-directory-entry-selector">
+              <directiveAttributes
+                data-template-add-action="true"
+                data-search-action="true"
+                data-popup-action="true"
+                data-template-type="contact"
+                data-insert-modes=""
+                data-filter='{"_root": "gmd:CI_ResponsibleParty"}'
+                data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
+            </action>
           </section>
 
+          <section name="resourceConstraints"
+          displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints)>0">
             <field
-              xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation"
-              del="."/>
+              xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation"
+              del="."
+              if=" count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[boolean(./gmd:MD_LegalConstraints)])>0"/>
+
+            <field
+              xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation"
+              del="../.."
+              if=" count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[boolean(./gmd:MD_LegalConstraints)])=0"/>
 
             <action type="add"
-                    or="resourceConstraints"
+                    or="MD_Constraints"
                     btnLabel="useLimitation"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/*">
-            <template>
-            <snippet>
-              <gmd:resourceConstraints>
-                <gmd:MD_Constraints>
-                  <gmd:useLimitation>
-                    <gco:CharacterString></gco:CharacterString>
-                  </gmd:useLimitation>
-                </gmd:MD_Constraints>
-              </gmd:resourceConstraints>
-            </snippet>
-            </template>
+                    in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints)=0">
+              <template>
+                <snippet>
+                    <gmd:MD_Constraints>
+                      <gmd:useLimitation>
+                        <gco:CharacterString></gco:CharacterString>
+                      </gmd:useLimitation>
+                    </gmd:MD_Constraints>
+                </snippet>
+              </template>
             </action>
 
-            <field
-                   xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints"
+            <action type="add"
+                    or="useLimitation"
+                    btnLabel="useLimitation"
+                    in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitations)=0">
+              <template>
+                <snippet>
+                    <gmd:useLimitation>
+                      <gco:CharacterString></gco:CharacterString>
+                    </gmd:useLimitation>
+                </snippet>
+              </template>
+            </action>
+
+            <section name="accessConstraints">
+
+            <field name="accessConstraints"
+                   xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:accessConstraints[./gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and contains(./../gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]"
                    del="."/>
 
-            <action type="add"  or="resourceConstraints"  btnLabel="accessConstraints"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/*">
+            <field name="otherConstraints"
+                   xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints[./../gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and contains(./gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]"
+                   del="."
+            />
+
+
+            <action type="add"  or="MD_LegalConstraints"
+                    btnLabel="accessConstraints"
+                    in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[./gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[./gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')])=0">
               <template>
                 <snippet label="accessConstraints">
-                  <gmd:resourceConstraints>
                     <gmd:MD_LegalConstraints>
                       <gmd:accessConstraints>
                         <gmd:MD_RestrictionCode
                           codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
-                          codeListValue="otherRestrictions"/>
+                          codeListValue="otherRestrictions">altri vincoli </gmd:MD_RestrictionCode>
                       </gmd:accessConstraints>
                       <gmd:otherConstraints>
                         <gmx:Anchor
@@ -1069,26 +938,66 @@
                           pubblico</gmx:Anchor>
                       </gmd:otherConstraints>
                     </gmd:MD_LegalConstraints>
-                  </gmd:resourceConstraints>
                 </snippet>
                 <snippet label="securityConstraints">
-                  <gmd:resourceConstraints>
                     <gmd:MD_SecurityConstraints>
                       <gmd:classification>
                         <gmd:MD_ClassificationCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_ClassificationCode"
                                                    codeListValue="unclassified">unclassified</gmd:MD_ClassificationCode>
                       </gmd:classification>
                     </gmd:MD_SecurityConstraints>
-                  </gmd:resourceConstraints>
                 </snippet>
               </template>
             </action>
 
-            <action type="add" or="resourceConstraints"  btnLabel="useConstraints"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/*">
+            <action type="add"  or="accessConstraints"
+                    btnLabel="accessConstraints"
+                    in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[./gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[./gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')])>0">
+              <template>
+                <snippet>
+                    <gmd:accessConstraints>
+                      <gmd:MD_RestrictionCode
+                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                        codeListValue="otherRestrictions">altri vincoli </gmd:MD_RestrictionCode>
+                    </gmd:accessConstraints>
+                </snippet>
+              </template>
+            </action>
+
+              <action type="add"  or="otherConstraints"
+                      btnLabel="otherConstraints"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[./gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]"
+                      if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[./gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')])>0">
+                <template>
+                  <snippet>
+                    <gmd:otherConstraints>
+                      <gmx:Anchor
+                        xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess/noLimitations">Nessun vincolo all’accesso
+                        pubblico</gmx:Anchor>
+                    </gmd:otherConstraints>
+                  </snippet>
+                </template>
+              </action>
+            </section>
+
+            <section name="useConstraints">
+            <field name="useConstraints"
+                   xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/*[./gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' and
+                   not(contains(../gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))]"
+                   del="."/>
+
+            <field name="otherConstraints"
+                   xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints[./../*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' and
+                   not(contains(./gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))]"
+                   del="."
+            />
+
+            <action type="add" or="MD_LegalConstraints"  btnLabel="useConstraints"
+                    in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[./gmd:MD_LegalConstraints/*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' and not(contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))]"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[./*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' and not(contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))])=0">
               <template>
                 <snippet label="noConditionApply">
-                  <gmd:resourceConstraints>
                     <gmd:MD_LegalConstraints>
                       <gmd:accessConstraints/>
                       <gmd:useConstraints>
@@ -1097,15 +1006,29 @@
                           codeListValue="otherRestrictions"/>
                       </gmd:useConstraints>
                       <gmd:otherConstraints>
-                      <gmx:Anchor
-                        xlink:href="http://inspire.ec.europa.eu/metadata-codelist/
+                        <gmx:Anchor
+                          xlink:href="http://inspire.ec.europa.eu/metadata-codelist/
 ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabile</gmx:Anchor>
                       </gmd:otherConstraints>
                     </gmd:MD_LegalConstraints>
-                  </gmd:resourceConstraints>
+                </snippet>
+                <snippet label="unknownCondition">
+                    <gmd:MD_LegalConstraints>
+                      <gmd:accessConstraints/>
+                      <gmd:useConstraints>
+                        <gmd:MD_RestrictionCode
+                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                          codeListValue="otherRestrictions"/>
+                      </gmd:useConstraints>
+                      <gmd:otherConstraints>
+                        <gmx:Anchor
+                          xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/conditionsUnknown">
+                          Condizioni sconosciute
+                        </gmx:Anchor>
+                      </gmd:otherConstraints>
+                    </gmd:MD_LegalConstraints>
                 </snippet>
                 <snippet label="freeText">
-                  <gmd:resourceConstraints>
                     <gmd:MD_LegalConstraints>
                       <gmd:useConstraints>
                         <gmd:MD_RestrictionCode
@@ -1116,10 +1039,97 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                         <gco:CharacterString></gco:CharacterString>
                       </gmd:otherConstraints>
                     </gmd:MD_LegalConstraints>
-                  </gmd:resourceConstraints>
                 </snippet>
               </template>
             </action>
+
+            <action type="add" or="useConstraints"  btnLabel="useConstraints"
+                    in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[./*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' and not(contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))]"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[./*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' and not(contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))])>0">
+              <template>
+                <snippet label="noConditionApply">
+                    <gmd:useConstraints>
+                      <gmd:MD_RestrictionCode
+                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                        codeListValue="otherRestrictions"/>
+                    </gmd:useConstraints>
+                </snippet>
+                <snippet label="unknownCondition">
+                    <gmd:useConstraints>
+                      <gmd:MD_RestrictionCode
+                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                        codeListValue="otherRestrictions"/>
+                    </gmd:useConstraints>
+                </snippet>
+                <snippet label="freeText">
+                    <gmd:useConstraints>
+                      <gmd:MD_RestrictionCode
+                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                        codeListValue="otherRestrictions"/>
+                    </gmd:useConstraints>
+                </snippet>
+              </template>
+            </action>
+
+              <action type="add"  or="otherConstraints"
+                      btnLabel="otherConstraints"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[./*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' and not(contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))]"
+                      if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[./*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' and not(contains(./gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))])>0">
+                <template>
+                  <snippet>
+                    <gmd:otherConstraints>
+                      <gmx:Anchor
+                        xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess/noLimitations">Nessun vincolo all’accesso
+                        pubblico</gmx:Anchor>
+                    </gmd:otherConstraints>
+                  </snippet>
+                </template>
+              </action>
+            </section>
+          </section>
+
+          <action type="add"
+                  btnLabel="resourceConstraints"
+                  or="resourceConstraints"
+                  in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                  if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints)=0">
+            <template>
+              <snippet>
+                <gmd:resourceConstraints>
+                  <gmd:MD_Constraints>
+                    <gmd:useLimitation>
+                      <gco:CharacterString></gco:CharacterString>
+                    </gmd:useLimitation>
+                  </gmd:MD_Constraints>
+                  <gmd:MD_LegalConstraints>
+                    <gmd:accessConstraints>
+                      <gmd:MD_RestrictionCode
+                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                        codeListValue="otherRestrictions">altri vincoli </gmd:MD_RestrictionCode>
+                    </gmd:accessConstraints>
+                    <gmd:otherConstraints>
+                      <gmx:Anchor
+                        xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess/noLimitations">Nessun vincolo all’accesso
+                        pubblico</gmx:Anchor>
+                    </gmd:otherConstraints>
+                  </gmd:MD_LegalConstraints>
+                  <gmd:MD_LegalConstraints>
+                    <gmd:useConstraints>
+                      <gmd:MD_RestrictionCode
+                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                        codeListValue="otherRestrictions"/>
+                    </gmd:useConstraints>
+                    <gmd:otherConstraints>
+                      <gmx:Anchor
+                        xlink:href="http://inspire.ec.europa.eu/metadata-codelist/
+ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabile</gmx:Anchor>
+                    </gmd:otherConstraints>
+                  </gmd:MD_LegalConstraints>
+                </gmd:resourceConstraints>
+              </snippet>
+            </template>
+
+          </action>
 
           <section name="extent">
 
@@ -1193,463 +1203,85 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                 </template>
               </action>
             </section>
+
+            <section name="temporalSection">
+              <field templateModeOnly="true" notDisplayedIfMissing="true"
+                     xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:temporalElement"
+                     >
+                <template>
+                  <values>
+
+                    <key label="beginPosition"
+                         xpath="gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod//gml:beginPosition"
+                         use="gn-date-picker"
+                         tooltip="gmd:extent|gmd:EX_TemporalExtent">
+                      <directiveAttributes
+                        data-tag-name="gml:beginPosition"
+                        data-indeterminate-position="eval#gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/*/gml:beginPosition/@indeterminatePosition"/>
+
+                    </key>
+                    <key label="endPosition"
+                         xpath="gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod//gml:endPosition"
+                         use="gn-date-picker"
+                         tooltip="gmd:extent|gmd:EX_TemporalExtent">
+                      <directiveAttributes
+                        data-tag-name="gml:endPosition"
+                        data-indeterminate-position="eval#gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/*/gml:endPosition/@indeterminatePosition"/>
+
+
+                    </key>
+                  </values>
+                  <snippet>
+                    <gmd:temporalElement>
+                      <gmd:EX_TemporalExtent>
+                        <gmd:extent>
+                          <gml:TimePeriod gml:id="">
+                            {{beginPosition}}
+                            {{endPosition}}
+                          </gml:TimePeriod>
+                        </gmd:extent>
+                      </gmd:EX_TemporalExtent>
+                    </gmd:temporalElement>
+                  </snippet>
+                </template>
+              </field>
+
+              <action type="add" name="extent" or="extent" btnLabel="temporalSection"
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*">
+                <template>
+                  <snippet>
+                    <gmd:extent>
+                      <gmd:EX_Extent>
+                        <gmd:temporalElement>
+                          <gmd:EX_TemporalExtent>
+                            <gmd:extent>
+                              <gml:TimePeriod gml:id="">
+                                <gml:beginPosition/>
+                                <gml:endPosition/>
+                              </gml:TimePeriod>
+                            </gmd:extent>
+                          </gmd:EX_TemporalExtent>
+                        </gmd:temporalElement>
+                      </gmd:EX_Extent>
+                    </gmd:extent>
+                  </snippet>
+                </template>
+              </action>
+            </section>
           </section>
-        </section>
-
-        <section name="referenceSystems" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
-
-
-          <field
-            xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier"
-            del="../..">
-            <template>
-              <values>
-                <key label="code"
-                     xpath="gmd:RS_Identifier/gmd:code/gco:CharacterString"
-                     tooltip="gmd:referenceSystemInfo"/>
-                <key label="codeSpace"
-                     xpath="gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString"/>
-              </values>
-              <snippet>
-                <gmd:referenceSystemIdentifier>
-                  <gmd:RS_Identifier>
-                    <gmd:code>
-                      <gco:CharacterString>{{code}}</gco:CharacterString>
-                    </gmd:code>
-                    <gmd:codeSpace>
-                      <gco:CharacterString>{{codeSpace}}</gco:CharacterString>
-                    </gmd:codeSpace>
-                  </gmd:RS_Identifier>
-                </gmd:referenceSystemIdentifier>
-              </snippet>
-            </template>
-          </field>
-
-
-          <action type="add"
-                  btnLabel="referenceSystem"
-                  name="gmd:referenceSystemInfo"
-                  or="referenceSystemInfo"
-                  in="gmd:MD_Metadata">
-            <template>
-              <snippet>
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code>
-                          <gco:CharacterString></gco:CharacterString>
-                        </gmd:code>
-                        <gmd:codeSpace>
-                          <gco:CharacterString></gco:CharacterString>
-                        </gmd:codeSpace>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-            </template>
-          </action>
-
-          <action type="add"
-                  btnLabel="spatialReferenceSystem"
-                  or="referenceSystemInfo"
-                  in="/gmd:MD_Metadata">
-            <template>
-
-              <snippet label="EPSG4936">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/4936">
-                          <gco:CharacterString>ETRS89-XYZ</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG4937">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/4937">
-                          <gco:CharacterString>ETRS89-GRS80</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG4258">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/4258">
-                          <gco:CharacterString>ETRS89-GRS80</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG3035">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/3035">
-                          <gco:CharacterString>ETRS89-LAEA</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG3034">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/3034">
-                          <gco:CharacterString>ETRS89-LCC</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG25832">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/25832">
-                          <gco:CharacterString>ETRS89-UTM32N</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG25833">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/25833">
-                          <gco:CharacterString>ETRS89-UTM33N</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG25834">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/25834">
-                          <gco:CharacterString>ETRS89-UTM34N</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG6704">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/6704">
-                          <gco:CharacterString>RDN2008-6704</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG6705">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/6705">
-                          <gco:CharacterString>RDN2008-6705</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG6706">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/6706">
-                          <gco:CharacterString>RDN2008-6706</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG6707">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/6707">
-                          <gco:CharacterString>RDN2008-TM32NE</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG7791">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/9.6.1/7791">
-                          <gco:CharacterString>RDN2008-TM32EN</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG6708">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/6708">
-                          <gco:CharacterString>RDN2008-TM33NE</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG7792">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/9.6.1/7792">
-                          <gco:CharacterString>RDN2008-TM33EN</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG6709">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/6709">
-                          <gco:CharacterString>RDN2008-TM34NE</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG7793">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/9.6.1/7793">
-                          <gco:CharacterString>RDN2008-TM34EN</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG6875">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/6875">
-                          <gco:CharacterString>RDN2008-ItalyNE</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG7794">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/9.6.1/7794">
-                          <gco:CharacterString>RDN2008-ItalyEN</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG6876">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/6876">
-                          <gco:CharacterString>RDN2008-12NE</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG7795">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/9.6.1/7795">
-                          <gco:CharacterString>RDN2008-12EN</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG4230">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/4230">
-                          <gco:CharacterString>ED50</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG23032">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/23032">
-                          <gco:CharacterString>ED50-UTM32N</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG23033">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/23033">
-                          <gco:CharacterString>ED50-UTM33N</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG23034">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/23034">
-                          <gco:CharacterString>ED50-UTM34N</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG4806">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/4806">
-                          <gco:CharacterString>Monte-Mario-Rome</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG4265">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/4265">
-                          <gco:CharacterString>Monte-Mario</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG3003">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/3003">
-                          <gco:CharacterString>Monte-Mario-Italy1</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-              <snippet label="EPSG3004">
-                <gmd:referenceSystemInfo>
-                  <gmd:MD_ReferenceSystem>
-                    <gmd:referenceSystemIdentifier>
-                      <gmd:RS_Identifier>
-                        <gmd:code xlink:href="http://www.opengis.net/def/crs/EPSG/0/3004">
-                          <gco:CharacterString>Monte-Mario-Italy2</gco:CharacterString>
-                        </gmd:code>
-                      </gmd:RS_Identifier>
-                    </gmd:referenceSystemIdentifier>
-                  </gmd:MD_ReferenceSystem>
-                </gmd:referenceSystemInfo>
-              </snippet>
-            </template>
-          </action>
         </section>
       </tab>
 
 
       <tab id="datasetAndSeries" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) = 0" mode="flat">
 
-        <section name="metadata">
+        <section name="metadataInfo">
 
           <field xpath="/gmd:MD_Metadata/gmd:hierarchyLevel" or ="hierarchyLevel" in ="/gmd:MD_Metadata"/>
 
 
           <action type="add" btnLabel="hierarchyLevel"
                   name="hierarchyLevel" or="hierarchyLevel"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) = 0"
                   in="/gmd:MD_Metadata">
             <template>
               <snippet>
@@ -1742,6 +1374,255 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
           </action>
 
 
+          <section name="descriptiveKeywords">
+
+            <section name="gemet" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/
+            */gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:thesaurusName[./gmd:CI_Citation/gmd:title/gco:CharacterString = 'GEMET - INSPIRE themes, version 1.0'])>0">
+
+                <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'GEMET - INSPIRE')]"
+                       del="."
+                       if ="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'GEMET - INSPIRE')])>1"
+               >
+              </field>
+
+              <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'GEMET - INSPIRE')]"
+                     del="../.."
+                     if ="not(count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'GEMET - INSPIRE')])>1)"
+              >
+              </field>
+
+              <action type="add"
+                      or="keyword"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[./gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString ='GEMET - INSPIRE themes, version 1.0']"
+                      >
+                <template>
+                  <snippet>
+                    <gmd:keyword>
+                      <gmx:Anchor
+                        xlink:href="http://inspire.ec.europa.eu/theme"></gmx:Anchor>
+                    </gmd:keyword>
+                  </snippet>
+                </template>
+              </action>
+            </section>
+
+            <section name="priority" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/
+            */gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:thesaurusName[./gmd:CI_Citation/gmd:title/gco:CharacterString = 'INSPIRE priority data set'])>0">
+              <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+              [../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString ='INSPIRE priority data set']"
+                     del="."
+                     if ="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'priority')])>1"
+              />
+
+              <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+              [../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString ='INSPIRE priority data set']"
+                     del="../.."
+                     if ="not(count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'priority')])>1)"
+                     />
+
+              <action type="add"
+                      or="keyword"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[./gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString ='INSPIRE priority data set']"
+              >
+                <template>
+                  <snippet>
+                    <gmd:keyword>
+                      <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset">
+                      </gmx:Anchor>
+                    </gmd:keyword>
+                  </snippet>
+                </template>
+              </action>
+            </section>
+
+            <section name="territorial" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/
+            */gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:thesaurusName[./gmd:CI_Citation/gmd:title/gco:CharacterString = 'Spatial scope'])>0">
+
+              <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+                     [../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString ='Spatial scope']"
+                     del="."
+                     if ="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Spatial scope')])>1"
+                     />
+
+              <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString = 'Spatial scope']"
+                     del="../.."
+                     if ="not(count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString = 'Spatial scope'])>1)"
+                     />
+
+              <action type="add"
+                      or="keyword"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[./gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString ='Spatial scope']"
+              >
+                <template>
+                  <snippet>
+                    <gmd:keyword>
+                      <gmx:Anchor
+                        xlink:href="http://inspire.ec.europa.eu/metadatacodelist/SpatialScope">
+                      </gmx:Anchor>
+                    </gmd:keyword>
+                  </snippet>
+                </template>
+              </action>
+
+            </section>
+
+            <action type="add"
+                    btnLabel="gemet"
+                    name="gmd:descriptiveKeywords"
+                    or="descriptiveKeywords"
+                    in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
+                       gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/gco:CharacterString = 'GEMET - INSPIRE themes, version 1.0'])=0">
+
+              <template>
+                <snippet>
+                  <gmd:descriptiveKeywords>
+                    <gmd:MD_Keywords>
+                      <gmd:keyword>
+                        <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/theme">
+                        </gmx:Anchor>
+                      </gmd:keyword>
+                      <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                          <gmd:title>
+                            <gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+                          </gmd:title>
+                          <gmd:date>
+                            <gmd:CI_Date>
+                              <gmd:date>
+                                <gco:Date>2008-06-01</gco:Date>
+                              </gmd:date>
+                              <gmd:dateType>
+                                <gmd:CI_DateTypeCode
+                                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                                  codeListValue="publication"/>
+                              </gmd:dateType>
+                            </gmd:CI_Date>
+                          </gmd:date>
+                          <gmd:identifier>
+                            <gmd:MD_Identifier>
+                              <gmd:code>
+                                <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                                            xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.inspire-theme">
+                                  geonetwork.thesaurus.external.theme.httpinspireeceuropaeutheme-theme
+                                </gmx:Anchor>
+                              </gmd:code>
+                            </gmd:MD_Identifier>
+                          </gmd:identifier>
+                        </gmd:CI_Citation>
+                      </gmd:thesaurusName>
+                    </gmd:MD_Keywords>
+                  </gmd:descriptiveKeywords>
+                </snippet>
+              </template>
+            </action>
+
+            <action type="add"
+                    btnLabel="priority"
+                    name="gmd:descriptiveKeywords"
+                    or="descriptiveKeywords"
+                    in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
+                       gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/gco:CharacterString = 'INSPIRE priority data set'])=0">
+
+              <template>
+                <snippet>
+                  <gmd:descriptiveKeywords>
+                    <gmd:MD_Keywords>
+                      <gmd:keyword>
+                      <gmx:Anchor
+                        xlink:href="http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset">
+                      </gmx:Anchor>
+                      </gmd:keyword>
+                      <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                          <gmd:title>
+                            <gco:CharacterString>INSPIRE priority data set</gco:CharacterString>
+                          </gmd:title>
+                          <gmd:date>
+                            <gmd:CI_Date>
+                              <gmd:date>
+                                <gco:Date>2018-04-04</gco:Date>
+                              </gmd:date>
+                              <gmd:dateType>
+                                <gmd:CI_DateTypeCode
+                                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                                  codeListValue="publication"/>
+                              </gmd:dateType>
+                            </gmd:CI_Date>
+                          </gmd:date>
+                          <gmd:identifier>
+                            <gmd:MD_Identifier>
+                              <gmd:code>
+                                <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                                            xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.inspire-theme">
+                                  geonetwork.thesaurus.external.theme.httpinspireeceuropaeumetadatacodelistPriorityDataset-PriorityDataset
+                                </gmx:Anchor>
+                              </gmd:code>
+                            </gmd:MD_Identifier>
+                          </gmd:identifier>
+                        </gmd:CI_Citation>
+                      </gmd:thesaurusName>
+                    </gmd:MD_Keywords>
+                  </gmd:descriptiveKeywords>
+                </snippet>
+              </template>
+            </action>
+
+            <action type="add"
+                    btnLabel="territorial"
+                    name="gmd:descriptiveKeywords"
+                    or="descriptiveKeywords"
+                    in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                    if="
+                       count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
+                       gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/gco:CharacterString = 'Spatial scope'])=0">
+
+              <template>
+                <snippet>
+                  <gmd:descriptiveKeywords>
+                    <gmd:MD_Keywords>
+                      <gmd:keyword>
+                        <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/SpatialScope"></gmx:Anchor>
+                      </gmd:keyword>
+                      <gmd:thesaurusName>
+                        <gmd:CI_Citation>
+                          <gmd:title>
+                            <gco:CharacterString>Spatial scope</gco:CharacterString>
+                          </gmd:title>
+                          <gmd:date>
+                            <gmd:CI_Date>
+                              <gmd:date>
+                                <gco:Date>2019-05-22</gco:Date>
+                              </gmd:date>
+                              <gmd:dateType>
+                                <gmd:CI_DateTypeCode
+                                  codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                                  codeListValue="publication"/>
+                              </gmd:dateType>
+                            </gmd:CI_Date>
+                          </gmd:date>
+                          <gmd:identifier>
+                            <gmd:MD_Identifier>
+                              <gmd:code>
+                                <gmx:Anchor xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                                            xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.inspire-theme">
+                                  geonetwork.thesaurus.external.theme.httpinspireeceuropaeumetadatacodelistSpatialScope-SpatialScope
+                                </gmx:Anchor>
+                              </gmd:code>
+                            </gmd:MD_Identifier>
+                          </gmd:identifier>
+                        </gmd:CI_Citation>
+                      </gmd:thesaurusName>
+                    </gmd:MD_Keywords>
+                  </gmd:descriptiveKeywords>
+                </snippet>
+              </template>
+            </action>
+
+          </section>
+
+
           <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:characterSet"
                  or="characterSet" in ="/gmd:MD_Metadata/gmd:DataIdentification"/>
 
@@ -1764,10 +1645,6 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </template>
           </action>
 
-          <field
-            xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:supplementalInformation"
-            or="supplementalInformation"
-            in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification"/>
 
           <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:spatialRepresentationType"
                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
@@ -1789,14 +1666,18 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
 
 
           <field name="spatialResolution"
-                 xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:spatialResolution"
+                 xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:spatialResolution/gmd:MD_Resolution/gmd:equivalentScale/gmd:MD_RepresentativeFraction/gmd:denominator"
                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
 
-          <action type="add" btnLabel="spatialResolutionScale" or="spatialResolution"
+          <field name="spatialResolution"
+                 xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:spatialResolution/gmd:MD_Resolution/gmd:distance/gco:Distance"
+                 if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+
+          <action type="add" btnLabel="spatialResolution" or="spatialResolution"
                   in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
+          >
             <template>
-              <snippet>
+              <snippet label="spatialResolutionScale">
                 <gmd:spatialResolution>
                   <gmd:MD_Resolution>
                     <gmd:equivalentScale>
@@ -1809,15 +1690,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                   </gmd:MD_Resolution>
                 </gmd:spatialResolution>
               </snippet>
-            </template>
-          </action>
-
-          <action type="add" btnLabel="spatialResolutionDistance" or="spatialResolution"
-                  in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
-            <template>
               <snippet>
-                <gmd:spatialResolution>
+                <gmd:spatialResolution label="spatialResolutionDistance">
                   <gmd:MD_Resolution>
                     <gmd:distance>
                       <gco:Distance uom="http://standards.iso.org/iso/19139/resources/uom/ML_gmxUom.xml#m"/>
@@ -1831,13 +1705,15 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
           <field
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:language">
             <template>
+              <values>
+                <key label="language"
+                     xpath="gmd:LanguageCode/@codeListValue">
+                </key>
+              </values>
               <snippet>
-                <values>
-                  <key label="language"
-                       xpath="gmd:language/gmd:LanguageCode"
-                       use="data-gn-language-picker">
-                  </key>
-                </values>
+                <gmd:LangueCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="{{language}}">
+                  {{language}}
+                </gmd:LangueCode>
               </snippet>
             </template>
           </field>
@@ -1847,13 +1723,14 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             <template>
               <snippet>
                 <gmd:language>
-                  <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ita"/>
+                  <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ita">ita</gmd:LanguageCode>
                 </gmd:language>
               </snippet>
             </template>
           </action>
 
 
+          <section name="topicCategory">
           <field
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:topicCategory/gmd:MD_TopicCategoryCode"
             if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
@@ -1870,72 +1747,14 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
               </snippet>
             </template>
           </action>
-        </section>
+          </section>
+
+          <field
+            xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:supplementalInformation"
+            or="supplementalInformation"
+            in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification"/>
+
           <section name="extent">
-
-            <section name="temporalSection">
-              <field templateModeOnly="true" notDisplayedIfMissing="true"
-                     xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:temporalElement"
-                     if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
-                <template>
-                  <values>
-
-                    <key label="beginPosition"
-                         xpath="gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod//gml:beginPosition"
-                         use="gn-date-picker"
-                         tooltip="gmd:extent|gmd:EX_TemporalExtent">
-                      <directiveAttributes
-                        data-tag-name="gml:beginPosition"
-                        data-indeterminate-position="eval#gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/*/gml:beginPosition/@indeterminatePosition"/>
-
-                    </key>
-                    <key label="endPosition"
-                         xpath="gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod//gml:endPosition"
-                         use="gn-date-picker"
-                         tooltip="gmd:extent|gmd:EX_TemporalExtent">
-                      <directiveAttributes
-                        data-tag-name="gml:endPosition"
-                        data-indeterminate-position="eval#gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/*/gml:endPosition/@indeterminatePosition"/>
-
-
-                    </key>
-                  </values>
-                  <snippet>
-                    <gmd:temporalElement>
-                      <gmd:EX_TemporalExtent>
-                        <gmd:extent>
-                          <gml:TimePeriod gml:id="">
-                            {{beginPosition}}
-                            {{endPosition}}
-                          </gml:TimePeriod>
-                        </gmd:extent>
-                      </gmd:EX_TemporalExtent>
-                    </gmd:temporalElement>
-                  </snippet>
-                </template>
-              </field>
-
-              <action type="add" name="extent" or="extent" btnLabel="temporalSection"
-                      in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification">
-                <template>
-                  <snippet>
-                    <gmd:extent>
-                      <gmd:EX_Extent>
-                        <gmd:temporalElement>
-                          <gmd:EX_TemporalExtent>
-                            <gmd:extent>
-                              <gml:TimePeriod gml:id="">
-                                <gml:beginPosition/>
-                                <gml:endPosition/>
-                              </gml:TimePeriod>
-                            </gmd:extent>
-                          </gmd:EX_TemporalExtent>
-                        </gmd:temporalElement>
-                      </gmd:EX_Extent>
-                    </gmd:extent>
-                  </snippet>
-                </template>
-              </action>
 
             <section name="verticalSection" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
               <field name="verticalExtension" templateModeOnly="true" notDisplayedIfMissing="true"
@@ -1948,6 +1767,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
 
                     <key label="maximumValue"
                          xpath="gmd:EX_VerticalExtent/gmd:maximumValue/gco:Real/number()"/>
+                    <key label="verticalCRS"
+                         xpath="gmd:EX_VerticalExtent/gmd:verticalCRS/@xlink:href"/>
 
                   </values>
                   <snippet>
@@ -1963,7 +1784,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                             {{maximumValue}}
                           </gco:Real>
                         </gmd:maximumValue>
-                        <gmd:verticalCRS/>
+                        <gmd:verticalCRS xlink:href="{{verticalCRS}}"/>
                       </gmd:EX_VerticalExtent>
                     </gmd:verticalElement>
                   </snippet>
@@ -2131,9 +1952,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
               </action>
             </section>
           </section>
-
         </section>
-
         <section name="dataDistribution" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) = 0">
           <field name="gmd:distributionFormat" templateModeOnly="true" notDisplayedIfMissing="true"
                  xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat"
@@ -2153,7 +1972,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                       <gco:CharacterString>{{format}}</gco:CharacterString>
                       <gn:copy select="gmd:PT_FreeText"/>
                     </gmd:name>
-                    <gmd:version>
+                    <gmd:version gco:nilReason="">
                       <gco:CharacterString>{{format_version}}</gco:CharacterString>
                     </gmd:version>
                     <gn:copy select="gmd:amendmentNumber"/>
@@ -2254,7 +2073,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
               </template>
             </field>
 
-            <action type="add" btnLabel ="distributorContact" or="distributor" in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution">
+            <action type="add" name="distributorContact" btnClass ="fa fa-user-plus" or="distributor"
+                    in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution" >
               <template>
                 <snippet>
                   <gmd:distributor>
@@ -2292,7 +2112,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           <gmd:role>
                             <gmd:CI_RoleCode
                               codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_RoleCode"
-                              codeListValue="pointOfContact">
+                              codeListValue="distributor">
                             </gmd:CI_RoleCode>
                           </gmd:role>
                         </gmd:CI_ResponsibleParty>
@@ -2328,6 +2148,11 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                         <gmd:description>
                           <gmx:Anchor xlink:href=""/>
                         </gmd:description>
+                        <gmd:function>
+                          <gmd:CI_OnLineFunctionCode
+                            codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">
+                          </gmd:CI_OnLineFunctionCode>
+                        </gmd:function>
                       </gmd:CI_OnlineResource>
                     </gmd:onLine>
                     <gmd:applicationProfile>
@@ -2403,15 +2228,15 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </template>
           </action>
 
-          <section name="positionalAccuracy" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
+          <!--section name="positionalAccuracy" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
             <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/
   gmd:report/gmd:DQ_AbsoluteExternalPositionalAccuracy/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit"
-            />
+            /-->
 
+          <section name="positionalAccuracy">
             <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/
             gmd:report/gmd:DQ_AbsoluteExternalPositionalAccuracy/gmd:result/gmd:DQ_QuantitativeResult/gmd:value/gco:Record"
             />
-
             <action type="add"
                     btnLabel="positionalAccuracy"
                     or="report"
@@ -2532,9 +2357,9 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </template>
           </action>
 
-          <field name="lineage"
+          <section name="lineage">
+          <field
                  xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage/gmd:statement"/>
-
           <action type="add" name="lineage" or="statement" btnLabel="lineage"
                   in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage">
             <template>
@@ -2559,8 +2384,11 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
               </snippet>
             </template>
           </action>
+          </section>
 
-            <field name="conformitySpecifications" templateModeOnly="true"
+          <section name="conformitySpecifications">
+
+            <field templateModeOnly="true"
                    xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/
                     gmd:report/gmd:DQ_DomainConsistency/gmd:result"
                    if="count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/
@@ -2630,7 +2458,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
               </template>
             </field>
 
-            <field name="conformitySpecifications" templateModeOnly="true"
+            <field templateModeOnly="true"
                    xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/
                     gmd:report/gmd:DQ_DomainConsistency/gmd:result"
                    if="count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/
@@ -2697,7 +2525,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </field>
 
 
-            <action type="add" name="conformity" or="report"
+            <action type="add" or="report"
                     btnLabel="conformitySpecifications"
                     in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
                     if="count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult)=0">
@@ -2740,34 +2568,692 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                 </snippet>
               </template>
             </action>
+          </section>
+        </section>
+
+        <section name="referenceSystems" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
+
+          <section name="spatialReferenceSystem" displayIfRecord="count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])>0
+          or count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code[contains(.,'RDN') or starts-with(.,'ED50')
+          or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])>0">
+
+          <field
+            xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier[boolean(gmd:RS_Identifier/gmd:code/gmx:Anchor)]"
+            del="../..">
+            <template>
+              <values>
+                <key label="code"
+                     xpath="gmd:RS_Identifier/gmd:code/gmx:Anchor"
+                     tooltip="gmd:referenceSystemInfo"/>
+                <key label="xlink"
+                     xpath="gmd:RS_Identifier/gmd:code/gmx:Anchor/xlink:href"/>
+              </values>
+              <snippet>
+                <gmd:referenceSystemIdentifier>
+                  <gmd:RS_Identifier>
+                    <gmd:code>
+                      <gmx:Anchor xlink:href="{{xlink}}">{{code}}</gmx:Anchor>
+                    </gmd:code>
+                    <gmd:codeSpace>
+                      <gco:CharacterString>{{codeSpace}}</gco:CharacterString>
+                    </gmd:codeSpace>
+                  </gmd:RS_Identifier>
+                </gmd:referenceSystemIdentifier>
+              </snippet>
+            </template>
+          </field>
+
+          <field
+            xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier[
+            starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'WGS') or starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'EPSG') or starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'RND')
+            or starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ETRS') or starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ITRS')
+            or starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'MonteMario') or starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ED50')
+            or boolean(./gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString)]"
+            del="../..">
+            <template>
+              <values>
+                <key label="code"
+                     xpath="gmd:RS_Identifier/gmd:code/gco:CharacterString"
+                     tooltip="gmd:referenceSystemInfo"/>
+                <key label="codeSpace"
+                     xpath="gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString"/>
+              </values>
+              <snippet>
+                <gmd:referenceSystemIdentifier>
+                  <gmd:RS_Identifier>
+                    <gmd:code>
+                      <gco:CharacterString>{{code}}</gco:CharacterString>
+                    </gmd:code>
+                    <gmd:codeSpace>
+                      <gco:CharacterString>{{codeSpace}}</gco:CharacterString>
+                    </gmd:codeSpace>
+                  </gmd:RS_Identifier>
+                </gmd:referenceSystemIdentifier>
+              </snippet>
+            </template>
+          </field>
+
+        </section>
+
+        <section name="temporalReferenceSystem" displayIfRecord="
+          count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString[not(starts-with(.,'RDN')) and not(starts-with(.,'ED50')) and not(starts-with(.,'MonteMario')) and not(starts-with(.,'ETRS'))
+          and not(starts-with(.,'ITRS')) and not(starts-with(.,'WGS')) and not(starts-with(.,'EPSG')) and not(../../gmd:codeSpace/gco:CharacterString)])>0">
+
+          <field
+            xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier[
+            not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'WGS')) and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'RND'))
+            and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ETRS')) and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ITRS'))
+            and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'MonteMario')) and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ED50'))
+            and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'EPSG')) and not(./gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString)
+            and not(./gmd:RS_Identifier/gmd:code/gmx:Anchor)]"
+            del="../..">
+            <template>
+              <values>
+                <key label="code"
+                     xpath="gmd:RS_Identifier/gmd:code/gco:CharacterString"
+                     tooltip="gmd:referenceSystemInfo"/>
+              </values>
+              <snippet>
+                <gmd:referenceSystemIdentifier>
+                  <gmd:RS_Identifier>
+                    <gmd:code>
+                      <gco:CharacterString></gco:CharacterString>
+                    </gmd:code>
+                  </gmd:RS_Identifier>
+                </gmd:referenceSystemIdentifier>
+              </snippet>
+            </template>
+          </field>
+        </section>
+
+
+          <action type="add"
+                  btnLabel="spatialReferenceSystem"
+                  or="referenceSystemInfo"
+                  in="/gmd:MD_Metadata"
+                  if="count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])=0
+                  and count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code[contains(.,'RDN') or starts-with(.,'ED50')
+                  or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])=0"
+                  >
+            <template>
+              <snippet label="anchor">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href=""></gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="freeText">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gco:CharacterString></gco:CharacterString>
+                        </gmd:code>
+                        <gmd:codeSpace>
+                          <gco:CharacterString></gco:CharacterString>
+                        </gmd:codeSpace>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG4936">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/4936">ETRS89-XYZ</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG4937">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/4937">ETRS89-GRS80</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG4258">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/4258">ETRS89-GRS80</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG3035">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/3035">ETRS89-LAEA</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG3034">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/3034">ETRS89-LCC</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG25832">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/25832">ETRS89-UTM32N</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG25833">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/25833">ETRS89-UTM33N</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG25834">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/25834">ETRS89-UTM34N</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG6704">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor  xlink:href="http://www.opengis.net/def/crs/EPSG/0/6704">RDN2008-6704</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG6705">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/6705">RDN2008-6705</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG6706">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/6706">RDN2008-6706</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG6707">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/6707">RDN2008-TM32NE</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG7791">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/9.6.1/7791">RDN2008-TM32EN</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG6708">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/6708">RDN2008-TM33NE</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG7792">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code >
+                          <gmx:Anchor  xlink:href="http://www.opengis.net/def/crs/EPSG/9.6.1/7792">RDN2008-TM33EN</gmx:Anchor>
+                        </gmd:code >
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG6709">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/6709">RDN2008-TM34NE</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG7793">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor  xlink:href="http://www.opengis.net/def/crs/EPSG/9.6.1/7793">RDN2008-TM34EN</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG6875">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/6875">RDN2008-ItalyNE</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG7794">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/9.6.1/7794">RDN2008-ItalyEN</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG6876">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/6876">RDN2008-12NE</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG7795">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/9.6.1/7795">RDN2008-12EN</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG4230">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/4230">ED50</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG23032">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/23032">ED50-UTM32N</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG23033">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/23033">ED50-UTM33N</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG23034">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/23034">ED50-UTM34N</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG4806">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/4806">Monte-Mario-Rome</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG4265">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/4265">Monte-Mario</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG3003">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/3003">Monte-Mario-Italy1</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+              <snippet label="EPSG3004">
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gmx:Anchor xlink:href="http://www.opengis.net/def/crs/EPSG/0/3004">Monte-Mario-Italy2</gmx:Anchor>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+            </template>
+          </action>
+
+          <action type="add"
+                  btnLabel="temporalReferenceSystem"
+                  or="referenceSystemInfo"
+                  in="gmd:MD_Metadata">
+            <template>
+              <snippet>
+                <gmd:referenceSystemInfo>
+                  <gmd:MD_ReferenceSystem>
+                    <gmd:referenceSystemIdentifier>
+                      <gmd:RS_Identifier>
+                        <gmd:code>
+                          <gco:CharacterString></gco:CharacterString>
+                        </gmd:code>
+                      </gmd:RS_Identifier>
+                    </gmd:referenceSystemIdentifier>
+                  </gmd:MD_ReferenceSystem>
+                </gmd:referenceSystemInfo>
+              </snippet>
+            </template>
+          </action>
         </section>
       </tab>
 
       <tab id="services" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0" mode="flat">
 
-        <section name="metadata">
+        <section name="metadataInfo">
 
           <field xpath="/gmd:MD_Metadata/gmd:hierarchyLevel" or ="hierarchyLevel" in ="/gmd:MD_Metadata"/>
 
+
           <action type="add" btnLabel="hierarchyLevel"
                   name="hierarchyLevel" or="hierarchyLevel"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0"
+                  if="not(gmd:MD_Metadata/gmd:hierarchyLevel)"
                   in="/gmd:MD_Metadata">
             <template>
               <snippet>
                 <gmd:hierarchyLevel>
                   <gmd:MD_ScopeCode
                     codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode"
-                    codeListValue="service"/>
+                    codeListValue="service">service</gmd:MD_ScopeCode>
                 </gmd:hierarchyLevel>
               </snippet>
             </template>
           </action>
-          <field xpath="/gmd:MD_Metadata/gmd:hierarchyLevelName" or ="hierarchyLevelName" in="/gmd:MD_Metadata"/>
-        </section>
 
-        <section name="identificationInfo">
+          <field xpath="/gmd:MD_Metadata/gmd:hierarchyLevelName"
+                 or ="hierarchyLevelName" in="/gmd:MD_Metadata"/>
+
+          <action type="add" btnLabel="hierarchyLevelName"
+                  or="hierarchyLevelName"
+                  in="gmd:MD_Metadata"
+                  if="not(gmd:MD_Metadata/hierarchyLevelName)"
+          >
+            <template>
+              <snippet>
+                <gmd:hierarchyLevelName>
+                  <gmd:CharacterString>servizio</gmd:CharacterString>
+                </gmd:hierarchyLevelName>
+              </snippet>
+            </template>
+          </action>
+
+        </section>
+        <section name="serviceIdentification">
           <!-- services specific -->
+
+          <section name="serviceClassification" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:thesaurusName[contains(./gmd:CI_Citation/gmd:title/gco:CharacterString,'REGOLAMENTO (CE) N. 1205/2008')]) > 0">
+
+            <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'REGOLAMENTO (CE) N. 1205/2008')]"
+                   name="keyword"
+                   del="."
+                   if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'REGOLAMENTO (CE) N. 1205/2008')])>1"
+            >
+              <template>
+                <values>
+                  <key label="keyword" xpath="gmd:keyword">
+                  </key>
+                </values>
+                <snippet>
+                  <gmd:keyword>
+                      {{keyword}}
+                  </gmd:keyword>
+                  <gn:copy select="gmd:thesaurusName"/>
+                </snippet>
+              </template>
+            </field>
+
+            <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'REGOLAMENTO (CE) N. 1205/2008')]"
+                   name="keyword"
+                   del="../.."
+                   if="not(count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'REGOLAMENTO (CE) N. 1205/2008')])>1)"
+            >
+              <template>
+                <values>
+                  <key label="keyword" xpath="gmd:keyword">
+                  </key>
+                </values>
+                <snippet>
+                  <gmd:keyword>
+                      {{keyword}}
+                  </gmd:keyword>
+                  <gn:copy select="gmd:thesaurusName"/>
+                </snippet>
+              </template>
+            </field>
+
+            <action type="add"
+                    or="keyword"
+                    in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[contains(./gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'REGOLAMENTO (CE) N. 1205/2008')]"
+            >
+              <template>
+                <snippet label="anchor">
+                  <gmd:keyword>
+                    <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/SpatialDataServiceCategory/">
+                    </gmx:Anchor>
+                  </gmd:keyword>
+                </snippet>
+                <snippet label="text">
+                  <gmd:keyword>
+                    <gco:CharacterString>
+                    </gco:CharacterString>
+                  </gmd:keyword>
+                </snippet>
+              </template>
+            </action>
+          </section>
+
+          <action type="add"
+                  btnLabel="serviceClassification"
+                  name="gmd:descriptiveKeywords"
+                  or="descriptiveKeywords"
+                  in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords[contains(gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'REGOLAMENTO (CE) N. 1205/2008')])=0">
+            <template>
+              <snippet>
+                <gmd:descriptiveKeywords>
+                  <gmd:MD_Keywords>
+                    <gmd:keyword>
+                      <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/SpatialDataServiceCategory/humanCatalogueViewer">
+                        humanCatalogViewer
+                      </gmx:Anchor>
+                    </gmd:keyword>
+                    <gmd:thesaurusName>
+                      <gmd:CI_Citation>
+                        <gmd:title>
+                          <gco:CharacterString>
+                            REGOLAMENTO (CE) N. 1205/2008 DELLA COMMISSIONE del 3 dicembre 2008 recante attuazione della direttiva 2007/2/CE del Parlamento europeo e del Consiglio per quanto riguarda i metadati
+                          </gco:CharacterString>
+                        </gmd:title>
+                        <gmd:date>
+                          <gmd:CI_Date>
+                            <gmd:date>
+                              <gco:Date>2008-12-03</gco:Date>
+                            </gmd:date>
+                            <gmd:dateType>
+                              <gmd:CI_DateTypeCode
+                                codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                                codeListValue="publication"/>
+                            </gmd:dateType>
+                          </gmd:CI_Date>
+                        </gmd:date>
+                      </gmd:CI_Citation>
+                    </gmd:thesaurusName>
+                  </gmd:MD_Keywords>
+                </gmd:descriptiveKeywords>
+              </snippet>
+            </template>
+          </action>
+
 
           <field
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType"
@@ -2778,36 +3264,38 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                  or="couplingType"
                  in="gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"/>
 
-          <field templateModeOnly="true" notDisplayedIfMissing="true"
-                 xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:operatesOn"
-                 del="."
-                 if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0">
-            <template>
-              <values>
-                <key label="operatesOn"
-                     xpath="@xlink:href"
-                     tooltip="srv:operatesOn">
-                </key>
-              </values>
-              <snippet>
-                <srv:operatesOn xlink:href="{{operatesOn}}" />
-              </snippet>
-            </template>
-          </field>
-          <action type="add"
-                  btnLabel="operatesOn"
-                  or="operatesOn"
-                  in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0">
-            <template>
-              <snippet>
-                <srv:operatesOn xlink:href=""></srv:operatesOn>
-              </snippet>
-            </template>
-          </action>
+          <section name="operatesOn">
+            <field name="operatesOn" templateModeOnly="true" notDisplayedIfMissing="true"
+                   xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:operatesOn"
+                   del=".">
+              <template>
+                <values>
+                  <key label="operatesOn"
+                       required="true"
+                       xpath="@xlink:href"
+                       tooltip="srv:operatesOn">
+                  </key>
+                </values>
+                <snippet>
+                  <srv:operatesOn xlink:href="{{operatesOn}}" />
+                </snippet>
+              </template>
+            </field>
+            <action type="add"
+                    btnLabel="operatesOn"
+                    or="operatesOn"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0">
+              <template>
+                <snippet>
+                  <srv:operatesOn xlink:href="" />
+                </snippet>
+              </template>
+            </action>
+          </section>
 
-          <field
-            xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations"/>
+            <field
+              xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations"/>
 
           <action type="add"
                   btnLabel="containsOperations"
@@ -2895,7 +3383,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
         </section>
 
 
-        <section name="dataDistribution" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) = 0">
+        <section name="dataDistribution" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0">
           <field
             xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions"/>
 
@@ -2927,20 +3415,58 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                         </gmd:function>
                       </gmd:CI_OnlineResource>
                     </gmd:onLine>
-                    <gmd:applicationProfile>
-                      <gmx:Anchor
-                        xlink:href=""/>
-                    </gmd:applicationProfile>
                   </gmd:MD_DigitalTransferOptions>
                 </gmd:transferOptions>
               </snippet>
             </template>
           </action>
-
         </section>
 
         <!-- Conformity - datasets -->
         <section name="servicesQualityInfo">
+
+          <section name="qualityLevel">
+            <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope/gmd:level"/>
+
+            <field  xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope/gmd:levelDescription"/>
+
+            <action type="add" or="scope"
+                    in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
+                    if="count(/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope)=0">
+              <template>
+                <snippet>
+                  <gmd:scope>
+                    <gmd:DQ_Scope>
+                      <gmd:level>
+                        <gmd:MD_ScopeCode codeListValue="service"
+                                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode">
+                          servizio
+                        </gmd:MD_ScopeCode>
+                      </gmd:level>
+                      <gmd:levelDescription>
+                        <gmd:MD_ScopeDescription>
+                          <gmd:other>
+                            <gco:CharacterString>servizio</gco:CharacterString>
+                          </gmd:other>
+                        </gmd:MD_ScopeDescription>
+                      </gmd:levelDescription>
+                    </gmd:DQ_Scope>
+                  </gmd:scope>
+                </snippet>
+              </template>
+            </action>
+          </section>
+
+
+          <field
+            xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_ConceptualConsistency" del=".."/>
+
+          <action type="process"
+                  process="sds-add-qualityofservice"
+                  if="(count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service']/gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[text()='availability'])=0 or
+                       count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service']/gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[text()='performance'])=0 or
+                       count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service']/gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[text()='capacity'])=0 )"/>
+
 
           <field name="conformitySpecifications" templateModeOnly="true"
                  xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/
@@ -2959,7 +3485,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                 </key>
                 <key label="conformity_date"
                      xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date"
-                     />
+                />
                 <key label="pass"
                      xpath="gmd:DQ_ConformanceResult/gmd:pass/gco:Boolean"
                      use="gn-checkbox-with-nilreason">
@@ -3014,7 +3540,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                 </key>
                 <key label="conformity_date"
                      xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date"
-                     />
+                />
                 <key label="pass"
                      xpath="gmd:DQ_ConformanceResult/gmd:pass/gco:Boolean"
                      use="gn-checkbox-with-nilreason">
@@ -3144,43 +3670,43 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                   </gmd:DQ_DomainConsistency>
                 </gmd:report>
               </snippet>
-            <snippet label="freeText">
-              <gmd:report>
-                <gmd:DQ_DomainConsistency>
-                  <gmd:result>
-                    <gmd:DQ_ConformanceResult>
-                      <gmd:specification>
-                        <gmd:CI_Citation>
-                          <gmd:title>
-                            <gmx:Anchor
-                              xlink:href=""></gmx:Anchor>
-                          </gmd:title>
-                          <gmd:date>
-                            <gmd:CI_Date>
-                              <gmd:date>
-                                <gco:Date></gco:Date>
-                              </gmd:date>
-                              <gmd:dateType>
-                                <gmd:CI_DateTypeCode
-                                  codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
-                                  codeListValue="publication"/>
-                              </gmd:dateType>
-                            </gmd:CI_Date>
-                          </gmd:date>
-                        </gmd:CI_Citation>
-                      </gmd:specification>
-                      <gmd:explanation>
-                        <gco:CharacterString>Fare riferimento alle
-                          specifiche indicate</gco:CharacterString>
-                      </gmd:explanation>
-                      <gmd:pass gco:nilReason="">
-                        <gco:Boolean>true</gco:Boolean>
-                      </gmd:pass>
-                    </gmd:DQ_ConformanceResult>
-                  </gmd:result>
-                </gmd:DQ_DomainConsistency>
-              </gmd:report>
-            </snippet>
+              <snippet label="freeText">
+                <gmd:report>
+                  <gmd:DQ_DomainConsistency>
+                    <gmd:result>
+                      <gmd:DQ_ConformanceResult>
+                        <gmd:specification>
+                          <gmd:CI_Citation>
+                            <gmd:title>
+                              <gmx:Anchor
+                                xlink:href=""></gmx:Anchor>
+                            </gmd:title>
+                            <gmd:date>
+                              <gmd:CI_Date>
+                                <gmd:date>
+                                  <gco:Date></gco:Date>
+                                </gmd:date>
+                                <gmd:dateType>
+                                  <gmd:CI_DateTypeCode
+                                    codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                                    codeListValue="publication"/>
+                                </gmd:dateType>
+                              </gmd:CI_Date>
+                            </gmd:date>
+                          </gmd:CI_Citation>
+                        </gmd:specification>
+                        <gmd:explanation>
+                          <gco:CharacterString>Fare riferimento alle
+                            specifiche indicate</gco:CharacterString>
+                        </gmd:explanation>
+                        <gmd:pass gco:nilReason="">
+                          <gco:Boolean>true</gco:Boolean>
+                        </gmd:pass>
+                      </gmd:DQ_ConformanceResult>
+                    </gmd:result>
+                  </gmd:DQ_DomainConsistency>
+                </gmd:report>
+              </snippet>
             </template>
           </action>
 
@@ -3191,90 +3717,52 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                   gco:LocalName/text()='other' and count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/
                   gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult[gmd:specification/
                   gmd:CI_Citation/gmd:title/gmx:Anchor/text()!='invocable']) = 0">
-          <template>
-          <snippet>
-            <gmd:report>
-              <gmd:DQ_DomainConsistency>
-                <gmd:result>
-                  <gmd:DQ_ConformanceResult>
-                    <gmd:specification>
-                      <gmd:CI_Citation>
-                        <gmd:title>
-                          <gmx:Anchor
-                            xlink:href="http://inspire.ec.europa.eu/id/ats/metadata/2.0/sds-invocable"
-                            xlink:title="INSPIRE Invocable Spatial Data Services metadata">
-                            invocable
-                          </gmx:Anchor>
-                        </gmd:title>
-                        <gmd:date>
-                          <gmd:CI_Date>
-                            <gmd:date>
-                              <gco:Date>2016-05-01</gco:Date>
-                            </gmd:date>
-                            <gmd:dateType>
-                              <gmd:CI_DateTypeCode
-                                codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
-                                codeListValue="publication"/>
-                            </gmd:dateType>
-                          </gmd:CI_Date>
-                        </gmd:date>
-                      </gmd:CI_Citation>
-                    </gmd:specification>
-                    <gmd:explanation>
-                      <gco:CharacterString>Questo servizio di dati
-                        territoriali è conforme ai requisiti INSPIRE per i Servizi di Dati Territoriali
-                        Invocabili</gco:CharacterString>
-                    </gmd:explanation>
-                    <gmd:pass>
-                      <gco:Boolean>true</gco:Boolean>
-                    </gmd:pass>
-                  </gmd:DQ_ConformanceResult>
-                </gmd:result>
-              </gmd:DQ_DomainConsistency>
-            </gmd:report>
-          </snippet>
-          </template>
-          </action>
-
-          <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope/gmd:level"/>
-
-          <action type="add" or="scope"
-                  in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
-                  if="count(/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope)=0">
             <template>
               <snippet>
-                <gmd:scope>
-                  <gmd:DQ_Scope>
-                    <gmd:level>
-                      <gmd:MD_ScopeCode codeListValue="service"
-                                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode">
-                        servizio
-                      </gmd:MD_ScopeCode>
-                    </gmd:level>
-                    <gmd:levelDescription>
-                      <gmd:MD_ScopeDescription>
-                        <gmd:other>
-                          <gco:CharacterString>servizio</gco:CharacterString>
-                        </gmd:other>
-                      </gmd:MD_ScopeDescription>
-                    </gmd:levelDescription>
-                  </gmd:DQ_Scope>
-                </gmd:scope>
+                <gmd:report>
+                  <gmd:DQ_DomainConsistency>
+                    <gmd:result>
+                      <gmd:DQ_ConformanceResult>
+                        <gmd:specification>
+                          <gmd:CI_Citation>
+                            <gmd:title>
+                              <gmx:Anchor
+                                xlink:href="http://inspire.ec.europa.eu/id/ats/metadata/2.0/sds-invocable"
+                                xlink:title="INSPIRE Invocable Spatial Data Services metadata">
+                                invocable
+                              </gmx:Anchor>
+                            </gmd:title>
+                            <gmd:date>
+                              <gmd:CI_Date>
+                                <gmd:date>
+                                  <gco:Date>2016-05-01</gco:Date>
+                                </gmd:date>
+                                <gmd:dateType>
+                                  <gmd:CI_DateTypeCode
+                                    codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                                    codeListValue="publication"/>
+                                </gmd:dateType>
+                              </gmd:CI_Date>
+                            </gmd:date>
+                          </gmd:CI_Citation>
+                        </gmd:specification>
+                        <gmd:explanation>
+                          <gco:CharacterString>Questo servizio di dati
+                            territoriali è conforme ai requisiti INSPIRE per i Servizi di Dati Territoriali
+                            Invocabili</gco:CharacterString>
+                        </gmd:explanation>
+                        <gmd:pass>
+                          <gco:Boolean>true</gco:Boolean>
+                        </gmd:pass>
+                      </gmd:DQ_ConformanceResult>
+                    </gmd:result>
+                  </gmd:DQ_DomainConsistency>
+                </gmd:report>
               </snippet>
             </template>
           </action>
 
-
-          <field
-            xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_ConceptualConsistency" del=".."/>
-
-          <action type="process"
-                  process="sds-add-qualityofservice"
-                  if="(count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service']/gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[text()='availability'])=0 or
-                       count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service']/gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[text()='performance'])=0 or
-                       count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service']/gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[text()='capacity'])=0 )"/>
-
-          </section>
+        </section>
       </tab>
 
       <tab id="raster" mode="flat" displayIfRecord="count(gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription)>0">
@@ -3415,16 +3903,13 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
       </tab>
       <flatModeExceptions>
         <for name="gmd:descriptiveKeywords"/>
-        <for name="gmd:keyword"/>
-        <for name="gmd:spatialResolution"/>
-        <for name="gmd:pointOfContact"/>
-        <for name="gmd:distributor"/>
         <for name="gmd:distributionFormat"/>
-        <for name="gmd:contact"/>
         <for name="gmd:processor"/>
         <for name="gmd:topicCategory"/>
         <for name="srv:containsOperations"/>
+        <for name="srv:SV_OperationMetadata"/>
         <for name="srv:SV_Parameter"/>
+        <for name="srv:DCP"/>
       </flatModeExceptions>
     </view>
 
@@ -3472,9 +3957,44 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </template>
 
           </action>
+
           <field xpath="/gmd:MD_Metadata/gmd:metadataStandardVersion" or="metadataStandardVersion" in="/gmd:MD_Metadata"/>
-          <field xpath="/gmd:MD_Metadata/gmd:hierarchyLevel" or ="hierarchyLevel" in ="/gmd:MD_Metadata"/>
-          <field xpath="/gmd:MD_Metadata/gmd:hierarchyLevelName" or ="hierarchyLevelName" in="/gmd:MD_Metadata"/>
+
+          <field xpath="/gmd:MD_Metadata/gmd:hierarchyLevel" name="hierarchyLevel"/>
+
+          <action type="add" btnLabel="hierarchyLevel"
+                  name="hierarchyLevel" or="hierarchyLevel"
+                  if="count(gmd:MD_Metadata/hierarchyLevel) = 0"
+                  in="/gmd:MD_Metadata">
+            <template>
+              <snippet>
+                <gmd:hierarchyLevel>
+                  <gmd:MD_ScopeCode
+                    codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode"
+                    codeListValue="service">service</gmd:MD_ScopeCode>
+                </gmd:hierarchyLevel>
+              </snippet>
+            </template>
+          </action>
+
+          <field xpath="/gmd:MD_Metadata/gmd:hierarchyLevelName"
+                 name="hierarchyLevelName"/>
+
+          <action type="add"
+                  name="hierarchyLevelName"
+                  btnLabel="hierarchyLevelName"
+                  or="hierarchyLevelName"
+                  in="/gmd:MD_Metadata"
+                  if="count(gmd:MD_Metadata/hierarchyLevelName) = 0"
+          >
+            <template>
+              <snippet>
+                <gmd:hierarchyLevelName>
+                  <gmd:CharacterString>servizio</gmd:CharacterString>
+                </gmd:hierarchyLevelName>
+              </snippet>
+            </template>
+          </action>
         </section>
       </tab>
       <tab id="identificationInfo">
@@ -3843,7 +4363,9 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </template>
           </action>
 
-          <field name="dataQualityLevel" xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope/gmd:level"/>
+          <field
+            xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope/gmd:level"/>
+
           <action type="process"
                   process="sds-add-dataquality"
                   if="count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service'])=0
@@ -3860,13 +4382,11 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
 
 
           <section name="positionalAccuracy" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
-            <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/
-  gmd:report/gmd:DQ_AbsoluteExternalPositionalAccuracy/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit"
-            />
 
 
             <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/
             gmd:report/gmd:DQ_AbsoluteExternalPositionalAccuracy/gmd:result/gmd:DQ_QuantitativeResult/gmd:value/gco:Record"
+                   del="../../../../.."
             />
 
             <action type="add"

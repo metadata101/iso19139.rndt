@@ -342,21 +342,75 @@
 
     <!-- Only set metadataStandardName and metadataStandardVersion
     if not set. -->
-    <xsl:template match="gmd:metadataStandardName[@gco:nilReason='missing' or gco:CharacterString='']" priority="10">
+    <xsl:template match="gmd:metadataStandardName" priority="10">
+      <xsl:choose>
+        <xsl:when test="exists(./gco:CharacterString)">
+          <xsl:choose>
+          <xsl:when test="./gco:CharacterString='' or ./gco:CharacterString !='Linee Guida RNDT'">
+            <xsl:copy>
+              <gco:CharacterString>Linee Guida RNDT</gco:CharacterString>
+            </xsl:copy>
+          </xsl:when>
+            <xsl:otherwise>
+              <xsl:copy-of select="."/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:if test="exists(./gmx:Anchor)">
+            <xsl:copy>
+              <gco:CharacterString>Linee Guida RNDT</gco:CharacterString>
+            </xsl:copy>
+          </xsl:if>
+        </xsl:otherwise>
+      </xsl:choose>
+
+    </xsl:template>
+
+
+    <!-- ================================================================= -->
+
+    <xsl:template match="gmd:metadataStandardVersion" priority="10">
+      <xsl:choose>
+      <xsl:when test="./gco:CharacterString='' or ./gco:CharacterString != '2.0'">
         <xsl:copy>
-            <gco:CharacterString>DM - Regole tecniche RNDT</gco:CharacterString>
+          <gco:CharacterString>2.0</gco:CharacterString>
         </xsl:copy>
+      </xsl:when>
+        <xsl:otherwise>
+          <xsl:copy-of select="."/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:template>
 
     <!-- ================================================================= -->
 
-    <xsl:template match="gmd:metadataStandardVersion[@gco:nilReason='missing' or gco:CharacterString='']" priority="10">
-        <xsl:copy>
-            <gco:CharacterString>10 novembre 2011</gco:CharacterString>
-        </xsl:copy>
-    </xsl:template>
+  <!-- ================================================================= -->
 
-    <!-- ================================================================= -->
+  <xsl:template match="gmd:hierarchyLevelName" priority="10">
+    <xsl:if test="exists(../gmd:identificationInfo/srv:SV_ServiceIdentification)">
+      <xsl:copy>
+        <gco:CharacterString>servizio</gco:CharacterString>
+      </xsl:copy>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="gmd:hierarchyLevel" priority="10">
+    <xsl:choose>
+      <xsl:when test="exists(../gmd:identificationInfo/srv:SV_ServiceIdentification)">
+        <gmd:hierarchyLevel>
+          <gmd:MD_ScopeCode
+            codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode"
+            codeListValue="service">service</gmd:MD_ScopeCode>
+        </gmd:hierarchyLevel>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:copy-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- ================================================================= -->
 
     <xsl:template match="@gml:id">
         <xsl:choose>
@@ -558,12 +612,12 @@
     error on XSD validation. -->
     <xsl:template match="srv:operatesOn">
         <xsl:choose>
-            <xsl:when test="$ipaDefined and not(starts-with(@uuidref, $iPA))">
+            <xsl:when test="$ipaDefined and not(starts-with(@xlink:href, $iPA)) and @xlink:href != ''">
                 <xsl:message>ATTENZIONE: operatesOn: codice iPA non corrisponde. Eliminazione operatesOn (<xsl:value-of select="@uuidref"/>)</xsl:message>
             </xsl:when>
-            <xsl:when test=".[not(@uuidref)]">
+            <xsl:when test=".[not(@xlink:href)]">
                 <xsl:copy>
-                    <xsl:attribute name="uuidref" select="''"/>
+                    <xsl:attribute name="xlink:href" select="''"/>
                     <xsl:apply-templates select="@*"/>
                 </xsl:copy>
             </xsl:when>
@@ -727,14 +781,14 @@
 						<gco:CharacterString>Dato pubblico</gco:CharacterString>
 					</gmd:otherConstraints>-->
 
-    <xsl:template match="gmd:resourceConstraints[.//gmd:MD_RestrictionCode/@codeListValue='datoPubblico']">
+    <!--xsl:template match="gmd:resourceConstraints[.//gmd:MD_RestrictionCode/@codeListValue='datoPubblico']">
         <xsl:copy>
             <xsl:apply-templates select="@*|node()" mode="datoPubblico"/>
         </xsl:copy>
-    </xsl:template>
+    </xsl:template-->
 
        <!-- forza otherConstraints a Dato pubblico, che esista o no -->
-    <xsl:template match="gmd:MD_LegalConstraints" mode="datoPubblico">
+    <!--xsl:template match="gmd:MD_LegalConstraints" mode="datoPubblico">
         <xsl:copy>
             <xsl:apply-templates select="child::* except (gmd:otherConstraints)" mode="datoPubblico"/>
 
@@ -743,21 +797,21 @@
             </gmd:otherConstraints>
         </xsl:copy>
 
-    </xsl:template>
+    </xsl:template-->
 
        <!-- replace MD_RestrictionCode codeListValue-->
-    <xsl:template match="gmd:MD_RestrictionCode[@codeListValue='datoPubblico']" mode="datoPubblico">
+    <!--xsl:template match="gmd:MD_RestrictionCode[@codeListValue='datoPubblico']" mode="datoPubblico">
         <gmd:MD_RestrictionCode
             codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_RestrictionCode"
             codeListValue="otherRestrictions">otherRestrictions"</gmd:MD_RestrictionCode>
-    </xsl:template>
+    </xsl:template-->
 
        <!-- copy everything else as is -->
-    <xsl:template match="@*|node()" mode="datoPubblico">
+    <!--xsl:template match="@*|node()" mode="datoPubblico">
         <xsl:copy>
             <xsl:apply-templates select="@*|node()" mode="datoPubblico"/>
         </xsl:copy>
-    </xsl:template>
+    </xsl:template-->
 
     <!-- ================================================================= -->
     <!-- setup the CRS info -->

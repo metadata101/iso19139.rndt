@@ -13,7 +13,356 @@
         <help>Questa informazione serve ad associare il codice iPA al metadato.</help>
     </element>
 
-	<element name="gmd:codeSpace" id="208.1">
+  <element name="gmd:nameOfMeasure" id="100.0">
+    <label>Nome della misura</label>
+    <description>Nome del test eseguito sui dati</description>
+    <!-- ISO19138 Data quality basic measures Annex C - under revision ISO
+			19157 http://www.iso.org/iso/fr/catalogue_detail.htm?csnumber=32575 -->
+    <helper rel="gmd:measureDescription">
+      <option value = "Elemento in eccesso"
+              title = "Indicazione che un elemento è presente in modo errato nei dati"
+              id = "ISO19138: 2006: measure: 1"> Elemento in eccesso
+      </option>
+      <option value = "Numero di elementi in eccesso"
+              title = "Numero di elementi all'interno del set di dati, che non avrebbero dovuto essere nel set di dati"
+              id = "ISO19138: 2006: measure: 2"> Numero di elementi in eccesso
+      </option>
+      <option value = "Tasso di elementi in eccesso"
+              title = "Numero di elementi in eccesso nel set di dati in relazione al numero di elementi che avrebbero dovuto essere presenti"
+              id = "ISO19138: 2006: measure: 3"> Tasso di elementi in eccesso
+      </option>
+      <option value = "Numero di istanze di funzionalità duplicate"
+              title = "Numero totale di duplicazioni esatte di istanze di feature all'interno dei dati. Conteggio di tutti gli elementi nei dati estratti in modo errato con geometrie duplicate"
+              id = "ISO19138: 2006: measure: 4"> Numero di istanze di funzionalità duplicate
+      </option>
+      <option value = "Elemento mancante"
+              title = "Indicatore che mostra che nei dati manca un elemento specifico"
+              id = "ISO19138: 2006: measure: 5"> Elemento mancante
+      </option>
+      <option value = "Numero di elementi mancanti"
+              title = "Conteggio di tutti gli elementi che avrebbero dovuto essere nel set di dati e mancano"
+              id = "ISO19138: 2006: measure: 6"> Numero di elementi mancanti
+      </option>
+      <option value = "Tasso di elementi mancanti"
+              title = "Numero di elementi mancanti nel set di dati in relazione al numero di elementi che avrebbero dovuto essere presenti"
+              id = "ISO19138: 2006: measure: 7"> Tasso di elementi mancanti
+      </option>
+      <option value = "Schema concettuale non conforme"
+              title = "Indicazione che un elemento non è conforme alle regole del relativo schema concettuale"
+              id = "ISO19138: 2006: measure: 8"> Non conformità dello schema concettuale
+      </option>
+      <option value = "Conformità allo schema concettuale"
+              title = "Indicazione che un elemento è conforme alle regole del relativo schema concettuale"
+              id = "ISO19138: 2006: measure: 9"> Conformità allo schema concettuale
+      </option>
+      <option
+        value = "Numero di elementi non conformi alle regole dello schema concettuale"
+        title = "Conteggio di tutti gli elementi nel set di dati che non sono conformi alle regole dello schema concettuale. Se lo schema concettuale descrive le regole in modo esplicito o implicito, queste regole devono essere seguite. Le violazioni di tali regole possono ad esempio essere il posizionamento non valido di elementi all'interno una tolleranza definita, la duplicazione delle caratteristiche e la sovrapposizione non valida delle caratteristiche. "
+        id = "ISO19138: 2006: measure: 10"> Numero di elementi non conformi alle regole del concettuale
+        schema
+      </option>
+      <option value = "Numero di sovrapposizioni di superfici non valide"
+              title = "Numero totale di sovrapposizioni errate all'interno dei dati Quali superfici possono sovrapporsi e quali no dipende dall'applicazione. Non tutte le superfici sovrapposte sono necessariamente errate. Quando si riporta questa qualità dei dati, misurare i tipi di classi di entità geografiche corrispondenti alle superfici sovrapposte illegali devono essere segnalato pure. "
+              id = "ISO19138: 2006: measure: 11"> Numero di sovrapposizioni di superfici non valide
+      </option>
+      <option
+        value = "Tasso di non conformità rispetto alle regole dello schema concettuale"
+        title = "Numero di elementi nel set di dati che non sono conformi alle regole dello schema concettuale in relazione al numero totale di questi elementi che si suppone siano nel set di dati"
+        id = "ISO19138: 2006: misura: 12"> Tasso di non conformità rispetto alle norme del
+        concettuale
+        schema
+      </option>
+      <option value = "Tasso di conformità con le regole dello schema concettuale"
+              title = "numero di elementi nel dataset in conformità con le regole dello schema concettuale in relazione al numero totale di elementi"
+              id = "ISO19138: 2006: measure: 13"> Tasso di conformità alle regole dello schema concettuale
+      </option>
+      <option value = ""> - Coerenza logica / Coerenza del dominio -
+      </option>
+      <option value = "Non conformità al dominio dei valori"
+              title = "Indicazione se un elemento non è conforme al suo dominio dei valori"
+              id = "ISO19138: 2006: measure: 14"> Non conformità al dominio dei valori
+      </option>
+      <option value = "Conformità al dominio dei valori"
+              title = "Indicazione se un elemento è conforme al suo dominio dei valori"
+              id = "ISO19138: 2006: measure: 15"> Conformità al dominio dei valori
+      </option>
+      <option value = "Numero di elementi non conformi al rispettivo dominio dei valori"
+              title = "Conteggio di tutti gli elementi nel set di dati che non sono conformi al loro dominio dei valori."
+              id = "ISO19138: 2006: measure: 16"> Numero di elementi non conformi al loro valore
+        dominio
+      </option>
+      <option value = "Tasso di conformità al dominio dei valori"
+              title = "Numero di elementi nel set di dati che sono conformi al loro dominio dei valori in relazione al numero totale di elementi nel set di dati"
+              id = "ISO19138: 2006: measure: 17"> Tasso di conformità al dominio dei valori
+      </option>
+      <option value = "Tasso di non conformità al dominio dei valore"
+              title = "Il numero di elementi nel set di dati che non sono conformi al loro dominio di valore in relazione al numero totale di elementi"
+              id = "ISO19138: 2006: measure: 18"> Tasso di non conformità del dominio del valore
+      </option>
+      <option value = "Conflitti con la struttura fisica"
+              title = "Conteggio di tutti gli elementi nel set di dati archiviati in conflitto con la struttura fisica del set di dati"
+              id = "ISO19138: 2006: measure: 19"> Conflitti con la strutture fisiche
+      </option>
+      <option value = "Tasso di conflitto con la struttura fisica"
+              title = "Numero di elementi nel set di dati memorizzati in conflitto con la struttura fisica del set di dati diviso per il numero totale di elementi"
+              id = "ISO19138: 2006: measure: 20"> Tasso di conflitto con la struttura fisica
+      </option>
+      <option value = ""> - Consistenza logica / coerenza topologica
+        -
+      </option>
+      <option value = "Numero di connessioni punto-curva difettose"
+              title = "Numero di connessioni punto-curva difettose nel set di dati. Esiste una connessione punto-curva quando diverse curve si toccano. Queste curve hanno una relazione topologica intrinseca che deve riflettere la vera costellazione. Se la connessione punto-curva contraddice l'universo di discorso, la connessione punto-curva è difettosa rispetto a questa misura della qualità dei dati. La misura della qualità dei dati conta il numero di errori di questo tipo ">
+        id = "ISO19138: 2006: measure: 21"> Numero di connessioni punto-curva difettose
+      </option>
+      <option value = "Tasso di connessioni punto-curva difettose"
+              title = "Numero di connessioni del nodo di collegamento difettose in relazione al numero di presunte connessioni del nodo di collegamento"
+              id = "ISO19138: 2006: measure: 22"> Tasso di connessioni punto-curva difettose
+      </option>
+      <option value = "Numero di connessioni mancanti a causa di scostamenti negativi"
+              title = "Conteggio di elementi nel set di dati, entro la tolleranza del parametro, che non corrispondono a causa di scostamenti negativi"
+              id = "ISO19138: 2006: measure: 23"> Numero di connessioni mancanti a causa di scostamenti negativi
+      </option>
+      <option value = "Numero di connessioni mancanti a causa di scostamenti positivi"
+              title = "Conteggio di elementi nel set di dati, entro la tolleranza del parametro, che non corrispondono a causa del suo superamento"
+              id = "ISO19138: 2006: measure: 24"> Numero di connessioni mancanti a causa di scostamenti positivi
+      </option>
+      <option value = "Numero di frammenti non validi"
+              title = "Conteggio di tutti gli elementi nel set di dati che sono superfici frammentate non valide. Un frammento è un'area non intenzionale che si produce quando le superfici adiacenti non sono digitalizzate correttamente. I bordi delle superfici adiacenti possono accidentalmente dividere o sovrapporsi di piccole quantità per causare errore."
+              id = "ISO19138: 2006: measure: 25"> Numero di frammenti non validi
+      </option>
+      <option value = "Numero di errori di autointersezione non validi"
+              title = "Conteggio di tutti gli elementi nei dati che si intersecano illegalmente con se stessi"
+              id = "ISO19138: 2006: measure: 26"> Numero di errori di autointersezione non validi
+      </option>
+      <option value = "Numero di errori di sovrapposizione automatica non validi"
+              title = "Conteggio di tutti gli elementi nei dati che si sovrappongono illegalmente"
+              id = "ISO19138: 2006: measure: 27"> Numero di errori di sovrapposizione automatica non validi
+      </option>
+      <option value = ""> - Accuratezza della posizione / Precisione assoluta o esterna / misure generali -
+      </option>
+      <option value = "Valore medio delle incertezze di posizione"
+              title = "Valore medio delle incertezze di posizione per un insieme di posizioni in cui le incertezze di posizione sono definite come la distanza tra una posizione misurata e quella che è considerata come la posizione vera corrispondente"
+              id = "ISO19138: 2006: misura: 28"> Valore medio delle incertezze posizionali
+      </option>
+      <option value = "Valore medio delle incertezze di posizione esclusi i valori anomali"
+              title = "Per un insieme di punti in cui la distanza non supera una soglia definita la media aritmetica delle distanze tra le loro posizioni misurate e ciò che è considerato come le corrispondenti posizioni reali"
+              id = "ISO19138: 2006: misura: 29"> Valore medio delle incertezze posizionali escluse
+        valori anomali
+      </option>
+      <option value = "Numero di incertezze posizionali al di sopra di una determinata soglia"
+              title = "Numero di incertezze di posizione al di sopra di una determinata soglia per un insieme di posizioni. Gli errori sono definiti come la distanza tra una posizione misurata e quella che viene considerata come la posizione vera corrispondente"
+              id = "ISO19138: 2006: measure: 30"> Numero di incertezze posizionali sopra un dato
+        soglia
+      </option>
+      <option value = "Tasso di errori di posizione al di sopra di una determinata soglia"
+              title = "Numero di incertezze di posizione al di sopra di una determinata soglia per un insieme di posizioni in relazione al numero totale di posizioni misurate. Gli errori sono definiti come la distanza tra una posizione misurata e quella che è considerata come la posizione vera corrispondente."
+              id = "ISO19138: 2006: measure: 31"> Tasso di errori di posizione al di sopra di una determinata soglia
+      </option>
+      <option value = "Matrice di covarianza"
+              title = "Una matrice quadrata simmetrica con varianza delle coordinate del punto sulla diagonale principale e covarianza tra queste coordinate come elementi fuori diagonale."
+              id = "ISO19138: 2006: measure: 32"> Matrice di covarianza
+      </option>
+      <option value = ""> - Precisione di posizione / Assoluta o esterna
+        precisione / Verticale -
+      </option>
+      <option value = "Errore lineare probabile"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero si trova con probabilità del 50%."
+              id = "ISO19138: 2006: measure: 33"> Probabile errore lineare
+      </option>
+      <option value = "Errore lineare standard"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero si trova con probabilità 68,3%."
+              id = "ISO19138: 2006: measure: 34"> Errore lineare standard
+      </option>
+      <option value = "Precisione della mappa lineare con un livello di significatività del 90%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero si trova con probabilità 90%."
+              id = "ISO19138: 2006: measure: 35"> Precisione della mappa lineare con un livello di significatività del 90%
+      </option>
+      <option value = "Precisione della mappa lineare con un livello di significatività del 95%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero si trova con probabilità 95%."
+              id = "ISO19138: 2006: measure: 36"> Precisione della mappa lineare con un livello di significatività del 95%
+      </option>
+      <option value = "Precisione della mappa lineare con un livello di significatività del 99%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero si trova con probabilità del 99%."
+              id = "ISO19138: 2006: measure: 37"> Precisione della mappa lineare con un livello di significatività del 99%
+      </option>
+      <option value = "Errore lineare quasi certo"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero si trova con probabilità 99,8%."
+              id = "ISO19138: 2006: measure: 38"> Errore lineare quasi certo
+      </option>
+      <option value = "Root mean square error"
+              title = "Deviazione standard, dove il valore reale non è stimato dalle osservazioni ma noto a priori."
+              id = "ISO19138: 2006: measure: 39"> Root mean square error
+      </option>
+      <option
+        value = "Errore lineare assoluto al livello di significatività del 90% dei dati verticali distorti (alternativa 1)"
+        title = "La precisione verticale assoluta delle coordinate dei dati, espressa in termini di errore lineare con una probabilità del 90%, dato che è presente un bias."
+        id = "ISO19138: 2006: measure: 40"> Errore lineare assoluto con un livello di significatività del 90% di distorsione
+        dati verticali (alternativa 1)
+      </option>
+      <option
+        value = "Errore lineare assoluto al livello di significatività del 90% dei dati verticali distorti"
+        title = "La precisione verticale assoluta delle coordinate dei dati, espressa in termini di errore lineare con una probabilità del 90%, dato che è presente un bias."
+        id = "ISO19138: 2006: measure: 41"> Errore lineare assoluto al 90% del livello di significatività di distorta"
+        dati verticali
+      </option>
+      <option value = ""> - Precisione di posizione / Assoluta o esterna
+        precisione / Orizzontale -
+      </option>
+      <option value = "Deviazione standard circolare"
+              title = "Raggio che descrive un cerchio, in cui la vera posizione del punto si trova con una probabilità del 39,4%."
+              id = "ISO19138: 2006: measure: 42"> Deviazione standard circolare
+      </option>
+      <option value = "Errore circolare probabile"
+              title = "Raggio che descrive un cerchio, in cui la vera posizione del punto si trova con una probabilità del 50%."
+              id = "ISO19138: 2006: measure: 43"> Probabile errore circolare
+      </option>
+      <option value = "Standard di precisione della mappa circolare"
+              title = "Raggio che descrive un cerchio, in cui la vera posizione del punto si trova con una probabilità del 90%."
+              id = "ISO19138: 2006: measure: 44"> Standard di precisione della mappa circolare
+      </option>
+      <option value = "Errore circolare a livello di significatività del 95%"
+              title = "Raggio che descrive un cerchio, in cui la vera posizione del punto si trova con una probabilità del 95%."
+              id = "ISO19138: 2006: misura: 45"> Errore circolare al livello di significatività del 95%
+      </option>
+      <option value = "Errore circolare vicino alla certezza"
+              title = "Raggio che descrive un cerchio, in cui la vera posizione del punto si trova con la probabilità del 99,8%."
+              id = "ISO19138: 2006: misura: 46"> Errore circolare quasi certo
+      </option>
+      <option value = "Root mean square error of planimetry"
+              title = "Raggio di un cerchio attorno al punto dato, in cui il valore vero si trova con probabilità P."
+              id = "ISO19138: 2006: measure: 47"> Root mean square error of planimetry
+      </option>
+      <option
+        value = "Errore circolare assoluto al livello di significatività del 90% dei dati distorti (alternativa 2)"
+        title = "La precisione orizzontale assoluta delle coordinate dei dati, espressa in termini di errore circolare con una probabilità del 90%, dato che è presente un bias."
+        id = "ISO19138: 2006: measure: 48"> Errore circolare assoluto al 90% di livello di significatività di distorta
+        dati
+        (Alternativa 2)
+      </option>
+      <option
+        value = "Errore circolare assoluto al livello di significatività del 90% dei dati distorti"
+        title = "La precisione orizzontale assoluta delle coordinate dei dati, espressa in termini di errore circolare con una probabilità del 90%, dato che è presente un bias."
+        id = "ISO19138: 2006: measure: 49"> Errore circolare assoluto al 90% del livello di significatività di distorta
+        dati
+      </option>
+
+      <option value = "Ellisse di incertezza"
+              title = "Ellisse 2D con i due assi principali che indicano la direzione e l'ampiezza dell'incertezza massima e minima di un punto 2D"
+              id = "ISO19138: 2006: measure: 50"> Ellisse di incertezza
+      </option>
+      <option value = "Confidence ellipse"
+              title = "Ellisse 2D con i due assi principali che indicano la direzione e l'ampiezza dell'incertezza massima e minima di un punto 2D"
+              id = "ISO19138: 2006: measure: 51"> Ellisse di fiducia
+      </option>
+      <option value = ""> - Precisione di posizione / Relativa o interna
+        accuratezza -
+      </option>
+      <option value = "Errore verticale relativo"
+              title = "Valutazione degli errori casuali di un rilievo rispetto a un altro nello stesso dataset o sulla stessa mappa / carta. È una funzione degli errori casuali nei due prospetti rispetto a un dato verticale comune."
+              id = "ISO19138: 2006: measure: 52"> Errore verticale relativo
+      </option>
+      <option value = "Errore orizzontale relativo"
+              title = "Valutazione degli errori casuali nella posizione orizzontale di un elemento rispetto a un altro nello stesso set di dati o sulla stessa mappa / grafico."
+              id = "ISO19138: 2006: measure: 53"> Errore orizzontale relativo
+      </option>
+      <option value = ""> - Precisione temporale / Precisione di un tempo
+        misurazione -
+      </option>
+      <option value = "Precisione del tempo al livello di significatività del 68,3%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero per l'istanza temporale si trova con probabilità 68,3%."
+              id = "ISO19138: 2006: measure: 54"> Precisione del tempo al livello di significatività del 68,3%
+      </option>
+      <option value = "Precisione temporale al 50% di livello di significatività"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero per l'istanza temporale si trova con probabilità del 50%."
+              id = "ISO19138: 2006: measure: 55"> Precisione del tempo con un livello di significatività del 50%
+      </option>
+      <option value = "Precisione del tempo a livello di significatività del 90%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero per l'istanza temporale si trova con probabilità 90%."
+              id = "ISO19138: 2006: measure: 56"> Precisione del tempo a un livello di significatività del 90%
+      </option>
+      <option value = "Precisione temporale al livello di significatività del 95%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero per l'istanza temporale si trova con probabilità 95%."
+              id = "ISO19138: 2006: measure: 57"> Precisione del tempo al livello di significatività del 95%
+      </option>
+      <option value = "Precisione del tempo a livello di significatività del 99%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero per l'istanza temporale si trova con probabilità 99%."
+              id = "ISO19138: 2006: measure: 58"> Precisione del tempo con un livello di significatività del 99%
+      </option>
+      <option value = "Precisione temporale al livello di significatività del 99,8%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero per l'istanza temporale si trova con probabilità 99,8%."
+              id = "ISO19138: 2006: measure: 59"> Precisione del tempo con un livello di significatività del 99,8%
+      </option>
+      <option value = ""> - Precisione / classificazione tematica
+        correttezza -
+      </option>
+      <option value = "Numero di elementi classificati in modo errato"
+              title = "Numero di elementi classificati in modo errato" id = "ISO19138: 2006: misura: 60"> Numero
+        di
+        caratteristiche classificate in modo errato
+      </option>
+      <option value = "Tasso di errata classificazione"
+              title = "Numero di elementi classificati in modo errato in relazione al numero di elementi che dovrebbero essere lì"
+              id = "ISO19138: 2006: measure: 61"> Tasso di errata classificazione
+      </option>
+      <option value = "Matrice di classificazione errata"
+              title = "matrice che indica il numero di elementi della classe (i) classificati come classe (j)."
+              id = "ISO19138: 2006: measure: 62"> Matrice di errata classificazione
+      </option>
+      <option value = "Matrice di errata classificazione relativa"
+              title = "matrice che indica il numero di elementi della classe (i) classificati come classe (i) diviso per il numero di elementi della classe (i)"
+              id = "ISO19138: 2006: measure: 63"> Matrice di classificazione errata relativa
+      </option>
+      <option value = "coefficiente Kappa"
+              title = "Coefficiente per quantificare la proporzione di accordo degli incarichi alle classi rimuovendo le classificazioni errate"
+              id = "ISO19138: 2006: measure: 64"> coefficiente Kappa
+      </option>
+      <option value = ""> - Precisione tematica / Non quantitativa
+        correttezza degli attributi -
+      </option>
+      <option value = "Numero di valori di attributo errati"
+              title = "Numero totale di valori di attributo errati nella parte pertinente del set di dati"
+              id = "ISO19138: 2006: measure: 65"> Numero di valori di attributo errati
+      </option>
+      <option value = "Tasso di valori degli attributi corretti"
+              title = "Numero di valori di attributo corretti in relazione al numero totale di valori di attributo"
+              id = "ISO19138: 2006: measure: 66"> Indice dei valori degli attributi corretti
+      </option>
+      <option value = "Tasso di valori di attributo errati"
+              title = "Numero di valori di attributo in cui vengono assegnati valori errati in relazione al numero totale di valori di attributo"
+              id = "ISO19138: 2006: measure: 67"> Tasso di valori di attributo errati
+      </option>
+      <option value = ""> - Precisione tematica / attributo quantitativo
+        accuratezza -
+      </option>
+      <option value = "Incertezza del valore dell'attributo al livello di significatività del 68,3%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero dell'attributo quantitativo si trova con probabilità 68,3%."
+              id = "ISO19138: 2006: measure: 68"> Incertezza del valore dell'attributo al livello di significatività del 68,3%
+      </option>
+
+      <option value = "Incertezza del valore dell'attributo al 50% del livello di significatività"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero dell'attributo quantitativo si trova con probabilità del 50%."
+              id = "ISO19138: 2006: measure: 69"> Incertezza del valore dell'attributo al livello di significatività del 50%
+      </option>
+      <option value = "Incertezza del valore dell'attributo a livello di significatività del 90%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero dell'attributo quantitativo si trova con probabilità 90%."
+              id = "ISO19138: 2006: measure: 70"> Incertezza del valore dell'attributo al 90% del livello di significatività
+      </option>
+      <option value = "Incertezza del valore dell'attributo al livello di significatività del 95%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il vero valore dell'attributo quantitativo si trova con probabilità 95%."
+              id = "ISO19138: 2006: measure: 71"> Incertezza del valore dell'attributo al livello di significatività del 95%
+      </option>
+      <option value = "Incertezza del valore dell'attributo a livello di significatività del 99%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore reale dell'attributo quantitativo si trova con probabilità 99%."
+              id = "ISO19138: 2006: measure: 72"> Incertezza del valore dell'attributo a livello di significatività del 99%
+      </option>
+      <option value = "Incertezza del valore dell'attributo a livello di significatività del 99,8%"
+              title = "Mezza lunghezza dell'intervallo definito da un limite superiore e uno inferiore, in cui il valore vero dell'attributo quantitativo si trova con probabilità 99,8%."
+              id = "ISO19138: 2006: measure: 73"> Incertezza del valore dell'attributo al livello di significatività del 99,8%
+      </option>
+    </helper>
+  </element>
+
+  <element name="gmd:codeSpace" id="208.1">
 		<label>Codespace</label>
 		<description>Nome o identificativo della persona o dell'organizzazione responsabile del namespace</description>
 		<helper>
@@ -27,50 +376,42 @@
 		<condition>Obbligatorio</condition>
 		<help>Testo libero. Da evitare abbreviazioni.</help>
 	</element>
+  <element name="gmd:name" context="gmd:MD_Format" id="285.0">
+    <label>Nome</label>
+    <description>Nome formato</description>
+    <help>Nome del formato dei dati</help>
+    <condition>obbligatorio</condition>
+    <helper rel="gmd:version">
+      <option value="Text">Testo</option>
+      <option value="ESRI Shapefile" title="1.0">ESRI Shapefile</option>
+      <option value="Mapinfo MIF/MID" title="4.5">Mapinfo MIF/MID</option>
+      <option value="Mapinfo TAB">Mapinfo TAB</option>
+      <option value="KML">KML</option>
+      <option value="GML" title="3.2.1">GML</option>
+      <option value="GeoTIFF" title="1.0">GeoTIFF</option>
+      <option value="TIFF">TIFF</option>
+      <option value="ECW">ECW</option>
+      <option value="JPEG2000">JPEG2000</option>
+      <option value="ZIP">ZIP</option>
+      <option value="PDF">PDF</option>
+      <option value="PNG">PNG</option>
+      <option value="JPEG">JPEG</option>
+      <option value="OGC:WMC">OGC:WMC</option>
+      <option value="OGC:OWS Context">OGC:OWS Context</option>
+    </helper>
+  </element>
 
-	<element name="RNDTcrs">
-		<label>Identificatore CRS</label>
-
-		<description>Valore dalla lista suggerito dal DM, o numero intero indicante un CRS con codifica EPSG</description>
-
-		<helper>
-                    <option value="WGS84">WGS84</option>
-                    <option value="ETRS89">ETRS89</option>
-                    <option value="ETRS89/ETRS-LAEA">ETRS89/ETRS-LAEA</option>
-                    <option value="ETRS89/ETRS-LCC">ETRS89/ETRS-LCC</option>
-                    <option value="ETRS89/ETRS-TM32">ETRS89/ETRS-TM32</option>
-                    <option value="ETRS89/ETRS-TM33">ETRS89/ETRS-TM33</option>
-                    <option value="ETRS89/UTM-zone32N">ETRS89/UTM-zone32N</option>
-                    <option value="ETRS89/UTM-zone33N">ETRS89/UTM-zone33N</option>
-                    <option value="ROMA40/EST">ROMA40/EST</option>
-                    <option value="ROMA40/OVEST">ROMA40/OVEST</option>
-                    <option value="ED50/UTM 32N">ED50/UTM 32N</option>
-                    <option value="ED50/UTM 33N">ED50/UTM 33N</option>
-                    <option value="IGM95/UTM 32N">IGM95/UTM 32N</option>
-                    <option value="IGM95/UTM 33N">IGM95/UTM 33N</option>
-                    <option value="WGS84/UTM 32N">WGS84/UTM 32N</option>
-                    <option value="WGS84/UTM 33N">WGS84/UTM 33N</option>
-                    <option value="WGS84/UTM 34N">WGS84/UTM 34N</option>
-                    <option value="BESSEL/Cassini-Soldner">BESSEL/Cassini-Soldner</option>
-                    <option value="BESSEL/Sanson-Flamsteed">BESSEL/Sanson-Flamsteed</option>
-                    <option value="CATASTO / Locale">CATASTO / Locale</option>
-                    <option value="ROMA40">ROMA40</option>
-                    <option value="ROMA40/ROMA">ROMA40/ROMA</option>
-                    <option value="ED50">ED50</option>
-                    <option value="IGM95">IGM95</option>
-                    <option value="Rete Altimetrica Nazionale">Rete Altimetrica Nazionale</option>
-                    <option value="WGS84/3D">WGS84/3D</option>
-                    <option value="Livello medio delle basse maree sizigiali">Livello medio delle basse maree sizigiali</option>
-                    <option value="Livello medio delle alte maree sizigiali">Livello medio delle alte maree sizigiali</option>
-                    <option value="Livello medio lago">Livello medio lago</option>
-                    <option value="ITRS">ITRS</option>
-                    <option value="ITRFxx">ITRFxx</option>
-                    <option value="IGSxx">IGSxx</option>
-                    <option value="IGb00">IGb00</option>
-                    <option value="ETRF89">ETRF89</option>
-                    <option value="ETRF00">ETRF00</option>
-		</helper>
-	</element>
+  <element name="gmd:applicationProfile" alias="applicationProfile">
+  <label>Profilo dell'applicazione</label>
+   <helper sort="true">
+    <option value="other">Altri servizi</option>
+    <option value="download">Servizio di scarimento</option>
+    <option value="discovery">Servizio di ricerca</option>
+     <option value="invoke">Servizio di richiesta dei servizi di dati territoriali</option>
+     <option value="transformation">Servizio di conversione</option>
+    <option value="view">Servizio di consultazione</option>
+   </helper>
+  </element>
 
 	<element name="gmd:code" context="gmd:RS_Identifier">
 		<label>Identificatore</label>
@@ -86,7 +427,7 @@
     <label>Formato di presentazione</label>
     <description>Modalità in cui la risorsa è rappresentata</description>
   </element>
-	<element name="gmd:hierarchyLevel">
+	<element name="gmd:hierarchyLevel" readonly="true">
 		<label>Livello gerarchico</label>
 		<description>Categoria di informazione cui vengono applicati metadati</description>
 		<condition>Obbligatorio</condition>
@@ -137,7 +478,7 @@
 		<help>Può essere inserita alternativamente al 'Sito web'</help>
 	</element>
 	<element name="gmd:name" context="gmd:MD_Format">
-		<label>Name formato</label>
+		<label>Nome formato</label>
 		<description>Formato di distribuzione</description>
 		<condition>Obbligatorio</condition>
 	</element>
@@ -146,7 +487,7 @@
     <description>Unità di misura dei valori di qualità dei dati</description>
   </element>
   <element name="gco:Record">
-    <label>Record</label>
+    <label>Valore</label>
     <description/>
   </element>
 	<element name="srv:couplingType">
@@ -374,13 +715,13 @@
 		<label>Nome dello Standard</label>
 		<description>Nome dello standard (incluso il nome del profilo) di metadati utilizzato</description>
 		<condition>Obbligatorio</condition>
-		<help>Si fa riferimento al DM e relativi allegati che regolamentano il funzionamento del Repertorio. Il nome da inserire è “DM - Regole tecniche RNDT”.</help>
+		<help>Si fa riferimento al DM e relativi allegati che regolamentano il funzionamento del Repertorio. Il nome da inserire è “Linee Guida RNDT”.</help>
 	</element>
 	<element name="gmd:metadataStandardVersion">
 		<label>Versione dello standard</label>
 		<description>Versione dello standard/profilo di metadati utilizzato</description>
 		<condition>Obbligatorio</condition>
-		<help>Si fa riferimento al DM e relativi allegati che regolamentano il funzionamento del Repertorio. La versione da indicare è “10 novembre 2011”.</help>
+		<help>Si fa riferimento al DM e relativi allegati che regolamentano il funzionamento del Repertorio. La versione da indicare è “2.0”.</help>
 	</element>
 	<element name="gmd:dateType">
 		<label>Tipo data</label>
@@ -451,7 +792,7 @@
 	<element name="gmd:specification">
 		<label>Specifiche</label>
 		<description>Citazione delle specifiche cui la risorsa si conforma</description>
-		<help>L’elemento deve esprimere la conformità alle disposizioni di esecuzione di cui all’articolo 7, paragrafo 1 della Direttiva INSPIRE. Deve essere quindi citato il Regolamento (UE) n.1089/2010 relativo all'interoperabilità di dati e servizi (Titolo = REGOLAMENTO (UE) N. 1089/2010 DELLA COMMISSIONE del 23 novembre 2010 recante attuazione della direttiva 2007/2/CE del Parlamento europeo e del Consiglio per quanto riguarda l'interoperabilità dei set di dati territoriali e dei servizi di dati territoriali, data (aaaa-mm-gg o aaaammgg) = 2010-12-08, tipo data = pubblicazione). E' possibile tuttavia indicare la conformità della risorsa ad altre specifiche.</help>
+		<help>L’elemento deve esprimere la conformità alle disposizioni di esecuzione di cui all’Elemento 7, paragrafo 1 della Direttiva INSPIRE. Deve essere quindi citato il Regolamento (UE) n.1089/2010 relativo all'interoperabilità di dati e servizi (Titolo = REGOLAMENTO (UE) N. 1089/2010 DELLA COMMISSIONE del 23 novembre 2010 recante attuazione della direttiva 2007/2/CE del Parlamento europeo e del Consiglio per quanto riguarda l'interoperabilità dei set di dati territoriali e dei servizi di dati territoriali, data (aaaa-mm-gg o aaaammgg) = 2010-12-08, tipo data = pubblicazione). E' possibile tuttavia indicare la conformità della risorsa ad altre specifiche.</help>
 	</element>
 	<element name="gmd:DQ_ConformanceResult" id="129.0">
 		<label>Conformità</label>
@@ -466,7 +807,7 @@
 	<!--element name="gmd:specification" id="130.0" context="gmd:DQ_ConformanceResult">
 		<label>Specifiche</label>
 		<description>Citazione delle specifiche cui la risorsa si conforma</description>
-		<help>L’elemento deve esprimere la conformità alle disposizioni di esecuzione di cui all’articolo 7, paragrafo 1 della Direttiva INSPIRE. Deve essere quindi citato il Regolamento (UE) n.1089/2010 relativo all'interoperabilità di dati e servizi (Titolo = REGOLAMENTO (UE) N. 1089/2010 DELLA COMMISSIONE del 23 novembre 2010 recante attuazione della direttiva 2007/2/CE del Parlamento europeo e del Consiglio per quanto riguarda l'interoperabilità dei set di dati territoriali e dei servizi di dati territoriali, data (aaaa-mm-gg o aaaammgg) = 2010-12-08, tipo data = pubblicazione). E' possibile tuttavia indicare la conformità della risorsa ad altre specifiche.</help>
+		<help>L’elemento deve esprimere la conformità alle disposizioni di esecuzione di cui all’Elemento 7, paragrafo 1 della Direttiva INSPIRE. Deve essere quindi citato il Regolamento (UE) n.1089/2010 relativo all'interoperabilità di dati e servizi (Titolo = REGOLAMENTO (UE) N. 1089/2010 DELLA COMMISSIONE del 23 novembre 2010 recante attuazione della direttiva 2007/2/CE del Parlamento europeo e del Consiglio per quanto riguarda l'interoperabilità dei set di dati territoriali e dei servizi di dati territoriali, data (aaaa-mm-gg o aaaammgg) = 2010-12-08, tipo data = pubblicazione). E' possibile tuttavia indicare la conformità della risorsa ad altre specifiche.</help>
 	</element-->
 	<element name="gmd:specification" context="gmd:MD_Format">
 		<label>Specifiche</label>
@@ -527,6 +868,10 @@
     <label>Altri dettagli</label>
     <description>Ulteriori informazioni di citazione</description>
   </element>
+  <element name="gmd:hierarchyLevelName">
+    <label>Nome del livello gerarchico</label>
+    <description>Nome del livello gerarchico per il quale è fornito il metadato</description>
+  </element>
 	<element name="gmd:referenceSystemIdentifier">
 		<label>Identificatore del sistema di riferimento</label>
 		<description>Identificartore del sistema di riferimento</description>
@@ -569,6 +914,11 @@
 		<_condition>condizionato / deve essere documentato se ISO/IEC 10646-1 non è utilizzato e non è definito dall’encoding</_condition>
 		<help>L’elemento deve assumere uno dei valori della lista “MD_CharacterSetCode” (§ 3.4.3.5 – all. 2 DM)</help>
 	</element>
+  <element name="gmd:spatialResolution" id="38.0">
+    <label>Risoluzione spaziale</label>
+    <description>Fattore che fornisce la comprensione generale della densità dei dati nel dataset
+    </description>
+  </element>
 	<element name="gmd:spatialRepresentationInfo" id="12.0">
 		<label>Tipo di rappresentazione spaziale</label>
 		<description>Metodo di rappresentazione spaziale dei dati</description>
@@ -626,6 +976,10 @@
 		<label>Risoluzione</label>
 		<description>risoluzione</description>
 	</element>
+  <element name="gmd:measureDescription" id="102.0">
+    <label>Descrizione della misura</label>
+    <description>Descrizione della misura da determinare</description>
+  </element>
   <element name="gco:Distance">
     <label>Distance</label>
     <description>Distance</description>
@@ -664,7 +1018,7 @@
 		<description>Descrizione human-readable del XLink</description>
 	</element>
   <element name="xlink:href">
-    <label>Href XLink</label>
+    <label>URL</label>
     <description>Riferimento ad una risorsa tramite IRI</description>
   </element>
 	<element name="xlink:show">
@@ -845,6 +1199,19 @@
     <label>Offline</label>
     <description>Informazioni sui supporti offline dai quali la risorsa può essere ottenuta
     </description>
+  </element>
+
+  <element name="srv:operationName">
+    <label>Nome dell'operazione</label>
+    <helper>
+      <option value="GetCapabilities">GetCapabilities</option>
+      <option value="GetRecords">GetRecords</option>
+      <option value="GetMap">GetMap</option>
+      <option value="Get Download Service Metadata">Get Download Service Metadata</option>
+      <option value="Get Spatial Dataset">Get Spatial Dataset</option>
+      <option value="Describe Spatial Dataset"> Describe Spatial Dataset</option>
+      <option value="Link Download Service">Link Download Service</option>
+    </helper>
   </element>
 </labels>
 

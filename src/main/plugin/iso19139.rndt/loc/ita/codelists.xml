@@ -29,6 +29,7 @@
 			<description>Data che identifica l’osservazione del fenomeno (es. volo)</description>
 		</entry>
 	</codelist>
+
 	<!-- ==================================================== -->
 	<!-- RNDT -->
 	<codelist name="gmd:MD_DimensionNameTypeCode">
@@ -74,11 +75,6 @@
 		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-		<entry>
-			<code>tile</code>
-			<label>Tile</label>
-			<description>Le informazioni si applicano ad un tile, un sottoinsieme spaziale dei dati geografici</description>
-		</entry>
 	</codelist>
 	<!-- ==================================================== -->
 	<!-- RNDT -->
@@ -683,5 +679,6 @@
       <label>Sconosciuto</label>
     </entry>
   </codelist>
+
 
 </codelists>

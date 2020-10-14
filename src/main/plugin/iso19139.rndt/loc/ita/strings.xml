@@ -100,19 +100,22 @@
     </securityConstraints>
 
   <noConditionApply>Nessuna condizione applicabile</noConditionApply>
+  <unknownCondition>Condizioni sconosciute</unknownCondition>
   <freeText>Testo libero</freeText>
 
   <!-- New strings added for the AngularJS editor -->
   <!-- View and tabs -->
   <advanced>Full</advanced>
-  <default>Comuni</default>
+  <default>Metadati Comuni</default>
   <rndt-view>RNDT</rndt-view>
   <simple>Simple</simple>
   <inspire>Parole chiave &amp; Temi INSPIRE</inspire>
   <resource>Resource</resource>
   <xml>XML</xml>
   <metadata>Metadati</metadata>
-  <identificationInfo>Informazioni di identificazione</identificationInfo>
+  <metadataInfo>Informazioni sui metadati</metadataInfo>
+  <identificationInfo>Identificazione dei dati</identificationInfo>
+  <serviceIdentification>Identificazione dei servizi</serviceIdentification>
   <serviceType>Tipo di servizio</serviceType>
   <descriptiveKeywords>Parole chiave</descriptiveKeywords>
   <keyword>Parola chiave</keyword>
@@ -127,7 +130,7 @@
   <referenceSystemInfo>Sistema di riferimento</referenceSystemInfo>
   <contentInfo>Informazioni sul contenuto</contentInfo>
   <portrayalCatalogueInfo>Portrayal</portrayalCatalogueInfo>
-
+  <topicCategory>Categoria tematica</topicCategory>
   <metadataConstraints>Vincoli sui metadati</metadataConstraints>
   <metadataMaintenance>Gestione del metadato</metadataMaintenance>
   <applicationSchemaInfo>Schema info</applicationSchemaInfo>
@@ -159,7 +162,8 @@
   <responsibleParty>Responsabile dei metadati</responsibleParty>
   <responsible>Responsabile</responsible>
   <creationDate>Creation date</creationDate>
-  <hierarchyLevel>Hierarchy level</hierarchyLevel>
+  <hierarchyLevel>Livello gerarchico</hierarchyLevel>
+  <hierarchyLevelName>Nome del livello gerarchico</hierarchyLevelName>
   <publicationDate>Publication date</publicationDate>
   <revisionDate>Revision date</revisionDate>
   <temporalSection>Estensione temporale</temporalSection>
@@ -191,6 +195,9 @@
   <spatialScope> Ambito territoriale</spatialScope>
   <extent>Estensione dei dati</extent>
   <referenceSystemIdentifier>Sistema di riferimento</referenceSystemIdentifier>
+  <connectPoint>Accesso URL</connectPoint>
+  <DCP>DCP</DCP>
+ <qualityLevel>Livello di qualità</qualityLevel>
   <format>Formato</format>
   <format_version>Versione</format_version>
   <spatialResolution>Risoluzione spaziale</spatialResolution>
@@ -228,8 +235,12 @@
   <add-resource-idHelp>Compose the resource identifier using the catalog URL and the metadata identifier (eg. http://www.organization.org/catalogue/5391bf69-44bc-4ea0-8cc0-6cf6c3bc81ae).</add-resource-idHelp>
   <add-extent-from-geokeywords>Compute extent from keyword</add-extent-from-geokeywords>
   <add-extent-from-geokeywordsHelp>Analyze each keyword of type place and add matching extent.</add-extent-from-geokeywordsHelp>
+  <addFromThesaurus>Aggiungi keyword da thesaurus</addFromThesaurus>
   <sds-add-qualityofservice>Qualità dei servizi</sds-add-qualityofservice>
   <datasetAndSeries>Dataset e serie</datasetAndSeries>
   <services>Servizi</services>
   <raster>Dati raster</raster>
+  <text>Testo</text>
+  <anchor>Anchor</anchor>
+  <serviceClassification>Classificazione dei servizi di dati territoriali</serviceClassification>
 </strings>

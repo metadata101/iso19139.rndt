@@ -50,7 +50,7 @@
 					<xs:element name="edition" type="gco:CharacterString_PropertyType" minOccurs="0"/>
 					<xs:element name="editionDate" type="gco:Date_PropertyType" minOccurs="0"/>
 					<xs:element name="identifier" type="gmd:MD_Identifier_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="citedResponsibleParty" type="gmd:CI_ResponsibleParty_PropertyType" minOccurs="1" maxOccurs="1"/>
+					<xs:element name="citedResponsibleParty" type="gmd:CI_ResponsibleParty_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
 
           <xs:element name="presentationForm" type="gmd:CI_PresentationFormCode_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="series" type="gmd:CI_Series_PropertyType" minOccurs="0"/>
@@ -109,10 +109,10 @@
 			<xs:extension base="gco:AbstractObject_Type">
 				<xs:sequence>
 					<xs:element name="linkage" type="gmd:URL_PropertyType"/>
-					<xs:element name="protocol" type="gco:CharacterString_PropertyType" minOccurs="0"/>
-					<xs:element name="applicationProfile" type="gco:CharacterString_PropertyType" minOccurs="0"/>
+					<xs:element name="protocol" type="gco:CharacterString_PropertyType" minOccurs="1"/>
+					<xs:element name="applicationProfile" type="gco:CharacterString_PropertyType" minOccurs="1"/>
 					<xs:element name="name" type="gco:CharacterString_PropertyType" minOccurs="0"/>
-					<xs:element name="description" type="gco:CharacterString_PropertyType" minOccurs="0"/>
+					<xs:element name="description" type="gco:CharacterString_PropertyType" minOccurs="1"/>
 					<xs:element name="function" type="gmd:CI_OnLineFunctionCode_PropertyType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
