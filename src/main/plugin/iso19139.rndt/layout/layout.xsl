@@ -11,6 +11,7 @@
                 xmlns:exslt="http://exslt.org/common" exclude-result-prefixes="#all">
 
   <xsl:include href="utility-tpl.xsl"/>
+  <xsl:include href="layout-custom-fields.xsl"/>
 
   <!-- Visit all XML tree recursively -->
   <xsl:template mode="mode-iso19139.rndt" match="*|@*">

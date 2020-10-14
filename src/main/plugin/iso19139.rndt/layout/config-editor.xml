@@ -130,12 +130,13 @@
  <fieldsWithFieldset>
    <name>gmd:MD_Metadata</name>
    <name>gmd:identificationInfo</name>
+   <name>gmd:pointOfContact</name>
+   <name>gmd:distributorContact</name>
+   <name>gmd:contact</name>
    <name>gmd:distributionInfo</name>
    <name>gmd:portrayalCatalogueInfo</name>
    <name>gmd:portrayalCatalogueCitation</name>
    <name>gmd:spatialRepresentationInfo</name>
-   <name>gmd:pointOfContact</name>
-   <name>gmd:contact</name>
    <name>gmd:graphicOverview</name>
    <name>gmd:citedResponsibleParty</name>
    <name>gmd:dataQualityInfo</name>
@@ -144,7 +145,6 @@
    <name>gmd:referenceSystemInfo</name>
    <name>gmd:offLine</name>
    <name>gmd:onLine</name>
-   <name>gmd:address</name>
    <name>gmd:projection</name>
    <name>gmd:ellipsoid</name>
    <name>gmd:attributes</name>
@@ -247,24 +247,24 @@
     </exclude>
   </multilingualFields>
   <tableFields>
-    <!--table for="gmd:CI_ResponsibleParty">
+    <table for="gmd:CI_ResponsibleParty" fieldset="true">
       <header>
         <col label="gmd:organisationName"/>
         <col label="gmd:electronicMailAddress"/>
         <col label="gmd:phone"/>
-        <col label="gmd:url"/>
+        <col label="gmd:URL"/>
         <col label="gmd:role"/>
         <col/>
       </header>
       <row>
         <col xpath="gmd:organisationName"/>
-        <col xpath="gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress"/>
-        <col xpath="gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:phone"/>
-        <col xpath="gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:onlineResource/gmd:CI_OnlineResource/gmd:linkage"/>
-        <col xpath="gmd:CI_ResponsibleParty/gmd:role"/>
+        <col xpath="gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress"/>
+        <col xpath="gmd:contactInfo/gmd:CI_Contact/gmd:phone/gmd:CI_Telephone/gmd:voice"/>
+        <col xpath="gmd:contactInfo/gmd:CI_Contact/gmd:onlineResource/gmd:CI_OnlineResource/gmd:linkage"/>
+        <col xpath="gmd:role"/>
         <col del=".."/>
       </row>
-    </table-->
+    </table>
 
     <table for="srv:SV_CoupledResource">
       <header>
@@ -367,7 +367,6 @@
           <field xpath="/gmd:MD_Metadata/gmd:parentIdentifier" or="parentIdentifier" in ="/gmd:MD_Metadata"/>
 
 
-          <section name="responsibleParty">
             <field xpath="/gmd:MD_Metadata/gmd:contact">
               <template>
                 <values readonlyIf="count(@xlink:href) > 0">
@@ -433,54 +432,8 @@
             </field>
 
             <action type="add"
-                    name="responsibleParty"
-                    btnClass="fa fa-user-plus" or="contact" in="/gmd:MD_Metadata"
-                    >
-              <template>
-                <snippet>
-                  <gmd:contact>
-                    <gmd:CI_ResponsibleParty>
-                      <gmd:organisationName>
-                        <gco:CharacterString/>
-                      </gmd:organisationName>
-                      <gmd:contactInfo>
-                        <gmd:CI_Contact>
-                          <gmd:phone>
-                            <gmd:CI_Telephone>
-                              <gmd:voice>
-                                <gco:CharacterString/>
-                              </gmd:voice>
-                            </gmd:CI_Telephone>
-                          </gmd:phone>
-                          <gmd:address>
-                            <gmd:CI_Address>
-                              <gmd:electronicMailAddress>
-                                <gco:CharacterString/>
-                              </gmd:electronicMailAddress>
-                            </gmd:CI_Address>
-                          </gmd:address>
-                          <gmd:onlineResource>
-                            <gmd:CI_OnlineResource>
-                              <gmd:linkage>
-                                <gmd:URL/>
-                              </gmd:linkage>
-                            </gmd:CI_OnlineResource>
-                          </gmd:onlineResource>
-                        </gmd:CI_Contact>
-                      </gmd:contactInfo>
-                      <gmd:role>
-                        <gmd:CI_RoleCode
-                          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
-                          codeListValue="{{role}}"/>
-                      </gmd:role>
-                    </gmd:CI_ResponsibleParty>
-                  </gmd:contact>
-                </snippet>
-              </template>
-            </action>
-
-            <action type="add"
                     or="contact" in="/gmd:MD_Metadata"
+                    btnClass="fa fa-user-plus"
                     addDirective="data-gn-directory-entry-selector">
               <directiveAttributes
                 data-template-add-action="true"
@@ -489,49 +442,7 @@
                 data-template-type="contact"
                 data-insert-modes=""
                 data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
-              <!--template>
-                <snippet>
-                  <gmd:contact>
-                    <gmd:CI_ResponsibleParty>
-                      <gmd:organisationName>
-                        <gco:CharacterString/>
-                      </gmd:organisationName>
-                      <gmd:contactInfo>
-                        <gmd:CI_Contact>
-                          <gmd:phone>
-                            <gmd:CI_Telephone>
-                              <gmd:voice>
-                                <gco:CharacterString/>
-                              </gmd:voice>
-                            </gmd:CI_Telephone>
-                          </gmd:phone>
-                          <gmd:address>
-                            <gmd:CI_Address>
-                              <gmd:electronicMailAddress>
-                                <gco:CharacterString/>
-                              </gmd:electronicMailAddress>
-                            </gmd:CI_Address>
-                          </gmd:address>
-                          <gmd:onlineResource>
-                            <gmd:CI_OnlineResource>
-                              <gmd:linkage>
-                                <gmd:URL/>
-                              </gmd:linkage>
-                            </gmd:CI_OnlineResource>
-                          </gmd:onlineResource>
-                        </gmd:CI_Contact>
-                      </gmd:contactInfo>
-                      <gmd:role>
-                        <gmd:CI_RoleCode
-                          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
-                          codeListValue="{{role}}"/>
-                      </gmd:role>
-                    </gmd:CI_ResponsibleParty>
-                  </gmd:contact>
-                </snippet>
-              </template-->
             </action>
-          </section>
 
           <field xpath="/gmd:MD_Metadata/gmd:dateStamp" or ="dateStamp" in="/gmd:MD_Metadata"/>
           <field xpath="/gmd:MD_Metadata/gmd:metadataStandardName" or="metadataStandardName" in="/gmd:MD_Metadata"/>
@@ -569,9 +480,7 @@
             </template>
           </action>
 
-          <section name="responsible">
-
-            <field templateModeOnly="true"
+            <field
                    xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty">
               <template>
                 <values readonlyIf="count(@xlink:href) > 0">
@@ -638,8 +547,15 @@
               </template>
             </field>
 
-            <action type="add" btnClass="fa fa-user-plus" or="citedResponsibleParty"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation">
+            <action type="add" btnClass="fa fa-user-plus" name="responsible" or="citedResponsibleParty"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation" addDirective="data-gn-directory-entry-selector">
+              <directiveAttributes
+                data-template-add-action="true"
+                data-search-action="true"
+                data-popup-action="true"
+                data-template-type="contact"
+                data-insert-modes=""
+                data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
               <template>
                 <snippet>
                   <gmd:citedResponsibleParty>
@@ -675,25 +591,13 @@
                       <gmd:role>
                         <gmd:CI_RoleCode
                           codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
-                          codeListValue=""/>
+                          codeListValue="pointOfContact"/>
                       </gmd:role>
                     </gmd:CI_ResponsibleParty>
                   </gmd:citedResponsibleParty>
                 </snippet>
               </template>
             </action>
-
-            <action type="add" name="responsible" or="citedResponsibleParty"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation" addDirective="data-gn-directory-entry-selector">
-              <directiveAttributes
-                data-template-add-action="true"
-                data-search-action="true"
-                data-popup-action="true"
-                data-template-type="contact"
-                data-insert-modes=""
-                data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
-            </action>
-          </section>
 
           <field name="datasetcode"
                  xpath="/gmd:MD_Metadata/gmd:identificationInfo/*
@@ -735,8 +639,7 @@
 
           </section>
 
-          <section  name="pointOfContact">
-            <field templateModeOnly="true" notDisplayedIfMissing="true"
+            <field
                    xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:pointOfContact"
                    del="."
                    if="count(gmd:MD_Metadata/gmd:identificationInfo/*) > 0">
@@ -806,9 +709,16 @@
             </field>
 
 
-            <action type="add" btnClass="fa fa-user-plus" or="pointOfContact"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/*">
-
+            <action type="add" or="pointOfContact"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/*" addDirective="data-gn-directory-entry-selector">
+              <directiveAttributes
+                data-template-add-action="true"
+                data-search-action="true"
+                data-popup-action="true"
+                data-template-type="contact"
+                data-insert-modes=""
+                data-filter='{"_root": "gmd:CI_ResponsibleParty"}'
+                data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
               <template>
                 <snippet>
                   <gmd:pointOfContact>
@@ -852,19 +762,6 @@
                 </snippet>
               </template>
             </action>
-
-            <action type="add" or="pointOfContact"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/*" addDirective="data-gn-directory-entry-selector">
-              <directiveAttributes
-                data-template-add-action="true"
-                data-search-action="true"
-                data-popup-action="true"
-                data-template-type="contact"
-                data-insert-modes=""
-                data-filter='{"_root": "gmd:CI_ResponsibleParty"}'
-                data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
-            </action>
-          </section>
 
           <section name="resourceConstraints"
           displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints)>0">
@@ -2005,8 +1902,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </template>
           </action>
 
-          <section name="distributorContact">
-            <field templateModeOnly="true" notDisplayedIfMissing="true"
+            <field
                    xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor/gmd:distributorContact">
               <template>
                 <values readonlyIf="count(@xlink:href) > 0">
@@ -2073,12 +1969,19 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
               </template>
             </field>
 
-            <action type="add" name="distributorContact" btnClass ="fa fa-user-plus" or="distributor"
-                    in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution" >
+            <action type="add" name="distributorContact" btnClass ="fa fa-user-plus" or="distributionContact"
+                    in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor"
+                    addDirective="data-gn-directory-entry-selector">
+              <directiveAttributes
+                data-template-add-action="true"
+                data-search-action="true"
+                data-popup-action="true"
+                data-template-type="contact"
+                data-insert-modes=""
+                data-filter='{"_root": "gmd:CI_ResponsibleParty"}'
+                data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
               <template>
                 <snippet>
-                  <gmd:distributor>
-                    <gmd:MD_Distributor>
                       <gmd:distributorContact>
                         <gmd:CI_ResponsibleParty>
                           <gmd:organisationName>
@@ -2117,12 +2020,60 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           </gmd:role>
                         </gmd:CI_ResponsibleParty>
                       </gmd:distributorContact>
-                    </gmd:MD_Distributor>
-                  </gmd:distributor>
                 </snippet>
               </template>
             </action>
-          </section>
+
+          <action type="add" name="distributorContact" btnClass ="fa fa-user-plus" or="distributor"
+                  in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution"
+                  >
+            <template>
+              <snippet>
+                <gmd:distributor>
+                <gmd:MD_Distributor>
+                <gmd:distributorContact>
+                  <gmd:CI_ResponsibleParty>
+                    <gmd:organisationName>
+                      <gco:CharacterString></gco:CharacterString>
+                    </gmd:organisationName>
+                    <gmd:contactInfo>
+                      <gmd:CI_Contact>
+                        <gmd:phone>
+                          <gmd:CI_Telephone>
+                            <gmd:voice>
+                              <gco:CharacterString></gco:CharacterString>
+                            </gmd:voice>
+                          </gmd:CI_Telephone>
+                        </gmd:phone>
+                        <gmd:address>
+                          <gmd:CI_Address>
+                            <gmd:electronicMailAddress>
+                              <gco:CharacterString></gco:CharacterString>
+                            </gmd:electronicMailAddress>
+                          </gmd:CI_Address>
+                        </gmd:address>
+                        <gmd:onlineResource>
+                          <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+                              <gmd:URL></gmd:URL>
+                            </gmd:linkage>
+                          </gmd:CI_OnlineResource>
+                        </gmd:onlineResource>
+                      </gmd:CI_Contact>
+                    </gmd:contactInfo>
+                    <gmd:role>
+                      <gmd:CI_RoleCode
+                        codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_RoleCode"
+                        codeListValue="distributor">
+                      </gmd:CI_RoleCode>
+                    </gmd:role>
+                  </gmd:CI_ResponsibleParty>
+                </gmd:distributorContact>
+                </gmd:MD_Distributor>
+                </gmd:distributor>
+              </snippet>
+            </template>
+          </action>
 
           <field
             xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions"/>

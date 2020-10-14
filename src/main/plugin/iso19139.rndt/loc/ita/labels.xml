@@ -444,7 +444,7 @@
 		<condition>Obbligatorio</condition>
 		<help>L'identificatore deve avere come prefisso il codice IPA dell'Amministrazione titolare del dato o del servizio, seguito dal carattere ":". Il codice IPA assegnato all'Amministrazione nel momento dell'accreditamento come da comma 1 dell’art. 19 dell'allegato A del DPCM 1 aprile 2008. Nel caso di prima trasmissione l'elemento assume lo stesso valore dell’elemento "Identificatore del file".</help>
 	</element>
-	<element name="gmd:URL">
+	<element name="gmd:URL" context="gmd:linkage">
 		<label>Sito web</label>
 		<description>Sito web</description>
 		<help>Se l'informazione è fornita per identificare un ente, un ufficio o un soggetto associato a un dato o a un servizio, può essere inserita alternativamente al 'Telefono'</help>
@@ -461,7 +461,8 @@
 		<description>Data di creazione o di ultima modifica dei metadati. (aaaa-mm-gg o aaaammgg).</description>
 		<_condition>M</_condition>
 	</element>
-	<element name="gmd:citedResponsibleParty">
+	<element name="gmd:citedResponsibleParty" context="gmd:CI_Citation"
+           id="367">
 		<condition>Obbligatorio</condition>
 		<label>Responsabile</label>
 		<description>Organizzazione titolare dei dati.</description>
@@ -560,7 +561,7 @@
 		<description>Versione di distribuzione</description>
 		<condition>Obbligatorio</condition>
 	</element>
-	<element name="gmd:pointOfContact">
+	<element name="gmd:pointOfContact" id="29.0">
 		<label>Punto di contatto</label>
 		<description>Organizzazione che è possibile contattare per avere informazioni sulla risorsa.</description>
 		<condition>Obbligatorio</condition>
