@@ -34,7 +34,6 @@
     <for name="gmd:nameOfMeasure" use="textarea"/>
     <for name="gmd:evaluationMethodDescription" use="textarea"/>
     <for name="gco:Record" use="number"/>
-
     <for name="gco:Distance" use="number"/>
     <for name="gco:Decimal" use="number"/>
     <for name="gco:Integer" use="number"/>
@@ -42,21 +41,11 @@
     <for name="gco:Boolean" use="checkbox"/>
     <for name="gco:CharacterString" use="textarea"/>
 
-    <for name="gco:Date" use="data-gn-date-picker"/>
-    <for name="gco:DateTime" use="data-gn-date-picker"/>
+    <for name="gco:Date" use="date"/>
+    <for name="gco:DateTime" use="datetime"/>
 
     <for name="gco:aName" use ="textarea"/>
     <for name="gco:Name" use="textarea"/>
-    <!--for name="gmd:date" use="data-gn-date-picker">
-      <directiveAttributes data-hide-time="true"/>
-    </for-->
-    <for name="gml:beginPosition" use="data-gn-date-picker">
-      <directiveAttributes data-hide-time="true"/>
-    </for>
-    <for name="gml:endPosition" use="data-gn-date-picker">
-      <directiveAttributes data-hide-time="true"/>
-    </for>
-
     <!-- gmx:FileName/@src attribute -->
     <for name="src" use="data-gn-logo-selector"/>
     <for name="gmd:electronicMailAddress" use="email"/>
@@ -457,17 +446,34 @@
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:title"
             or="title" in="/gmd:MD_Metadata/gmd:identificationInfo/*"/>
 
-          <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:date"/>
+          <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:date[boolean(gmd:CI_Date/gmd:date/gco:Date)]"/>
+
+          <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:date[boolean(gmd:CI_Date/gmd:date/gco:DateTime)]"/>
+
 
           <action type="add" name="referenceDate" or="date"
                   btnLabel="addDate"
                   in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation">
             <template>
-              <snippet>
+              <snippet label="date">
                 <gmd:date>
                   <gmd:CI_Date>
                     <gmd:date>
-                      <gco:Date>2013-01-01</gco:Date>
+                      <gco:Date></gco:Date>
+                    </gmd:date>
+                    <gmd:dateType>
+                      <gmd:CI_DateTypeCode
+                        codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
+                        codeListValue="creation"/>
+                    </gmd:dateType>
+                  </gmd:CI_Date>
+                </gmd:date>
+              </snippet>
+              <snippet label="dateTime">
+                <gmd:date>
+                  <gmd:CI_Date>
+                    <gmd:date>
+                      <gco:DateTime></gco:DateTime>
                     </gmd:date>
                     <gmd:dateType>
                       <gmd:CI_DateTypeCode
@@ -1102,12 +1108,15 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </section>
 
             <section name="temporalSection">
-              <field templateModeOnly="true" notDisplayedIfMissing="true"
+              <field templateModeOnly="true"
                      xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:temporalElement"
+                     if = "count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent[boolean(./gmd:EX_Extent/gmd:temporalElement)])=0"
+                     del="../.."
                      >
                 <template>
                   <values>
-
+                    <!-- -Need a * for gml:TimePeriodTypeCHOICE_ELEMENT2 added by editor enumerated tree
+                          but this will make the XSLT formatter fails. Using // to access the element in both case. -->
                     <key label="beginPosition"
                          xpath="gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod//gml:beginPosition"
                          use="gn-date-picker"
@@ -1143,8 +1152,53 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                 </template>
               </field>
 
+                <field templateModeOnly="true"
+                       xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:temporalElement"
+                       if = "count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent[boolean(./gmd:EX_Extent/gmd:temporalElement)])>0"
+                       del="."
+                >
+                  <template>
+                    <values>
+                      <!-- -Need a * for gml:TimePeriodTypeCHOICE_ELEMENT2 added by editor enumerated tree
+                            but this will make the XSLT formatter fails. Using // to access the element in both case. -->
+                      <key label="beginPosition"
+                           xpath="gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod//gml:beginPosition"
+                           use="gn-date-picker"
+                           tooltip="gmd:extent|gmd:EX_TemporalExtent">
+                        <directiveAttributes
+                          data-tag-name="gml:beginPosition"
+                          data-indeterminate-position="eval#gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/*/gml:beginPosition/@indeterminatePosition"/>
+
+                      </key>
+                      <key label="endPosition"
+                           xpath="gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod//gml:endPosition"
+                           use="gn-date-picker"
+                           tooltip="gmd:extent|gmd:EX_TemporalExtent">
+                        <directiveAttributes
+                          data-tag-name="gml:endPosition"
+                          data-indeterminate-position="eval#gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod/*/gml:endPosition/@indeterminatePosition"/>
+
+
+                      </key>
+                    </values>
+                    <snippet>
+                      <gmd:temporalElement>
+                        <gmd:EX_TemporalExtent>
+                          <gmd:extent>
+                            <gml:TimePeriod gml:id="">
+                              {{beginPosition}}
+                              {{endPosition}}
+                            </gml:TimePeriod>
+                          </gmd:extent>
+                        </gmd:EX_TemporalExtent>
+                      </gmd:temporalElement>
+                    </snippet>
+                  </template>
+                </field>
+
               <action type="add" name="extent" or="extent" btnLabel="temporalSection"
-                      in="/gmd:MD_Metadata/gmd:identificationInfo/*">
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                      if = "count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent[boolean(./gmd:EX_Extent/gmd:temporalElement)])=0">
                 <template>
                   <snippet>
                     <gmd:extent>
@@ -1153,14 +1207,33 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           <gmd:EX_TemporalExtent>
                             <gmd:extent>
                               <gml:TimePeriod gml:id="">
-                                <gml:beginPosition/>
-                                <gml:endPosition/>
+                                <gml:beginPosition indeterminatePosition=""></gml:beginPosition>
+                                <gml:endPosition indeterminatePosition=""></gml:endPosition>
                               </gml:TimePeriod>
                             </gmd:extent>
                           </gmd:EX_TemporalExtent>
                         </gmd:temporalElement>
                       </gmd:EX_Extent>
                     </gmd:extent>
+                  </snippet>
+                </template>
+              </action>
+
+              <action type="add" or="temporalElement" btnLabel="temporalSection"
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent[count(./gmd:temporalElement)>0]"
+                      if = "count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent[boolean(./gmd:EX_Extent/gmd:temporalElement)])>0">
+                <template>
+                  <snippet>
+                        <gmd:temporalElement>
+                          <gmd:EX_TemporalExtent>
+                            <gmd:extent>
+                              <gml:TimePeriod gml:id="">
+                                <gml:beginPosition indeterminatePosition=""></gml:beginPosition>
+                                <gml:endPosition indeterminatePosition=""></gml:endPosition>
+                              </gml:TimePeriod>
+                            </gmd:extent>
+                          </gmd:EX_TemporalExtent>
+                        </gmd:temporalElement>
                   </snippet>
                 </template>
               </action>
@@ -2232,8 +2305,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                 <key label="evaluation_method_descr"
                      xpath="gmd:evaluationMethodDescription/gco:CharacterString"
                 />
-                <key label="conformity_date"
-                     xpath="gmd:date/gco:DateTime"
+                <key label="date_time"
+                     xpath="gmd:dateTime/gco:DateTime"
                      use="gn-date-picker"/>
                 <key label="value_unit"
                      xpath="gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/@xlink:href"
@@ -2348,15 +2421,9 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                    del="../..">
               <template>
                 <values>
-                  <key label="explanation"
-                       xpath="gmd:DQ_ConformanceResult/gmd:explanation/gco:CharacterString/text()"
-                  >
-                  </key>
                   <key label="conformity_desc"
                        xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gmx:Anchor/text()"
                        tooltip="gmd:pass">
-                    <helper name="gmd:title"
-                            context="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title"/>
                   </key>
                   <key label="conformity_linkage"
                        xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gmx:Anchor/@xlink:href">
@@ -2372,8 +2439,6 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                       data-nilreason="eval#gmd:DQ_ConformanceResult/gmd:pass/@gco:nilReason"
                       data-labels='{"true": "conformant", "false": "notConformant", "unknown": "notEvaluated"}'/>
                   </key>
-                  <key label="nilReason"
-                       xpath="gmd:DQ_ConformanceResult/gmd:pass/@gco:nilReason"/>
                 </values>
                 <snippet>
                   <gmd:result>
@@ -2397,12 +2462,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           </gmd:date>
                         </gmd:CI_Citation>
                       </gmd:specification>
-                      <gmd:explanation>
-                        <gco:CharacterString>{{explanation}}</gco:CharacterString>
-                      </gmd:explanation>
-                      <gmd:pass gco:nilReason="{{nilReason}}">
+                      <gn:copy select="gmd:explanation"/>
                         {{pass}}
-                      </gmd:pass>
                     </gmd:DQ_ConformanceResult>
                   </gmd:result>
                 </snippet>
@@ -2419,9 +2480,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                 <values>
                   <key label="conformity_title"
                        xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gco:CharacterString"
-                       tooltip="gmd:pass">
-                    <helper name="gmd:title"
-                            context="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title"/>
+                       >
                   </key>
                   <key label="conformity_date"
                        xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date"
@@ -2434,12 +2493,6 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                       data-nilreason="eval#gmd:DQ_ConformanceResult/gmd:pass/@gco:nilReason"
                       data-labels='{"true": "conformant", "false": "notConformant", "unknown": "notEvaluated"}'/>
                   </key>
-                  <key label="nilReason"
-                       xpath="gmd:DQ_ConformanceResult/gmd:pass/@gco:nilReason"
-                       />
-                  <key label="explanation"
-                       xpath="gmd:DQ_ConformanceResult/gmd:explanation/gco:CharacterString"
-                  />
                 </values>
                 <snippet>
                   <gmd:result>
@@ -2463,12 +2516,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           </gmd:date>
                         </gmd:CI_Citation>
                       </gmd:specification>
-                      <gmd:explanation>
-                        <gco:CharacterString>{{explanation}}</gco:CharacterString>
-                      </gmd:explanation>
-                      <gmd:pass gco:nilReason="{{nilReason}}">
+                      <gn:copy select="gmd:explanation"/>
                         {{pass}}
-                      </gmd:pass>
                     </gmd:DQ_ConformanceResult>
                   </gmd:result>
                 </snippet>
@@ -2489,28 +2538,28 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           <gmd:specification>
                             <gmd:CI_Citation>
                               <gmd:title>
-                                <gmx:Anchor xlink:href="">
-                                </gmx:Anchor>
+                                <gmx:Anchor
+                                  xlink:href="http://data.europa.eu/eli/reg/2010/1089">REGOLAMENTO (UE) N. 1089/2010 DELLA COMMISSIONE del 23 novembre 2010 recante attuazione della direttiva 2007/2/CE del Parlamento europeo e del Consiglio per quanto riguarda l'interoperabilità dei set di dati territoriali e dei servizi di dati territoriali</gmx:Anchor>
                               </gmd:title>
                               <gmd:date>
                                 <gmd:CI_Date>
                                   <gmd:date>
-                                    <gco:Date></gco:Date>
+                                    <gco:Date>2010-12-08</gco:Date>
                                   </gmd:date>
                                   <gmd:dateType>
                                     <gmd:CI_DateTypeCode
                                       codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
-                                      codeListValue="publication"/>
+                                      codeListValue="publication">pubblicazione</gmd:CI_DateTypeCode>
                                   </gmd:dateType>
                                 </gmd:CI_Date>
                               </gmd:date>
                             </gmd:CI_Citation>
                           </gmd:specification>
                           <gmd:explanation>
-                            <gco:CharacterString/>
+                            <gco:CharacterString>Fare riferimento alle specifiche indicate</gco:CharacterString>
                           </gmd:explanation>
                           <gmd:pass gco:nilReason="">
-                            <gco:Boolean></gco:Boolean>
+                            <gco:Boolean>true</gco:Boolean>
                           </gmd:pass>
                         </gmd:DQ_ConformanceResult>
                       </gmd:result>
@@ -3429,13 +3478,14 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             <template>
               <values>
                 <key label="title"
-                     xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gmx:Anchor/text()">
+                     xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gmx:Anchor">
                 </key>
                 <key label="conformity_linkage"
                      xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gmx:Anchor/@xlink:href">
                 </key>
                 <key label="conformity_date"
                      xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date"
+                     use="gn-date-picker"
                 />
                 <key label="pass"
                      xpath="gmd:DQ_ConformanceResult/gmd:pass/gco:Boolean"
@@ -3445,8 +3495,6 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                     data-nilreason="eval#gmd:DQ_ConformanceResult/gmd:pass/@gco:nilReason"
                     data-labels='{"true": "conformant", "false": "notConformant", "unknown": "notEvaluated"}'/>
                 </key>
-                <key label="explanation"
-                     xpath="gmd:DQ_ConformanceResult/gmd:explanation/gco:CharacterString/text()"/>
               </values>
               <snippet>
                 <gmd:result>
@@ -3470,9 +3518,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                         </gmd:date>
                       </gmd:CI_Citation>
                     </gmd:specification>
-                    <gmd:explanation>
-                      <gco:CharacterString>{{explanation}}</gco:CharacterString>
-                    </gmd:explanation>
+                    <gn:copy select="gmd:explanation"/>
+                    {{pass}}
                   </gmd:DQ_ConformanceResult>
                 </gmd:result>
               </snippet>
@@ -3480,8 +3527,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
           </field>
 
           <field name="conformitySpecifications" templateModeOnly="true"
-                 xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/
-                    gmd:report/gmd:DQ_DomainConsistency/gmd:result"
+                 xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result"
                  if="count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gco:CharacterString) > 0"
                  del="../..">
             <template>
@@ -3491,6 +3537,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                 </key>
                 <key label="conformity_date"
                      xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date"
+                     use="gn-date-picker"
                 />
                 <key label="pass"
                      xpath="gmd:DQ_ConformanceResult/gmd:pass/gco:Boolean"
@@ -3500,9 +3547,6 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                     data-nilreason="eval#gmd:DQ_ConformanceResult/gmd:pass/@gco:nilReason"
                     data-labels='{"true": "conformant", "false": "notConformant", "unknown": "notEvaluated"}'/>
                 </key>
-                <key label="explanation"
-                     xpath="gmd:DQ_ConformanceResult/gmd:explanation/gco:CharacterString/text()"
-                />
               </values>
               <snippet>
                 <gmd:result>
@@ -3526,9 +3570,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                         </gmd:date>
                       </gmd:CI_Citation>
                     </gmd:specification>
-                    <gmd:explanation>
-                      <gco:CharacterString>{{explanation}}</gco:CharacterString>
-                    </gmd:explanation>
+                    <gn:copy select="gmd:explanation"/>
+                    {{pass}}
                   </gmd:DQ_ConformanceResult>
                 </gmd:result>
               </snippet>
@@ -3974,10 +4017,6 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                  del="../..">
             <template>
               <values>
-                <key label="explanation"
-                     xpath="gmd:DQ_ConformanceResult/gmd:explanation/gco:CharacterString/text()"
-                >
-                </key>
                 <key label="conformity_desc"
                      xpath="gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gmx:Anchor/text()"
                      tooltip="gmd:pass">
@@ -4021,9 +4060,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                         </gmd:date>
                       </gmd:CI_Citation>
                     </gmd:specification>
-                    <gmd:explanation>
-                      <gco:CharacterString>{{explanation}}</gco:CharacterString>
-                    </gmd:explanation>
+                    <gn:copy select="gmd:explanation"/>
+                    {{pass}}
                   </gmd:DQ_ConformanceResult>
                 </gmd:result>
               </snippet>
@@ -4055,9 +4093,6 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                     data-nilreason="eval#gmd:DQ_ConformanceResult/gmd:pass/@gco:nilReason"
                     data-labels='{"true": "conformant", "false": "notConformant", "unknown": "notEvaluated"}'/>
                 </key>
-                <key label="explanation"
-                     xpath="gmd:DQ_ConformanceResult/gmd:explanation/gco:CharacterString"
-                />
               </values>
               <snippet>
                 <gmd:result>
@@ -4081,9 +4116,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                         </gmd:date>
                       </gmd:CI_Citation>
                     </gmd:specification>
-                    <gmd:explanation>
-                      <gco:CharacterString>{{explanation}}</gco:CharacterString>
-                    </gmd:explanation>
+                    <gn:copy select="gmd:explanation"/>
+                    {{pass}}
                   </gmd:DQ_ConformanceResult>
                 </gmd:result>
               </snippet>
@@ -4126,7 +4160,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           </gmd:CI_Citation>
                         </gmd:specification>
                         <gmd:explanation>
-                          <gco:CharacterString/>
+                          <gco:CharacterString>Fare riferimento alle specifiche indicate</gco:CharacterString>
                         </gmd:explanation>
                         <gmd:pass>
                           <gco:Boolean>true</gco:Boolean>
@@ -4173,7 +4207,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           </gmd:CI_Citation>
                         </gmd:specification>
                         <gmd:explanation>
-                          <gco:CharacterString/>
+                          <gco:CharacterString>Fare riferimento alle specifiche indicate</gco:CharacterString>
                         </gmd:explanation>
                         <gmd:pass>
                           <gco:Boolean>true</gco:Boolean>
@@ -4212,7 +4246,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           </gmd:CI_Citation>
                         </gmd:specification>
                         <gmd:explanation>
-                          <gco:CharacterString/>
+                          <gco:CharacterString>Fare riferimento alle specifiche indicate</gco:CharacterString>
                         </gmd:explanation>
                         <gmd:pass>
                           <gco:Boolean>true</gco:Boolean>
@@ -4248,8 +4282,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           </gmd:CI_Citation>
                         </gmd:specification>
                         <gmd:explanation>
-                          <gco:CharacterString>Fare riferimento alle
-                            specifiche indicate</gco:CharacterString>
+                          <gco:CharacterString>Fare riferimento alle specifiche indicate</gco:CharacterString>
                         </gmd:explanation>
                         <gmd:pass gco:nilReason="">
                           <gco:Boolean>true</gco:Boolean>
@@ -4299,9 +4332,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           </gmd:CI_Citation>
                         </gmd:specification>
                         <gmd:explanation>
-                          <gco:CharacterString>Questo servizio di dati
-                            territoriali è conforme ai requisiti INSPIRE per i Servizi di Dati Territoriali
-                            Invocabili</gco:CharacterString>
+                          <gco:CharacterString>Questo servizio di dati territoriali è conforme ai requisiti INSPIRE per i Servizi di Dati Territoriali Invocabili</gco:CharacterString>
                         </gmd:explanation>
                         <gmd:pass>
                           <gco:Boolean>true</gco:Boolean>
@@ -4389,7 +4420,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                      use="gn-date-picker"/>
                 <key label="value_unit"
                      xpath="gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/@xlink:href"
-                     use="gn-date-picker"/>
+                     />
                 <key label="topological_record"
                      xpath="gmd:result/gmd:DQ_QuantitativeResult/gmd:value/gco:Record"
                 />

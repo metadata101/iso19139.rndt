@@ -728,44 +728,6 @@
     <xsl:template match="gmd:MD_Keywords/gmd:type"/-->
     <!-- ======== -->
 
-    <xsl:template match="gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:pass">
-        <xsl:choose>
-            <xsl:when test="../gmd:explanation/gco:CharacterString='non valutato'">
-                <!--<xsl:copy>
-                    <xsl:attribute name="nilReason">unknown</xsl:attribute>
-                </xsl:copy>
-                <xsl:comment>Conformance non compilata</xsl:comment>-->
-                <xsl:element name="gmd:pass">
-                    <xsl:text></xsl:text>
-                    <xsl:attribute name="gco:nilReason">unknown</xsl:attribute>
-                </xsl:element>
-            </xsl:when>
-            <xsl:otherwise>
-                <!--<xsl:copy>
-                    <xsl:apply-templates select="@*|node()"/>
-                </xsl:copy>-->
-                <xsl:call-template name="create_pass"></xsl:call-template>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-
-    <xsl:template name="create_pass">
-        <xsl:element name="gmd:pass">
-            <xsl:choose>
-                <xsl:when test="../gmd:explanation/gco:CharacterString='conforme'">
-                    <xsl:element name="gco:Boolean">
-                        <xsl:text>true</xsl:text>
-                    </xsl:element>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:element name="gco:Boolean">
-                        <xsl:text>false</xsl:text>
-                    </xsl:element>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:element>
-    </xsl:template>
-
     <!-- ================================================================= -->
     <!-- transform datoPubblico as requested by specs -->
 

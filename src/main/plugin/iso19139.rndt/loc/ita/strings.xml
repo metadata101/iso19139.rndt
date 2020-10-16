@@ -167,6 +167,8 @@
   <publicationDate>Publication date</publicationDate>
   <revisionDate>Revision date</revisionDate>
   <temporalSection>Estensione temporale</temporalSection>
+  <indeterminatePositionBegin>Data indeterminata (inizio)</indeterminatePositionBegin>
+  <indeterminatePositionEnd>Data indeterminata (fine)</indeterminatePositionEnd>
   <beginPosition>Data inizio</beginPosition>
   <endPosition>Data fine</endPosition>
   <verticalSection>Estensione verticale</verticalSection>
@@ -176,6 +178,8 @@
   <conformity>Conformity</conformity>
   <conformity_title>Titolo</conformity_title>
   <conformity_date>Data</conformity_date>
+  <conformity_desc>Titolo</conformity_desc>
+  <conformity_linkage>Link a specifiche tecniche</conformity_linkage>
   <pass>Grado di conformità</pass>
   <title>Titolo</title>
   <explanation>Spiegazione</explanation>
@@ -238,6 +242,8 @@
   <addFromThesaurus>Aggiungi keyword da thesaurus</addFromThesaurus>
   <sds-add-qualityofservice>Qualità dei servizi</sds-add-qualityofservice>
   <datasetAndSeries>Dataset e serie</datasetAndSeries>
+  <date>Data</date>
+  <dateTime>Data e Ora</dateTime>
   <services>Servizi</services>
   <raster>Dati raster</raster>
   <text>Testo</text>
