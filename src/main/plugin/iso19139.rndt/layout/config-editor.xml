@@ -1107,7 +1107,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </section>
 
             <section name="temporalSection">
-              <field templateModeOnly="true"
+              <field
                      xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:temporalElement"
                      if = "count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent[boolean(./gmd:EX_Extent/gmd:temporalElement)])=0"
                      del="../.."
@@ -1151,7 +1151,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                 </template>
               </field>
 
-                <field templateModeOnly="true"
+                <field
                        xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:temporalElement"
                        if = "count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent[boolean(./gmd:EX_Extent/gmd:temporalElement)])>0"
                        del="."
