@@ -40,7 +40,8 @@
     <for name="gco:Real" use="number"/>
     <for name="gco:Boolean" use="checkbox"/>
     <for name="gco:CharacterString" use="textarea"/>
-
+    <for name="gml:coordinates" use="textarea"/>
+    <for name="gml:name" use="textarea"/>
     <for name="gco:Date" use="date"/>
     <for name="gco:DateTime" use="datetime"/>
 
@@ -254,6 +255,25 @@
       </row>
     </table>
 
+    <table for="gmd:distributorContact" fieldset="true">
+      <header>
+        <col label="gmd:organisationName"/>
+        <col label="gmd:electronicMailAddress"/>
+        <col label="gmd:phone"/>
+        <col label="gmd:URL"/>
+        <col label="gmd:role"/>
+        <col/>
+      </header>
+      <row>
+        <col xpath="gmd:CI_ResponsibleParty/gmd:organisationName"/>
+        <col xpath="gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress"/>
+        <col xpath="gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:phone/gmd:CI_Telephone/gmd:voice"/>
+        <col xpath="gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:onlineResource/gmd:CI_OnlineResource/gmd:linkage"/>
+        <col xpath="gmd:CI_ResponsibleParty/gmd:role"/>
+        <col del="../.."/>
+      </row>
+    </table>
+
     <table for="srv:SV_CoupledResource">
       <header>
         <col label="srv:operationName"/>
@@ -355,7 +375,7 @@
           <field xpath="/gmd:MD_Metadata/gmd:parentIdentifier" or="parentIdentifier" in ="/gmd:MD_Metadata"/>
 
 
-            <field xpath="/gmd:MD_Metadata/gmd:contact">
+            <field xpath="/gmd:MD_Metadata/gmd:contact" del=".">
               <template>
                 <values readonlyIf="count(@xlink:href) > 0">
                   <key label="organisationName"
@@ -486,7 +506,7 @@
           </action>
 
             <field
-                   xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty">
+                   xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty" del=".">
               <template>
                 <values readonlyIf="count(@xlink:href) > 0">
                   <key label="organisationName"
@@ -561,47 +581,6 @@
                 data-template-type="contact"
                 data-insert-modes=""
                 data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
-              <template>
-                <snippet>
-                  <gmd:citedResponsibleParty>
-                    <gmd:CI_ResponsibleParty>
-                      <gmd:organisationName>
-                        <gco:CharacterString/>
-                      </gmd:organisationName>
-                      <gmd:contactInfo>
-                        <gmd:CI_Contact>
-                          <gmd:phone>
-                            <gmd:CI_Telephone>
-                              <gmd:voice>
-                                <gco:CharacterString/>
-                              </gmd:voice>
-                            </gmd:CI_Telephone>
-                          </gmd:phone>
-                          <gmd:address>
-                            <gmd:CI_Address>
-                              <gmd:electronicMailAddress>
-                                <gco:CharacterString/>
-                              </gmd:electronicMailAddress>
-                            </gmd:CI_Address>
-                          </gmd:address>
-                          <gmd:onlineResource>
-                            <gmd:CI_OnlineResource>
-                              <gmd:linkage>
-                                <gmd:URL/>
-                              </gmd:linkage>
-                            </gmd:CI_OnlineResource>
-                          </gmd:onlineResource>
-                        </gmd:CI_Contact>
-                      </gmd:contactInfo>
-                      <gmd:role>
-                        <gmd:CI_RoleCode
-                          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_RoleCode"
-                          codeListValue="pointOfContact"/>
-                      </gmd:role>
-                    </gmd:CI_ResponsibleParty>
-                  </gmd:citedResponsibleParty>
-                </snippet>
-              </template>
             </action>
 
           <field name="datasetcode"
@@ -714,7 +693,7 @@
             </field>
 
 
-            <action type="add" or="pointOfContact"
+            <action type="add" btnClass="fa fa-user-plus" or="pointOfContact"
                     in="/gmd:MD_Metadata/gmd:identificationInfo/*" addDirective="data-gn-directory-entry-selector">
               <directiveAttributes
                 data-template-add-action="true"
@@ -724,7 +703,7 @@
                 data-insert-modes=""
                 data-filter='{"_root": "gmd:CI_ResponsibleParty"}'
                 data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
-              <template>
+              <!--template>
                 <snippet>
                   <gmd:pointOfContact>
                     <gmd:CI_ResponsibleParty>
@@ -765,7 +744,7 @@
                     </gmd:CI_ResponsibleParty>
                   </gmd:pointOfContact>
                 </snippet>
-              </template>
+              </template-->
             </action>
 
           <section name="resourceConstraints"
@@ -1035,19 +1014,17 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
 
           <section name="extent">
 
-            <section name="bboxesSection">
+            <section name="spatialSection">
               <field
                 xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/
             srv:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox"/>
               <field
-                xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/
-            gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox"/>
+                xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox"
+                del="."/>
 
-              <action type="add" name="extent" or="extent" btnLabel="bboxesSection"
-                      in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification"
-                      if ="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/
-                   gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox) = 0 and
-                   count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
+              <action type="add" or="extent" btnLabel="spatialSection"
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                      if ="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox) = 0">
                 <template>
                   <snippet>
                     <gmd:extent>
@@ -1074,36 +1051,6 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                 </template>
               </action>
 
-              <action type="add" name="extent" or="extent"  btnLabel="bboxesSection"
-                      in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
-                      if ="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/
-                           gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox)=0 and
-                           count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification)>0">
-                <template>
-                  <snippet>
-                    <srv:extent>
-                      <gmd:EX_Extent>
-                        <gmd:geographicElement>
-                          <gmd:EX_GeographicBoundingBox>
-                            <gmd:westBoundLongitude>
-                              <gco:Decimal/>
-                            </gmd:westBoundLongitude>
-                            <gmd:eastBoundLongitude>
-                              <gco:Decimal/>
-                            </gmd:eastBoundLongitude>
-                            <gmd:southBoundLatitude>
-                              <gco:Decimal/>
-                            </gmd:southBoundLatitude>
-                            <gmd:northBoundLatitude>
-                              <gco:Decimal/>
-                            </gmd:northBoundLatitude>
-                          </gmd:EX_GeographicBoundingBox>
-                        </gmd:geographicElement>
-                      </gmd:EX_Extent>
-                    </srv:extent>
-                  </snippet>
-                </template>
-              </action>
             </section>
 
             <section name="temporalSection">
@@ -1975,7 +1922,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
           </action>
 
             <field
-                   xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor/gmd:distributorContact">
+                   xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor/gmd:distributorContact"
+              del="../..">
               <template>
                 <values readonlyIf="count(@xlink:href) > 0">
                   <key label="organisationName"
@@ -2041,8 +1989,8 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
               </template>
             </field>
 
-            <action type="add" name="distributorContact" btnClass ="fa fa-user-plus" or="distributionContact"
-                    in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor"
+            <action type="add" name="distributorContact" btnClass ="fa fa-user-plus" or="distributor"
+                    in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution"
                     addDirective="data-gn-directory-entry-selector">
               <directiveAttributes
                 data-template-add-action="true"
@@ -2052,183 +2000,52 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                 data-insert-modes=""
                 data-filter='{"_root": "gmd:CI_ResponsibleParty"}'
                 data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
+            </action>
+
+
+          <section name="onlineResource">
+            <field name="onlineResource"
+                   xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions"
+                   del="."/>
+
+            <action type="add" name="onlineResource" or="transferOptions" btnLabel="transferOption"
+                    in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution">
               <template>
                 <snippet>
-                      <gmd:distributorContact>
-                        <gmd:CI_ResponsibleParty>
-                          <gmd:organisationName>
-                            <gco:CharacterString></gco:CharacterString>
-                          </gmd:organisationName>
-                          <gmd:contactInfo>
-                            <gmd:CI_Contact>
-                              <gmd:phone>
-                                <gmd:CI_Telephone>
-                                  <gmd:voice>
-                                    <gco:CharacterString></gco:CharacterString>
-                                  </gmd:voice>
-                                </gmd:CI_Telephone>
-                              </gmd:phone>
-                              <gmd:address>
-                                <gmd:CI_Address>
-                                  <gmd:electronicMailAddress>
-                                    <gco:CharacterString></gco:CharacterString>
-                                  </gmd:electronicMailAddress>
-                                </gmd:CI_Address>
-                              </gmd:address>
-                              <gmd:onlineResource>
-                                <gmd:CI_OnlineResource>
-                                  <gmd:linkage>
-                                    <gmd:URL></gmd:URL>
-                                  </gmd:linkage>
-                                </gmd:CI_OnlineResource>
-                              </gmd:onlineResource>
-                            </gmd:CI_Contact>
-                          </gmd:contactInfo>
-                          <gmd:role>
-                            <gmd:CI_RoleCode
-                              codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_RoleCode"
-                              codeListValue="distributor">
-                            </gmd:CI_RoleCode>
-                          </gmd:role>
-                        </gmd:CI_ResponsibleParty>
-                      </gmd:distributorContact>
+                  <gmd:transferOptions>
+                    <gmd:MD_DigitalTransferOptions>
+                      <gmd:onLine>
+                        <gmd:CI_OnlineResource>
+                          <gmd:linkage>
+                            <gmd:URL>http://url.accesso.servizio.it</gmd:URL>
+                          </gmd:linkage>
+                          <gmd:protocol>
+                            <gmx:Anchor
+                              xlink:href=""/>
+                          </gmd:protocol>
+                          <gmd:applicationProfile>
+                            <gmx:Anchor
+                              xlink:href=""/>
+                          </gmd:applicationProfile>
+                          <gmd:name>
+                            <gco:CharacterString/>
+                          </gmd:name>
+                          <gmd:description>
+                            <gmx:Anchor xlink:href=""/>
+                          </gmd:description>
+                          <gmd:function>
+                            <gmd:CI_OnLineFunctionCode
+                              codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">
+                            </gmd:CI_OnLineFunctionCode>
+                          </gmd:function>
+                        </gmd:CI_OnlineResource>
+                      </gmd:onLine>
+                    </gmd:MD_DigitalTransferOptions>
+                  </gmd:transferOptions>
                 </snippet>
               </template>
             </action>
-
-          <action type="add" name="distributorContact" btnClass ="fa fa-user-plus" or="distributor"
-                  in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution"
-                  >
-            <template>
-              <snippet>
-                <gmd:distributor>
-                <gmd:MD_Distributor>
-                <gmd:distributorContact>
-                  <gmd:CI_ResponsibleParty>
-                    <gmd:organisationName>
-                      <gco:CharacterString></gco:CharacterString>
-                    </gmd:organisationName>
-                    <gmd:contactInfo>
-                      <gmd:CI_Contact>
-                        <gmd:phone>
-                          <gmd:CI_Telephone>
-                            <gmd:voice>
-                              <gco:CharacterString></gco:CharacterString>
-                            </gmd:voice>
-                          </gmd:CI_Telephone>
-                        </gmd:phone>
-                        <gmd:address>
-                          <gmd:CI_Address>
-                            <gmd:electronicMailAddress>
-                              <gco:CharacterString></gco:CharacterString>
-                            </gmd:electronicMailAddress>
-                          </gmd:CI_Address>
-                        </gmd:address>
-                        <gmd:onlineResource>
-                          <gmd:CI_OnlineResource>
-                            <gmd:linkage>
-                              <gmd:URL></gmd:URL>
-                            </gmd:linkage>
-                          </gmd:CI_OnlineResource>
-                        </gmd:onlineResource>
-                      </gmd:CI_Contact>
-                    </gmd:contactInfo>
-                    <gmd:role>
-                      <gmd:CI_RoleCode
-                        codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_RoleCode"
-                        codeListValue="distributor">
-                      </gmd:CI_RoleCode>
-                    </gmd:role>
-                  </gmd:CI_ResponsibleParty>
-                </gmd:distributorContact>
-                </gmd:MD_Distributor>
-                </gmd:distributor>
-              </snippet>
-            </template>
-          </action>
-
-          <field
-            xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions">
-            <template>
-              <values>
-                <key label="URL" xpath="gmd:CI_OnlineResource/gmd:linkage/gmd:URL" tooltip="gmd:linkage" />
-                <key label="protocol" xpath="gmd:CI_OnlineResource/gmd:protocol/gmx:Anchor" tooltip="gmd:protocol">
-                  <helper name="gmd:protocol" />
-                </key>
-                <key label="applicationProfile" xpath="gmd:CI_OnlineResource/gmd:ApplicationProfile"/>
-                <key label="name" xpath="gmd:CI_OnlineResource/gmd:name/gco:CharacterString"/>
-                <key label="description" xpath="gmd:CI_OnlineResource/gmd:description"/>
-                <key label="function" xpath="gmd:CI_OnlineResource/gmd:function/gmd:CI_OnLineFunctionCode/@CodeListValue">
-                  <codelist name="CI_OnLineFunctionCode"/>
-                </key>
-              </values>
-              <snippet>
-                <gmd:onLine>
-                  <gmd:CI_OnlineResource>
-                    <gmd:linkage>
-                      <gmd:URL>{{URL}}</gmd:URL>
-                    </gmd:linkage>
-                    <gmd:protocol>
-                      <gco:CharacterString>{{protocol}}</gco:CharacterString>
-                    </gmd:protocol>
-                    <gmd:applicationProfile>
-                      {{applicationProfile}}
-                    </gmd:applicationProfile>
-                    <gmd:name>
-                      <gco:CharacterString>{{name}}</gco:CharacterString>
-                    </gmd:name>
-                    <gmd:description>
-                      {{description}}
-                    </gmd:description>
-                    <gmd:function>
-                      <gmd:CI_OnLineFunctionCode
-                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="{{function}}">
-                      </gmd:CI_OnLineFunctionCode>
-                    </gmd:function>
-                  </gmd:CI_OnlineResource>
-                </gmd:onLine>
-              </snippet>
-            </template>
-          </field>
-
-          <action type="add" name="gmd:transferOptions" or="transferOptions" btnLabel="transferOption"
-                  in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution">
-            <template>
-              <snippet>
-                <gmd:transferOptions>
-                  <gmd:MD_DigitalTransferOptions>
-                    <gmd:onLine>
-                      <gmd:CI_OnlineResource>
-                        <gmd:linkage>
-                          <gmd:URL>http://url.accesso.servizio.it</gmd:URL>
-                        </gmd:linkage>
-                        <gmd:protocol>
-                          <gmx:Anchor
-                            xlink:href=""/>
-                        </gmd:protocol>
-                        <gmd:applicationProfile>
-                          <gmx:Anchor
-                            xlink:href=""/>
-                        </gmd:applicationProfile>
-                        <gmd:name>
-                          <gco:CharacterString/>
-                        </gmd:name>
-                        <gmd:description>
-                          <gmx:Anchor xlink:href=""/>
-                        </gmd:description>
-                        <gmd:function>
-                          <gmd:CI_OnLineFunctionCode
-                            codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">
-                          </gmd:CI_OnLineFunctionCode>
-                        </gmd:function>
-                      </gmd:CI_OnlineResource>
-                    </gmd:onLine>
-                  </gmd:MD_DigitalTransferOptions>
-                </gmd:transferOptions>
-              </snippet>
-            </template>
-          </action>
-
+          </section>
         </section>
 
         <section name ="resourceMaintenance" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
@@ -3424,10 +3241,51 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
 
 
         <section name="dataDistribution" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0">
-          <field
-            xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions"/>
+          <field templateModeOnly="true" notDisplayedIfMissing="true" name="onlineResource"
+                 xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions"
+                 del="..">
+            <template>
+              <values>
+                <key label="URL" xpath="gmd:online/gmd:CI_OnlineResource/gmd:linkage/gmd:URL" tooltip="gmd:linkage" />
+                <key label="protocol" xpath="gmd:online/gmd:CI_OnlineResource/gmd:protocol" tooltip="gmd:protocol">
+                  <helper name="gmd:protocol"/>
+                </key>
+                <key label="name" xpath="gmd:online/gmd:CI_OnlineResource/gmd:name/gco:CharacterString"/>
+                <key label="description" xpath="gmd:online/gmd:CI_OnlineResource/gmd:description">
+                  <helper name="gmd:description" context="gmd:CI_OnlineResource"/>
+                </key>
+                <key label="function"
+                     xpath="gmd:online/gmd:OnLineFunctionCode/@codeListValue">
+                  <codelist name="gmd:CI_OnLineFunctionCode"/>
+                </key>
+              </values>
+              <snippet>
+                <gmd:onLine>
+                  <gmd:CI_OnlineResource>
+                    <gmd:linkage>
+                      <gmd:URL>{{URL}}</gmd:URL>
+                    </gmd:linkage>
+                    <gmd:protocol>
+                        {{protocol}}
+                    </gmd:protocol>
+                    <gmd:name>
+                      <gco:CharacterString>{{name}}</gco:CharacterString>
+                    </gmd:name>
+                    <gmd:description>
+                        {{description}}
+                    </gmd:description>
+                    <gmd:function>
+                      <gmd:CI_OnLineFunctionCode
+                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="{{functionCode}}">
+                      </gmd:CI_OnLineFunctionCode>
+                    </gmd:function>
+                  </gmd:CI_OnlineResource>
+                </gmd:onLine>
+              </snippet>
+            </template>
+          </field>
 
-          <action type="add" name="gmd:transferOptions" or="transferOptions" btnLabel="transferOption"
+          <action type="add" name="onlineResource" or="transferOptions" btnLabel="transferOption"
                   in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution">
             <template>
               <snippet>
@@ -3442,11 +3300,15 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                           <gmx:Anchor
                             xlink:href=""/>
                         </gmd:protocol>
+                        <gmd:applicationProfile>
+                          <gmx:Anchor
+                            xlink:href=""/>
+                        </gmd:applicationProfile>
                         <gmd:name>
                           <gco:CharacterString/>
                         </gmd:name>
                         <gmd:description>
-                          <gmx:Anchor xlink:href=""/>
+                          <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/OnLineDescriptionCode/accessPoint">access point</gmx:Anchor>
                         </gmd:description>
                         <gmd:function>
                           <gmd:CI_OnLineFunctionCode
@@ -3881,21 +3743,37 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:checkPointDescription"
                    or="checkPointDescription" in = "gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified"/>
 
-            <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:cornerPoints"
-                   del="../.."/>
 
-            <action type="add" btnLabel="cornerPoints" name="gmd:cornerPoints" or="cornerPoints" in ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified">
-              <template>
-                <snippet>
-                  <gmd:cornerPoints>
-                    <gml:Point gml:id="">
-                      <gml:name/>
-                      <gml:coordinates decimal="." cs=","/>
-                    </gml:Point>
-                  </gmd:cornerPoints>
-                </snippet>
-              </template>
-            </action>
+              <field name="cornerPoints" templateModeOnly="true" notDisplayedIfMissing="true" xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:cornerPoints"
+                     del=".">
+                <template>
+                  <values>
+                    <key label="name" xpath="gml:Point/gml:name"/>
+                    <key label="coordinates" xpath="gml:Point/gml:coordinates"/>
+                  </values>
+                  <snippet>
+                    <gmd:cornerPoints>
+                      <gml:Point gml:id="">
+                        <gml:name>{{name}}</gml:name>
+                        <gml:coordinates decimal="." cs=",">{{coordinates}}</gml:coordinates>
+                      </gml:Point>
+                    </gmd:cornerPoints>
+                  </snippet>
+                </template>
+              </field>
+
+              <action type="add" btnLabel="cornerPoints" name="gmd:cornerPoints" or="cornerPoints" in ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified">
+                <template>
+                  <snippet>
+                    <gmd:cornerPoints>
+                      <gml:Point gml:id="">
+                        <gml:name/>
+                        <gml:coordinates decimal="." cs=","/>
+                      </gml:Point>
+                    </gmd:cornerPoints>
+                  </snippet>
+                </template>
+              </action>
 
             <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:pointInPixel"
                    name="pointInPixel"

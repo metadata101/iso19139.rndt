@@ -2,6 +2,41 @@
 <codelists xmlns:gmd="http://www.isotc211.org/2005/gmd">
 	<!-- ==================================================== -->
 	<!-- RNDT -->
+  <codelist name="gmd:CI_OnLineFunctionCode" alias="function">
+  <entry>
+    <code>download</code>
+    <label>Download</label>
+    <description>istruzioni online per il trasferimento dei dati da un supporto di memorizzazione
+      ad un altro sistema
+    </description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>information</code>
+    <label>Informazioni</label>
+    <description>informazioni online sulla risorsa</description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>offlineAccess</code>
+    <label>Accesso offline</label>
+    <description>istruzioni per la richiesta di risorse dal fornitore</description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>order</code>
+    <label>Organizza</label>
+    <description>procedura online per ottenere la risorsa</description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>search</code>
+    <label>Ricerca</label>
+    <description>interfaccia di ricerca online per cercare informazioni sulla risorsa
+    </description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+</codelist>
 	<codelist name="gmd:CI_DateTypeCode">
 		<entry>
 			<code>creation</code>

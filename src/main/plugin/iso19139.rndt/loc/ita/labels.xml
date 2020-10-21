@@ -409,7 +409,7 @@
     </helper>
   </element>
 
-  <element name="gmd:applicationProfile" alias="applicationProfile">
+  <!--element name="gmd:applicationProfile" alias="applicationProfile">
   <label>Profilo dell'applicazione</label>
    <helper sort="true">
     <option value="other">Altri servizi</option>
@@ -419,7 +419,7 @@
      <option value="transformation">Servizio di conversione</option>
     <option value="view">Servizio di consultazione</option>
    </helper>
-  </element>
+  </element-->
 
 	<element name="gmd:code" context="gmd:RS_Identifier">
 		<label>Identificatore</label>
@@ -1026,10 +1026,10 @@
 		<label>Titolo XLink</label>
 		<description>Descrizione human-readable del XLink</description>
 	</element>
-  <element name="xlink:href">
+  <!--element name="xlink:href">
     <label>URL</label>
     <description>Riferimento ad una risorsa tramite IRI</description>
-  </element>
+  </element-->
 	<element name="xlink:show">
 		<label>Visualizzazione XLink (show)</label>
 		<description>Specifica in che modo deve essere visualizzato il contenuto corrispondete al XLink (es. : nuova finestra)</description>
@@ -1118,7 +1118,7 @@
     <condition>obbligatorio</condition>
   </element>
 
-  <element name="gmd:cornerPoints">
+  <element name="gmd:cornerPoints" id="165.0">
     <label>Coordinate del vertice</label>
     <description>Coordinate dei vertici della griglia espresse nel proprio sistema di
       riferimento spaziale. Sono richiesti almeno il vertice origine della
@@ -1220,6 +1220,42 @@
       <option value="Get Spatial Dataset">Get Spatial Dataset</option>
       <option value="Describe Spatial Dataset"> Describe Spatial Dataset</option>
       <option value="Link Download Service">Link Download Service</option>
+    </helper>
+  </element>
+
+  <element name="gmd:protocol">
+    <label>Protocollo</label>
+    <description>Protocollo di connessione utilizzato</description>
+    <helper relAtt="xlink:href">
+      <option show="y" value="Atom-Powered Robots Run Amok" title="http://www.w3.org/2005/Atom" >Atom Syndication Format</option>
+      <option show="y" value="OGC:WFS" title="http://www.opengis.net/def/serviceType/ogc/wfs">OGC-WFS Web Feature Service</option>
+      <option show="y" value="OGC:CSW" title="http://www.opengis.net/def/serviceType/ogc/csw">OGC-CSW Catalogue Service for the Web</option>
+      <option show="y" value="OGC:WCS" title="http://www.opengis.net/def/serviceType/ogc/wcs">OGC-WCS Web Coverage Service</option>
+      <option show="y" value="OGC:WMS" title="http://www.opengis.net/def/serviceType/ogc/wms">OGC-WMS Web Map Service</option>
+      <option show="y" value="OGC:WMTS" title="http://www.opengis.net/def/serviceType/ogc/wmts">OGC-WMTS Web Map Tile Service</option>
+      <option show="y" value="OGC:SOS" title="http://www.opengis.net/def/serviceType/ogc/sos">OGC-SOS Sensor Observation Service</option>
+    </helper>
+  </element>
+
+  <element name="gmd:applicationProfile" id="399.0">
+    <label>Profilo dell'applicazione</label>
+    <description>Tipo di servizi di dati territoriali</description>
+    <helper relAtt="xlink:href">
+      <option show="y" value="transformation" title ="http://inspire.ec.europa.eu/metadata-codelist/SpatialDataServiceType/transformation">Servizio di conversione</option>
+      <option show="y" value="other" title="http://inspire.ec.europa.eu/metadata-codelist/SpatialDataServiceType/other">Altri servizi</option>
+      <option show="y" value="view" title="http://inspire.ec.europa.eu/metadata-codelist/SpatialDataServiceType/view">Servizio di consultazione</option>
+      <option show="y" value="download" title="http://inspire.ec.europa.eu/metadata-codelist/SpatialDataServiceType/download">Servizio di scaricamento</option>
+      <option show="y" value="discovery" title="http://inspire.ec.europa.eu/metadata-codelist/SpatialDataServiceType/discovery">Servizio di ricerca</option>
+      <option show="y" value="invoke" title="http://inspire.ec.europa.eu/metadata-codelist/SpatialDataServiceType/invoke">Servizio di richiesta dei servizi di dati territoriali</option>
+    </helper>
+  </element>
+
+  <element name="gmd:description" context="gmd:CI_OnlineResource">
+    <label>Descrizione</label>
+    <description>Codice descrizione servizio on-line</description>
+    <helper relAtt="xlink:href">
+      <option show="y" value="access point" title ="http://inspire.ec.europa.eu/metadata-codelist/OnLineDescriptionCode/accessPoint">access point</option>
+      <option show="y" value="end point"  title="http://inspire.ec.europa.eu/metadata-codelist/OnLineDescriptionCode/endPoint">end point</option>
     </helper>
   </element>
 </labels>

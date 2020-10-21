@@ -33,60 +33,6 @@
    <territorial>Ambito territoriale</territorial>
    <priority>Dataset Prioritario</priority>
    <gemet>Gemet Inspire</gemet>
-    <!--service>
-        <title>Identificazione dei servizi</title>
-    </service>
-    <constraint>
-        <title>Vincoli relativi all'accesso e all'uso</title>
-    </constraint>
-    <geoloc>
-		<title>Localizzazione geografica</title>
-        <suggestionsLabel>Suggerimenti</suggestionsLabel>
-		<verticalCRSValues>
-		    <default></default>
-		    <crs id="wgs84">
-		        <label>EPSG:4979</label>
-		        <value>EPSG::4979</value>
-		    </crs>
-		    <crs id="wgs84h">
-		        <label>EPSG:4326</label>
-		        <value>EPSG::4326</value>
-		    </crs>
-		</verticalCRSValues>
-    </geoloc>
-    <abstract>
-      <title>Descrizione</title>
-    </abstract>
-    <verticalExtent>
-        <title>Estensione verticale</title>
-    </verticalExtent>
-    <quality>
-        <title>Qualità e validità</title>
-    </quality>
-    <conformity>
-        <title>Conformità</title>
-    </conformity>
-    <distribution>
-        <title>Distribuzione dei dati</title>
-    </distribution>
-    <rasterContent>
-        <title>Contenuto dei dati Raster</title>
-    </rasterContent>
-    <rasterSpatialRepresentation>
-        <title>Rappresentazione spaziale dei dati Raster</title>
-    </rasterSpatialRepresentation>
-    <positionalAccuracy>
-        <title>Accuratezza posizionale</title>
-    </positionalAccuracy>
-    <equivalentScale>
-      <title>Scala Equivalente</title>
-    </equivalentScale>
-    <spatialRepresentationType>
-      <title>Tipo di rappresentazione spaziale</title>
-    </spatialRepresentationType>
-    <issueIdentification>
-      <title>ID livello superiore</title>
-    </issueIdentification-->
   <resourceMaintenace>Gestione dei dati</resourceMaintenace>
   <operatesOn>Risorsa accoppiata</operatesOn>
   <useConstraints>
@@ -172,6 +118,7 @@
   <beginPosition>Data inizio</beginPosition>
   <endPosition>Data fine</endPosition>
   <verticalSection>Estensione verticale</verticalSection>
+  <spatialSection>Estensione spaziale</spatialSection>
   <minimumValue>Quota minima</minimumValue>
   <maximumValue>Quota massima</maximumValue>
   <verticalCRS>CRS verticale</verticalCRS>
@@ -212,6 +159,7 @@
   <otherConstraints>Altri vincoli</otherConstraints>
   <otherCitationDetails>Altri dettagli</otherCitationDetails>
   <cornerPoints>Coordinate dei vertici</cornerPoints>
+  <coordinates>Coordinate</coordinates>
   <datasetcode>Identificatore</datasetcode>
   <notEvaluated>Not evaluated</notEvaluated>
   <uomRecord>Accuratezza posizionale dei dati</uomRecord>
@@ -249,4 +197,14 @@
   <text>Testo</text>
   <anchor>Anchor</anchor>
   <serviceClassification>Classificazione dei servizi di dati territoriali</serviceClassification>
+  <protocol>Protocollo</protocol>
+  <applicationProfile>Profilo dell'applicazione</applicationProfile>
+  <protocolURL>Protocollo (URL)</protocolURL>
+  <applicationProfileURL>Profilo dell'applicazione (URL)</applicationProfileURL>
+  <description>Descrizione</description>
+  <descriptionURL>Descrizione (URL)</descriptionURL>
+  <function>Codice collegamento on-line</function>
+  <onlineResource>Risorsa on-line</onlineResource>
+  <name>Nome</name>
+  <URL>URL</URL>
 </strings>
