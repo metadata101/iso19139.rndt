@@ -844,4 +844,18 @@
         </xsl:copy>
     </xsl:template>
 
+  <!--ensure field date does not contains time-->
+  <xsl:template match="gco:Date">
+    <xsl:choose>
+      <xsl:when test="contains(.,'T')">
+        <gco:Date>
+          <xsl:value-of select="substring-before(., 'T')"/>
+        </gco:Date>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:copy-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet>
