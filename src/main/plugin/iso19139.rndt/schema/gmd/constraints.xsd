@@ -39,9 +39,9 @@
 		<xs:complexContent>
 			<xs:extension base="gmd:MD_Constraints_Type">
 				<xs:sequence>
-					<xs:element name="accessConstraints" type="gmd:MD_RestrictionCode_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
-					<xs:element name="useConstraints" type="gmd:MD_RestrictionCode_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
-					<xs:element name="otherConstraints" type="gco:CharacterString_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="accessConstraints" type="gmd:MD_RestrictionCode_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="useConstraints" type="gmd:MD_RestrictionCode_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="otherConstraints" type="gco:CharacterString_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

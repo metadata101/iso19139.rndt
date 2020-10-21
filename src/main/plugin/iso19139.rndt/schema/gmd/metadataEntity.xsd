@@ -6,14 +6,14 @@
 	</xs:annotation>
 	<!-- ================================== Imports ================================== -->
 	<xs:import namespace="http://www.isotc211.org/2005/gco" schemaLocation="../gco/gco.xsd"/>
-	<xs:include schemaLocation="../gmd/spatialRepresentation.xsd"/>
-	<xs:include schemaLocation="../gmd/metadataExtension.xsd"/>
-	<xs:include schemaLocation="../gmd/content.xsd"/>
-	<xs:include schemaLocation="../gmd/metadataApplication.xsd"/>
-	<xs:include schemaLocation="../gmd/applicationSchema.xsd"/>
-	<xs:include schemaLocation="../gmd/portrayalCatalogue.xsd"/>
-	<xs:include schemaLocation="../gmd/dataQuality.xsd"/>
-	<xs:include schemaLocation="../gmd/freeText.xsd"/>
+	<xs:include schemaLocation="spatialRepresentation.xsd"/>
+	<xs:include schemaLocation="metadataExtension.xsd"/>
+	<xs:include schemaLocation="content.xsd"/>
+	<xs:include schemaLocation="metadataApplication.xsd"/>
+	<xs:include schemaLocation="applicationSchema.xsd"/>
+	<xs:include schemaLocation="portrayalCatalogue.xsd"/>
+	<xs:include schemaLocation="dataQuality.xsd"/>
+	<xs:include schemaLocation="freeText.xsd"/>
 	<!-- ########################################################################### -->
 	<!-- ########################################################################### -->
 	<!-- ================================== Classes ================================= -->
