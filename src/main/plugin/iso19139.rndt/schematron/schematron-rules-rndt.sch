@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron" 
+<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron"
             xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
 
 	<!-- RNDT SCHEMATRON-->
 	<sch:title xmlns="http://www.w3.org/2001/XMLSchema">Schematron validation for ISO 19115(19139) RNDT Profile</sch:title>
 	<sch:ns prefix="gml" uri="http://www.opengis.net/gml"/>
 	<sch:ns prefix="gmd" uri="http://www.isotc211.org/2005/gmd"/>
+	<sch:ns prefix="gmx" uri="http://www.isotc211.org/2005/gmx"/>
 	<sch:ns prefix="srv" uri="http://www.isotc211.org/2005/srv"/>
 	<sch:ns prefix="gco" uri="http://www.isotc211.org/2005/gco"/>
 	<sch:ns prefix="geonet" uri="http://www.fao.org/geonetwork"/>
 	<sch:ns prefix="xlink" uri="http://www.w3.org/1999/xlink"/>
-	
-	
+
+
 <!--	<sch:let name="inspireKeyWords">
 		<keyword>Condizioni atmosferiche</keyword>
 		<keyword>Atmospheric conditions</keyword>
@@ -82,7 +83,7 @@
 		<keyword>Zone sottoposte a gestione/limitazioni/regolamentazione e unità con obbligo di comunicare dati</keyword>
 		<keyword>Area management/restriction/regulation zones and reporting units</keyword>
 	</sch:let>
--->	
+-->
 		<sch:let name="gemetThesaurusTitle">GEMET - INSPIRE themes, version 1.0</sch:let>
 		<sch:let name="gemetThesaurusDate">2008-06-01</sch:let>
 		<sch:let name="gemetThesaurusDateType">publication</sch:let>
@@ -106,7 +107,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 		<sch:rule context="//gmd:MD_Metadata">
 			<sch:let name="value" value="gmd:language/gmd:LanguageCode/@codeListValue"/>
 			<!-- <sch:assert test="contains($langCodeList,gmd:language/gmd:LanguageCode/@codeListValue) and gmd:language/gmd:LanguageCode!='' and gmd:language/gmd:LanguageCode/@codeList= $langCodeURI">$loc/strings/alert.M2</sch:assert> -->
-			<sch:assert test="exists(tokenize($langCodeList, ';')[. = $value]) and gmd:language/gmd:LanguageCode!='' 
+			<sch:assert test="exists(tokenize($langCodeList, ';')[. = $value]) and gmd:language/gmd:LanguageCode!=''
 			and (gmd:language/gmd:LanguageCode/@codeList= $langCodeURI or
 			gmd:language/gmd:LanguageCode/@codeList = concat($langCodeURI,'/'))">$loc/strings/alert.M2</sch:assert>
 		</sch:rule>
@@ -129,7 +130,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<sch:pattern>
 		<sch:title>$loc/strings/M5</sch:title>
 		<sch:rule context="//gmd:MD_Metadata">
-			<sch:assert test="gmd:metadataStandardName/gco:CharacterString and 
+			<sch:assert test="gmd:metadataStandardName/gco:CharacterString and
 			gmd:metadataStandardName/gco:CharacterString = 'DM - Regole tecniche RNDT'">$loc/strings/alert.M5</sch:assert>
 			<!--			<sch:assert test="gmd:metadataStandardName/gco:CharacterString and contains(gmd:metadataStandardName/gco:CharacterString,'DM - Regole tecniche RNDT')">$loc/strings/alert.M5</sch:assert>-->
 			<!--	<sch:assert test="gmd:metadataStandardName/gco:CharacterString and  gmd:metadataStandardName/gco:CharacterString/@value='DM - Regole tecniche RNDT'">$loc/strings/alert.M5</sch:assert>-->
@@ -139,7 +140,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<sch:pattern>
 		<sch:title>$loc/strings/M6</sch:title>
 		<sch:rule context="//gmd:MD_Metadata">
-			<sch:assert test="gmd:metadataStandardVersion/gco:CharacterString 
+			<sch:assert test="gmd:metadataStandardVersion/gco:CharacterString
 			and gmd:metadataStandardVersion/gco:CharacterString= '10 novembre 2011'">$loc/strings/alert.M6</sch:assert>
 		</sch:rule>
 	</sch:pattern>
@@ -147,7 +148,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<sch:pattern>
 		<sch:title>$loc/strings/M7</sch:title>
 		<sch:rule context="//gmd:MD_Metadata">
-			<sch:assert test="gmd:characterSet/gmd:MD_CharacterSetCode/@codeListValue 
+			<sch:assert test="gmd:characterSet/gmd:MD_CharacterSetCode/@codeListValue
 			and gmd:characterSet/gmd:MD_CharacterSetCode!=''">$loc/strings/alert.M7</sch:assert>
 		</sch:rule>
 	</sch:pattern>
@@ -156,7 +157,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 		<sch:title>$loc/strings/M8</sch:title>
 		<sch:rule context="//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation
 		|//gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:citation/gmd:CI_Citation">
-			<sch:assert test="gmd:date/gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue 
+			<sch:assert test="gmd:date/gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue
 			and gmd:date/gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode!=''">$loc/strings/alert.M8</sch:assert>
 		</sch:rule>
 	</sch:pattern>
@@ -249,7 +250,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<sch:pattern>
 		<sch:title>$loc/strings/M34</sch:title>
 		<sch:rule context="//gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality">
-			<sch:assert test="gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue 
+			<sch:assert test="gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue
 			and gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode!=''">$loc/strings/alert.M34</sch:assert>
 		</sch:rule>
 	</sch:pattern>
@@ -275,46 +276,54 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<sch:pattern>
 		<sch:title>$loc/strings/M37</sch:title>
 		<sch:rule context="//gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality">
-			<sch:let name="specTitleRNDT" >REGOLAMENTO (UE) N. 1089/2010 DELLA COMMISSIONE del 23 novembre 2010 recante attuazione della direttiva 2007/2/CE del Parlamento europeo e del Consiglio per quanto riguarda l'interoperabilità dei set di dati territoriali e dei servizi di dati territoriali</sch:let>			
-			<sch:let name="specTitleService" >Service Abstract Test Suite</sch:let>
+			<sch:let name="specTitleRNDT" >REGOLAMENTO (UE) N. 1089/2010 DELLA COMMISSIONE del 23 novembre 2010 recante attuazione della direttiva 2007/2/CE del Parlamento europeo e del Consiglio per quanto riguarda l'interoperabilità dei set di dati territoriali e dei servizi di dati territoriali</sch:let>
+			<sch:let name="specTitleNetworkService">REGOLAMENTO (CE) N. 976/2009 DELLA COMMISSIONE del 19 ottobre 2009 recante attuazione della direttiva 2007/2/CE del Parlamento europeo e del Consiglio per quanto riguarda i servizi di rete</sch:let>
 
 			<sch:let name="specCitation" value="gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation"/>
-			<sch:let name="specTitle"    value="gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gco:CharacterString"/>
-			
+			<sch:let name="specTitle"    value="gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/*/text()[boolean(../gco:CharacterString) or boolean(../gmx:Anchor)]"/>
+
 			<sch:let name="isTitleRNDT"      value="$specTitle = $specTitleRNDT"/>
 			<sch:let name="isTitleRNDTFuzzy" value="contains($specTitle,'1089/2010') and contains($specTitle,'23 novembre 2010') and contains($specTitle,'2007/2/CE')"/>
 
-			<sch:let name="isTitleService"   value="$specTitle = $specTitleService"/>
-						
+			<sch:let name="isTitleNetworkService" value="$specTitle = $specTitleNetworkService"/>
+
 			<sch:let name="isPublication"    value="$specCitation/gmd:date/gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode[@codeListValue = 'publication']"/>
 
-			<sch:assert test="gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service'
-			 or ($isTitleRNDTFuzzy and $specCitation/gmd:date/gmd:CI_Date/gmd:date/gco:Date= '2010-12-08' and $isPublication)
-			 or ($isTitleService   and $specCitation/gmd:date/gmd:CI_Date/gmd:date/gco:Date= '2007-11-21' and $isPublication)">$loc/strings/alert.M37</sch:assert>
-			
+			<sch:assert test=" (not($isTitleRNDT) or not($isTitleNetworkService))
+			 or (not($specCitation/gmd:date/gmd:CI_Date/gmd:date/gco:Date = '2010-12-08') and ($isTitleRNDT))
+			 or ($isTitleNetworkService and not($specCitation/gmd:date/gmd:CI_Date/gmd:date/gco:Date= '2009-10-11'))">$loc/strings/alert.M37</sch:assert>
+
 			<sch:report test="$isTitleRNDT">Specifiche di conformità RNDT</sch:report>
-			<sch:report test="$isTitleService">Specifiche di conformità Service Abstract</sch:report>
+			<sch:report test="$isTitleNetworkService">Specifiche di conformità Network Service</sch:report>
 			<sch:report test="$isTitleRNDTFuzzy and not($isTitleRNDT)">Specifiche di conformità RNDT - Controllare</sch:report>
 		</sch:rule>
 	</sch:pattern>
-	
+
 	<!--REFERENCE SYSTEM-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M38</sch:title>
 		<sch:rule context="//gmd:MD_Metadata[gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue='dataset']">
 
             <sch:assert test="count(gmd:referenceSystemInfo) &gt; 0">$loc/strings/alert.M38missing</sch:assert>
-            <sch:assert test="count(gmd:referenceSystemInfo) &lt; 2">$loc/strings/alert.M38toomany</sch:assert>
+            <sch:assert test="count(gmd:referenceSystemInfo[contains(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString,'WGS') or contains(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString,'RND') or contains(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString,'ETRS')
+            or contains(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString,'ITRS')
+            or contains(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString,'MonteMario') or contains(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString,'ED50')
+            or contains(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString,'EPSG') or boolean(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString)
+            or boolean(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gmx:Anchor)]) &lt; 2">$loc/strings/alert.M38toomany</sch:assert>
 
             <sch:report test="count(gmd:referenceSystemInfo) = 1">$loc/strings/report.M38count</sch:report>
 
 		</sch:rule>
 
-		<sch:rule context="//gmd:MD_Metadata[gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue='dataset']/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier">
+		<sch:rule context="//gmd:MD_Metadata[gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue='dataset']/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[contains(gmd:code/gco:CharacterString,'WGS') or contains(gmd:code/gco:CharacterString,'RND')
+                                                                                                                                                                                                                  or contains(gmd:code/gco:CharacterString,'ETRS') or contains(gmd:code/gco:CharacterString,'ITRS')
+                                                                                                                                                                                                                  or contains(gmd:code/gco:CharacterString,'MonteMario') or contains(gmd:code/gco:CharacterString,'ED50')
+                                                                                                                                                                                                                  or contains(gmd:code/gco:CharacterString,'EPSG') or boolean(gmd:codeSpace/gco:CharacterString)
+                                                                                                                                                                                                                  or boolean(gmd:code/gmx:Anchor)]">
 
-            <sch:let name="rslist">WGS84;ETRS89;ETRS89/ETRS-LAEA;ETRS89/ETRS-LCC;ETRS89/ETRS-TM32;ETRS89/ETRS-TM33;ETRS89/UTM-zone32N;ETRS89/UTM-zone33N;ROMA40/EST;ROMA40/OVEST;ED50/UTM 32N;ED50/UTM 33N;IGM95/UTM 32N;IGM95/UTM 33N;WGS84/UTM 32N;WGS84/UTM 33N;WGS84/UTM 34N;BESSEL/Cassini-Soldner;BESSEL/Sanson-Flamsteed;CATASTO / Locale;ROMA40;ROMA40/ROMA;ED50;IGM95;Rete Altimetrica Nazionale;WGS84/3D;Livello medio delle basse maree sizigiali;Livello medio delle alte maree sizigiali;Livello medio lago;ITRS;IGb00;ETRF89;ETRF00</sch:let>
+            <sch:let name="rslist">WGS84;ETRS89;ETRS89/ETRS-LAEA;ETRS89/ETRS-LCC;ETRS89/ETRS-TM32;ETRS89/ETRS-TM33;ETRS89/UTM-zone32N;ETRS89/UTM-zone33N;ROMA40/EST;ROMA40/OVEST;ED50/UTM 32N;ED50/UTM 33N;IGM95/UTM 32N;IGM95/UTM 33N;WGS84/UTM 32N;WGS84/UTM 33N;WGS84/UTM 34N;BESSEL/Cassini-Soldner;BESSEL/Sanson-Flamsteed;CATASTO / Locale;ROMA40;ROMA40/ROMA;ED50;IGM95;Rete Altimetrica Nazionale;WGS84/3D;Livello medio delle basse maree sizigiali;Livello medio delle alte maree sizigiali;Livello medio lago;ITRS;IGb00;ETRF89;ETRF00;ETRS89-XYZ;ETRS89-GRS80;ETRS89-GRS80;ETRS89-LAEA;ETRS89-LCC;ETRS89-UTM32N;ETRS89-UTM33N;ETRS89-UTM34N;RDN2008-6704;RDN2008-6705;RDN2008-6706;RDN2008-TM32NE;RDN2008-TM32EN;RDN2008-TM33NE;RDN2008-TM33EN;RDN2008-TM34NE;RDN2008-TM34EN;RDN2008-ItalyNE;RDN2008-ItalyEN;RDN2008-12NE;RDN2008-12EN;ED50;ED50-UTM32N;ED50-UTM33N;ED50-UTM34N;Monte-Mario-Rome;Monte-Mario;Monte-Mario-Italy1;Monte-Mario-Italy2</sch:let>
             <sch:let name="varlist">ITRF;IGS</sch:let> <!-- TODO -->
-			<sch:let name="rscode" value="gmd:code/gco:CharacterString/text()"/>
+			<sch:let name="rscode" value="gmd:code/*/text()"/>
 
 			<sch:let name="rndtparsed" value="exists(tokenize($rslist, ';')[. = $rscode])"/>
 			<sch:let name="epsgparsed" value="$rscode castable as xs:double"/>
@@ -341,7 +350,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 
 		</sch:rule>
 	</sch:pattern>
-	
+
 	<!--DATA/SERVICE IDENTIFICATION - KEYWORDS-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M39</sch:title>
@@ -357,9 +366,9 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 			gmd:MD_Keywords/gmd:keyword/*!='']) >0">$loc/strings/alert.M39</sch:assert>
 		</sch:rule>
 	</sch:pattern>
-	
+
 	<!--DISTRIBUTION INFO - DISTRIBUTION FORMAT-->
-	<sch:pattern>	
+	<sch:pattern>
 		<sch:title>$loc/strings/M45</sch:title>
 		<sch:rule context="//gmd:MD_Metadata[gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue!='service']">
 			<sch:assert test="(gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:name/gco:CharacterString
@@ -368,7 +377,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 			and gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:version/gco:CharacterString!='')">$loc/strings/alert.M45</sch:assert>
 		</sch:rule>
 	</sch:pattern>
-	
+
 	<!--DISTRIBUTION INFO - DISTRIBUTOR-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M46</sch:title>
@@ -381,7 +390,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 			and gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor/gmd:distributorContact/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress/gco:CharacterString!=''"/>
 			<sch:let name="phone" value="gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor/gmd:distributorContact/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:phone/gmd:CI_Telephone/gmd:voice/gco:CharacterString
 			and gmd:distributionInfo/gmd:MD_Distribution/gmd:distributor/gmd:MD_Distributor/gmd:distributorContact/gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact//gmd:phone/gmd:CI_Telephone/gmd:voice/gco:CharacterString!=''"/>
-			<sch:assert test="$name and $mail and ($url or $phone)">$loc/strings/alert.M46</sch:assert>			
+			<sch:assert test="$name and $mail and ($url or $phone)">$loc/strings/alert.M46</sch:assert>
 		</sch:rule>
 	</sch:pattern>
 
@@ -392,7 +401,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 			<sch:assert test="count(gmd:resourceConstraints[gmd:MD_Constraints/gmd:useLimitation/gco:CharacterString])>0">$loc/strings/alert.M50</sch:assert>
 		</sch:rule>
 	</sch:pattern>
-	
+
 	<!--CONSTRAINTS - ACCESS CONSTRAINTS-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M51</sch:title>
@@ -400,7 +409,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 			<sch:assert test="count(gmd:resourceConstraints[gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue])>0">$loc/strings/alert.M51</sch:assert>
 		</sch:rule>
 	</sch:pattern>
-	
+
 	<!--CONSTRAINTS - USE CONSTRAINTS-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M52</sch:title>
@@ -408,13 +417,13 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 			<sch:assert test="count(gmd:resourceConstraints[gmd:MD_LegalConstraints/gmd:useConstraints/gmd:MD_RestrictionCode/@codeListValue])>0">$loc/strings/alert.M52</sch:assert>
 		</sch:rule>
 	</sch:pattern>
-	
+
 	<!--CONSTRAINTS - OTHER CONSTRAINTS -->
 	<sch:pattern>
 		<sch:title>$loc/strings/M53</sch:title>
 		<sch:rule context="//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:resourceConstraints|
 			//gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints">
-			
+
 			<sch:assert test="count(gmd:MD_LegalConstraints[
                                 gmd:otherConstraints/gco:CharacterString != ''
                             and gmd:useConstraints/gmd:MD_RestrictionCode/@codeListValue!='otherRestrictions'
@@ -424,10 +433,10 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
                                 /gmd:otherConstraints/gco:CharacterString = ''
                             and (   gmd:useConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions'
 				                 or gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions')]) = 0">$loc/strings/alert.M53missing</sch:assert>
-			
+
 		</sch:rule>
 	</sch:pattern>
-	
+
 	<!--CONTENT INFO - CONTENT TYPE (RASTER DATA)-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M60</sch:title>
@@ -497,7 +506,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<sch:pattern>
 		<sch:title>$loc/strings/M100</sch:title>
 		<sch:rule context="gmd:CI_Date">
-			<sch:assert test="gmd:date/gco:Date">$loc/strings/alert.M100</sch:assert>
+			<sch:assert test="gmd:date[boolean(gco:Date) or boolean(gco:DateTime)]">$loc/strings/alert.M100</sch:assert>
 		</sch:rule>
 		<!--			<sch:assert test="matches(gco:Date,'^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$') or matches(gco:Date,'^(((\d{4}((0[13578]|1[02])(0[1-9]|[12]\d|3[01])|(0[13456789]|1[012])(0[1-9]|[12]\d|30)|02(0[1-9]|1\d|2[0-8])))|((\d{2}[02468][048]|\d{2}[13579][26]))0229)){0,8}$')">$loc/strings/alert.M100</sch:assert>
 		</sch:rule>-->
@@ -548,7 +557,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 			<sch:assert test="(@xlink:href != '')">$loc/strings/alert.M112</sch:assert>
 		</sch:rule>
 	</sch:pattern>
-	
+
 	<!-- OPERAZIONI CONTENUTE -->
 	<sch:pattern>
 		<sch:title>$loc/strings/M121</sch:title>
@@ -559,7 +568,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
             </sch:assert>
 		</sch:rule>
 	</sch:pattern>
-	
+
 	<sch:pattern>
 		<sch:title>$loc/strings/M120</sch:title>
 		<sch:rule context="//gmd:MD_Metadata//*[@codeListValue]">
@@ -576,7 +585,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 		<sch:rule context="//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent[//gml:TimePeriod]
                                   |//gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent[//gml:TimePeriod]">
 
-			<sch:let name="beginPosition" value="gml:TimePeriod//gml:beginPosition/text()"/>		
+			<sch:let name="beginPosition" value="gml:TimePeriod//gml:beginPosition/text()"/>
 			<sch:let name="endPosition"   value="gml:TimePeriod//gml:endPosition/text()"/>
 
 			<sch:assert test="$beginPosition != ''">$loc/strings/alert.M201</sch:assert>
@@ -584,5 +593,5 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 
 		</sch:rule>
 	</sch:pattern>
-					
+
 </sch:schema>
