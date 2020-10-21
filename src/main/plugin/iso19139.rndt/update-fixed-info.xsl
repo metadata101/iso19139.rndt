@@ -83,7 +83,22 @@
                 <xsl:value-of select="concat(concat($iPA,':'),/root/env/uuid)"/>
             </xsl:when>
             <xsl:otherwise>
+              <xsl:choose>
+                <xsl:when test="$iPAExists and not(contains(//gmd:fileIdentifier/gco:CharacterString,$iPA))">
+                  <xsl:message>Old id updating</xsl:message>
+                    <xsl:variable name="oldIPA">
+                      <xsl:call-template name="substring-before-last">
+                        <xsl:with-param name="string1" select="//gmd:fileIdentifier/gco:CharacterString"/>
+                        <xsl:with-param name="string2" select="':'"/>
+                      </xsl:call-template>
+                    </xsl:variable>
+                  <xsl:value-of select="replace(//gmd:fileIdentifier/gco:CharacterString,
+                  $oldIPA, $iPA)"/>
+                </xsl:when>
+                <xsl:otherwise>
                   <xsl:value-of select="//gmd:fileIdentifier/gco:CharacterString"/>
+                </xsl:otherwise>
+              </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
@@ -202,20 +217,20 @@
             <!-- Will be equals to the resource identifier, which is OK -->
             <xsl:when test="not(contains($oldResId , ':'))">
                 <xsl:message>INFO: creating resource identifier</xsl:message>
-                <xsl:value-of select="concat($fileId,'_resource')"/>
+                <xsl:value-of select="$fileId"/>
             </xsl:when>
             <!-- ipa defined, different from the one in code -->
             <!-- redefine the current code since it may no longer be valid -->
             <xsl:when test="not(starts-with($oldResId , $iPA))">
                 <xsl:message>ATTENZIONE: iPA non corrispondente: resource identifier ricreato</xsl:message>
-                <xsl:value-of select="concat($fileId,'_resource')"/>
+                <xsl:value-of select="$fileId"/>
             </xsl:when>
             <!-- ipa defined, right one, but metadata is new-->
             <!-- redefine the current code since it may no longer be valid -->
             <!-- ** test non valido su multi ipa ** -->
             <xsl:when test="$ipaJustAssigned">
                 <xsl:message>INFO: resource identifier ricreato su metadato nuovo</xsl:message>
-                <xsl:value-of select="concat($fileId,'_resource')"/>
+                <xsl:value-of select="$fileId"/>
             </xsl:when>
             <!-- ipa defined, already present in code, metadata not new: OK, just copy it -->
             <xsl:otherwise>
@@ -311,10 +326,10 @@
             </xsl:when>
             <!-- ipa defined, already present in code, metadata not new: OK, just copy it -->
             <xsl:otherwise>
-                <xsl:message>INFO: series identifier OK</xsl:message>
-                <xsl:copy>
+                  <xsl:message>INFO: series identifier OK</xsl:message>
+                  <xsl:copy>
                     <gco:CharacterString><xsl:value-of select="./gco:CharacterString"/></gco:CharacterString>
-                </xsl:copy>
+                  </xsl:copy>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
