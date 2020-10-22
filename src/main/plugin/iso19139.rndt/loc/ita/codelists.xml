@@ -102,14 +102,6 @@
 			<description>Le informazioni si applicano ad una serie</description>
 		</entry>
 
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
-		<entry>
-			<code>service</code>
-			<label>Service</label>
-			<description>Le informazioni si applicano alla capacità che un ente fornitore di servizi mette a disposizione di un ente di servizio utente attraverso una serie di interfacce che definiscono un comportamento, come un caso d'uso</description>
-		</entry>
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
-
 	</codelist>
 	<!-- ==================================================== -->
 	<!-- RNDT -->

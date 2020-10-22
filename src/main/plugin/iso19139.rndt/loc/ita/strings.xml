@@ -96,7 +96,9 @@
   <enum3>List of values is :</enum3>
   <specification>Specifiche</specification>
   <network_services>Servizi di rete</network_services>
-  <callable_service>Servizi invocabili</callable_service>
+  <invocable_services>Servizi invocabili</invocable_services>
+  <interoperable_services>Servizi interoperabili</interoperable_services>
+  <armonized_services>Servizi armonizzati</armonized_services>
   <cellGeometry>Geometria della cella</cellGeometry>
 
   <!-- INSPIRE view labels and help -->
@@ -183,6 +185,7 @@
   <positionalAccuracy>Accuratezza posizionale</positionalAccuracy>
   <callbackMetadata>Metadati di richiamata</callbackMetadata>
   <sds-category>Categoria</sds-category>
+  <serviceCategory>Categoria</serviceCategory>
   <add-resource-id>Compute resource identifier</add-resource-id>
   <add-resource-idHelp>Compose the resource identifier using the catalog URL and the metadata identifier (eg. http://www.organization.org/catalogue/5391bf69-44bc-4ea0-8cc0-6cf6c3bc81ae).</add-resource-idHelp>
   <add-extent-from-geokeywords>Compute extent from keyword</add-extent-from-geokeywords>
@@ -207,4 +210,5 @@
   <onlineResource>Risorsa on-line</onlineResource>
   <name>Nome</name>
   <URL>URL</URL>
+  <hierarchyLevel>Livello gerarchico</hierarchyLevel>
 </strings>

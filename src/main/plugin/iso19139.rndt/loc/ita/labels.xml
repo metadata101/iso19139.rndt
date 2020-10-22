@@ -13,7 +13,7 @@
         <help>Questa informazione serve ad associare il codice iPA al metadato.</help>
     </element>
 
-  <element name="gmd:nameOfMeasure" id="100.0">
+  <element name="gmd:nameOfMeasure" id="100.0" context="gmd:DQ_TopologicalConsistency">
     <label>Nome della misura</label>
     <description>Nome del test eseguito sui dati</description>
     <!-- ISO19138 Data quality basic measures Annex C - under revision ISO
@@ -1256,6 +1256,15 @@
     <helper relAtt="xlink:href">
       <option show="y" value="access point" title ="http://inspire.ec.europa.eu/metadata-codelist/OnLineDescriptionCode/accessPoint">access point</option>
       <option show="y" value="end point"  title="http://inspire.ec.europa.eu/metadata-codelist/OnLineDescriptionCode/endPoint">end point</option>
+    </helper>
+  </element>
+
+  <element name="gmd:nameOfMeasure" context="gmd:DQ_ConceptualConsistency">
+    <label>Nome della misura</label>
+    <helper>
+      <option show="y" value="capacity" title ="http://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria/capacity">Capacità</option>
+      <option show="y" value="availability"  title="http://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria/availability">Disponibilità</option>
+      <option show="y" value="performance" title ="http://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria/performance">Prestazione</option>
     </helper>
   </element>
 </labels>
