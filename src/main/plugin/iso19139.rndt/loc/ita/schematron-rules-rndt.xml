@@ -37,7 +37,7 @@
 	<!--DATA/SERVICE IDENTIFICATION - SERIES-->
 	<M14>Identificazione dei Dati/Servizi - Id livello superiore</M14>
 	<alert.M14><div>L'elemento series è mancante, incompleto o ha un valore errato</div></alert.M14>
-	<!--DATA/SERVICE IDENTIFICATION - DATASET RESPONSIBLE PARTY -->	
+	<!--DATA/SERVICE IDENTIFICATION - DATASET RESPONSIBLE PARTY -->
 	<M15>Identificazione dei Dati/Servizi - Responsabile del dato/servizio</M15>
 	<!--<alert.M15><div>L'elemento citedResponsibleParty è mancante, incompleto o ha un valore errato. Il metadato deve contenere gli elementi organisationName,role e electronicMailAddress e almeno uno tra gli elementi phone e onlineResource</div></alert.M15>-->
 	<alert.M15missing><div>Responsabile del dato|servizio mancante</div></alert.M15missing>
@@ -86,7 +86,7 @@
     <alert.M38code><div>Codice non riconosciuto </div></alert.M38code>
     <alert.M38badrndt><div>Codice RNDT richiesto ma non riconosciuto </div></alert.M38badrndt>
     <alert.M38badepsg><div>Codice EPSG richiesto ma non riconosciuto </div></alert.M38badepsg>
-    
+
     <report.M38rndtcode><div>Codice RNDT corretto.</div></report.M38rndtcode>
     <report.M38epsgcode><div>Codice EPSG corretto.</div></report.M38epsgcode>
 
@@ -139,7 +139,7 @@
 	<alert.M99>La data del metadato deve essere documentata attraverso l'elemento gco:Date</alert.M99>
 	<!--DATE FORMAT-->
 	<M100>Data - Formato</M100>
-	<alert.M100>La date devono essere documentate attraverso l'elemento gco:Date</alert.M100>
+	<alert.M100>Le date devono essere documentate attraverso l'elemento gco:Date o gco:DateTime</alert.M100>
 	<!--COD IPA-->
 	<M101>Identificativi - Codice IPA</M101>
 	<alert.M101>Gli identificativi devono avere come prefisso il codice IPA dell'Amministrazione Responsabile. Verificare che sia stato correttamente configurato il SiteId di GeoNetwork.</alert.M101>
@@ -164,10 +164,10 @@
 
 	<M120>Elementi di lista</M120>
 	<alert.M120>L'elemento della codelist è vuoto: </alert.M120>
-	
+
 	<M121>Nome operazione</M121>
 	<alert.M121>Il nome dell'operazione è mancante</alert.M121>
-	
+
 	<M200>Estensione temporale</M200>
 	<alert.M201>La data di inizio estensione non è impostata</alert.M201>
 	<alert.M202>La data di fine estensione non è impostata</alert.M202>

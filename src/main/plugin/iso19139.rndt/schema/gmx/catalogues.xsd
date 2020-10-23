@@ -10,7 +10,8 @@
 	<xs:include schemaLocation="../gmx/uomItem.xsd"/>
 	<xs:include schemaLocation="../gmx/codelistItem.xsd"/>
 	<xs:include schemaLocation="../gmx/crsItem.xsd"/>
-	<!-- ########################################################################### -->
+  <xs:include schemaLocation="gmx.xsd"/>
+  <!-- ########################################################################### -->
 	<!-- ########################################################################### -->
 	<!-- ================================== Classes ================================= -->
 	<xs:complexType name="AbstractCT_Catalogue_Type" abstract="true">
