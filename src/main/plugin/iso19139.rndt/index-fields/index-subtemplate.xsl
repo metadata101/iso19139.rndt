@@ -80,15 +80,19 @@
             <xsl:when test="$isMultilingual">
                 <xsl:variable name="org"
                               select="normalize-space(gmd:organisationName/gmd:PT_FreeText/gmd:textGroup/gmd:LocalisedCharacterString[@locale = $locale])"/>
-                <xsl:variable name="name"
-                              select="normalize-space(gmd:individualName/gmd:PT_FreeText/gmd:textGroup/gmd:LocalisedCharacterString[@locale = $locale])"/>
-                <xsl:variable name="mail"
+
+              <xsl:variable name="phone"
+                            select="normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:phone/gmd:voice/gmd:CI_Telephone/gmd:voice/gco:CharacterString)"/>
+              <xsl:variable name="url"
+                            select="normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:onlineResource/gmd:CI_OnlineResource/gmd:linkage/gmd:URL)"/>
+              <xsl:variable name="mail"
                               select="normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress[1]/gco:CharacterString)"/>
 
                 <Field name="_title"
-                       string="{if ($title != '') then $title 
-                                else if ($name != '') then concat($org, ' (', $name, ')')
+                       string="{if ($title != '') then $title
+                                else if ($url != '') then concat($org, ' (', $url, ')')
                                 else if ($mail != '') then concat($org, ' (', $mail, ')')
+                                else if ($phone != '') then concat($org, ' (', $phone, ')')
                                 else $org}"
                        store="true" index="true"/>
                 <Field name="orgName" string="{$org}" store="true" index="true"/>
@@ -97,20 +101,25 @@
                         select="gmd:contactInfo/*/gmd:address/*/gmd:electronicMailAddress">
                     <Field name="email" string="{gmd:PT_FreeText/gmd:textGroup/gmd:LocalisedCharacterString[@locale = $locale]}" store="true" index="true"/>
                 </xsl:for-each>
+                <Field name="url" string="{$url}" store="true" index="true"/>
+                <Field name="phone" string="{$phone}" store="true" index="true"/>
 
             </xsl:when>
             <xsl:otherwise>
                 <xsl:variable name="org"
                               select="normalize-space(gmd:organisationName/gco:CharacterString)"/>
-                <xsl:variable name="name"
-                              select="normalize-space(gmd:individualName/gco:CharacterString)"/>
+                <xsl:variable name="phone"
+                              select="normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:phone/gmd:voice/gmd:CI_Telephone/gmd:voice/gco:CharacterString)"/>
+              <xsl:variable name="url"
+                            select="normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:onlineResource/gmd:CI_OnlineResource/gmd:linkage/gmd:URL)"/>
                <xsl:variable name="mail"
                               select="normalize-space(gmd:contactInfo/gmd:CI_Contact/gmd:address/gmd:CI_Address/gmd:electronicMailAddress[1]/gco:CharacterString)"/>
 
               <Field name="_title"
-                       string="{if ($title != '') then $title 
-                                else if ($name != '') then concat($org, ' (', $name, ')')
+                       string="{if ($title != '') then $title
                                 else if ($mail != '') then concat($org, ' (', $mail, ')')
+                                else if ($url != '') then concat($org, ' (', $url, ')')
+                                else if ($phone != '') then concat($org, ' (', $phone, ')')
                                 else $org}"
                        store="true" index="true"/>
                 <Field name="orgName" string="{$org}" store="true" index="true"/>
@@ -119,7 +128,8 @@
                         select="gmd:contactInfo/*/gmd:address/*/gmd:electronicMailAddress/gco:CharacterString">
                     <Field name="email" string="{.}" store="true" index="true"/>
                 </xsl:for-each>
-
+              <Field name="url" string="{$url}" store="true" index="true"/>
+              <Field name="phone" string="{$phone}" store="true" index="true"/>
             </xsl:otherwise>
         </xsl:choose>
 
@@ -130,7 +140,7 @@
     <!--Distribution information-->
     <xsl:template mode="index" match="gmd:MD_Distribution[count(ancestor::node()) =  1]">
         <Field name="_title"
-               string="{if ($title != '') then $title 
+               string="{if ($title != '') then $title
         else string-join(gmd:transferOptions/gmd:MD_DigitalTransferOptions/
         gmd:onLine/gmd:CI_OnlineResource/gmd:linkage/gmd:URL, ', ')}"
                store="true" index="true"/>
@@ -157,7 +167,7 @@
           <xsl:choose>
             <xsl:when test="$isMultilingual">
               <Field name="_title"
-                     string="{if ($title != '') then $title else 
+                     string="{if ($title != '') then $title else
                        gmd:description/gmd:PT_FreeText/gmd:textGroup/gmd:LocalisedCharacterString[@locale = $locale]}"
                      store="true" index="true"/>
             </xsl:when>
@@ -170,7 +180,7 @@
         </xsl:when>
         <xsl:otherwise>
           <Field name="_title"
-                 string="{if ($title != '') then $title 
+                 string="{if ($title != '') then $title
                           else if (normalize-space(gmd:description/gco:CharacterString) != '')
                           then gmd:description/gco:CharacterString
                           else string-join(.//gco:Decimal, ', ')}"
@@ -185,7 +195,7 @@
 
     <xsl:template mode="index" match="gmd:DQ_DomainConsistency[count(ancestor::node()) =  1]">
         <Field name="_title"
-               string="{if ($title != '') then $title 
+               string="{if ($title != '') then $title
                         else gmd:result/*/gmd:specification/*/gmd:title/gco:CharacterString}"
                store="true" index="true"/>
 

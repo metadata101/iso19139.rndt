@@ -130,8 +130,10 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<sch:pattern>
 		<sch:title>$loc/strings/M5</sch:title>
 		<sch:rule context="//gmd:MD_Metadata">
-			<sch:assert test="gmd:metadataStandardName/gco:CharacterString and
-			gmd:metadataStandardName/gco:CharacterString = 'DM - Regole tecniche RNDT'">$loc/strings/alert.M5</sch:assert>
+			<sch:assert test="(gmd:metadataStandardName/gco:CharacterString and
+			gmd:metadataStandardName/gco:CharacterString = 'Linee Guida RNDT')">
+			 $loc/strings/alert.M5
+			 </sch:assert>
 			<!--			<sch:assert test="gmd:metadataStandardName/gco:CharacterString and contains(gmd:metadataStandardName/gco:CharacterString,'DM - Regole tecniche RNDT')">$loc/strings/alert.M5</sch:assert>-->
 			<!--	<sch:assert test="gmd:metadataStandardName/gco:CharacterString and  gmd:metadataStandardName/gco:CharacterString/@value='DM - Regole tecniche RNDT'">$loc/strings/alert.M5</sch:assert>-->
 		</sch:rule>
@@ -141,7 +143,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 		<sch:title>$loc/strings/M6</sch:title>
 		<sch:rule context="//gmd:MD_Metadata">
 			<sch:assert test="gmd:metadataStandardVersion/gco:CharacterString
-			and gmd:metadataStandardVersion/gco:CharacterString= '10 novembre 2011'">$loc/strings/alert.M6</sch:assert>
+			and gmd:metadataStandardVersion/gco:CharacterString= '2.0'">$loc/strings/alert.M6</sch:assert>
 		</sch:rule>
 	</sch:pattern>
 	<!--METADATA CHARACTER SET-->
@@ -293,7 +295,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 			 or (not($specCitation/gmd:date/gmd:CI_Date/gmd:date/gco:Date = '2010-12-08') and ($isTitleRNDT))
 			 or ($isTitleNetworkService and not($specCitation/gmd:date/gmd:CI_Date/gmd:date/gco:Date= '2009-10-11'))">$loc/strings/alert.M37</sch:assert>
 
-			<sch:report test="$isTitleRNDT">Specifiche di conformità RNDT</sch:report>
+      <sch:report test="$isTitleRNDT">Specifiche di conformità RNDT</sch:report>
 			<sch:report test="$isTitleNetworkService">Specifiche di conformità Network Service</sch:report>
 			<sch:report test="$isTitleRNDTFuzzy and not($isTitleRNDT)">Specifiche di conformità RNDT - Controllare</sch:report>
 		</sch:rule>

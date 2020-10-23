@@ -2,6 +2,41 @@
 <codelists xmlns:gmd="http://www.isotc211.org/2005/gmd">
 	<!-- ==================================================== -->
 	<!-- RNDT -->
+  <codelist name="gmd:CI_OnLineFunctionCode" alias="function">
+  <entry>
+    <code>download</code>
+    <label>Download</label>
+    <description>istruzioni online per il trasferimento dei dati da un supporto di memorizzazione
+      ad un altro sistema
+    </description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>information</code>
+    <label>Informazioni</label>
+    <description>informazioni online sulla risorsa</description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>offlineAccess</code>
+    <label>Accesso offline</label>
+    <description>istruzioni per la richiesta di risorse dal fornitore</description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>order</code>
+    <label>Organizza</label>
+    <description>procedura online per ottenere la risorsa</description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>search</code>
+    <label>Ricerca</label>
+    <description>interfaccia di ricerca online per cercare informazioni sulla risorsa
+    </description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+</codelist>
 	<codelist name="gmd:CI_DateTypeCode">
 		<entry>
 			<code>creation</code>
@@ -29,6 +64,7 @@
 			<description>Data che identifica l’osservazione del fenomeno (es. volo)</description>
 		</entry>
 	</codelist>
+
 	<!-- ==================================================== -->
 	<!-- RNDT -->
 	<codelist name="gmd:MD_DimensionNameTypeCode">
@@ -66,19 +102,6 @@
 			<description>Le informazioni si applicano ad una serie</description>
 		</entry>
 
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
-		<entry>
-			<code>service</code>
-			<label>Service</label>
-			<description>Le informazioni si applicano alla capacità che un ente fornitore di servizi mette a disposizione di un ente di servizio utente attraverso una serie di interfacce che definiscono un comportamento, come un caso d'uso</description>
-		</entry>
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-		<entry>
-			<code>tile</code>
-			<label>Tile</label>
-			<description>Le informazioni si applicano ad un tile, un sottoinsieme spaziale dei dati geografici</description>
-		</entry>
 	</codelist>
 	<!-- ==================================================== -->
 	<!-- RNDT -->
@@ -683,5 +706,6 @@
       <label>Sconosciuto</label>
     </entry>
   </codelist>
+
 
 </codelists>
