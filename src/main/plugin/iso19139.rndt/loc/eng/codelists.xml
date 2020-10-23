@@ -178,11 +178,54 @@
 			<code>shiftJIS</code>
 			<label>Shift JIS</label>
 			<description>Japanese code set used on MS-DOS machines</description>
-		</entry>		
+		</entry>
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <entry>
+      <code>eucJP</code>
+      <label>EucJP</label>
+      <description>japanese code set used on UNIX based machines</description>
+    </entry>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <entry>
+      <code>8859part14</code>
+      <label>8859 Part 14</label>
+      <description>ISO/IEC 8859-14, Information technology - 8-bit single byte coded graphic
+        character sets - Part 14 : Latin alphabet No.8 (Celtic)</description>
+    </entry>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <entry>
+      <code>usAscii</code>
+      <label>US Ascii</label>
+      <description>United States ASCII code set (ISO 646 US)</description>
+    </entry>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <entry>
+      <code>ebcdic</code>
+      <label>ebcdic</label>
+      <description>IBM mainframe code set</description>
+    </entry>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <entry>
+      <code>eucKR</code>
+      <label>euc KR</label>
+      <description>Korean code set</description>
+    </entry>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <entry>
+      <code>big5</code>
+      <label>Big 5</label>
+      <description>traditional Chinese code set used in Taiwan, Hong Kong of China and other areas</description>
+    </entry>
+    <entry>
+      <code>GB2312</code>
+      <label>GB2312</label>
+      <description>simplified Chinese code set</description>
+    </entry>
 	</codelist>
 	<!-- ==================================================== -->
 	<!-- RNDT -->
-	<codelist name="gmd:MD_DimensionNameTypeCode">		
+	<codelist name="gmd:MD_DimensionNameTypeCode">
 		<entry>
 			<code>row</code>
 			<label>Row</label>
@@ -199,7 +242,7 @@
 			<code>vertical</code>
 			<label>Vertical</label>
 			<description>Vertical (z) axis</description>
-		</entry>		
+		</entry>
 		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 	</codelist>
 	<!-- ==================================================== -->
@@ -216,20 +259,13 @@
 			<label>Series</label>
 			<description>Information applies to the series</description>
 		</entry>
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->		
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 		<entry>
 			<code>service</code>
 			<label>Service</label>
 			<description>Information applies to a capability which a service provider entity makes
 				available to a service user entity through a set of interfaces that define a behaviour,
 				such as a use case</description>
-		</entry>
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
-		<entry>
-			<code>tile</code>
-			<label>Tile</label>
-			<description>Information applies to a tile, a spatial subset of geographic
-			data</description>
 		</entry>
 	</codelist>
 	<!-- ==================================================== -->
@@ -342,5 +378,6 @@
       <label>Unknown</label>
     </entry>
   </codelist>
+
 	<!-- ==================================================== -->
 </codelists>

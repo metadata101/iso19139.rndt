@@ -33,60 +33,6 @@
    <territorial>Ambito territoriale</territorial>
    <priority>Dataset Prioritario</priority>
    <gemet>Gemet Inspire</gemet>
-    <!--service>
-        <title>Identificazione dei servizi</title>
-    </service>
-    <constraint>
-        <title>Vincoli relativi all'accesso e all'uso</title>
-    </constraint>
-    <geoloc>
-		<title>Localizzazione geografica</title>
-        <suggestionsLabel>Suggerimenti</suggestionsLabel>
-		<verticalCRSValues>
-		    <default></default>
-		    <crs id="wgs84">
-		        <label>EPSG:4979</label>
-		        <value>EPSG::4979</value>
-		    </crs>
-		    <crs id="wgs84h">
-		        <label>EPSG:4326</label>
-		        <value>EPSG::4326</value>
-		    </crs>
-		</verticalCRSValues>
-    </geoloc>
-    <abstract>
-      <title>Descrizione</title>
-    </abstract>
-    <verticalExtent>
-        <title>Estensione verticale</title>
-    </verticalExtent>
-    <quality>
-        <title>Qualità e validità</title>
-    </quality>
-    <conformity>
-        <title>Conformità</title>
-    </conformity>
-    <distribution>
-        <title>Distribuzione dei dati</title>
-    </distribution>
-    <rasterContent>
-        <title>Contenuto dei dati Raster</title>
-    </rasterContent>
-    <rasterSpatialRepresentation>
-        <title>Rappresentazione spaziale dei dati Raster</title>
-    </rasterSpatialRepresentation>
-    <positionalAccuracy>
-        <title>Accuratezza posizionale</title>
-    </positionalAccuracy>
-    <equivalentScale>
-      <title>Scala Equivalente</title>
-    </equivalentScale>
-    <spatialRepresentationType>
-      <title>Tipo di rappresentazione spaziale</title>
-    </spatialRepresentationType>
-    <issueIdentification>
-      <title>ID livello superiore</title>
-    </issueIdentification-->
   <resourceMaintenace>Gestione dei dati</resourceMaintenace>
   <operatesOn>Risorsa accoppiata</operatesOn>
   <useConstraints>
@@ -100,19 +46,22 @@
     </securityConstraints>
 
   <noConditionApply>Nessuna condizione applicabile</noConditionApply>
+  <unknownCondition>Condizioni sconosciute</unknownCondition>
   <freeText>Testo libero</freeText>
 
   <!-- New strings added for the AngularJS editor -->
   <!-- View and tabs -->
   <advanced>Full</advanced>
-  <default>Comuni</default>
+  <default>Metadati Comuni</default>
   <rndt-view>RNDT</rndt-view>
   <simple>Simple</simple>
   <inspire>Parole chiave &amp; Temi INSPIRE</inspire>
   <resource>Resource</resource>
   <xml>XML</xml>
   <metadata>Metadati</metadata>
-  <identificationInfo>Informazioni di identificazione</identificationInfo>
+  <metadataInfo>Informazioni sui metadati</metadataInfo>
+  <identificationInfo>Identificazione dei dati</identificationInfo>
+  <serviceIdentification>Identificazione dei servizi</serviceIdentification>
   <serviceType>Tipo di servizio</serviceType>
   <descriptiveKeywords>Parole chiave</descriptiveKeywords>
   <keyword>Parola chiave</keyword>
@@ -127,7 +76,7 @@
   <referenceSystemInfo>Sistema di riferimento</referenceSystemInfo>
   <contentInfo>Informazioni sul contenuto</contentInfo>
   <portrayalCatalogueInfo>Portrayal</portrayalCatalogueInfo>
-
+  <topicCategory>Categoria tematica</topicCategory>
   <metadataConstraints>Vincoli sui metadati</metadataConstraints>
   <metadataMaintenance>Gestione del metadato</metadataMaintenance>
   <applicationSchemaInfo>Schema info</applicationSchemaInfo>
@@ -147,7 +96,9 @@
   <enum3>List of values is :</enum3>
   <specification>Specifiche</specification>
   <network_services>Servizi di rete</network_services>
-  <callable_service>Servizi invocabili</callable_service>
+  <invocable_services>Servizi invocabili</invocable_services>
+  <interoperable_services>Servizi interoperabili</interoperable_services>
+  <armonized_services>Servizi armonizzati</armonized_services>
   <cellGeometry>Geometria della cella</cellGeometry>
 
   <!-- INSPIRE view labels and help -->
@@ -159,19 +110,25 @@
   <responsibleParty>Responsabile dei metadati</responsibleParty>
   <responsible>Responsabile</responsible>
   <creationDate>Creation date</creationDate>
-  <hierarchyLevel>Hierarchy level</hierarchyLevel>
+  <hierarchyLevel>Livello gerarchico</hierarchyLevel>
+  <hierarchyLevelName>Nome del livello gerarchico</hierarchyLevelName>
   <publicationDate>Publication date</publicationDate>
   <revisionDate>Revision date</revisionDate>
   <temporalSection>Estensione temporale</temporalSection>
+  <indeterminatePositionBegin>Data indeterminata (inizio)</indeterminatePositionBegin>
+  <indeterminatePositionEnd>Data indeterminata (fine)</indeterminatePositionEnd>
   <beginPosition>Data inizio</beginPosition>
   <endPosition>Data fine</endPosition>
   <verticalSection>Estensione verticale</verticalSection>
+  <spatialSection>Estensione spaziale</spatialSection>
   <minimumValue>Quota minima</minimumValue>
   <maximumValue>Quota massima</maximumValue>
   <verticalCRS>CRS verticale</verticalCRS>
   <conformity>Conformity</conformity>
   <conformity_title>Titolo</conformity_title>
   <conformity_date>Data</conformity_date>
+  <conformity_desc>Titolo</conformity_desc>
+  <conformity_linkage>Link a specifiche tecniche</conformity_linkage>
   <pass>Grado di conformità</pass>
   <title>Titolo</title>
   <explanation>Spiegazione</explanation>
@@ -191,6 +148,9 @@
   <spatialScope> Ambito territoriale</spatialScope>
   <extent>Estensione dei dati</extent>
   <referenceSystemIdentifier>Sistema di riferimento</referenceSystemIdentifier>
+  <connectPoint>Accesso URL</connectPoint>
+  <DCP>DCP</DCP>
+ <qualityLevel>Livello di qualità</qualityLevel>
   <format>Formato</format>
   <format_version>Versione</format_version>
   <spatialResolution>Risoluzione spaziale</spatialResolution>
@@ -201,6 +161,7 @@
   <otherConstraints>Altri vincoli</otherConstraints>
   <otherCitationDetails>Altri dettagli</otherCitationDetails>
   <cornerPoints>Coordinate dei vertici</cornerPoints>
+  <coordinates>Coordinate</coordinates>
   <datasetcode>Identificatore</datasetcode>
   <notEvaluated>Not evaluated</notEvaluated>
   <uomRecord>Accuratezza posizionale dei dati</uomRecord>
@@ -224,12 +185,30 @@
   <positionalAccuracy>Accuratezza posizionale</positionalAccuracy>
   <callbackMetadata>Metadati di richiamata</callbackMetadata>
   <sds-category>Categoria</sds-category>
+  <serviceCategory>Categoria</serviceCategory>
   <add-resource-id>Compute resource identifier</add-resource-id>
   <add-resource-idHelp>Compose the resource identifier using the catalog URL and the metadata identifier (eg. http://www.organization.org/catalogue/5391bf69-44bc-4ea0-8cc0-6cf6c3bc81ae).</add-resource-idHelp>
   <add-extent-from-geokeywords>Compute extent from keyword</add-extent-from-geokeywords>
   <add-extent-from-geokeywordsHelp>Analyze each keyword of type place and add matching extent.</add-extent-from-geokeywordsHelp>
+  <addFromThesaurus>Aggiungi keyword da thesaurus</addFromThesaurus>
   <sds-add-qualityofservice>Qualità dei servizi</sds-add-qualityofservice>
   <datasetAndSeries>Dataset e serie</datasetAndSeries>
+  <date>Data</date>
+  <dateTime>Data e Ora</dateTime>
   <services>Servizi</services>
   <raster>Dati raster</raster>
+  <text>Testo</text>
+  <anchor>Anchor</anchor>
+  <serviceClassification>Classificazione dei servizi di dati territoriali</serviceClassification>
+  <protocol>Protocollo</protocol>
+  <applicationProfile>Profilo dell'applicazione</applicationProfile>
+  <protocolURL>Protocollo (URL)</protocolURL>
+  <applicationProfileURL>Profilo dell'applicazione (URL)</applicationProfileURL>
+  <description>Descrizione</description>
+  <descriptionURL>Descrizione (URL)</descriptionURL>
+  <function>Codice collegamento on-line</function>
+  <onlineResource>Risorsa on-line</onlineResource>
+  <name>Nome</name>
+  <URL>URL</URL>
+  <hierarchyLevel>Livello gerarchico</hierarchyLevel>
 </strings>

@@ -27,9 +27,9 @@
 					<xs:element name="fileIdentifier" type="gco:CharacterString_PropertyType" minOccurs="0"/>
 					<xs:element name="language" type="gco:CharacterString_PropertyType" minOccurs="1"/>
 					<xs:element name="characterSet" type="gmd:MD_CharacterSetCode_PropertyType" minOccurs="0"/>
-					<xs:element name="parentIdentifier" type="gco:CharacterString_PropertyType" minOccurs="1"/>
+					<xs:element name="parentIdentifier" type="gco:CharacterString_PropertyType" minOccurs="0"/>
 					<xs:element name="hierarchyLevel" type="gmd:MD_ScopeCode_PropertyType" minOccurs="1" maxOccurs="1"/>
-					<xs:element name="hierarchyLevelName" type="gco:CharacterString_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="hierarchyLevelName" type="gco:CharacterString_PropertyType" minOccurs="0" maxOccurs="1"/>
 					<xs:element name="contact" type="gmd:CI_ResponsibleParty_PropertyType" maxOccurs="unbounded"/>
 					<xs:element name="dateStamp" type="gco:Date_PropertyType"/>
 					<xs:element name="metadataStandardName" type="gco:CharacterString_PropertyType" minOccurs="1"/>
