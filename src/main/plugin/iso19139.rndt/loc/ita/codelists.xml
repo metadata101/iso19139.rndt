@@ -708,4 +708,201 @@
   </codelist>
 
 
+  <codelist name="generalInterest">
+    <entry>
+      <code>Acque sotterranee</code>
+      <label>Acque sotterranee</label>
+    </entry>
+    <entry>
+      <code>
+        Acque territoriali e linea di base
+      </code>
+      <label>Acque territoriali e linea di base</label>
+    </entry>
+    <entry>
+    <code>Altre unità statistiche</code>
+    <label>Altre unità statistiche</label>
+    </entry>
+    <entry>
+      <code>Altre aree vincolate o regolamentate</code>
+      <label>Altre aree vincolate o regolamentate</label>
+    </entry>
+    <entry>
+      <code>Altri dati da telerilevamento</code>
+      <label>Altri dati da telerilevamento</label>
+    </entry>
+    <entry>
+      <code>Annali idrologici</code>
+      <label>Annali idrologici</label>
+    </entry>
+    <entry>
+      <code>Aree e specie faunistiche</code>
+      <label>Aree e specie faunistiche</label>
+    </entry>
+    <entry>
+      <code>Aree e Specie vegetali</code>
+      <label>Aree e Specie vegetali</label>
+    </entry>
+    <entry>
+      <code>Aree percorse da incendio sottoposte a vincolo</code>
+      <label>Aree percorse da incendio sottoposte a vincolo</label>
+    </entry>
+    <entry>
+      <code>Aree Vinicole, DOC, IGT</code>
+      <label>Aree Vinicole, DOC, IGT</label>
+    </entry>
+    <entry>
+      <code>Atlante eolico</code>
+      <label>Atlante eolico</label>
+    </entry>
+    <entry>
+      <code>Aziende agricole</code>
+      <label>Aziende agricole</label>
+    </entry>
+    <entry>
+      <code> Beni culturali ambientali</code>
+      <label> Beni culturali ambientali</label>
+    </entry>
+     <entry>
+      <code>Carta dei suoli</code>
+      <label>Carta dei suoli</label>
+    </entry>
+     <entry>
+      <code>Carta delle esposizioni, clivometria, delle pendenze</code>
+      <label>Carta delle esposizioni, clivometria, delle pendenze</label>
+    </entry>
+     <entry>
+      <code>Carta dell’utilizzazione del suolo</code>
+      <label>Carta dell’utilizzazione del suolo</label>
+    </entry>
+     <entry>
+      <code>Carta di Pericolosità sismica disaggregata secondo la Magnitudo e la distanza dei comuni italiani</code>
+      <label>Carta di Pericolosità sismica disaggregata secondo la Magnitudo e la distanza dei comuni italiani</label>
+    </entry>
+     <entry>
+      <code>Carta Geologica</code>
+      <label>Carta Geologica</label>
+    </entry>
+     <entry>
+      <code>Carta tecnica regionale numerica</code>
+      <label>Carta tecnica regionale numericaarta Geologica</label>
+    </entry>
+    <entry>
+      <code>Carte corografiche – IGM</code>
+      <label>Carte corografiche – IGM</label>
+    </entry>
+     <entry>
+      <code>Carte della Pericolosità sismica di riferimento per il territorio nazionale</code>
+      <label>Carte della Pericolosità sismica di riferimento per il territorio nazionale</label>
+    </entry>
+    <entry>
+      <code>Carte di copertura ed uso del suolo</code>
+      <label>Carte di copertura ed uso del suolo</label>
+    </entry>
+     <entry>
+      <code>Carte di rischio sismico dei comuni italiani</code>
+      <label>Carte di rischio sismico dei comuni italiani</label>
+    </entry>
+     <entry>
+      <code>Carte di vulnerabilità sismica dei comuni italiani</code>
+      <label>Carte di vulnerabilità sismica dei comuni italiani</label>
+    </entry>
+     <entry>
+      <code>Carte Geotematiche</code>
+      <label>Carte Geotematiche</label>
+    </entry>
+     <entry>
+      <code>Carte tematiche di copertura vegetale</code>
+      <label>Carte tematiche di copertura vegetale</label>
+    </entry>
+     <entry>
+      <code>Carte topografiche - IGM</code>
+      <label>Carte topografiche - IGM</label>
+    </entry>
+     <entry>
+      <code>Cartografie storiche</code>
+      <label>Cartografie storiche</label>
+    </entry>
+     <entry>
+      <code>Cartografie storiche militari</code>
+      <label>Cartografie storiche militari</label>
+    </entry>
+    <entry>
+      <code>Cave e miniere</code>
+      <label>Cave e miniere</label>
+    </entry>
+    <entry>
+      <code>Centri di rottamazione</code>
+      <label>Centri di rottamazione</label>
+    </entry>
+    <entry>
+      <code>Classificazione sismica dei comuni italiani</code>
+      <label>Classificazione sismica dei comuni italiani</label>
+    </entry>
+    <entry>
+      <code>Data Base degli strati prioritari</code>
+      <label>Data Base degli strati prioritari</label>
+    </entry>
+    <entry>
+      <code>Data Base Oceanografico</code>
+      <label>Data Base Oceanografico</label>
+    </entry>
+    <entry>
+      <code>Data Base topografici a grande e grandissima scala</code>
+      <label> Data Base topografici a grande e grandissima scala></label>
+    </entry>
+    <entry>
+      <code>Data Base topografici a media scala (1:25.000 – 1:50.000)</code>
+      <label>Data Base topografici a media scala (1:25.000 – 1:50.000)</label>
+    </entry>
+    <entry>
+      <code>Dati aggregati della popolazione su unità amministrative e/o statistiche</code>
+      <label>Dati aggregati della popolazione su unità amministrative e/o statistiche</label>
+    </entry>
+    <entry>
+      <code>Dati del monitoraggio ambientale</code>
+      <label>Dati del monitoraggio ambientale</label>
+    </entry>
+    <entry>
+      <code>Dati orografici</code>
+      <label>Dati orografici</label>
+    </entry>
+    <entry>
+      <code>DB grid</code>
+      <label>DB grid</label>
+    </entry>
+    <entry>
+      <code>Depuratori e collettori</code>
+      <label>Depuratori e collettori</label>
+    </entry>
+    <entry>
+      <code>Discariche</code>
+      <label>Discariche</label>
+    </entry>
+    <entry>
+      <code>Edifici</code>
+      <label>Edifici</label>
+    </entry>
+    <entry>
+      <code>Erosione costiera</code>
+      <label>Erosione costiera</label>
+    </entry>
+    <entry>
+      <code>Farmacie</code>
+      <label>Farmacie</label>
+    </entry>
+    <entry>
+      <code>Frame campionamento griglie</code>
+      <label>Frame campionamento griglie</label>
+    </entry>
+    <entry>
+      <code>Ghiacciai</code>
+      <label>Ghiacciai</label>
+    </entry>
+    <entry>
+      <code>Griglie di inquadramento</code>
+      <label>Griglie di inquadramento</label>
+    </entry>
+  </codelist>
+
 </codelists>

@@ -211,4 +211,6 @@
   <name>Nome</name>
   <URL>URL</URL>
   <hierarchyLevel>Livello gerarchico</hierarchyLevel>
+  <openData>Dati aperti</openData>
+  <generalInterest>Dati di interesse generale</generalInterest>
 </strings>
