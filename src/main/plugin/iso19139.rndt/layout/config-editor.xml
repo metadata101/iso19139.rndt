@@ -606,7 +606,8 @@
                     name="gmd:descriptiveKeywords"
                     or="descriptiveKeywords"
                     in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification)>0"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification)>0
+                    and count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:keywords/gmd:MD_Keywords[gmd:keyword='open data' or gmd:keyword='opendata'])=0"
             >
 
               <template>
