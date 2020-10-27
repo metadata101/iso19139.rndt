@@ -100,7 +100,10 @@
         data-insert-modes=""
         data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
     </for>
-    <for name="gmd:descriptiveKeywords" addDirective="data-gn-thesaurus-selector">
+    <for name="gmd:descriptiveKeywords" >
+    <!--<for name="gmd:descriptiveKeywords" addDirective="data-gn-thesaurus-selector">-->
+    <!-- "data-gn-thesaurus-selector" aggiunge un selector di thesauri alla fine di ogni Field descriptiveKeywords.
+       Poichè abbiamo sezioni diverse i diversi thesauri ci troveremmo il selector troppo spesso -->
 
       <directiveAttributes data-include="xpath::string-join(gmd:MD_Metadata/gmd:identificationInfo
                                           //gmd:thesaurusName/*/gmd:identifier/*/
@@ -592,36 +595,61 @@
                  or="abstract"
                  in="/gmd:MD_Metadata/gmd:identificationInfo/*"/>
 
+          <!-- parole chiave per metadati comuni.
+             vanno escluse le keyword relative a serie/dataset:
+               (3.2.4.1) INSPIRE themes
+               (3.2.4.2) dataset prioritari
+               (3.2.4.3) applicazioni territoriali
+               (3.2.4.4) opendata
+               (3.2.4.5) interesse generale
+             vanno escluse le keyword relative a servizi:
+               (4.1.2.1) gestire keyword INSPIRE service types
+          -->
+                 
           <section name="descriptiveKeywords">
 
-            <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords[not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')) and boolean(gmd:MD_Keywords/gmd:thesaurusName)]"
-                   or ="descriptiveKeywords"
-                   in="gmd:MD_Metadata/gmd:identificationInfo/*"
-                   del=".."
-            />
+            <!-- Keywords con thesauri (non quelli gestiti altrove) -->
+            <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords[boolean(gmd:MD_Keywords/gmd:thesaurusName) 
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'GEMET - INSPIRE themes, version 1.0'))
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'INSPIRE priority data set'))
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Spatial scope'))
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Registro dei dati di interesse generale per il RNDT')) 
+                     ]"
+                   notDisplayedIfMissing="true"
+                   name="keyword_con_thesaurus"
+                   or = "descriptiveKeywords" in = "gmd:MD_Metadata/gmd:identificationInfo/*"
+                   del="."
+            >
+            </field>
 
+            <!-- Keywords senza thesauri (escluso opendata) -->
+            <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
+                           [not(boolean(gmd:MD_Keywords/gmd:thesaurusName))]
+                           /gmd:MD_Keywords/gmd:keyword"
+                   name="keyword_libera"
+                   or ="descriptiveKeywords" in="gmd:MD_Metadata/gmd:identificationInfo/*" 
+                   del="." 
+                   notDisplayedIfMissing="true" /> 
 
-            <action type="add"
-                    btnLabel="openData"
+            <!-- 
+              Vogliamo poter aggiungere un nuovo thesaurus solo alla fine delle keyword presenti.
+            
+               È stata rimossa l'addDirective del "for name=", altrimenti compare un "add from thesaurus"
+               in ogni field che fa riferimento alle keywords:
+                   <for name="gmd:descriptiveKeywords" addDirective="data-gn-thesaurus-selector">
+            -->                          
+            <action type="add"                  
+                    btnLabel="bnt_test"
+                    directive="data-gn-thesaurus-selector"
                     name="gmd:descriptiveKeywords"
                     or="descriptiveKeywords"
                     in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification)>0
-                    and count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:keywords/gmd:MD_Keywords[gmd:keyword='open data' or gmd:keyword='opendata'])=0"
-            >
-
-              <template>
-                <snippet>
-                  <gmd:descriptiveKeywords>
-                    <gmd:MD_Keywords>
-                      <gmd:keyword>
-                        <gco:CharacterString>open data</gco:CharacterString>
-                      </gmd:keyword>
-                    </gmd:MD_Keywords>
-                  </gmd:descriptiveKeywords>
-                </snippet>
-              </template>
+                    
+                    addDirective="data-gn-thesaurus-selector"
+            > 
+               <template><!-- questo serve, altimenti l'addDirective non viene valutata--></template>
             </action>
+
 
           </section>
 
@@ -1307,19 +1335,60 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
           </action>
 
 
+          <!-- parole chiave per metadati relativi a serie/dataset:
+               (3.2.4.1) INSPIRE themes
+               (3.2.4.2) dataset prioritari
+               (3.2.4.3) applicazioni territoriali
+               (3.2.4.4) opendata
+               (3.2.4.5) interesse generale
+           -->
           <section name="descriptiveKeywords">
 
-            <section name="generalInterest" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/
-            */gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:thesaurusName[./gmd:CI_Citation/gmd:title/gco:CharacterString = 'Registro dei dati di interesse generale per il RNDT'])>0">
+             <section name="keyword_inspire_theme">
+               <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/theme">GEMET - INSPIRE themes, version 1.0</gmx:Anchor> -->
+                        
+               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
+                        [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'GEMET - INSPIRE themes, version 1.0') ]"
+                      or="descriptiveKeywords"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                      del=".."
+               />
+             </section>
 
-                <field templateModeOnly="true" notDisplayedIfMissing="true" xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')]"
+             <section name="keyword_dataset_prioritari">
+               <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset">INSPIRE priority data set</gmx:Anchor> -->
+                        
+               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
+                        [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'INSPIRE priority data set') ]"
+                      or="descriptiveKeywords"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                      del=".."/>
+             </section>
+
+             <section name="keyword_ambito_territoriale">
+               <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/SpatialScope">Spatial scope</gmx:Anchor> -->
+                        
+               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
+                        [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'Spatial scope') ]"
+                      or="descriptiveKeywords"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                      del=".."/>
+             </section>
+
+             
+            <section name="keyword_interesse_generale" >
+               <!-- <gco:CharacterString>Registro dei dati di interesse generale per il RNDT</gco:CharacterString> -->
+
+               <!-- gestisce campo ed eliminazione quando ci sono più elementi -->
+                <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')]"
+                       templateModeOnly="true" notDisplayedIfMissing="true"                 
                        del="."
                        if ="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')])>1"
-               >
+                >
                   <template>
                     <values>
                     <key label="keyword" xpath="./gco:CharacterString">
-                      <codelist name="generalInterest"/>
+                      <codelist name="keyword_interesse_generale"/>
                     </key>
                     </values>
                     <snippet>
@@ -1330,14 +1399,16 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                   </template>
               </field>
 
-              <field templateModeOnly="true" notDisplayedIfMissing="true" xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')]"
+               <!-- gestisce campo ed eliminazione di tutto il blocco quando c'è un solo elemento -->
+              <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')]"
+                     templateModeOnly="true" notDisplayedIfMissing="true"               
                      del="../.."
                      if ="not(count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')])>1)"
               >
                 <template>
                   <values>
                     <key label="keyword" xpath="./gco:CharacterString">
-                      <codelist name="generalInterest"/>
+                      <codelist name="keyword_interesse_generale"/>
                     </key>
                   </values>
                   <snippet>
@@ -1360,10 +1431,9 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
                   </snippet>
                 </template>
               </action>
-            </section>
 
             <action type="add"
-                    btnLabel="generalInterest"
+                    btnLabel="keyword_interesse_generale"
                     name="gmd:descriptiveKeywords"
                     or="descriptiveKeywords"
                     in="gmd:MD_Metadata/gmd:identificationInfo/*"
@@ -1402,7 +1472,43 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
               </template>
             </action>
 
+            </section>
+
+          <section name="keyword_opendata" >
+
+            <!-- todo: il delete non funziona -->
+            <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+                        [gco:CharacterString/text()='open data' or gco:CharacterString/text()='opendata']"
+               del="."
+               or="keyword"
+               in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords"
+            />
+             
+            <action type="add"
+                    btnLabel="openData"
+                    xxname="gmd:descriptiveKeywords"
+                    or="descriptiveKeywords"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords
+                              [gmd:keyword='open data' or gmd:keyword='opendata'])=0"
+            >
+              <template>
+                <snippet>
+                  <gmd:descriptiveKeywords>
+                    <gmd:MD_Keywords>
+                      <gmd:keyword>
+                        <gco:CharacterString>opendata</gco:CharacterString>
+                      </gmd:keyword>
+                    </gmd:MD_Keywords>
+                  </gmd:descriptiveKeywords>
+                </snippet>
+              </template>
+            </action>
+            
           </section>
+
+          </section> <!-- FINE SEZIONE KEYWORDS -->
+
 
 
           <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:characterSet"

@@ -708,7 +708,7 @@
   </codelist>
 
 
-  <codelist name="generalInterest">
+  <codelist name="keyword_interesse_generale">
    <entry>
       <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-1</code>
       <label>Acque sotterranee</label>

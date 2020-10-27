@@ -210,7 +210,15 @@
   <onlineResource>Risorsa on-line</onlineResource>
   <name>Nome</name>
   <URL>URL</URL>
-  <hierarchyLevel>Livello gerarchico</hierarchyLevel>
   <openData>Dati aperti</openData>
-  <generalInterest>Dati di interesse generale</generalInterest>
+  <keyword_inspire_theme>Categorie tematiche INSPIRE</keyword_inspire_theme>
+  <keyword_dataset_prioritari>Dataset prioritari</keyword_dataset_prioritari>
+  <keyword_interesse_generale>Dati di interesse generale</keyword_interesse_generale>
+  <keyword_ambito_territoriale>Ambito applicazione territoriale</keyword_ambito_territoriale>
+  <keyword_opendata>Dati aperti</keyword_opendata>
+  <keyword_opendata_found>Il dataset o la serie è di tipo aperto.</keyword_opendata_found>
+
+  <keyword_con_thesaurus>Parola chiave controllata</keyword_con_thesaurus>
+  <keyword_libera>Parola chiave libera</keyword_libera>
+
 </strings>
