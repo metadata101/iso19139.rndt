@@ -35,16 +35,15 @@
    <gemet>Gemet Inspire</gemet>
   <resourceMaintenace>Gestione dei dati</resourceMaintenace>
   <operatesOn>Risorsa accoppiata</operatesOn>
-  
-  <useConstraints>
-    Vincoli di fruibilità
-  </useConstraints>
-  <accessConstraints>
-    Vincoli di accesso
-  </accessConstraints>
-    <securityConstraints>
-      Vincoli di sicurezza
-    </securityConstraints>
+    
+  <accessConstraints>Vincoli di accesso</accessConstraints>
+  <accessConstraint>Vincolo di accesso</accessConstraint>
+  <useConstraints>Vincoli di fruibilità</useConstraints>
+  <useConstraint>Vincolo di fruibilità</useConstraint>
+  <securityConstraints>Vincoli di sicurezza</securityConstraints>
+  <metadataConstraints>Vincoli sui metadati</metadataConstraints>
+  <resourceConstraints>Vincoli sulla risorsa</resourceConstraints>
+  <rndtDataConstraints>Vincoli sui dati</rndtDataConstraints>
 
   <noConditionApply>Nessuna condizione applicabile</noConditionApply>
   <unknownCondition>Condizioni sconosciute</unknownCondition>
@@ -79,7 +78,6 @@
   <contentInfo>Informazioni sul contenuto</contentInfo>
   <portrayalCatalogueInfo>Portrayal</portrayalCatalogueInfo>
   <topicCategory>Categoria tematica</topicCategory>
-  <metadataConstraints>Vincoli sui metadati</metadataConstraints>
   <metadataMaintenance>Gestione del metadato</metadataMaintenance>
   <applicationSchemaInfo>Schema info</applicationSchemaInfo>
   <!-- XSD error translation -->

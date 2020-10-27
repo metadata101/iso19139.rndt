@@ -734,17 +734,19 @@
                 data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
             </action>
 
-          <section name="resourceConstraints">
+          <section name="rndtDataConstraints">
+             
             <field
               xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation"
               del="../.."
             />
-
+            
             <action type="add"
-                    or="resourceConstraints"
                     btnLabel="useLimitation"
+                    or="resourceConstraints"
                     in="gmd:MD_Metadata/gmd:identificationInfo/*"
-            >
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation) = 0">
+                        
               <template>
                 <snippet>
                   <gmd:resourceConstraints>
@@ -761,21 +763,24 @@
             <section name="accessConstraints">
 
               <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and (boolean(not(gmd:otherConstraints) or gmd:otherConstraints[contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]))]"
-                del=".."
+                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints
+                     [gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' 
+                     and (boolean(not(gmd:MD_LegalConstraints/gmd:otherConstraints) or gmd:MD_LegalConstraints/gmd:otherConstraints[contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]))]"
+                del="."
+                name="accessConstraint"
               />
 
 
               <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[boolean(gmd:accessConstraints) and not(gmd:otherConstraints)]"
-                del=".."
+                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints
+                     [boolean(gmd:MD_LegalConstraints/gmd:accessConstraints) and not(gmd:MD_LegalConstraints/gmd:otherConstraints)]"
+                del="."
+                name="accessConstraint"
               />
 
               <!--field
                      xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints[../gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and boolean(.[contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')])]"
               /-->
-
-
 
               <action type="add"  or="resourceConstraints"
                       btnLabel="accessConstraints"
@@ -788,12 +793,11 @@
                         <gmd:accessConstraints>
                           <gmd:MD_RestrictionCode
                             codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
-                            codeListValue="otherRestrictions">altri vincoli </gmd:MD_RestrictionCode>
+                            codeListValue="otherRestrictions">altri vincoli</gmd:MD_RestrictionCode>
                         </gmd:accessConstraints>
                         <gmd:otherConstraints>
                           <gmx:Anchor
-                            xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess/noLimitations">Nessun vincolo all’accesso
-                            pubblico</gmx:Anchor>
+                            xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess/noLimitations">Nessun vincolo all’accesso pubblico</gmx:Anchor>
                         </gmd:otherConstraints>
                       </gmd:MD_LegalConstraints>
                     </gmd:resourceConstraints>
@@ -816,8 +820,10 @@
             <section name="useConstraints">
 
               <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints[*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' and
-                   not(gmd:otherConstraints[contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')])]"
+                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints
+                     [gmd:MD_LegalConstraints/*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' 
+                     and not(gmd:MD_LegalConstraints/gmd:otherConstraints[contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')])]"
+                name="useConstraint"
                 del=".."/>
 
               <!--field
@@ -826,7 +832,9 @@
                 del="."/-->
 
 
-              <action type="add" or="resourceConstraints"  btnLabel="useConstraints"
+              <action type="add" 
+                      btnLabel="useConstraints"                      
+                      or="resourceConstraints" 
                       in="gmd:MD_Metadata/gmd:identificationInfo/*">
                 <template>
                   <snippet label="otherConstraints">
@@ -839,8 +847,7 @@
                         </gmd:useConstraints>
                         <gmd:otherConstraints>
                           <gmx:Anchor
-                            xlink:href="http://inspire.ec.europa.eu/metadata-codelist/
-ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabile</gmx:Anchor>
+                            xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabile</gmx:Anchor>
                         </gmd:otherConstraints>
                       </gmd:MD_LegalConstraints>
                     </gmd:resourceConstraints>
