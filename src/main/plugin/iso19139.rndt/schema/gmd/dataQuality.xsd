@@ -474,7 +474,7 @@
 		<xs:complexContent>
 			<xs:extension base="gco:AbstractObject_Type">
 				<xs:sequence>
-					<xs:element name="nameOfMeasure" type="gco:CharacterString_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="nameOfMeasure" type="gco:CharacterString_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
 					<xs:element name="measureIdentification" type="gmd:MD_Identifier_PropertyType" minOccurs="0"/>
 					<xs:element name="measureDescription" type="gco:CharacterString_PropertyType" minOccurs="0"/>
 					<xs:element name="evaluationMethodType" type="gmd:DQ_EvaluationMethodTypeCode_PropertyType" minOccurs="0"/>

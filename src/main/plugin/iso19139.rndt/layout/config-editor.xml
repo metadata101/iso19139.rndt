@@ -2122,95 +2122,101 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </action>
           </section>
 
-          <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_TopologicalConsistency">
-            <template>
-              <values>
-                <key label="name_of_measures"
-                     xpath="gmd:nameOfMeasure/gco:CharacterString">
-                </key>
-                <key label="evaluation_method_type"
-                     xpath="gmd:evaluationMethodType/gmd:DQ_EvaluationMethodTypeCode"
-                />
-                <key label="evaluation_method_descr"
-                     xpath="gmd:evaluationMethodDescription/gco:CharacterString"
-                />
-                <key label="date_time"
-                     xpath="gmd:dateTime/gco:DateTime"
-                     use="gn-date-picker">
-                  <directiveAttributes data-tag-name="gco:DateTime"/>
-                </key>
-                <key label="value_unit"
-                     xpath="gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/@xlink:href"
-                     />
-                <key label="topological_record"
-                     xpath="gmd:result/gmd:DQ_QuantitativeResult/gmd:value/gco:Record"
-                />
-              </values>
-              <snippet>
-                <gmd:DQ_TopologicalConsistency>
-                  <gmd:nameOfMeasure>
-                    <gco:CharacterString>{{name_of_measure}}</gco:CharacterString>
-                  </gmd:nameOfMeasure>
-                  <gmd:evaluationMethodType>
-                    {{evaluation_method_type}}
-                  </gmd:evaluationMethodType>
-                  <gmd:evaluationMethodDescription>
-                    <gco:CharacterString>{{evaluation_method_descr}}</gco:CharacterString>
-                  </gmd:evaluationMethodDescription>
-                  <gmd:dateTime>
-                    {{date_time}}
-                  </gmd:dateTime>
-                  <gmd:result>
-                    <gmd:DQ_QuantitativeResult>
-                      <gmd:valueUnit
-                        xlink:href="{{value_unit}}"/>
-                      <gmd:value>
-                        <gco:Record xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xsi:type="xs:integer">{{topological_record}}</gco:Record>
-                      </gmd:value>
-                    </gmd:DQ_QuantitativeResult>
-                  </gmd:result>
-                </gmd:DQ_TopologicalConsistency>
-              </snippet>
-            </template>
-          </field>
+          <section name="topologicalConsistency">
 
-          <action type ="add" or ="report" btnLabel="topologicalConsistency"
-                  in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
-            <template>
-              <snippet>
-                <gmd:report>
+            <field templateModeOnly="true" notDisplayedIfMissing="true" name="topologicalConsistency"
+                   xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_TopologicalConsistency" del="..">
+              <template>
+                <values>
+                  <key label="nameOfMeasure"
+                       xpath="gmd:nameOfMeasure/gco:CharacterString">
+                    <helper name="gmd:nameOfMeasure" context="gmd:DQ_TopologicalConsistency"/>
+                  </key>
+                  <key label="evaluationMethodType"
+                       xpath="gmd:evaluationMethodType/gmd:DQ_EvaluationMethodTypeCode"
+                  />
+                  <key label="evaluationMethodDescr"
+                       xpath="gmd:evaluationMethodDescription/gco:CharacterString"
+                  />
+                  <key label="dateTime"
+                       xpath="gmd:dateTime/gco:DateTime"
+                       use="gn-date-picker">
+                    <directiveAttributes data-tag-name="gco:DateTime"/>
+                  </key>
+                  <key label="valueUnit"
+                       xpath="gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/@xlink:href"
+                  />
+                  <key label="topologicalRecord"
+                       xpath="gmd:result/gmd:DQ_QuantitativeResult/gmd:value/gco:Record"
+                       use="number"
+                  />
+                </values>
+                <snippet>
                   <gmd:DQ_TopologicalConsistency>
                     <gmd:nameOfMeasure>
-                      <gco:CharacterString/>
+                      <gco:CharacterString>{{nameOfMeasure}}</gco:CharacterString>
                     </gmd:nameOfMeasure>
                     <gmd:evaluationMethodType>
-                      <gmd:DQ_EvaluationMethodTypeCode
-                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#DQ_EvaluationMethodTypeCode"
-                        codeListValue="indirect"/>
+                      {{evaluationMethodType}}
                     </gmd:evaluationMethodType>
                     <gmd:evaluationMethodDescription>
-                      <gco:CharacterString/>
+                      <gco:CharacterString>{{evaluationMethodDescr}}</gco:CharacterString>
                     </gmd:evaluationMethodDescription>
                     <gmd:dateTime>
-                      <gco:DateTime></gco:DateTime>
+                      {{dateTime}}
                     </gmd:dateTime>
                     <gmd:result>
                       <gmd:DQ_QuantitativeResult>
                         <gmd:valueUnit
-                          xlink:href="http://www.opengis.net/def/uom/OGC/1.0/unity"/>
+                          xlink:href="{{valueUnit}}"/>
                         <gmd:value>
                           <gco:Record xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                      xsi:type="xs:integer"/>
+                                      xsi:type="xs:integer">{{topologicalRecord}}</gco:Record>
                         </gmd:value>
                       </gmd:DQ_QuantitativeResult>
                     </gmd:result>
                   </gmd:DQ_TopologicalConsistency>
-                </gmd:report>
-              </snippet>
-            </template>
-          </action>
+                </snippet>
+              </template>
+            </field>
+
+            <action type ="add" or ="report" btnLabel="topologicalConsistency"
+                    in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
+              <template>
+                <snippet>
+                  <gmd:report>
+                    <gmd:DQ_TopologicalConsistency>
+                      <gmd:nameOfMeasure>
+                        <gco:CharacterString/>
+                      </gmd:nameOfMeasure>
+                      <gmd:evaluationMethodType>
+                        <gmd:DQ_EvaluationMethodTypeCode
+                          codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#DQ_EvaluationMethodTypeCode"
+                          codeListValue="indirect"/>
+                      </gmd:evaluationMethodType>
+                      <gmd:evaluationMethodDescription>
+                        <gco:CharacterString/>
+                      </gmd:evaluationMethodDescription>
+                      <gmd:dateTime>
+                        <gco:DateTime></gco:DateTime>
+                      </gmd:dateTime>
+                      <gmd:result>
+                        <gmd:DQ_QuantitativeResult>
+                          <gmd:valueUnit
+                            xlink:href="http://www.opengis.net/def/uom/OGC/1.0/unity"/>
+                          <gmd:value>
+                            <gco:Record xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                        xsi:type="xs:integer"/>
+                          </gmd:value>
+                        </gmd:DQ_QuantitativeResult>
+                      </gmd:result>
+                    </gmd:DQ_TopologicalConsistency>
+                  </gmd:report>
+                </snippet>
+              </template>
+            </action>
+          </section>
 
           <section name="lineage">
           <field

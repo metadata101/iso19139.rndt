@@ -35,6 +35,7 @@
    <gemet>Gemet Inspire</gemet>
   <resourceMaintenace>Gestione dei dati</resourceMaintenace>
   <operatesOn>Risorsa accoppiata</operatesOn>
+  
   <useConstraints>
     Vincoli di fruibilità
   </useConstraints>
@@ -71,6 +72,7 @@
   <qualityInfo>Informazioni sulla qualità</qualityInfo>
   <servicesQualityInfo>Qualità dei servizi</servicesQualityInfo>
   <dataQualityInfo>Qualità dei dati</dataQualityInfo>
+  <dataQuality>Informazioni sulla qualità</dataQuality>
   <dataQualityLevel>Livello di qualità</dataQualityLevel>
   <axisDimensionProperties>Proprietà dimensioni</axisDimensionProperties>
   <referenceSystemInfo>Sistema di riferimento</referenceSystemInfo>
@@ -210,6 +212,13 @@
   <onlineResource>Risorsa on-line</onlineResource>
   <name>Nome</name>
   <URL>URL</URL>
+
+  <nameOfMeasure>Nome della misura</nameOfMeasure>
+  <evaluationMethodType>Metodo di valutazione</evaluationMethodType>
+  <evaluationMethodDescr>Descrizione del metodo di valutazione</evaluationMethodDescr>
+  <valueUnit>Unità di misura</valueUnit>
+  <topologicalRecord>Valore</topologicalRecord>
+
   <openData>Dati aperti</openData>
   <keyword_inspire_theme>Categorie tematiche INSPIRE</keyword_inspire_theme>
   <keyword_dataset_prioritari>Dataset prioritari</keyword_dataset_prioritari>
