@@ -2469,38 +2469,6 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
 
         </section>
 
-        <section name="temporalReferenceSystem" displayIfRecord="
-          count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString[not(starts-with(.,'RDN')) and not(starts-with(.,'ED50')) and not(starts-with(.,'MonteMario')) and not(starts-with(.,'ETRS'))
-          and not(starts-with(.,'ITRS')) and not(starts-with(.,'WGS')) and not(starts-with(.,'EPSG')) and not(../../gmd:codeSpace/gco:CharacterString)])>0">
-
-          <field
-            xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier[
-            not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'WGS')) and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'RND'))
-            and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ETRS')) and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ITRS'))
-            and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'MonteMario')) and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ED50'))
-            and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'EPSG')) and not(./gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString)
-            and not(./gmd:RS_Identifier/gmd:code/gmx:Anchor)]"
-            del="../..">
-            <template>
-              <values>
-                <key label="code"
-                     xpath="gmd:RS_Identifier/gmd:code/gco:CharacterString"
-                     tooltip="gmd:referenceSystemInfo"/>
-              </values>
-              <snippet>
-                <gmd:referenceSystemIdentifier>
-                  <gmd:RS_Identifier>
-                    <gmd:code>
-                      <gco:CharacterString></gco:CharacterString>
-                    </gmd:code>
-                  </gmd:RS_Identifier>
-                </gmd:referenceSystemIdentifier>
-              </snippet>
-            </template>
-          </field>
-        </section>
-
-
           <action type="add"
                   btnLabel="spatialReferenceSystem"
                   or="referenceSystemInfo"
@@ -2919,6 +2887,38 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
             </template>
           </action>
 
+        <section name="temporalReferenceSystem" displayIfRecord="
+          count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString[not(starts-with(.,'RDN')) and not(starts-with(.,'ED50')) and not(starts-with(.,'MonteMario')) and not(starts-with(.,'ETRS'))
+          and not(starts-with(.,'ITRS')) and not(starts-with(.,'WGS')) and not(starts-with(.,'EPSG')) and not(../../gmd:codeSpace/gco:CharacterString)])>0">
+
+          <field
+            xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier[
+            not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'WGS')) and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'RND'))
+            and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ETRS')) and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ITRS'))
+            and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'MonteMario')) and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'ED50'))
+            and not(starts-with(./gmd:RS_Identifier/gmd:code/gco:CharacterString,'EPSG')) and not(./gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString)
+            and not(./gmd:RS_Identifier/gmd:code/gmx:Anchor)]"
+            del="../..">
+            <template>
+              <values>
+                <key label="code"
+                     xpath="gmd:RS_Identifier/gmd:code/gco:CharacterString"
+                     tooltip="gmd:referenceSystemInfo"/>
+              </values>
+              <snippet>
+                <gmd:referenceSystemIdentifier>
+                  <gmd:RS_Identifier>
+                    <gmd:code>
+                      <gco:CharacterString></gco:CharacterString>
+                    </gmd:code>
+                  </gmd:RS_Identifier>
+                </gmd:referenceSystemIdentifier>
+              </snippet>
+            </template>
+          </field>
+        </section>
+
+
           <action type="add"
                   btnLabel="temporalReferenceSystem"
                   or="referenceSystemInfo"
@@ -2939,6 +2939,7 @@ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabi
               </snippet>
             </template>
           </action>
+          
         </section>
       </tab>
 
