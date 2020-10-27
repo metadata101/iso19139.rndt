@@ -708,4 +708,447 @@
   </codelist>
 
 
+  <codelist name="keyword_interesse_generale">
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-1</code>
+      <label>Acque sotterranee</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-2</code>
+      <label>Acque territoriali e linea di base</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-3</code>
+      <label>Altre aree vincolate o regolamentate</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-4</code>
+      <label>Altre unità statistiche</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-5</code>
+      <label>Altri  dati da telerilevamento</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-6</code>
+      <label>Annali idrologici</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-7</code>
+      <label>Sistema di Registri forestale</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-8</code>
+      <label>Aree e specie faunistiche</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-9</code>
+      <label>Aree e Specie Vegetali</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-10</code>
+      <label>Aree percorse da incendio sottoposte a vincolo</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-11</code>
+      <label>Aree Vinicole, DOC, IGT</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-12</code>
+      <label>Atlante eolico</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-13</code>
+      <label>Aziende agricole</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-14</code>
+      <label>Bacini idrografici</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-15</code>
+      <label>Beni culturali ambientali</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-16</code>
+      <label>Carta dei suoli</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-17</code>
+      <label>Carta dell’utilizzazione del suolo</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-18</code>
+      <label>Carta delle esposizioni, clivometria, delle pendenze</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-19</code>
+      <label>Carta di Pericolosità sismica disaggregata secondo la Magnitudo e la distanza dei comuni italiani</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-20</code>
+      <label>Carta Geologica</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-21</code>
+      <label>Carta tecnica regionale numerica</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-22</code>
+      <label>Carte corografiche  – IGM</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-23</code>
+      <label>Carte della Pericolosità sismica di riferimento per il territorio nazionale</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-24</code>
+      <label>Carte di copertura ed uso del suolo</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-25</code>
+      <label>Carte di rischio sismico dei comuni italiani</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-26</code>
+      <label>Carte di vulnerabilità sismica dei comuni italiani</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-27</code>
+      <label>Carte Geotematiche</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-28</code>
+      <label>Carte tematiche di copertura vegetale</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-29</code>
+      <label>Carte topografiche - IGM</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-30</code>
+      <label>Cartografie storiche</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-31</code>
+      <label>Cartografie storiche militari</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-32</code>
+      <label>Cave e miniere</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-33</code>
+      <label>Centri di rottamazione</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-34</code>
+      <label>Classificazione sismica dei comuni italiani</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-35</code>
+      <label>Data Base degli strati prioritari</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-36</code>
+      <label>Data Base Oceanografico</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-37</code>
+      <label>Data Base topografici a grande e grandissima scala</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-38</code>
+      <label>Data Base topografici a media scala (1:25.000 – 1:50.000)</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-39</code>
+      <label>Dati aggregati della popolazione su unità amministrative e/o statistiche</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-40</code>
+      <label>Dati del monitoraggio ambientale</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-41</code>
+      <label>Dati orografici</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-42</code>
+      <label>DB grid</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-43</code>
+      <label>Depuratori e collettori</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-44</code>
+      <label>Discariche</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-45</code>
+      <label>Edifici</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-46</code>
+      <label>Erosione costiera</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-47</code>
+      <label>Farmacie</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-48</code>
+      <label>Frame campionamento griglie</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-49</code>
+      <label>Frame campionamento griglie</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-50</code>
+      <label>Ghiacciai</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-51</code>
+      <label>Griglie di inquadramento</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-52</code>
+      <label>Habitat</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-53</code>
+      <label>Immagini non ortorettificate</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-54</code>
+      <label>Impianti a rischio di incidente rilevante</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-55</code>
+      <label>Impianti di pesca, maricoltura</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-56</code>
+      <label>Impianti di sondaggio per acqua e idrocarburi</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-57</code>
+      <label>Impianti e strutture ricettive</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-58</code>
+      <label>Impianti e strutture ricreative e sportive</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-59</code>
+      <label>Indirizzi e numeri civici</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-60</code>
+      <label>Limiti amministrativi</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-61</code>
+      <label>Limiti ASL e distretti sanitari</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-62</code>
+      <label>Limiti Autorità di bacino</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-63</code>
+      <label>Limiti Consorzi di bonifica</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-64</code>
+      <label>Località abitata</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-65</code>
+      <label>Località produttiva</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-66</code>
+      <label>Modelli digitali di elevazione</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-67</code>
+      <label>Modello strutturale</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-68</code>
+      <label>Monografie carotaggi geologici</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-69</code>
+      <label>Ortofoto aeree</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-70</code>
+      <label>Ortofoto satellitari</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-71</code>
+      <label>Parametri di identificazione sismica di norma (ag, F0,Tc)</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-72</code>
+      <label>Parchi e Aree protette</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-73</code>
+      <label>Particelle catastali</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-74</code>
+      <label>Pericolosità e rischio idrogeologico (alluvioni, frane, esondazioni, ecc.)</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-75</code>
+      <label>Piattaforme</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-76</code>
+      <label>Repertorio naturalistico</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-77</code>
+      <label>Repertorio toponomastica</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-78</code>
+      <label>Rete accelero metrica nazionale</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-79</code>
+      <label>Rete sismica nazionale</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-80</code>
+      <label>Reti  geodetiche e monografie di elementi geodetici</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-81</code>
+      <label>Reti di trasporto</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-82</code>
+      <label>Reti tecnologiche marine</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-83</code>
+      <label>Reti tecnologiche terrestri</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-84</code>
+      <label>Reticolo idrografico</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-85</code>
+      <label>Rischio incendio</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-86</code>
+      <label>Rischio vulcanico</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-87</code>
+      <label>Risorse idriche per agricoltura</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-88</code>
+      <label>Scuole</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-89</code>
+      <label>Sedi istituzionali</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-90</code>
+      <label>Sezioni di censimento</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-91</code>
+      <label>Sistemi di coordinate</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-92</code>
+      <label>Siti archeologici e/o paleontologici</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-93</code>
+      <label>Siti di Importanza Comunitaria, Zone di Protezione Speciale</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-94</code>
+      <label>Siti protezione civile</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-95</code>
+      <label>Sorgenti</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-96</code>
+      <label>Specchi d’acqua</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-97</code>
+      <label>Stazioni di rilevamento idrometeorologiche</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-98</code>
+      <label>Stazioni e reti di monitoraggio e rilevazione ambientale</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-99</code>
+      <label>Stazioni meteo, sensori, radar, punti di misurazione, ecc</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-100</code>
+      <label>Stradari</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-101</code>
+      <label>Strutture e distretti sanitari</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-102</code>
+      <label>Strutture ospedaliere</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-103</code>
+      <label>Unità fisiografiche</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-104</code>
+      <label>Valanghe</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-105</code>
+      <label>Vincoli paesaggistico, archeologico ed architettonico</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-106</code>
+      <label>Vincolo ambientale</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-107</code>
+      <label>Vincolo idrogeologico</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-108</code>
+      <label>Zonazione urbanistico territoriale</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-109</code>
+      <label>Zone di allertamento per il rischio idrogeologico e idraulico</label>
+   </entry>
+   <entry>
+      <code>http://registry.geodati.gov.it/rndt-all1/rndt-all1-110</code>
+      <label>Zonizzazione acustica</label>
+   </entry>
+  </codelist>
+
 </codelists>
