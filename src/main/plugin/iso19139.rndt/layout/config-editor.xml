@@ -1175,20 +1175,106 @@
                         
                <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'GEMET - INSPIRE themes, version 1.0') ]"
-                      or="descriptiveKeywords"
-                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
-                      del=".."
-               />
+                      del=".." />
+
+               <action type="add"
+                       btnLabel="keyword_add_inspire_theme"
+                         or="descriptiveKeywords"
+                         in="gmd:MD_Metadata/gmd:identificationInfo/*"
+
+                       if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
+                          gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/gco:CharacterString = 'GEMET - INSPIRE themes, version 1.0'])=0">
+
+                 <template>
+                   <snippet>
+
+                     <gmd:descriptiveKeywords>
+                        <gmd:MD_Keywords>
+                           <gmd:keyword gco:nilReason="missing">
+                              <gco:CharacterString/>
+                           </gmd:keyword>
+                           <gmd:thesaurusName>
+                              <gmd:CI_Citation>
+                                 <gmd:title>
+                                    <gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+                                 </gmd:title>
+                                 <gmd:date>
+                                    <gmd:CI_Date>
+                                       <gmd:date>
+                                          <gco:Date>2008-06-01</gco:Date>
+                                       </gmd:date>
+                                       <gmd:dateType>
+                                          <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                                                               codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                                       </gmd:dateType>
+                                    </gmd:CI_Date>
+                                 </gmd:date>
+                              </gmd:CI_Citation>
+                           </gmd:thesaurusName>
+                        </gmd:MD_Keywords>
+                     </gmd:descriptiveKeywords>
+
+                   </snippet>
+                 </template>
+               </action>
              </section>
+
 
              <section name="keyword_dataset_prioritari">
                <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset">INSPIRE priority data set</gmx:Anchor> -->
-                        
                <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'INSPIRE priority data set') ]"
-                      or="descriptiveKeywords"
-                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
                       del=".."/>
+               
+               <action type="add"
+                       btnLabel="keyword_add_dataset_prioritari"
+                       or="descriptiveKeywords"
+                       in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                       if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
+                          gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/gco:CharacterString = 'INSPIRE priority data set'])=0">
+
+                  <template>
+                    <snippet>               
+                      <gmd:descriptiveKeywords>
+                         <gmd:MD_Keywords>
+                            <gmd:keyword gco:nilReason="missing">
+                               <gco:CharacterString/>
+                            </gmd:keyword>
+                            <gmd:type>
+                               <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
+                                                       codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                            </gmd:type>
+                            <gmd:thesaurusName>
+                               <gmd:CI_Citation>
+                                  <gmd:title>
+                                     <gco:CharacterString>INSPIRE priority data set</gco:CharacterString>
+                                  </gmd:title>
+                                  <gmd:date>
+                                     <gmd:CI_Date>
+                                        <gmd:date>
+                                           <gco:Date>2018-04-04</gco:Date>
+                                        </gmd:date>
+                                        <gmd:dateType>
+                                           <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                                                                codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                                        </gmd:dateType>
+                                     </gmd:CI_Date>
+                                  </gmd:date>
+                                  <gmd:identifier>
+                                     <gmd:MD_Identifier>
+                                        <gmd:code>
+                                           <gmx:Anchor xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.httpinspireeceuropaeumetadatacodelistPriorityDataset-PriorityDataset">geonetwork.thesaurus.external.theme.httpinspireeceuropaeumetadatacodelistPriorityDataset-PriorityDataset</gmx:Anchor>
+                                        </gmd:code>
+                                     </gmd:MD_Identifier>
+                                  </gmd:identifier>
+                               </gmd:CI_Citation>
+                            </gmd:thesaurusName>
+                         </gmd:MD_Keywords>
+                      </gmd:descriptiveKeywords>               
+                    </snippet>
+                  </template>
+               </action>
+               
              </section>
 
              <section name="keyword_ambito_territoriale">
@@ -1196,9 +1282,59 @@
                         
                <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'Spatial scope') ]"
+                      del=".."/>
+
+               <action type="add"
+                    btnLabel="keyword_add_ambito_territoriale"
                       or="descriptiveKeywords"
                       in="gmd:MD_Metadata/gmd:identificationInfo/*"
-                      del=".."/>
+                                                       
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
+                       gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/gco:CharacterString = 'Spatial scope'])=0">
+
+                  <template>
+                    <snippet>               
+
+                      <gmd:descriptiveKeywords>
+                         <gmd:MD_Keywords>
+                            <gmd:keyword gco:nilReason="missing">
+                               <gco:CharacterString/>
+                            </gmd:keyword>
+                            <gmd:type>
+                               <gmd:MD_KeywordTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_KeywordTypeCode"
+                                                       codeListValue="theme">theme</gmd:MD_KeywordTypeCode>
+                            </gmd:type>
+                            <gmd:thesaurusName>
+                               <gmd:CI_Citation>
+                                  <gmd:title>
+                                     <gco:CharacterString>Spatial scope</gco:CharacterString>
+                                  </gmd:title>
+                                  <gmd:date>
+                                     <gmd:CI_Date>
+                                        <gmd:date>
+                                           <gco:Date>2019-05-22</gco:Date>
+                                        </gmd:date>
+                                        <gmd:dateType>
+                                           <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                                                                codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                                        </gmd:dateType>
+                                     </gmd:CI_Date>
+                                  </gmd:date>
+                                  <gmd:identifier>
+                                     <gmd:MD_Identifier>
+                                        <gmd:code>
+                                           <gmx:Anchor xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.httpinspireeceuropaeumetadatacodelistSpatialScope-SpatialScope">geonetwork.thesaurus.external.theme.httpinspireeceuropaeumetadatacodelistSpatialScope-SpatialScope</gmx:Anchor>
+                                        </gmd:code>
+                                     </gmd:MD_Identifier>
+                                  </gmd:identifier>
+                               </gmd:CI_Citation>
+                            </gmd:thesaurusName>
+                         </gmd:MD_Keywords>
+                      </gmd:descriptiveKeywords>               
+                    </snippet>
+                  </template>
+               </action>
+         
              </section>
 
              
@@ -1350,10 +1486,10 @@
             <template>
               <snippet>
                 <gmd:status>
-                  <gmd:ProgresssCode
+                  <gmd:ProgressCode
                     codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ProgresCode"
                     codeListValue="underDevelopment">
-                  </gmd:ProgresssCode>
+                  </gmd:ProgressCode>
                 </gmd:status>
               </snippet>
             </template>

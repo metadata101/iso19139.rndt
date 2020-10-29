@@ -225,6 +225,10 @@
   <keyword_opendata>Dati aperti</keyword_opendata>
   <keyword_opendata_found>Il dataset o la serie è di tipo aperto.</keyword_opendata_found>
 
+  <keyword_add_inspire_theme>Aggiungi tema INSPIRE</keyword_add_inspire_theme>
+  <keyword_add_dataset_prioritari>Aggiungi dataset prioritario</keyword_add_dataset_prioritari>
+  <keyword_add_ambito_territoriale>Aggiungi ambito territoriale</keyword_add_ambito_territoriale>
+
   <keyword_con_thesaurus>Parola chiave controllata</keyword_con_thesaurus>
   <keyword_libera>Parola chiave libera</keyword_libera>
 
