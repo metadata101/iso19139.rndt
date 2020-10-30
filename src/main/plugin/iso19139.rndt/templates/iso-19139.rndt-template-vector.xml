@@ -237,7 +237,7 @@
                                     codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
           </gmd:accessConstraints>
           <gmd:otherConstraints>
-            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess/noLimitations">Nessun vincolo all’accesso pubblico</gmx:Anchor>
+            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess"></gmx:Anchor>
           </gmd:otherConstraints>
         </gmd:MD_LegalConstraints>
       </gmd:resourceConstraints>
@@ -250,7 +250,7 @@
                                     codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
           </gmd:useConstraints>
           <gmd:otherConstraints>
-            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabile</gmx:Anchor>
+            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse"></gmx:Anchor>
           </gmd:otherConstraints>
         </gmd:MD_LegalConstraints>
       </gmd:resourceConstraints>
@@ -384,13 +384,13 @@
                 <gmd:URL>http://</gmd:URL>
               </gmd:linkage>
               <gmd:protocol>
-                <gmx:Anchor xlink:href="http://www.opengis.net/def/serviceType/ogc/wfs">OGC-WFS Web Feature Service</gmx:Anchor>
+                <gmx:Anchor xlink:href=""></gmx:Anchor>
               </gmd:protocol>
-              <gmd:applicationProfile>
-                <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/SpatialDataServiceType" />
-              </gmd:applicationProfile>
+              <gmd:name gco:nilReason="missing">
+                <gco:CharacterString />
+              </gmd:name>
               <gmd:description>
-                <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/OnLineDescriptionCode/accessPoint">access point</gmx:Anchor>
+                <gmx:Anchor xlink:href=""></gmx:Anchor>
               </gmd:description>
             </gmd:CI_OnlineResource>
           </gmd:onLine>

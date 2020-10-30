@@ -27,7 +27,6 @@
     <for name="gmd:useLimitation" use="textarea"/>
     <for name="gmd:title" use="textarea"/>
     <for name="gmd:URL" use="textarea"/>
-    <for name="gmd:otherConstraints" use="textarea"/>
     <for name="gmd:individualName" use="textarea"/>
     <for name="gml:identifier" use="textarea"/>
     <for name="gmd:nameOfMeasure" use="textarea"/>
@@ -630,7 +629,6 @@
             -->
             <action type="add"
                     btnLabel="bnt_test"
-                    directive="data-gn-thesaurus-selector"
                     name="gmd:descriptiveKeywords"
                     or="descriptiveKeywords"
                     in="/gmd:MD_Metadata/gmd:identificationInfo/*"
@@ -804,11 +802,10 @@
             <section name="accessConstraints">
 
               <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints
-                     [gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions'
-                     and (boolean(not(gmd:MD_LegalConstraints/gmd:otherConstraints) or gmd:MD_LegalConstraints/gmd:otherConstraints[contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]))]"
+                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[
+                gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions'
+                and  contains(gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]"
                 del="."
-                name="accessConstraint"
               />
 
 
@@ -816,19 +813,18 @@
                 xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints
                      [boolean(gmd:MD_LegalConstraints/gmd:accessConstraints) and not(gmd:MD_LegalConstraints/gmd:otherConstraints)]"
                 del="."
-                name="accessConstraint"
               />
 
               <!--field
                      xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints[../gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' and boolean(.[contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')])]"
               /-->
 
-              <action type="add"  or="resourceConstraints"
+              <action type="add" or="resourceConstraints"
                       btnLabel="accessConstraints"
                       in="gmd:MD_Metadata/gmd:identificationInfo/*"
               >
                 <template>
-                  <snippet label="otherConstraints">
+                  <snippet>
                     <gmd:resourceConstraints>
                       <gmd:MD_LegalConstraints>
                         <gmd:accessConstraints>
@@ -838,19 +834,8 @@
                         </gmd:accessConstraints>
                         <gmd:otherConstraints>
                           <gmx:Anchor
-                            xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess/noLimitations">Nessun vincolo all’accesso pubblico</gmx:Anchor>
+                            xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess"></gmx:Anchor>
                         </gmd:otherConstraints>
-                      </gmd:MD_LegalConstraints>
-                    </gmd:resourceConstraints>
-                  </snippet>
-                  <snippet label="accessConstraints">
-                    <gmd:resourceConstraints>
-                      <gmd:MD_LegalConstraints>
-                        <gmd:accessConstraints>
-                          <gmd:MD_RestrictionCode
-                            codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
-                            codeListValue=""></gmd:MD_RestrictionCode>
-                        </gmd:accessConstraints>
                       </gmd:MD_LegalConstraints>
                     </gmd:resourceConstraints>
                   </snippet>
@@ -861,16 +846,17 @@
             <section name="useConstraints">
 
               <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints
-                     [gmd:MD_LegalConstraints/*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions'
-                     and not(gmd:MD_LegalConstraints/gmd:otherConstraints[contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')])]"
-                name="useConstraint"
-                del=".."/>
+                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[
+                gmd:MD_LegalConstraints/*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions']
+                [not(contains(gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))
+                and boolean(gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor)]"
+                del="."/>
 
-              <!--field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints[../*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' and
-                   not(contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))]"
-                del="."/-->
+              <field
+                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints[
+                ../*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions']
+                [boolean(gco:CharacterString)]"
+                del="../.."/>
 
 
               <action type="add"
@@ -878,7 +864,7 @@
                       or="resourceConstraints"
                       in="gmd:MD_Metadata/gmd:identificationInfo/*">
                 <template>
-                  <snippet label="otherConstraints">
+                  <snippet label="noConditionApply">
                     <gmd:resourceConstraints>
                       <gmd:MD_LegalConstraints>
                         <gmd:useConstraints>
@@ -888,12 +874,12 @@
                         </gmd:useConstraints>
                         <gmd:otherConstraints>
                           <gmx:Anchor
-                            xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabile</gmx:Anchor>
+                            xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/noConditionsApply">no conditions to access and use</gmx:Anchor>
                         </gmd:otherConstraints>
                       </gmd:MD_LegalConstraints>
                     </gmd:resourceConstraints>
                   </snippet>
-                  <snippet label="useConstraints">
+                  <snippet label="unknownCondition">
                     <gmd:resourceConstraints>
                       <gmd:MD_LegalConstraints>
                         <gmd:useConstraints>
@@ -901,6 +887,24 @@
                             codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
                             codeListValue="otherRestrictions"/>
                         </gmd:useConstraints>
+                        <gmd:otherConstraints>
+                          <gmx:Anchor
+                            xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/conditionsUnknown">conditions to access and use unknown</gmx:Anchor>
+                        </gmd:otherConstraints>
+                      </gmd:MD_LegalConstraints>
+                    </gmd:resourceConstraints>
+                  </snippet>
+                  <snippet label="freeText">
+                    <gmd:resourceConstraints>
+                      <gmd:MD_LegalConstraints>
+                        <gmd:useConstraints>
+                          <gmd:MD_RestrictionCode
+                            codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                            codeListValue="otherRestrictions"/>
+                        </gmd:useConstraints>
+                        <gmd:otherConstraints>
+                          <gco:CharacterString></gco:CharacterString>
+                        </gmd:otherConstraints>
                       </gmd:MD_LegalConstraints>
                     </gmd:resourceConstraints>
                   </snippet>
@@ -1479,31 +1483,30 @@
 
             <section name="keyword_opendata" >
 
-              <!-- todo: il delete non funziona -->
               <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
                         [gco:CharacterString/text()='open data' or gco:CharacterString/text()='opendata']"
                      del="../.."
               />
 
-              <action type="add"
-                      btnLabel="openData"
-                      or="descriptiveKeywords"
-                      in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                      if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords
+            <action type="add"
+                    btnLabel="openData"
+                    or="descriptiveKeywords"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords
                               [gmd:keyword='open data' or gmd:keyword='opendata'])=0"
-              >
-                <template>
-                  <snippet>
-                    <gmd:descriptiveKeywords>
-                      <gmd:MD_Keywords>
-                        <gmd:keyword>
-                          <gco:CharacterString>opendata</gco:CharacterString>
-                        </gmd:keyword>
-                      </gmd:MD_Keywords>
-                    </gmd:descriptiveKeywords>
-                  </snippet>
-                </template>
-              </action>
+            >
+              <template>
+                <snippet>
+                  <gmd:descriptiveKeywords>
+                    <gmd:MD_Keywords>
+                      <gmd:keyword>
+                        <gco:CharacterString>opendata</gco:CharacterString>
+                      </gmd:keyword>
+                    </gmd:MD_Keywords>
+                  </gmd:descriptiveKeywords>
+                </snippet>
+              </template>
+            </action>
 
             </section>
 
@@ -3224,49 +3227,9 @@
 
 
         <section name="dataDistribution" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0">
-          <field templateModeOnly="true" notDisplayedIfMissing="true" name="onlineResource"
-                 xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions"
-                 del="..">
-            <template>
-              <values>
-                <key label="URL" xpath="gmd:online/gmd:CI_OnlineResource/gmd:linkage/gmd:URL" tooltip="gmd:linkage" />
-                <key label="protocol" xpath="gmd:online/gmd:CI_OnlineResource/gmd:protocol" tooltip="gmd:protocol">
-                  <helper name="gmd:protocol"/>
-                </key>
-                <key label="name" xpath="gmd:online/gmd:CI_OnlineResource/gmd:name/gco:CharacterString"/>
-                <key label="description" xpath="gmd:online/gmd:CI_OnlineResource/gmd:description">
-                  <helper name="gmd:description" context="gmd:CI_OnlineResource"/>
-                </key>
-                <key label="function"
-                     xpath="gmd:online/gmd:OnLineFunctionCode/@codeListValue">
-                  <codelist name="gmd:CI_OnLineFunctionCode"/>
-                </key>
-              </values>
-              <snippet>
-                <gmd:onLine>
-                  <gmd:CI_OnlineResource>
-                    <gmd:linkage>
-                      <gmd:URL>{{URL}}</gmd:URL>
-                    </gmd:linkage>
-                    <gmd:protocol>
-                        {{protocol}}
-                    </gmd:protocol>
-                    <gmd:name>
-                      <gco:CharacterString>{{name}}</gco:CharacterString>
-                    </gmd:name>
-                    <gmd:description>
-                        {{description}}
-                    </gmd:description>
-                    <gmd:function>
-                      <gmd:CI_OnLineFunctionCode
-                        codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="{{functionCode}}">
-                      </gmd:CI_OnLineFunctionCode>
-                    </gmd:function>
-                  </gmd:CI_OnlineResource>
-                </gmd:onLine>
-              </snippet>
-            </template>
-          </field>
+          <field name="onlineResource"
+                 xpath="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions"
+                 del="."/>
 
           <action type="add" name="onlineResource" or="transferOptions" btnLabel="transferOption"
                   in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution">
@@ -3283,10 +3246,6 @@
                           <gmx:Anchor
                             xlink:href=""/>
                         </gmd:protocol>
-                        <gmd:applicationProfile>
-                          <gmx:Anchor
-                            xlink:href=""/>
-                        </gmd:applicationProfile>
                         <gmd:name>
                           <gco:CharacterString/>
                         </gmd:name>

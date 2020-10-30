@@ -191,7 +191,7 @@
                                     codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
           </gmd:accessConstraints>
           <gmd:otherConstraints>
-            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess/noLimitations">Nessun vincolo all’accesso pubblico</gmx:Anchor>
+            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess"></gmx:Anchor>
           </gmd:otherConstraints>
         </gmd:MD_LegalConstraints>
       </gmd:resourceConstraints>
@@ -204,7 +204,7 @@
                                     codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
           </gmd:useConstraints>
           <gmd:otherConstraints>
-            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabile</gmx:Anchor>
+            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse"></gmx:Anchor>
           </gmd:otherConstraints>
         </gmd:MD_LegalConstraints>
       </gmd:resourceConstraints>
@@ -274,16 +274,16 @@
           <gmd:onLine>
             <gmd:CI_OnlineResource>
               <gmd:linkage>
-                <gmd:URL>http://url.accesso.servizio.it</gmd:URL>
+                <gmd:URL>http://</gmd:URL>
               </gmd:linkage>
-              <gmd:protocol gco:nilReason="missing">
-                <gco:CharacterString />
+              <gmd:protocol>
+                <gmx:Anchor xlink:href=""></gmx:Anchor>
               </gmd:protocol>
-              <gmd:name gco:nilReason="missing">
-                <gco:CharacterString />
-              </gmd:name>
-              <gmd:description gco:nilReason="missing">
-                <gco:CharacterString />
+              <gmd:applicationProfile>
+                <gmx:Anchor xlink:href="" />
+              </gmd:applicationProfile>
+              <gmd:description>
+                <gmx:Anchor xlink:href=""></gmx:Anchor>
               </gmd:description>
             </gmd:CI_OnlineResource>
           </gmd:onLine>

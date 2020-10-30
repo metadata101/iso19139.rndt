@@ -191,7 +191,7 @@
                                     codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
           </gmd:accessConstraints>
           <gmd:otherConstraints>
-            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess/noLimitations">Nessun vincolo all’accesso pubblico</gmx:Anchor>
+            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/LimitationsOnPublicAccess"></gmx:Anchor>
           </gmd:otherConstraints>
         </gmd:MD_LegalConstraints>
       </gmd:resourceConstraints>
@@ -204,12 +204,14 @@
                                     codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
           </gmd:useConstraints>
           <gmd:otherConstraints>
-            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ ConditionsApplyingToAccessAndUse/noConditionsApply">Nessuna condizione applicabile</gmx:Anchor>
+            <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse"></gmx:Anchor>
           </gmd:otherConstraints>
         </gmd:MD_LegalConstraints>
       </gmd:resourceConstraints>
       <!-- L'elemento deve assumere uno dei valori della lista “ServiceType” di cui al § 3.4.5.1 - all. 2 DM (discovery, view, download, transformation, invoke, other) -->
-      <gco:LocalName codeSpace="http://inspire.ec.europa.eu/metadatacodelist/SpatialDataServiceType">other</gco:LocalName>
+      <srv:serviceType>
+        <gco:LocalName codeSpace="http://inspire.ec.europa.eu/metadatacodelist/SpatialDataServiceType">other</gco:LocalName>
+      </srv:serviceType>
       <srv:extent>
         <gmd:EX_Extent>
           <gmd:geographicElement>
@@ -269,20 +271,22 @@
     <gmd:MD_Distribution>
       <gmd:transferOptions>
         <gmd:MD_DigitalTransferOptions>
-          <gmd:CI_OnlineResource>
-            <gmd:linkage>
-              <gmd:URL>https://</gmd:URL>
-            </gmd:linkage>
-            <gmd:description>
-              <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/OnLineDescriptionCode/accessPoint">access point</gmx:Anchor>
-            </gmd:description>
-            <gmd:function>
-              <gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="information">information</gmd:CI_OnLineFunctionCode>
-            </gmd:function>
-            <gmd:name>
-              <gco:CharacterString />
-            </gmd:name>
-          </gmd:CI_OnlineResource>
+          <gmd:onLine>
+            <gmd:CI_OnlineResource>
+              <gmd:linkage>
+                <gmd:URL>http://url.accesso.servizio.it</gmd:URL>
+              </gmd:linkage>
+              <gmd:protocol>
+                <gmx:Anchor xlink:href="" />
+              </gmd:protocol>
+              <gmd:name gco:nilReason="missing">
+                <gco:CharacterString />
+              </gmd:name>
+              <gmd:description>
+                <gmx:Anchor xlink:href="" />
+              </gmd:description>
+            </gmd:CI_OnlineResource>
+          </gmd:onLine>
         </gmd:MD_DigitalTransferOptions>
       </gmd:transferOptions>
     </gmd:MD_Distribution>
