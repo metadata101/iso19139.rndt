@@ -604,15 +604,15 @@
              vanno escluse le keyword relative a servizi:
                (4.1.2.1) gestire keyword INSPIRE service types
           -->
-                 
+
           <section name="descriptiveKeywords">
 
             <!-- Keywords con thesauri (non quelli gestiti altrove) -->
-            <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords[boolean(gmd:MD_Keywords/gmd:thesaurusName) 
+            <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords[boolean(gmd:MD_Keywords/gmd:thesaurusName)
                      and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'GEMET - INSPIRE themes, version 1.0'))
                      and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'INSPIRE priority data set'))
                      and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Spatial scope'))
-                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Registro dei dati di interesse generale per il RNDT')) 
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Registro dei dati di interesse generale per il RNDT'))
                      ]"
                    notDisplayedIfMissing="true"
                    name="keyword_con_thesaurus"
@@ -621,34 +621,75 @@
             >
             </field>
 
-            <!-- Keywords senza thesauri (escluso opendata) -->
-            <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
-                           [not(boolean(gmd:MD_Keywords/gmd:thesaurusName))]
-                           /gmd:MD_Keywords/gmd:keyword"
-                   name="keyword_libera"
-                   or ="descriptiveKeywords" in="gmd:MD_Metadata/gmd:identificationInfo/*" 
-                   del="." 
-                   notDisplayedIfMissing="true" /> 
-
-            <!-- 
+            <!--
               Vogliamo poter aggiungere un nuovo thesaurus solo alla fine delle keyword presenti.
-            
+
                È stata rimossa l'addDirective del "for name=", altrimenti compare un "add from thesaurus"
                in ogni field che fa riferimento alle keywords:
                    <for name="gmd:descriptiveKeywords" addDirective="data-gn-thesaurus-selector">
-            -->                          
-            <action type="add"                  
+            -->
+            <action type="add"
                     btnLabel="bnt_test"
                     directive="data-gn-thesaurus-selector"
                     name="gmd:descriptiveKeywords"
                     or="descriptiveKeywords"
                     in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                    
+
                     addDirective="data-gn-thesaurus-selector"
-            > 
+            >
                <template><!-- questo serve, altimenti l'addDirective non viene valutata--></template>
             </action>
 
+            <section name="freeTextKeywords">
+              <!-- Keywords senza thesauri (escluso opendata) -->
+              <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+                           [not(../gmd:thesaurusName)]"
+                     name="keyword_libera"
+                     del="."
+                     if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/
+                       gmd:keyword[not(../gmd:thesaurusName)])>1"
+              />
+
+              <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+                           [not(../gmd:thesaurusName) and not(./gco:CharacterString='opendata') and not(./gco:CharacterString='open data')]"
+                     name="keyword_libera"
+                     del="../.."
+                     if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/
+                       gmd:keyword[not(boolean(../gmd:thesaurusName))])=1"
+              />
+
+              <action type="add"
+                      btnLabel="keyword_libera"
+                      or="descriptiveKeywords"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                      if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[not(../gmd:thesaurusName)])=0"
+              >
+                <template>
+                  <snippet>
+                    <gmd:descriptiveKeywords>
+                      <gmd:MD_Keywords>
+                        <gmd:keyword>
+                          <gco:CharacterString></gco:CharacterString>
+                        </gmd:keyword>
+                      </gmd:MD_Keywords>
+                    </gmd:descriptiveKeywords>
+                  </snippet>
+                </template>
+              </action>
+
+              <action type="add" btnLabel="keyword_libera" or="keyword"
+                      in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[not(gmd:thesaurusName)]"
+                      if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[not(../gmd:thesaurusName)])>0"
+              >
+                <template>
+                  <snippet>
+                    <gmd:keyword>
+                      <gco:CharacterString></gco:CharacterString>
+                    </gmd:keyword>
+                  </snippet>
+                </template>
+              </action>
+            </section>
 
           </section>
 
@@ -735,18 +776,18 @@
             </action>
 
           <section name="rndtDataConstraints">
-             
+
             <field
               xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation"
               del="../.."
             />
-            
+
             <action type="add"
                     btnLabel="useLimitation"
                     or="resourceConstraints"
                     in="gmd:MD_Metadata/gmd:identificationInfo/*"
                     if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation) = 0">
-                        
+
               <template>
                 <snippet>
                   <gmd:resourceConstraints>
@@ -764,7 +805,7 @@
 
               <field
                 xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints
-                     [gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions' 
+                     [gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions'
                      and (boolean(not(gmd:MD_LegalConstraints/gmd:otherConstraints) or gmd:MD_LegalConstraints/gmd:otherConstraints[contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]))]"
                 del="."
                 name="accessConstraint"
@@ -821,7 +862,7 @@
 
               <field
                 xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints
-                     [gmd:MD_LegalConstraints/*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions' 
+                     [gmd:MD_LegalConstraints/*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions'
                      and not(gmd:MD_LegalConstraints/gmd:otherConstraints[contains(gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')])]"
                 name="useConstraint"
                 del=".."/>
@@ -832,9 +873,9 @@
                 del="."/-->
 
 
-              <action type="add" 
-                      btnLabel="useConstraints"                      
-                      or="resourceConstraints" 
+              <action type="add"
+                      btnLabel="useConstraints"
+                      or="resourceConstraints"
                       in="gmd:MD_Metadata/gmd:identificationInfo/*">
                 <template>
                   <snippet label="otherConstraints">
@@ -1172,7 +1213,7 @@
 
              <section name="keyword_inspire_theme">
                <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/theme">GEMET - INSPIRE themes, version 1.0</gmx:Anchor> -->
-                        
+
                <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'GEMET - INSPIRE themes, version 1.0') ]"
                       del=".." />
@@ -1225,7 +1266,7 @@
                <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'INSPIRE priority data set') ]"
                       del=".."/>
-               
+
                <action type="add"
                        btnLabel="keyword_add_dataset_prioritari"
                        or="descriptiveKeywords"
@@ -1234,7 +1275,7 @@
                           gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/gco:CharacterString = 'INSPIRE priority data set'])=0">
 
                   <template>
-                    <snippet>               
+                    <snippet>
                       <gmd:descriptiveKeywords>
                          <gmd:MD_Keywords>
                             <gmd:keyword gco:nilReason="missing">
@@ -1270,16 +1311,16 @@
                                </gmd:CI_Citation>
                             </gmd:thesaurusName>
                          </gmd:MD_Keywords>
-                      </gmd:descriptiveKeywords>               
+                      </gmd:descriptiveKeywords>
                     </snippet>
                   </template>
                </action>
-               
+
              </section>
 
              <section name="keyword_ambito_territoriale">
                <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/SpatialScope">Spatial scope</gmx:Anchor> -->
-                        
+
                <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'Spatial scope') ]"
                       del=".."/>
@@ -1288,12 +1329,12 @@
                     btnLabel="keyword_add_ambito_territoriale"
                       or="descriptiveKeywords"
                       in="gmd:MD_Metadata/gmd:identificationInfo/*"
-                                                       
+
                     if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
                        gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/gco:CharacterString = 'Spatial scope'])=0">
 
                   <template>
-                    <snippet>               
+                    <snippet>
 
                       <gmd:descriptiveKeywords>
                          <gmd:MD_Keywords>
@@ -1330,20 +1371,20 @@
                                </gmd:CI_Citation>
                             </gmd:thesaurusName>
                          </gmd:MD_Keywords>
-                      </gmd:descriptiveKeywords>               
+                      </gmd:descriptiveKeywords>
                     </snippet>
                   </template>
                </action>
-         
+
              </section>
 
-             
+
             <section name="keyword_interesse_generale" >
                <!-- <gco:CharacterString>Registro dei dati di interesse generale per il RNDT</gco:CharacterString> -->
 
                <!-- gestisce campo ed eliminazione quando ci sono più elementi -->
                 <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')]"
-                       templateModeOnly="true" notDisplayedIfMissing="true"                 
+                       templateModeOnly="true" notDisplayedIfMissing="true"
                        del="."
                        if ="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')])>1"
                 >
@@ -1363,7 +1404,7 @@
 
                <!-- gestisce campo ed eliminazione di tutto il blocco quando c'è un solo elemento -->
               <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')]"
-                     templateModeOnly="true" notDisplayedIfMissing="true"               
+                     templateModeOnly="true" notDisplayedIfMissing="true"
                      del="../.."
                      if ="not(count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')])>1)"
               >
@@ -1436,42 +1477,37 @@
 
             </section>
 
-          <section name="keyword_opendata" >
+            <section name="keyword_opendata" >
 
-            <!-- todo: il delete non funziona -->
-            <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+              <!-- todo: il delete non funziona -->
+              <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
                         [gco:CharacterString/text()='open data' or gco:CharacterString/text()='opendata']"
-               del="."
-               or="keyword"
-               in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords"
-            />
-             
-            <action type="add"
-                    btnLabel="openData"
-                    xxname="gmd:descriptiveKeywords"
-                    or="descriptiveKeywords"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords
+                     del="../.."
+              />
+
+              <action type="add"
+                      btnLabel="openData"
+                      or="descriptiveKeywords"
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                      if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords
                               [gmd:keyword='open data' or gmd:keyword='opendata'])=0"
-            >
-              <template>
-                <snippet>
-                  <gmd:descriptiveKeywords>
-                    <gmd:MD_Keywords>
-                      <gmd:keyword>
-                        <gco:CharacterString>opendata</gco:CharacterString>
-                      </gmd:keyword>
-                    </gmd:MD_Keywords>
-                  </gmd:descriptiveKeywords>
-                </snippet>
-              </template>
-            </action>
-            
-          </section>
+              >
+                <template>
+                  <snippet>
+                    <gmd:descriptiveKeywords>
+                      <gmd:MD_Keywords>
+                        <gmd:keyword>
+                          <gco:CharacterString>opendata</gco:CharacterString>
+                        </gmd:keyword>
+                      </gmd:MD_Keywords>
+                    </gmd:descriptiveKeywords>
+                  </snippet>
+                </template>
+              </action>
+
+            </section>
 
           </section> <!-- FINE SEZIONE KEYWORDS -->
-
-
 
           <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:characterSet"
                  or="characterSet" in ="/gmd:MD_Metadata/gmd:DataIdentification"/>
@@ -2908,7 +2944,7 @@
               </snippet>
             </template>
           </action>
-          
+
         </section>
       </tab>
 
