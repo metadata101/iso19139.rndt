@@ -35,7 +35,7 @@
    <gemet>Gemet Inspire</gemet>
   <resourceMaintenace>Gestione dei dati</resourceMaintenace>
   <operatesOn>Risorsa accoppiata</operatesOn>
-    
+
   <accessConstraints>Vincoli di accesso</accessConstraints>
   <accessConstraint>Vincolo di accesso</accessConstraint>
   <useConstraints>Vincoli di fruibilità</useConstraints>
@@ -115,8 +115,7 @@
   <publicationDate>Publication date</publicationDate>
   <revisionDate>Revision date</revisionDate>
   <temporalSection>Estensione temporale</temporalSection>
-  <indeterminatePositionBegin>Data indeterminata (inizio)</indeterminatePositionBegin>
-  <indeterminatePositionEnd>Data indeterminata (fine)</indeterminatePositionEnd>
+  <indeterminatePosition>Data indeterminata </indeterminatePosition>
   <beginPosition>Data inizio</beginPosition>
   <endPosition>Data fine</endPosition>
   <verticalSection>Estensione verticale</verticalSection>
