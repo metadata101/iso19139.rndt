@@ -96,16 +96,6 @@
         data-insert-modes=""
         data-variables="gmd:role/gmd:CI_RoleCode/@codeListValue~{role}"/>
     </for>
-    <for name="gmd:descriptiveKeywords" >
-    <!--<for name="gmd:descriptiveKeywords" addDirective="data-gn-thesaurus-selector">-->
-    <!-- "data-gn-thesaurus-selector" aggiunge un selector di thesauri alla fine di ogni Field descriptiveKeywords.
-       Poichè abbiamo sezioni diverse i diversi thesauri ci troveremmo il selector troppo spesso -->
-
-      <directiveAttributes data-include="xpath::string-join(gmd:MD_Metadata/gmd:identificationInfo
-                                          //gmd:thesaurusName/*/gmd:identifier/*/
-                                            gmd:code/gmx:Anchor/
-                                              concat('-', substring-after(text()[. != ''], 'geonetwork.thesaurus.')), ',')"/>
-    </for>
 
     <!--for name="gmx:Anchor" use="data-gn-keyword-picker">
       <directiveAttributes
@@ -616,9 +606,7 @@
                     in="/gmd:MD_Metadata/gmd:identificationInfo/*"
 
                     addDirective="data-gn-thesaurus-selector"
-            >
-               <template><!-- questo serve, altimenti l'addDirective non viene valutata--></template>
-            </action>
+            />
 
             <section name="freeTextKeywords">
               <!-- Keywords senza thesauri (escluso opendata) -->
@@ -3757,7 +3745,6 @@
         </section>
       </tab>
       <flatModeExceptions>
-        <for name="gmd:descriptiveKeywords"/>
         <for name="gmd:distributionFormat"/>
         <for name="gmd:processor"/>
         <for name="gmd:topicCategory"/>

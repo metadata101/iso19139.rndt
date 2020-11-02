@@ -486,11 +486,6 @@
 		<_condition>È necessario documentare obbligatoriamente almeno un elemento tra telefono e sito web.</_condition>
 		<help>Può essere inserita alternativamente al 'Sito web'</help>
 	</element>
-	<element name="gmd:name" context="gmd:MD_Format">
-		<label>Nome formato</label>
-		<description>Formato di distribuzione</description>
-		<condition>Obbligatorio</condition>
-	</element>
   <element name="gmd:valueUnit" id="135.0">
     <label>Unità di misura</label>
     <description>Unità di misura dei valori di qualità dei dati</description>
