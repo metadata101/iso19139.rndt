@@ -1213,19 +1213,19 @@
                (3.2.4.4) opendata
                (3.2.4.5) interesse generale
            -->
-          <section name="descriptiveKeywords">
+          <section name="descriptiveKeywords" >
 
              <section name="keyword_inspire_theme">
                <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/theme">GEMET - INSPIRE themes, version 1.0</gmx:Anchor> -->
 
                <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'GEMET - INSPIRE themes, version 1.0') ]"
-                      del=".." />
+                      del="." />
 
                <action type="add"
                        btnLabel="keyword_add_inspire_theme"
-                         or="descriptiveKeywords"
-                         in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                       or="descriptiveKeywords"
+                       in="gmd:MD_Metadata/gmd:identificationInfo/*"
 
                        if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
                           gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/gco:CharacterString = 'GEMET - INSPIRE themes, version 1.0'])=0">
@@ -1234,29 +1234,29 @@
                    <snippet>
 
                      <gmd:descriptiveKeywords>
-                        <gmd:MD_Keywords>
-                           <gmd:keyword gco:nilReason="missing">
-                              <gco:CharacterString/>
-                           </gmd:keyword>
-                           <gmd:thesaurusName>
-                              <gmd:CI_Citation>
-                                 <gmd:title>
-                                    <gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
-                                 </gmd:title>
+                       <gmd:MD_Keywords>
+                         <gmd:keyword gco:nilReason="missing">
+                           <gco:CharacterString/>
+                         </gmd:keyword>
+                         <gmd:thesaurusName>
+                           <gmd:CI_Citation>
+                             <gmd:title>
+                               <gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+                             </gmd:title>
+                             <gmd:date>
+                               <gmd:CI_Date>
                                  <gmd:date>
-                                    <gmd:CI_Date>
-                                       <gmd:date>
-                                          <gco:Date>2008-06-01</gco:Date>
-                                       </gmd:date>
-                                       <gmd:dateType>
-                                          <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
-                                                               codeListValue="publication">publication</gmd:CI_DateTypeCode>
-                                       </gmd:dateType>
-                                    </gmd:CI_Date>
+                                   <gco:Date>2008-06-01</gco:Date>
                                  </gmd:date>
-                              </gmd:CI_Citation>
-                           </gmd:thesaurusName>
-                        </gmd:MD_Keywords>
+                                 <gmd:dateType>
+                                   <gmd:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                                                        codeListValue="publication">publication</gmd:CI_DateTypeCode>
+                                 </gmd:dateType>
+                               </gmd:CI_Date>
+                             </gmd:date>
+                           </gmd:CI_Citation>
+                         </gmd:thesaurusName>
+                       </gmd:MD_Keywords>
                      </gmd:descriptiveKeywords>
 
                    </snippet>
@@ -1269,14 +1269,14 @@
                <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset">INSPIRE priority data set</gmx:Anchor> -->
                <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'INSPIRE priority data set') ]"
-                      del=".."/>
+                      del="."/>
 
                <action type="add"
                        btnLabel="keyword_add_dataset_prioritari"
                        or="descriptiveKeywords"
                        in="gmd:MD_Metadata/gmd:identificationInfo/*"
                        if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
-                          gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/gco:CharacterString = 'INSPIRE priority data set'])=0">
+                          gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/*/text() = 'INSPIRE priority data set'])=0">
 
                   <template>
                     <snippet>
@@ -1326,8 +1326,9 @@
                <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/SpatialScope">Spatial scope</gmx:Anchor> -->
 
                <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
-                        [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'Spatial scope') ]"
-                      del=".."/>
+                        [boolean(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*
+                        [contains(text(),'Spatial scope') or contains(text(),'Ambito di applicazione territoriale')])]"
+                      del="."/>
 
                <action type="add"
                     btnLabel="keyword_add_ambito_territoriale"
@@ -1339,7 +1340,6 @@
 
                   <template>
                     <snippet>
-
                       <gmd:descriptiveKeywords>
                          <gmd:MD_Keywords>
                             <gmd:keyword gco:nilReason="missing">
@@ -1384,60 +1384,11 @@
 
 
             <section name="keyword_interesse_generale" >
-               <!-- <gco:CharacterString>Registro dei dati di interesse generale per il RNDT</gco:CharacterString> -->
 
-               <!-- gestisce campo ed eliminazione quando ci sono più elementi -->
-                <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')]"
-                       templateModeOnly="true" notDisplayedIfMissing="true"
+                <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords[contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')]"
                        del="."
-                       if ="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')])>1"
-                >
-                  <template>
-                    <values>
-                    <key label="keyword" xpath="./gco:CharacterString">
-                      <codelist name="keyword_interesse_generale"/>
-                    </key>
-                    </values>
-                    <snippet>
-                      <gmd:keyword>
-                        <gco:CharacterString>{{keyword}}</gco:CharacterString>
-                      </gmd:keyword>
-                    </snippet>
-                  </template>
-              </field>
-
-               <!-- gestisce campo ed eliminazione di tutto il blocco quando c'è un solo elemento -->
-              <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')]"
-                     templateModeOnly="true" notDisplayedIfMissing="true"
-                     del="../.."
-                     if ="not(count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[contains(../gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')])>1)"
-              >
-                <template>
-                  <values>
-                    <key label="keyword" xpath="./gco:CharacterString">
-                      <codelist name="keyword_interesse_generale"/>
-                    </key>
-                  </values>
-                  <snippet>
-                    <gmd:keyword>
-                      <gco:CharacterString>{{keyword}}</gco:CharacterString>
-                    </gmd:keyword>
-                  </snippet>
-                </template>
-              </field>
-
-              <action type="add"
-                      or="keyword"
-                      in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[./gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString ='Registro dei dati di interesse generale per il RNDT']"
-                      >
-                <template>
-                  <snippet>
-                    <gmd:keyword>
-                      <gco:CharacterString/>
-                    </gmd:keyword>
-                  </snippet>
-                </template>
-              </action>
+                       if ="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords[contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString,'Registro dei dati di interesse generale per il RNDT')])>0"
+                />
 
             <action type="add"
                     btnLabel="keyword_interesse_generale"
@@ -1451,9 +1402,7 @@
                 <snippet>
                   <gmd:descriptiveKeywords>
                     <gmd:MD_Keywords>
-                      <gmd:keyword>
-                        <gco:CharacterString/>
-                      </gmd:keyword>
+                      <gmd:keyword/>
                       <gmd:thesaurusName>
                         <gmd:CI_Citation>
                           <gmd:title>
@@ -1471,6 +1420,13 @@
                               </gmd:dateType>
                             </gmd:CI_Date>
                           </gmd:date>
+                          <gmd:identifier>
+                            <gmd:MD_Identifier>
+                              <gmd:code>
+                                <gmx:Anchor xlink:href="http://localhost:8080/geonetwork/srv/eng/thesaurus.download?ref=external.theme.rndt-all1">rndt-all1</gmx:Anchor>
+                              </gmd:code>
+                            </gmd:MD_Identifier>
+                          </gmd:identifier>
                         </gmd:CI_Citation>
                       </gmd:thesaurusName>
                     </gmd:MD_Keywords>
