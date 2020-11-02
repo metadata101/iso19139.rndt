@@ -470,4 +470,61 @@
                                   ../gmd:language/*/@codeListValue]"
                 priority="2000"/>
 
+  <xsl:template mode="mode-iso19139"
+                match="gmd:LanguageCode"
+                priority="2000">
+
+    <xsl:param name="schema" select="$schema" required="no"/>
+    <xsl:param name="labels" select="$labels" required="no"/>
+    <xsl:param name="overrideLabel" required="no"/>
+    <xsl:param name="refToDelete" required="no"/>
+
+    <xsl:variable name="xpath" select="gn-fn-metadata:getXPath(.)"/>
+    <xsl:variable name="isoType" select="if (../@gco:isoType) then ../@gco:isoType else ''"/>
+    <xsl:variable name="labelConfig" select="gn-fn-metadata:getLabel($schema, name(), $labels, name(..), $isoType, $xpath)"/>
+
+    <xsl:variable name="languageRef" select="./gn:element/@ref"/>
+    <div class="form-group gn-field gn-date gn-required"
+         id="gn-el-{$languageRef}"
+         data-gn-field-highlight="">
+    <label class="col-sm-2 control-label">
+      <xsl:choose>
+        <xsl:when test="$overrideLabel != ''">
+          <xsl:value-of select="$overrideLabel"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$labelConfig/label"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </label>
+    <div class="col-sm-3 gn-value">
+      <xsl:variable name="codelist"
+                    select="gn-fn-metadata:getCodeListValues($schema,
+                                'gmd:LanguageCode',
+                                $iso19139RNDTcodelists,
+                                .)"/>
+      <xsl:call-template name="render-codelist-as-select">
+        <xsl:with-param name="listOfValues" select="$codelist"/>
+        <xsl:with-param name="lang" select="$lang"/>
+        <xsl:with-param name="isDisabled" select="ancestor-or-self::node()[@xlink:href]"/>
+        <xsl:with-param name="elementRef"
+                        select="$languageRef"/>
+        <xsl:with-param name="isRequired" select="true()"/>
+        <xsl:with-param name="hidden" select="false()"/>
+        <xsl:with-param name="valueToEdit"
+                        select="./@codeListValue"/>
+        <xsl:with-param name="name"
+                        select="concat(./gn:element/@ref, '_codeListValue')"/>
+      </xsl:call-template>
+    </div>
+      <xsl:if test="$refToDelete">
+        <div class="col-sm-1 gn-control">
+          <xsl:call-template name="render-form-field-control-remove">
+            <xsl:with-param name="editInfo" select="$refToDelete"/>
+          </xsl:call-template>
+        </div>
+      </xsl:if>
+    </div>
+  </xsl:template>
+
 </xsl:stylesheet>

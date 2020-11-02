@@ -48,8 +48,6 @@
     <!-- gmx:FileName/@src attribute -->
     <for name="src" use="data-gn-logo-selector"/>
     <for name="gmd:electronicMailAddress" use="email"/>
-    <for name="gmd:language" use="data-gn-language-picker"/>
-    <for name="gmd:languageCode" use="data-gn-language-picker"/>
     <for name="gmd:country" use="data-gn-country-picker"/>
     <for name="gmd:referenceSystemInfo" addDirective="data-gn-crs-selector"/>
     <for name="gmd:contact" addDirective="data-gn-directory-entry-selector">
@@ -338,32 +336,16 @@
 
           <field xpath="/gmd:MD_Metadata/gmd:fileIdentifier"/>
 
-          <field
-            xpath="/gmd:MD_Metadata/gmd:language">
-            <template>
-              <values>
-                <key label="language"
-                     xpath="gmd:LanguageCode/@codeListValue"
-                     >
-                </key>
-              </values>
-              <snippet>
-                <gmd:LangueCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="{{language}}">
-                  {{language}}
-                </gmd:LangueCode>
-              </snippet>
-            </template>
-          </field>
+          <field name="language"
+            xpath="/gmd:MD_Metadata/gmd:language/gmd:LanguageCode" del=".."/>
 
-          <action type="add" btnLabel="metadataLanguage"
+          <action type="add" btnLabel="language"
                   or="language"
                   in="/gmd:MD_Metadata">
             <template>
               <snippet>
                 <gmd:language>
-                  <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/#LanguageCode" codeListValue="ita">
-                  {{language}}
-                  </gmd:LanguageCode>
+                  <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/#LanguageCode" codeListValue="ita"/>
                 </gmd:language>
               </snippet>
             </template>
@@ -1549,20 +1531,8 @@
             </template>
           </action>
 
-          <field
-            xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:language">
-            <template>
-              <values>
-                <key label="language"
-                     xpath="gmd:LanguageCode/@codeListValue">
-                </key>
-              </values>
-              <snippet>
-                <gmd:LangueCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="{{language}}">
-                  {{language}}
-                </gmd:LangueCode>
-              </snippet>
-            </template>
+          <field name="language"
+            xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:language/gmd:LanguageCode" del="..">
           </field>
           <action type="add" btnLabel="language"
                   name="language" or="language"
@@ -1570,7 +1540,7 @@
             <template>
               <snippet>
                 <gmd:language>
-                  <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ita">ita</gmd:LanguageCode>
+                  <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="ita"/>
                 </gmd:language>
               </snippet>
             </template>

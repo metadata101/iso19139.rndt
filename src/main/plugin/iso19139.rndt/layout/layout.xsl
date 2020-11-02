@@ -13,6 +13,10 @@
   <xsl:include href="utility-tpl.xsl"/>
   <xsl:include href="layout-custom-fields.xsl"/>
 
+  <xsl:variable name="iso19139RNDTschema" select="/root/gui/schemas/iso19139.rndt"/>
+  <xsl:variable name="iso19139RNDTlabels" select="$iso19139RNDTschema/labels"/>
+  <xsl:variable name="iso19139RNDTcodelists" select="$iso19139RNDTschema/codelists"/>
+
   <!-- Visit all XML tree recursively -->
   <xsl:template mode="mode-iso19139.rndt" match="*|@*">
     <xsl:param name="schema" select="$schema" required="no"/>
