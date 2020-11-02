@@ -673,7 +673,6 @@
 		<helper>
 			<option value="Nessuna condizione applicabile">Nessuna condizione applicabile</option>
 			<option value="Condizioni sconosciute">Condizioni sconosciute</option>
-      <option value="Recommended values">Valori suggeriti</option>
 		</helper>
 	</element>
   <element name="gmd:MD_Constraints">
