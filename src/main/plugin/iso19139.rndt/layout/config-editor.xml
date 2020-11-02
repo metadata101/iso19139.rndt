@@ -446,25 +446,11 @@
                   btnLabel="addDate"
                   in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation">
             <template>
-              <snippet label="date">
+              <snippet>
                 <gmd:date>
                   <gmd:CI_Date>
                     <gmd:date>
                       <gco:Date></gco:Date>
-                    </gmd:date>
-                    <gmd:dateType>
-                      <gmd:CI_DateTypeCode
-                        codeList="http://www.isotc211.org/2005/resources/codeList.xml#CI_DateTypeCode"
-                        codeListValue="creation"/>
-                    </gmd:dateType>
-                  </gmd:CI_Date>
-                </gmd:date>
-              </snippet>
-              <snippet label="dateTime">
-                <gmd:date>
-                  <gmd:CI_Date>
-                    <gmd:date>
-                      <gco:DateTime></gco:DateTime>
                     </gmd:date>
                     <gmd:dateType>
                       <gmd:CI_DateTypeCode
