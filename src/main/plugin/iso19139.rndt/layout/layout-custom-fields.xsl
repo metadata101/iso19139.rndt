@@ -176,10 +176,10 @@
             <!-- check if records exists for selected language otherwise use 'en' -->
             <xsl:choose>
               <xsl:when test="boolean(skos:prefLabel[@xml:lang=$lang])">
-                <option value="{@rdf:about[../skos:prefLabel/@xml:lang=$lang]}|{skos:prefLabel[@xml:lang=$lang]/text()}"><xsl:value-of select="skos:prefLabel/text()"/></option>
+                <option value="{@rdf:about}|{skos:prefLabel[@xml:lang=$lang]/text()}"><xsl:value-of select="skos:prefLabel[@xml:lang=$lang]/text()"/></option>
               </xsl:when>
               <xsl:otherwise>
-                <option value="{@rdf:about[../skos:prefLabel/@xml:lang='en']}|{skos:prefLabel[@xml:lang='en']/text()}"><xsl:value-of select="skos:prefLabel/text()"/></option>
+                <option value="{@rdf:about}|{skos:prefLabel[1]/text()}"><xsl:value-of select="skos:prefLabel[1]/text()"/></option>
               </xsl:otherwise>
             </xsl:choose>
           </xsl:for-each>
