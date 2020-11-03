@@ -95,6 +95,7 @@
   <enum2> is not valid for the field </enum2>
   <enum3>List of values is :</enum3>
   <specification>Specifiche</specification>
+  <couplingType>Tipo di aggancio</couplingType>
   <network_services>Servizi di rete</network_services>
   <invocable_services>Servizi invocabili</invocable_services>
   <interoperable_services>Servizi interoperabili</interoperable_services>

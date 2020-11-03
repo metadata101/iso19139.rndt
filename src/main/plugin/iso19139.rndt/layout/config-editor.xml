@@ -2984,9 +2984,41 @@
             or="serviceType"
             in="gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"/>
 
-          <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:couplingType"
-                 or="couplingType"
-                 in="gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"/>
+          <field
+            templateModeOnly="true"
+            notDisplayedIfMissing="true"
+            name="couplingType"
+            xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:couplingType"
+            or="couplingType"
+            in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification">
+            <template>
+              <values>
+                <key label="couplingType" xpath="srv:SV_CouplingType/@codeListValue">
+                  <codelist name="srv:SV_CouplingType"/>
+                </key>
+              </values>
+              <snippet>
+                <srv:couplingType>
+                  <srv:SV_CouplingType codeListValue="{{couplingType}}" codeList="#SVCouplingType"/>
+                </srv:couplingType >
+              </snippet>
+            </template>
+          </field>
+
+          <action
+            type="add"
+            btnLabel="couplingType"
+            or="couplingType"
+            in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
+            if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:couplingType)=0">
+            <template>
+              <snippet>
+                <srv:couplingType>
+                  <srv:SV_CouplingType codeListValue="loose" codeList="#SVCouplingType"/>
+                </srv:couplingType >
+              </snippet>
+            </template>
+          </action>
 
           <section name="operatesOn">
             <field name="operatesOn" templateModeOnly="true" notDisplayedIfMissing="true"

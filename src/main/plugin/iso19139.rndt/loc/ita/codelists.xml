@@ -673,18 +673,18 @@
 	<codelist name="srv:SV_CouplingType">
 			<entry>
 					<code>tight</code>
-					<label>Strettamente accoppiati</label>
-					<description>Strettamente accoppiati: dati associati</description>
+					<label>Vincolato</label>
+					<description>Il servizio è strettamente agganciato a un tipo di dato</description>
 			</entry>
 			<entry>
 					<code>mixed</code>
-					<label>Misto</label>
-					<description>Accoppiato misto: dati associati, inoltre, potrebbero essere trattati dati esterni</description>
+					<label>misto</label>
+					<description>Il servizio è agganciato ad alcuni dati, ma può operare anche con altri dati</description>
 			</entry>
 			<entry>
 					<code>loose</code>
-					<label>Accoppiamento debole</label>
-					<description>Accoppiamento debole: non ci sono dati associati</description>
+					<label>svincolato</label>
+					<description>Il servizio è sganciato dai dati, ovvero non strettamente legato ad alcun tipo di dato</description>
 			</entry>
 	</codelist>
 
