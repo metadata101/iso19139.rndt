@@ -1034,27 +1034,6 @@
         <section name="identificationInfo">
 
           <field
-            xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:characterSet"
-            if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
-
-          <action type="add"
-                  btnLabel="characterSet"
-                  or="characterSet"
-                  in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:characterSet)=0"
-          >
-            <template>
-              <snippet>
-                <gmd:characterSet>
-                  <gmd:MD_CharacterSetCode
-                    codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_CharacterSetCode"
-                    codeListValue="utf8"/>
-                </gmd:characterSet>
-              </snippet>
-            </template>
-          </action>
-
-          <field
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:presentationForm"
             del="."
             if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
@@ -1388,7 +1367,26 @@
 
           </section> <!-- FINE SEZIONE KEYWORDS -->
 
-          <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:characterSet"/>
+          <field
+            xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:characterSet"
+            if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+
+          <action type="add"
+                  btnLabel="characterSet"
+                  or="characterSet"
+                  in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                  if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:characterSet)=0"
+          >
+            <template>
+              <snippet>
+                <gmd:characterSet>
+                  <gmd:MD_CharacterSetCode
+                    codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/gmxCodelists.xml#MD_CharacterSetCode"
+                    codeListValue="utf8"/>
+                </gmd:characterSet>
+              </snippet>
+            </template>
+          </action>
 
           <field
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:status"
