@@ -1496,7 +1496,20 @@
           <field
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:supplementalInformation"
             or="supplementalInformation"
-            in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification"/>
+            in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification"
+            del="."
+          />
+
+          <action type="add" btnLabel="supplementalInformation"  or="supplementalInformation"  in="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification"
+                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:supplementalInformation)=0">
+            <template>
+              <snippet>
+                <gmd:supplementalInformation>
+                  <gco:CharacterString/>
+                </gmd:supplementalInformation>
+              </snippet>
+            </template>
+          </action>
 
           <section name="extent">
 
