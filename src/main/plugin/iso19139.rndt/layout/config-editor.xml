@@ -3743,8 +3743,19 @@
           </action>
 
           <field xpath="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:triangulationIndicator"
-                 or ="gmd:triangulationIndicator"
-                 in="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"/>
+                 />
+          <action type="add" btnLabel="triangulationIndicator" or ="triangulationIndicator"
+                  in="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"
+                  if="count(gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:triangulationIndicator)=0"
+          >
+            <template>
+              <snippet>
+                <gmd:triangulationIndicator>
+                  <gco:Boolean>true</gco:Boolean >
+                </gmd:triangulationIndicator>
+              </snippet>
+            </template>
+          </action>
 
         </section>
 

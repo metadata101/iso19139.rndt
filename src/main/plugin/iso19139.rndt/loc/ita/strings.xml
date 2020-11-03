@@ -140,6 +140,7 @@
   <electronicMailAddress>Email</electronicMailAddress>
   <numberOfDimensions>Numero di dimensioni</numberOfDimensions>
   <pointInPixel>Punto del pixel</pointInPixel>
+  <triangulationIndicator>Triangolazione aerea</triangulationIndicator>
   <language>Lingua</language>
   <role>Ruolo</role>
   <phone>Telefono</phone>
