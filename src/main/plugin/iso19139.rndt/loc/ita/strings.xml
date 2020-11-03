@@ -230,6 +230,7 @@
 
   <keyword_con_thesaurus>Parola chiave controllata</keyword_con_thesaurus>
   <keyword_libera>Parola chiave libera</keyword_libera>
+  <parentIdentifier>Id file precedente</parentIdentifier>
 
    <EPSG4936>RNDT: ETRS89-XYZ</EPSG4936>
    <EPSG4937>RNDT: ETRS89-GRS80</EPSG4937>

@@ -505,7 +505,7 @@
       <xsl:call-template name="render-codelist-as-select">
         <xsl:with-param name="listOfValues" select="$codelist"/>
         <xsl:with-param name="lang" select="$lang"/>
-        <xsl:with-param name="isDisabled" select="ancestor-or-self::node()[@xlink:href]"/>
+        <xsl:with-param name="isDisabled" select="false()"/>
         <xsl:with-param name="elementRef"
                         select="$languageRef"/>
         <xsl:with-param name="isRequired" select="true()"/>

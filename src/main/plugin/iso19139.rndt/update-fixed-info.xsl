@@ -143,27 +143,27 @@
             <xsl:choose>
                 <xsl:when test="not($ipaDefined)">
                     <xsl:message>ATTENZIONE: CODICE iPA NON DEFINITO: parentId non sarà impostato</xsl:message>
-                    <gmd:parentIdentifier>
-                        <gco:CharacterString></gco:CharacterString>
-                    </gmd:parentIdentifier>
+                  <xsl:copy-of select="gmd:parentIdentifier"/>
                 </xsl:when>
                 <xsl:when test="/root/env/parentUuid!=''">
-                    <xsl:if test="starts-with(/root/env/parentUuid, $iPA)">
+                  <xsl:choose>
+                      <xsl:when test="starts-with(/root/env/parentUuid, $iPA)">
                         <xsl:message>INFO: parentId richiesto OK</xsl:message>
                         <gmd:parentIdentifier>
                             <gco:CharacterString>
                                 <xsl:value-of select="/root/env/parentUuid"/>
                             </gco:CharacterString>
                         </gmd:parentIdentifier>
-                    </xsl:if>
-                    <xsl:if test="not(starts-with(/root/env/parentUuid, $iPA))">
+                      </xsl:when>
+                    <xsl:otherwise>
                         <xsl:message>ATTENZIONE: parentId: codice iPA non corrisponde. Eliminazione parentId (<xsl:value-of select="/root/env/parentUuid"/>)</xsl:message>
                         <gmd:parentIdentifier>
                             <gco:CharacterString/>
                         </gmd:parentIdentifier>
-                    </xsl:if>
+                    </xsl:otherwise>
+                  </xsl:choose>
                 </xsl:when>
-                <xsl:when test="gmd:parentIdentifier!=''">
+                <xsl:when test="gmd:parentIdentifier/gco:CharacterString!=''">
                     <xsl:choose>
                         <xsl:when test="starts-with(gmd:parentIdentifier/gco:CharacterString, $iPA)">
                             <xsl:message>INFO: parentId esterno OK</xsl:message>
@@ -171,17 +171,13 @@
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:message>ATTENZIONE: iPA non corrispondente nel parentId esterno. Eliminazione parentId (<xsl:value-of select="gmd:parentIdentifier/gco:CharacterString"/>)</xsl:message>
-                          <gmd:parentIdentifier>
-                            <gco:CharacterString/>
-                          </gmd:parentIdentifier>
+
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:message>INFO: parentId non trovato: env[<xsl:value-of select="/root/env/parentUuid"/>] md[<xsl:value-of select="gmd:parentIdentifier/gco:CharacterString"/>]</xsl:message>
-                  <gmd:parentIdentifier>
-                    <gco:CharacterString/>
-                  </gmd:parentIdentifier>
+                  <xsl:copy-of select="gmd:parentIdentifier"/>
                 </xsl:otherwise>
             </xsl:choose>
 

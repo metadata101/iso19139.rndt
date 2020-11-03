@@ -355,7 +355,17 @@
             </template>
           </action>
 
-          <field xpath="/gmd:MD_Metadata/gmd:parentIdentifier" or="parentIdentifier" in ="/gmd:MD_Metadata"/>
+          <field xpath="/gmd:MD_Metadata/gmd:parentIdentifier" del="."/>
+
+          <action type="add" or ="parentIdentifier" in="/gmd:MD_Metadata" btnLabel="parentIdentifier">
+            <template>
+              <snippet>
+                <gmd:parentIdentifier>
+                  <gco:CharacterString></gco:CharacterString>
+                </gmd:parentIdentifier>
+              </snippet>
+            </template>
+          </action>
 
 
             <field xpath="/gmd:MD_Metadata/gmd:contact" del=".">
