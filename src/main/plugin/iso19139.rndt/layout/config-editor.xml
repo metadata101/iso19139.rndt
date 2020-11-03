@@ -2756,7 +2756,9 @@
                    del="."/>
 
             <action type="add" name="onlineResource" or="transferOptions" btnLabel="transferOption"
-                    in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution">
+                    in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution"
+                    if="count(gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution)>0"
+            >
               <template>
                 <snippet>
                   <gmd:transferOptions>
@@ -2789,6 +2791,50 @@
                       </gmd:onLine>
                     </gmd:MD_DigitalTransferOptions>
                   </gmd:transferOptions>
+                </snippet>
+              </template>
+            </action>
+
+            <action type="add" name="onlineResource" or="distributionInfo" btnLabel="transferOption"
+                    in="/gmd:MD_Metadata"
+                    if="count(gmd:MD_Metadata/gmd:distributionInfo)=0"
+            >
+              <template>
+                <snippet>
+                  <gmd:distributionInfo>
+                    <gmd:MD_Distribution>
+                      <gmd:transferOptions>
+                        <gmd:MD_DigitalTransferOptions>
+                          <gmd:onLine>
+                            <gmd:CI_OnlineResource>
+                              <gmd:linkage>
+                                <gmd:URL>http://url.accesso.servizio.it</gmd:URL>
+                              </gmd:linkage>
+                              <gmd:protocol>
+                                <gmx:Anchor
+                                  xlink:href=""/>
+                              </gmd:protocol>
+                              <gmd:applicationProfile>
+                                <gmx:Anchor
+                                  xlink:href=""/>
+                              </gmd:applicationProfile>
+                              <gmd:name>
+                                <gco:CharacterString/>
+                              </gmd:name>
+                              <gmd:description>
+                                <gmx:Anchor xlink:href=""/>
+                              </gmd:description>
+                              <gmd:function>
+                                <gmd:CI_OnLineFunctionCode
+                                  codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">
+                                </gmd:CI_OnLineFunctionCode>
+                              </gmd:function>
+                            </gmd:CI_OnlineResource>
+                          </gmd:onLine>
+                        </gmd:MD_DigitalTransferOptions>
+                      </gmd:transferOptions>
+                    </gmd:MD_Distribution>
+                  </gmd:distributionInfo>
                 </snippet>
               </template>
             </action>
@@ -3145,7 +3191,9 @@
                  del="."/>
 
           <action type="add" name="onlineResource" or="transferOptions" btnLabel="transferOption"
-                  in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution">
+                  in="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution"
+                  if ="count(gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution)>0"
+          >
             <template>
               <snippet>
                 <gmd:transferOptions>
@@ -3174,6 +3222,46 @@
                     </gmd:onLine>
                   </gmd:MD_DigitalTransferOptions>
                 </gmd:transferOptions>
+              </snippet>
+            </template>
+          </action>
+
+          <action type="add" name="onlineResource" or="distributionInfo" btnLabel="transferOption"
+                  in="/gmd:MD_Metadata"
+                  if="count(gmd:MD_Metadata/gmd:distributionInfo)=0"
+          >
+            <template>
+              <snippet>
+                <gmd:distributionInfo>
+                  <gmd:MD_Distribution>
+                    <gmd:transferOptions>
+                      <gmd:MD_DigitalTransferOptions>
+                        <gmd:onLine>
+                          <gmd:CI_OnlineResource>
+                            <gmd:linkage>
+                              <gmd:URL>http://url.accesso.servizio.it</gmd:URL>
+                            </gmd:linkage>
+                            <gmd:protocol>
+                              <gmx:Anchor
+                                xlink:href=""/>
+                            </gmd:protocol>
+                            <gmd:name>
+                              <gco:CharacterString/>
+                            </gmd:name>
+                            <gmd:description>
+                              <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadatacodelist/OnLineDescriptionCode/accessPoint">access point</gmx:Anchor>
+                            </gmd:description>
+                            <gmd:function>
+                              <gmd:CI_OnLineFunctionCode
+                                codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">
+                              </gmd:CI_OnLineFunctionCode>
+                            </gmd:function>
+                          </gmd:CI_OnlineResource>
+                        </gmd:onLine>
+                      </gmd:MD_DigitalTransferOptions>
+                    </gmd:transferOptions>
+                  </gmd:MD_Distribution>
+                </gmd:distributionInfo>
               </snippet>
             </template>
           </action>

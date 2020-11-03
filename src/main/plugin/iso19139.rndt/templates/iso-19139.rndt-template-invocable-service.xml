@@ -267,30 +267,6 @@
       <srv:operatesOn xlink:href="http://www.rndt.gov.it#r_abruzz:Carta_Parchi" />
     </srv:SV_ServiceIdentification>
   </gmd:identificationInfo>
-  <gmd:distributionInfo>
-    <gmd:MD_Distribution>
-      <gmd:transferOptions>
-        <gmd:MD_DigitalTransferOptions>
-          <gmd:onLine>
-            <gmd:CI_OnlineResource>
-              <gmd:linkage>
-                <gmd:URL>http://url.accesso.servizio.it</gmd:URL>
-              </gmd:linkage>
-              <gmd:protocol>
-                <gmx:Anchor xlink:href="" />
-              </gmd:protocol>
-              <gmd:name gco:nilReason="missing">
-                <gco:CharacterString />
-              </gmd:name>
-              <gmd:description>
-                <gmx:Anchor xlink:href="" />
-              </gmd:description>
-            </gmd:CI_OnlineResource>
-          </gmd:onLine>
-        </gmd:MD_DigitalTransferOptions>
-      </gmd:transferOptions>
-    </gmd:MD_Distribution>
-  </gmd:distributionInfo>
   <!-- QUALITÀ DEI DATI -->
   <gmd:dataQualityInfo>
     <gmd:DQ_DataQuality>
