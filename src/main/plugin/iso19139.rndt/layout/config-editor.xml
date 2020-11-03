@@ -50,6 +50,7 @@
     <for name="gmd:electronicMailAddress" use="email"/>
     <for name="gmd:country" use="data-gn-country-picker"/>
     <for name="gmd:referenceSystemInfo" addDirective="data-gn-crs-selector"/>
+    <for name="gmd:MD_ScopeCode" use="textarea"/>
     <for name="gmd:contact" addDirective="data-gn-directory-entry-selector">
       <directiveAttributes
         data-template-add-action="true"
@@ -3232,11 +3233,10 @@
         <section name="servicesQualityInfo">
 
           <section name="qualityLevel">
-            <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope/gmd:level"/>
 
-            <field  xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope/gmd:levelDescription"/>
+            <field xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope/gmd:DQ_Scope"/>
 
-            <action type="add" or="scope"
+            <action type="add" or="scope" btnLabel="qualityLevel"
                     in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
                     if="count(/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:scope)=0">
               <template>

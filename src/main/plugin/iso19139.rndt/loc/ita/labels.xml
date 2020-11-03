@@ -1261,5 +1261,18 @@
       <option show="y" value="performance" title ="http://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria/performance">Prestazione</option>
     </helper>
   </element>
+
+  <element name="gmd:MD_ScopeCode" context="gmd:level">
+    <label>Categoria di applicazione</label>
+    <description>Categoria d'informazione cui vengono applicati i metadati</description>
+  </element>
+
+  <element name="gmd:other" id="155.0">
+    <label>Nome del livello</label>
+    <description>Classe di informazioni che non rientra nelle altre categorie ai quali si applicano
+      i dati
+    </description>
+    <condition/>
+  </element>
 </labels>
 

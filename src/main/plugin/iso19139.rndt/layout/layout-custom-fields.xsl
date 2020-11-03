@@ -526,4 +526,85 @@
     </div>
   </xsl:template>
 
+  <xsl:template mode="mode-iso19139" priority="2002"
+                match="gmd:DQ_Scope[boolean(../../../../gmd:identificationInfo/srv:SV_ServiceIdentification)]/gmd:level|gmd:DQ_Scope/gmd:levelDescription">
+    <xsl:param name="schema" select="$schema" required="no"/>
+    <xsl:param name="labels" select="$labels" required="no"/>
+    <xsl:param name="overrideLabel" select="''" required="no"/>
+     <xsl:if test="name()='gmd:levelDescription'">
+          <xsl:variable name="xpath" select="gn-fn-metadata:getXPath(gmd:MD_ScopeDescription/gmd:other/gco:CharacterString)"/>
+          <xsl:variable name="isoType" select="if (../@gco:isoType) then ../@gco:isoType else ''"/>
+          <xsl:variable name="fieldLabelConfig"
+                        select="gn-fn-metadata:getLabel($schema, name(gmd:MD_ScopeDescription/gmd:other), $labels, name(gmd:MD_ScopeDescription/gmd:other), $isoType, $xpath)"/>
+
+          <xsl:variable name="labelConfig">
+            <xsl:choose>
+              <xsl:when test="$overrideLabel != ''">
+                <element>
+                  <label><xsl:value-of select="$overrideLabel"/></label>
+                </element>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:copy-of select="$fieldLabelConfig"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:variable>
+
+          <xsl:call-template name="render-element">
+            <xsl:with-param name="label"
+                            select="$labelConfig/*"/>
+            <xsl:with-param name="value" select="gmd:MD_ScopeDescription/gmd:other/gco:CharacterString"/>
+            <xsl:with-param name="cls" select="local-name()"/>
+            <xsl:with-param name="xpath" select="$xpath"/>
+            <xsl:with-param name="type" select="gn-fn-metadata:getFieldType($editorConfig, name(), '', $xpath)"/>
+            <xsl:with-param name="name" select="''"/>
+            <xsl:with-param name="editInfo" select="*/gn:element"/>
+            <xsl:with-param name="parentEditInfo" select="gn:element"/>
+            <xsl:with-param name="isDisabled" select="true()"/>
+          </xsl:call-template>
+        </xsl:if>
+        <xsl:if test="name()='gmd:level'">
+          <xsl:variable name="xpath" select="gn-fn-metadata:getXPath(./gmd:MD_ScopeCode)"/>
+          <xsl:variable name="isoType" select="if (../@gco:isoType) then ../@gco:isoType else ''"/>
+          <xsl:variable name="labelConfig" select="gn-fn-metadata:getLabel($schema, name(./gmd:MD_ScopeCode), $labels, name(.), $isoType, $xpath)"/>
+
+          <xsl:variable name="elementRef" select="./gmd:MD_ScopeCode/gn:element/@ref"/>
+          <xsl:variable name="valueToEdit" select="./gmd:MD_ScopeCode/@codeListValue"/>
+          <div class="form-group gn-field gn-date gn-required"
+               id="gn-el-{$elementRef}"
+               data-gn-field-highlight="">
+          <label class="col-sm-2 control-label">
+            <xsl:choose>
+              <xsl:when test="$overrideLabel != ''">
+                <xsl:value-of select="$overrideLabel"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="$labelConfig/label"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </label>
+          <div class="col-sm-3 gn-value">
+          <xsl:variable name="codelist"
+                        select="gn-fn-metadata:getCodeListValues($schema,
+                                'gmd:MD_ScopeCode',
+                                $iso19139RNDTcodelists,
+                                .)"/>
+          <xsl:call-template name="render-codelist-as-select">
+            <xsl:with-param name="listOfValues" select="$codelist"/>
+            <xsl:with-param name="lang" select="$lang"/>
+            <xsl:with-param name="isDisabled" select="true()"/>
+            <xsl:with-param name="elementRef"
+                            select="$elementRef"/>
+            <xsl:with-param name="isRequired" select="true()"/>
+            <xsl:with-param name="hidden" select="false()"/>
+            <xsl:with-param name="valueToEdit"
+                            select="$valueToEdit"/>
+            <xsl:with-param name="name"
+                            select="concat(./gn:element/@ref, '_codeListValue')"/>
+          </xsl:call-template>
+          </div>
+          </div>
+        </xsl:if>
+  </xsl:template>
+
 </xsl:stylesheet>
