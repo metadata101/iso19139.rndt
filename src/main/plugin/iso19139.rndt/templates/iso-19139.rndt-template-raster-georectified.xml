@@ -138,7 +138,7 @@
       <gmd:citation>
         <gmd:CI_Citation>
           <gmd:title>
-            <gco:CharacterString>Template per raster georettificati ISO19139.rndt</gco:CharacterString>
+            <gco:CharacterString>RNDTv2: Modello per raster georettificati</gco:CharacterString>
           </gmd:title>
           <gmd:date>
             <gmd:CI_Date>

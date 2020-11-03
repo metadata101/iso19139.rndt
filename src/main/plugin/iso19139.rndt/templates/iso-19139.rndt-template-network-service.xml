@@ -68,7 +68,7 @@
       <gmd:citation>
         <gmd:CI_Citation>
           <gmd:title>
-            <gco:CharacterString>Template per servizi di rete ISO19139.rndt</gco:CharacterString>
+            <gco:CharacterString>RNDTv2: Modello per servizi di rete</gco:CharacterString>
           </gmd:title>
           <!-- É necessario fornire almeno una data del tipo previsto dalla lista “CI_DateTypeCode” (§ 3.4.3.1 - all. 2 DM).)-->
           <gmd:date>
