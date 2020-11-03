@@ -621,7 +621,7 @@
     and constrain users to use uuidref attribute to link
     service metadata to datasets. This will avoid to have
     error on XSD validation. -->
-    <xsl:template match="srv:operatesOn">
+    <!--xsl:template match="srv:operatesOn">
         <xsl:choose>
             <xsl:when test="$ipaDefined and not(starts-with(@xlink:href, $iPA)) and @xlink:href != ''">
                 <xsl:message>ATTENZIONE: operatesOn: codice iPA non corrisponde. Eliminazione operatesOn (<xsl:value-of select="@uuidref"/>)</xsl:message>
@@ -638,7 +638,7 @@
                 </xsl:copy>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:template>
+    </xsl:template-->
 
     <!-- ================================================================= -->
     <!-- Set local identifier to the first 3 letters of iso code. Locale ids
