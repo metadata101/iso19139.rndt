@@ -1033,14 +1033,15 @@
         <section name="identificationInfo">
 
           <field
-            name="characterSet"
-            xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:characterSet/gmd:MD_CharacterSetCode"
+            xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:characterSet"
             if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
 
           <action type="add"
                   btnLabel="characterSet"
-                  name="characterSet" or="characterSet"
-                  in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:characterSet">
+                  or="characterSet"
+                  in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                  if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:characterSet)=0"
+          >
             <template>
               <snippet>
                 <gmd:characterSet>
