@@ -1400,9 +1400,10 @@
 
           <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:spatialRepresentationType"
                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+
           <action type="add"
                   btnLabel="spatialRepresentationType"
-                  name="gmd:spatialRepresentationType"
+                  or="spatialRepresentationType"
                   in="/gmd:MD_Metadata/gmd:identificationInfo/*"
                   if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
             <template>
