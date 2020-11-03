@@ -3725,8 +3725,22 @@
                  in="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"/>
 
           <field xpath="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:dimension/gmd:MD_Band/gmd:bitsPerValue"
-                 or ="gmd:bitsPerValue"
-                 in="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:dimension/gmd:MD_Band"/>
+                 />
+          <action type="add" name="bitsPerValue" or="dimension" in="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"
+                  if="count(gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:dimension/gmd:MD_Band/gmd:bitsPerValue)=0"
+          >
+            <template>
+              <snippet>
+                <gmd:dimension>
+                  <gmd:MD_Band>
+                    <gmd:bitsPerValue>
+                      <gco:Integer></gco:Integer>
+                    </gmd:bitsPerValue>
+                  </gmd:MD_Band>
+                </gmd:dimension>
+              </snippet>
+            </template>
+          </action>
 
           <field xpath="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:triangulationIndicator"
                  or ="gmd:triangulationIndicator"
