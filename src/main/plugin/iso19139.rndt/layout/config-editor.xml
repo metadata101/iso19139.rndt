@@ -1434,7 +1434,7 @@
                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"
           />
 
-          <field
+          <field name="spatialResolution"
                  xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:spatialResolution/gmd:MD_Resolution/gmd:distance"
                  del="../.."
                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
