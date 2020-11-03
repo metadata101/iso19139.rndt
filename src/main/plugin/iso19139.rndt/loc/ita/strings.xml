@@ -264,4 +264,6 @@
    <EPSG3003>RNDT: Monte-Mario-Italy1</EPSG3003>
    <EPSG3004>RNDT: Monte-Mario-Italy2</EPSG3004>
 
+  <updateFrequency>Frequenza di aggiornamento</updateFrequency>
+
 </strings>

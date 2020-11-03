@@ -2797,24 +2797,35 @@
 
         <section name ="resourceMaintenance" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
           <field
-            xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceMaintenance/*/gmd:maintenanceAndUpdateFrequency">
+            xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceMaintenance/*/gmd:maintenanceAndUpdateFrequency"
+            del="../.."
+          >
             <template>
+              <values>
+                <key label="updateFrequency" xpath="gmd:MD_MaintenanceFrequencyCode/@codeListValue">
+                  <codelist name="gmd:MD_MaintenanceFrequencyCode"/>
+                </key>
+              </values>
               <snippet>
                 <gmd:maintenanceAndUpdateFrequency>
                   <gmd:MD_MaintenanceFrequencyCode
-                    codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_MaintenanceFrequencyCode"/>
+                    codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeListValue="{{updateFrequency}}"/>
                 </gmd:maintenanceAndUpdateFrequency>
               </snippet>
             </template>
           </field>
 
-          <action type="add" in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceMaintenance/*/">
+          <action type="add" btnLabel="updateFrequency" or="resourceMaintenance" in="/gmd:MD_Metadata/gmd:identificationInfo/*">
             <template>
               <snippet>
-                <gmd:maintenanceAndUpdateFrequency>
-                  <gmd:MD_MaintenanceFrequencyCode
-                    codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_MaintenanceFrequencyCode"/>
-                </gmd:maintenanceAndUpdateFrequency>
+                <gmd:resourceMaintenance>
+                  <gmd:MD_MaintenanceInformation>
+                    <gmd:maintenanceAndUpdateFrequency>
+                      <gmd:MD_MaintenanceFrequencyCode
+                        codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_MaintenanceFrequencyCode" codeListValue="asNeeded"/>
+                    </gmd:maintenanceAndUpdateFrequency>
+                  </gmd:MD_MaintenanceInformation>
+                </gmd:resourceMaintenance>
               </snippet>
             </template>
           </action>
