@@ -80,7 +80,7 @@
           <xs:element name="spatialResolution" type="gmd:MD_Resolution_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element name="language" type="gco:CharacterString_PropertyType" maxOccurs="unbounded"/>
           <xs:element name="characterSet" type="gmd:MD_CharacterSetCode_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element name="topicCategory" type="gmd:MD_TopicCategoryCode_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="topicCategory" type="gmd:MD_TopicCategoryCode_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
           <xs:element name="environmentDescription" type="gco:CharacterString_PropertyType" minOccurs="0"/>
           <xs:element name="extent" type="gmd:EX_Extent_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element name="supplementalInformation" type="gco:CharacterString_PropertyType" minOccurs="0"/>
