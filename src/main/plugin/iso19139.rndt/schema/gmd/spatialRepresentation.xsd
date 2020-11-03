@@ -19,7 +19,7 @@
 			<xs:extension base="gmd:AbstractMD_SpatialRepresentation_Type">
 				<xs:sequence>
 					<xs:element name="numberOfDimensions" type="gco:Integer_PropertyType"/>
-					<xs:element name="axisDimensionProperties" type="gmd:MD_Dimension_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="axisDimensionProperties" type="gmd:MD_Dimension_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
 					<xs:element name="cellGeometry" type="gmd:MD_CellGeometryCode_PropertyType"/>
 					<xs:element name="transformationParameterAvailability" type="gco:Boolean_PropertyType"/>
 				</xs:sequence>
