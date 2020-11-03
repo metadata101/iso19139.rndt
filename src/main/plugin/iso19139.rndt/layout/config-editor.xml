@@ -1055,12 +1055,14 @@
 
           <field
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:presentationForm"
+            del="."
             if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+
           <action type="add"
                   btnLabel="presentationForm"
-                  name="gmd:presentationForm"
-                  or ="presentantionForm"
-                  in = "/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation">
+                  or ="presentationForm"
+                  in = "/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation"
+          >
             <template>
               <snippet>
                 <gmd:presentationForm>
