@@ -1418,12 +1418,15 @@
           </action>
 
 
-          <field name="spatialResolution"
+          <field name="spatialResolutionScale"
                  xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:spatialResolution/gmd:MD_Resolution/gmd:equivalentScale/gmd:MD_RepresentativeFraction/gmd:denominator"
-                 if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+                 del="../../../.."
+                 if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"
+          />
 
-          <field name="spatialResolution"
-                 xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:spatialResolution/gmd:MD_Resolution/gmd:distance/gco:Distance"
+          <field
+                 xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:spatialResolution/gmd:MD_Resolution/gmd:distance"
+                 del="../.."
                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
 
           <action type="add" btnLabel="spatialResolution" or="spatialResolution"
@@ -1443,8 +1446,8 @@
                   </gmd:MD_Resolution>
                 </gmd:spatialResolution>
               </snippet>
-              <snippet>
-                <gmd:spatialResolution label="spatialResolutionDistance">
+              <snippet label="spatialResolutionDistance">
+                <gmd:spatialResolution>
                   <gmd:MD_Resolution>
                     <gmd:distance>
                       <gco:Distance uom="http://standards.iso.org/iso/19139/resources/uom/ML_gmxUom.xml#m"/>

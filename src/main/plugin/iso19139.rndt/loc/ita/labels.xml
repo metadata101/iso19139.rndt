@@ -655,8 +655,8 @@
 		<_condition>Condizionale / la distanza non è documentata?</_condition>
 		<help>Inserire il denominatore della scala equivalente</help>
 	</element>
-	<element name="gmd:distance" context="gmd:MD_Resolution">
-		<label>Distanza</label>
+	<element name="gmd:distance" context="gmd:MD_Resolution" id="61.0">
+		<label>Risoluzione spaziale (Distanza)</label>
 		<description>Risoluzione geometrica al suolo</description>
 		<condition>Condizionale / la scala equivalente non è documentata?</condition>
 		<help>Inserire la risoluzione geometrica al suolo espressa come valore numerico e unità di misura</help>
