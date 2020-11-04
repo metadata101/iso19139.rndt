@@ -286,6 +286,14 @@
                     <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
                 </xsl:copy>
             </xsl:when>
+
+          <!-- ipa doesn't correspond, replace existing issueIdentification with fileIdentifier-->
+          <xsl:when test="contains(./gco:CharacterString , ':') and not(contains(./gco:CharacterString,$iPA))">
+            <xsl:message>INFO: iPA is different from the one set for current group, replacing current value with the resourceId</xsl:message>
+            <xsl:copy>
+              <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
+            </xsl:copy>
+          </xsl:when>
             <!-- ipa defined, different from the one in code -->
             <!-- redefine the current code since it may no longer be valid -->
             <!--xsl:when test="not(starts-with(./gco:CharacterString , $iPA))">
