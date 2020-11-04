@@ -615,8 +615,18 @@
                     or="descriptiveKeywords"
                     in="/gmd:MD_Metadata/gmd:identificationInfo/*"
 
-                    addDirective="data-gn-thesaurus-selector"
-            />
+                    addDirective="data-gn-thesaurus-selector">
+               <!--
+                    allow-free-text-keywords: eliminamo il bottone per l'aggiunta di keyword libere,
+                                              in quanto esiste un bottone apposto nella sezione successiva
+                    data-include: eliminamo dalla lista dei thesauri quelli già usati in questo documento -->
+               <directiveAttributes
+                  data-allow-free-text-keywords="false"
+                  data-include="xpath::string-join(gmd:MD_Metadata/gmd:identificationInfo
+                                          //gmd:thesaurusName/*/gmd:identifier/*/
+                                            gmd:code/gmx:Anchor/
+                                             concat('-', substring-after(text()[. != ''], 'geonetwork.thesaurus.')), ',')"/>
+            </action>
 
             <section name="freeTextKeywords">
               <!-- Keywords senza thesauri (escluso opendata) -->
