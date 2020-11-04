@@ -212,6 +212,8 @@
   <onlineResource>Risorsa on-line</onlineResource>
   <name>Nome</name>
   <URL>URL</URL>
+  <dimensionName>Nome</dimensionName>
+  <dimensionSize>Misura della dimensione</dimensionSize>
 
   <nameOfMeasure>Nome della misura</nameOfMeasure>
   <evaluationMethodType>Metodo di valutazione</evaluationMethodType>

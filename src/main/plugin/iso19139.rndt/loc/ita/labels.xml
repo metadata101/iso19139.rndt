@@ -555,6 +555,10 @@
 		<label>Risoluzione radiometrica</label>
 		<description>Numero massimo di bit significativi con cui può essere rappresentata l'intensità radiometrica di ogni pixel</description>
 	</element>
+  <element name="gmd:resolution" context="gmd:MD_Dimension">
+    <label>Risoluzione in metri</label>
+    <description>Grado di dettaglio dei dati</description>
+  </element>
 	<element name="gmd:resourceMaintenance">
 		<label>Gestione dei dati</label>
 		<description>Informazioni sulla frequenza di aggiornamento della risorsa.</description>

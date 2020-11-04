@@ -32,6 +32,7 @@
     <for name="gmd:nameOfMeasure" use="textarea"/>
     <for name="gmd:evaluationMethodDescription" use="textarea"/>
     <for name="gco:Record" use="number"/>
+    <for name="gco:Measure" use="number"/>
     <for name="gco:Distance" use="number"/>
     <for name="gco:Decimal" use="number"/>
     <for name="gco:Integer" use="number"/>
@@ -3775,7 +3776,9 @@
             </template>
           </action>
 
-          <field xpath ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/*/gmd:axisDimensionProperties"/>
+          <field name="axisDimensionProperties"
+            xpath ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/*/gmd:axisDimensionProperties"/>
+
           <action type="add"
                   btnLabel="axisDimensionProperties"
                   name="axisDimensionProperty"
@@ -3795,7 +3798,8 @@
                       <gco:Integer/>
                     </gmd:dimensionSize>
                     <gmd:resolution>
-                      <gco:Measure uom="http://standards.iso.org/iso/19139/resources/uom/ML_gmxUom.xml#m"/>
+                      <gco:Measure uom="http://standards.iso.org/iso/19139/resources/uom/ML_gmxUom.xml#m">
+                      </gco:Measure>
                     </gmd:resolution>
                   </gmd:MD_Dimension>
                 </gmd:axisDimensionProperties>

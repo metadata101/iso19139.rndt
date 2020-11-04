@@ -877,4 +877,18 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="gmd:resolution">
+    <xsl:choose>
+      <xsl:when test="gco:Measure/@uom!='http://standards.iso.org/iso/19139/resources/uom/ML_gmxUom.xml#m'">
+          <gmd:resolution>
+            <gco:Measure uom="http://standards.iso.org/iso/19139/resources/uom/ML_gmxUom.xml#m">
+              <xsl:value-of select="gco:Measure"/>
+            </gco:Measure>
+          </gmd:resolution>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:copy-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
 </xsl:stylesheet>
