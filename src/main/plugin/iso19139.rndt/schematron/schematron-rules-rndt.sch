@@ -102,7 +102,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<!--METADATA LANGUAGE-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M2</sch:title>
-		<sch:let name="langCodeList">bul;cze;dan;est;fin;fre;gre;eng;gle;ita;lav;lit;mlt;dut;pol;por;rum;slo;slv;spa;swe;ger;hun</sch:let>
+		<sch:let name="langCodeList">bul;cze;hrv;dan;est;fin;fre;gre;eng;gle;ita;lav;lit;mlt;dut;pol;por;rum;slo;slv;spa;swe;ger;hun</sch:let>
 		<sch:let name="langCodeURI">http://www.loc.gov/standards/iso639-2</sch:let>
 		<sch:rule context="//gmd:MD_Metadata">
 			<sch:let name="value" value="gmd:language/gmd:LanguageCode/@codeListValue"/>
