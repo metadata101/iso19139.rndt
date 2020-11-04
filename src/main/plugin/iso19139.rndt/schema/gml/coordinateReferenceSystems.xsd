@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://www.opengis.net/gml" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" elementFormDefault="qualified" version="3.2.0" xml:lang="en">
+<schema targetNamespace="http://www.opengis.net/gml/3.2" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" elementFormDefault="qualified" xml:lang="en" version="3.2.1.2">
 	<annotation>
-		<appinfo source="urn:ogc:specification:gml:schema-xsd:coordinateReferenceSystems:3.2.0">coordinateReferenceSystems.xsd</appinfo>
+		<appinfo source="urn:x-ogc:specification:gml:schema-xsd:coordinateReferenceSystems:3.2.1">coordinateReferenceSystems.xsd</appinfo>
 		<documentation>See ISO/DIS 19136 13.3.
 The spatial-temporal coordinate reference systems schema components are divided into two logical parts. One part defines elements and types for XML encoding of abstract coordinate reference systems definitions. The larger part defines specialized constructs for XML encoding of definitions of the multiple concrete types of spatial-temporal coordinate reference systems.
-These schema components encode the Coordinate Reference System packages of the UML Models of ISO 19111 Clause 8 and ISO/DIS 19136 D.3.10, with the exception of the abstract "SC_CRS" class.</documentation>
+These schema components encode the Coordinate Reference System packages of the UML Models of ISO 19111 Clause 8 and ISO/DIS 19136 D.3.10, with the exception of the abstract "SC_CRS" class.
+
+GML is an OGC Standard.
+Copyright (c) 2007,2010 Open Geospatial Consortium.
+To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+		</documentation>
 	</annotation>
+	<include schemaLocation="gml.xsd"/>
 	<include schemaLocation="coordinateSystems.xsd"/>
 	<include schemaLocation="datums.xsd"/>
 	<include schemaLocation="coordinateOperations.xsd"/>
@@ -23,11 +29,6 @@ These schema components encode the Coordinate Reference System packages of the U
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="singleCRSRef" type="gml:SingleCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="AbstractGeneralDerivedCRS" type="gml:AbstractGeneralDerivedCRSType" abstract="true" substitutionGroup="gml:AbstractSingleCRS">
 		<annotation>
 			<documentation>gml:AbstractGeneralDerivedCRS is a coordinate reference system that is defined by its coordinate conversion from another coordinate reference system. This abstract complex type shall not be used, extended, or restricted, in a GML Application Schema, to define a concrete subtype with a meaning equivalent to a concrete subtype specified in this document.</documentation>
@@ -45,11 +46,6 @@ These schema components encode the Coordinate Reference System packages of the U
 	<element name="conversion" type="gml:GeneralConversionPropertyType">
 		<annotation>
 			<documentation>gml:conversion is an association role to the coordinate conversion used to define the derived CRS.</documentation>
-		</annotation>
-	</element>
-	<element name="definedByConversion" type="gml:GeneralConversionPropertyType" substitutionGroup="gml:conversion">
-		<annotation>
-			<appinfo>deprecated</appinfo>
 		</annotation>
 	</element>
 	<element name="CompoundCRS" type="gml:CompoundCRSType" substitutionGroup="gml:AbstractCRS">
@@ -72,11 +68,6 @@ These schema components encode the Coordinate Reference System packages of the U
 			<documentation>The gml:componentReferenceSystem elements are an ordered sequence of associations to all the component coordinate reference systems included in this compound coordinate reference system. The gml:AggregationAttributeGroup should be used to specify that the gml:componentReferenceSystem properties are ordered.</documentation>
 		</annotation>
 	</element>
-	<element name="includesSingleCRS" type="gml:SingleCRSPropertyType" substitutionGroup="gml:componentReferenceSystem">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<complexType name="CompoundCRSPropertyType">
 		<annotation>
 			<documentation>gml:CompoundCRSPropertyType is a property type for association roles to a compound coordinate reference system, either referencing or containing the definition of that reference system.</documentation>
@@ -86,11 +77,6 @@ These schema components encode the Coordinate Reference System packages of the U
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="compoundCRSRef" type="gml:CompoundCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="GeodeticCRS" type="gml:GeodeticCRSType" substitutionGroup="gml:AbstractSingleCRS"/>
 	<complexType name="GeodeticCRSType">
 		<annotation>
@@ -114,19 +100,9 @@ These schema components encode the Coordinate Reference System packages of the U
 			<documentation>gml:ellipsoidalCS is an association role to the ellipsoidal coordinate system used by this CRS.</documentation>
 		</annotation>
 	</element>
-	<element name="usesEllipsoidalCS" type="gml:EllipsoidalCSPropertyType" substitutionGroup="gml:ellipsoidalCS">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="cartesianCS" type="gml:CartesianCSPropertyType">
 		<annotation>
 			<documentation>gml:cartesianCS is an association role to the Cartesian coordinate system used by this CRS.</documentation>
-		</annotation>
-	</element>
-	<element name="usesCartesianCS" type="gml:CartesianCSPropertyType" substitutionGroup="gml:cartesianCS">
-		<annotation>
-			<appinfo>deprecated</appinfo>
 		</annotation>
 	</element>
 	<element name="sphericalCS" type="gml:SphericalCSPropertyType">
@@ -134,20 +110,10 @@ These schema components encode the Coordinate Reference System packages of the U
 			<documentation>gml:sphericalCS is an association role to the spherical coordinate system used by this CRS.</documentation>
 		</annotation>
 	</element>
-	<element name="usesSphericalCS" type="gml:SphericalCSPropertyType" substitutionGroup="gml:sphericalCS">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="geodeticDatum" type="gml:GeodeticDatumPropertyType">
 		<annotation>
 			<documentation>gml:geodeticDatum is an association role to the geodetic datum used by this CRS.
 </documentation>
-		</annotation>
-	</element>
-	<element name="usesGeodeticDatum" type="gml:GeodeticDatumPropertyType" substitutionGroup="gml:geodeticDatum">
-		<annotation>
-			<appinfo>deprecated</appinfo>
 		</annotation>
 	</element>
 	<complexType name="GeodeticCRSPropertyType">
@@ -179,19 +145,9 @@ These schema components encode the Coordinate Reference System packages of the U
 			<documentation>gml:verticalCS is an association role to the vertical coordinate system used by this CRS.</documentation>
 		</annotation>
 	</element>
-	<element name="usesVerticalCS" type="gml:VerticalCSPropertyType" substitutionGroup="gml:verticalCS">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="verticalDatum" type="gml:VerticalDatumPropertyType">
 		<annotation>
 			<documentation>gml:verticalDatum is an association role to the vertical datum used by this CRS.</documentation>
-		</annotation>
-	</element>
-	<element name="usesVerticalDatum" type="gml:VerticalDatumPropertyType" substitutionGroup="gml:verticalDatum">
-		<annotation>
-			<appinfo>deprecated</appinfo>
 		</annotation>
 	</element>
 	<complexType name="VerticalCRSPropertyType">
@@ -203,11 +159,6 @@ These schema components encode the Coordinate Reference System packages of the U
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="verticalCRSRef" type="gml:VerticalCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="ProjectedCRS" type="gml:ProjectedCRSType" substitutionGroup="gml:AbstractGeneralDerivedCRS">
 		<annotation>
 			<documentation>gml:ProjectedCRS is a 2D coordinate reference system used to approximate the shape of the earth on a planar surface, but in such a way that the distortion that is inherent to the approximation is carefully controlled and known. Distortion correction is commonly applied to calculated bearings and distances to produce values that are a close match to actual field values.</documentation>
@@ -231,11 +182,6 @@ These schema components encode the Coordinate Reference System packages of the U
 			<documentation>gml:baseGeodeticCRS is an association role to the geodetic coordinate reference system used by this projected CRS.</documentation>
 		</annotation>
 	</element>
-	<element name="baseGeographicCRS" type="gml:GeographicCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<complexType name="ProjectedCRSPropertyType">
 		<annotation>
 			<documentation>gml:ProjectedCRSPropertyType is a property type for association roles to a projected coordinate reference system, either referencing or containing the definition of that reference system.</documentation>
@@ -245,11 +191,6 @@ These schema components encode the Coordinate Reference System packages of the U
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="projectedCRSRef" type="gml:ProjectedCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="DerivedCRS" type="gml:DerivedCRSType" substitutionGroup="gml:AbstractGeneralDerivedCRS">
 		<annotation>
 			<documentation>gml:DerivedCRS is a single coordinate reference system that is defined by its coordinate conversion from another single coordinate reference system known as the base CRS. The base CRS can be a projected coordinate reference system, if this DerivedCRS is used for a georectified grid coverage as described in ISO 19123, Clause 8.</documentation>
@@ -281,11 +222,6 @@ These schema components encode the Coordinate Reference System packages of the U
 			<documentation>An association role to the coordinate system used by this CRS.</documentation>
 		</annotation>
 	</element>
-	<element name="usesCS" type="gml:CoordinateSystemPropertyType" substitutionGroup="gml:coordinateSystem">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<complexType name="DerivedCRSPropertyType">
 		<annotation>
 			<documentation>gml:DerivedCRSPropertyType is a property type for association roles to a non-projected derived coordinate reference system, either referencing or containing the definition of that reference system.</documentation>
@@ -295,11 +231,6 @@ These schema components encode the Coordinate Reference System packages of the U
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="derivedCRSRef" type="gml:DerivedCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="EngineeringCRS" type="gml:EngineeringCRSType" substitutionGroup="gml:AbstractSingleCRS">
 		<annotation>
 			<documentation>gml:EngineeringCRS is a contextually local coordinate reference system which can be divided into two broad categories:
@@ -311,20 +242,48 @@ These schema components encode the Coordinate Reference System packages of the U
 		<complexContent>
 			<extension base="gml:AbstractCRSType">
 				<sequence>
-					<element ref="gml:coordinateSystem"/>
+					<choice>
+						<element ref="gml:affineCS"/>
+						<element ref="gml:cartesianCS"/>
+						<element ref="gml:cylindricalCS"/>
+						<element ref="gml:linearCS"/>
+						<element ref="gml:polarCS"/>
+						<element ref="gml:sphericalCS"/>
+						<element ref="gml:userDefinedCS"/>
+						<element ref="gml:coordinateSystem">
+							<annotation>
+								<appinfo>deprecated</appinfo>
+							</annotation>
+						</element>
+					</choice>
 					<element ref="gml:engineeringDatum"/>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
+	<element name="cylindricalCS" type="gml:CylindricalCSPropertyType">
+		<annotation>
+			<documentation>gml:cylindricalCS is an association role to the cylindrical coordinate system used by this CRS.</documentation>
+		</annotation>
+	</element>
+	<element name="linearCS" type="gml:LinearCSPropertyType">
+		<annotation>
+			<documentation>gml:linearCS is an association role to the linear coordinate system used by this CRS.</documentation>
+		</annotation>
+	</element>
+	<element name="polarCS" type="gml:PolarCSPropertyType">
+		<annotation>
+			<documentation>gml:polarCS is an association role to the polar coordinate system used by this CRS.</documentation>
+		</annotation>
+	</element>
+	<element name="userDefinedCS" type="gml:UserDefinedCSPropertyType">
+		<annotation>
+			<documentation>gml:userDefinedCS is an association role to the user defined coordinate system used by this CRS.</documentation>
+		</annotation>
+	</element>
 	<element name="engineeringDatum" type="gml:EngineeringDatumPropertyType">
 		<annotation>
 			<documentation>gml:engineeringDatum is an association role to the engineering datum used by this CRS.</documentation>
-		</annotation>
-	</element>
-	<element name="usesEngineeringDatum" type="gml:EngineeringDatumPropertyType" substitutionGroup="gml:engineeringDatum">
-		<annotation>
-			<appinfo>deprecated</appinfo>
 		</annotation>
 	</element>
 	<complexType name="EngineeringCRSPropertyType">
@@ -336,11 +295,6 @@ These schema components encode the Coordinate Reference System packages of the U
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="engineeringCRSRef" type="gml:EngineeringCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="ImageCRS" type="gml:ImageCRSType" substitutionGroup="gml:AbstractSingleCRS">
 		<annotation>
 			<documentation>gml:ImageCRS is an engineering coordinate reference system applied to locations in images. Image coordinate reference systems are treated as a separate sub-type because the definition of the associated image datum contains two attributes not relevant to other engineering datums.</documentation>
@@ -365,24 +319,9 @@ These schema components encode the Coordinate Reference System packages of the U
 			<documentation>gml:affineCS is an association role to the affine coordinate system used by this CRS.</documentation>
 		</annotation>
 	</element>
-	<element name="usesAffineCS" type="gml:AffineCSPropertyType" substitutionGroup="gml:affineCS">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="imageDatum" type="gml:ImageDatumPropertyType">
 		<annotation>
 			<documentation>gml:imageDatum is an association role to the image datum used by this CRS.</documentation>
-		</annotation>
-	</element>
-	<element name="usesImageDatum" type="gml:ImageDatumPropertyType" substitutionGroup="gml:imageDatum">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<element name="usesObliqueCartesianCS" type="gml:ObliqueCartesianCSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
 		</annotation>
 	</element>
 	<complexType name="ImageCRSPropertyType">
@@ -394,11 +333,6 @@ These schema components encode the Coordinate Reference System packages of the U
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="imageCRSRef" type="gml:ImageCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="TemporalCRS" type="gml:TemporalCRSType" substitutionGroup="gml:AbstractSingleCRS">
 		<annotation>
 			<documentation>gml:TemporalCRS is a 1D coordinate reference system used for the recording of time.</documentation>
@@ -422,24 +356,9 @@ These schema components encode the Coordinate Reference System packages of the U
 			<documentation>gml:timeCS is an association role to the time coordinate system used by this CRS.</documentation>
 		</annotation>
 	</element>
-	<element name="usesTimeCS" type="gml:TimeCSPropertyType" substitutionGroup="gml:timeCS">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<element name="usesTemporalCS" type="gml:TemporalCSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="temporalDatum" type="gml:TemporalDatumPropertyType">
 		<annotation>
 			<documentation>gml:temporalDatum is an association role to the temporal datum used by this CRS.</documentation>
-		</annotation>
-	</element>
-	<element name="usesTemporalDatum" type="gml:TemporalDatumPropertyType" substitutionGroup="gml:temporalDatum">
-		<annotation>
-			<appinfo>deprecated</appinfo>
 		</annotation>
 	</element>
 	<complexType name="TemporalCRSPropertyType">
@@ -451,76 +370,4 @@ These schema components encode the Coordinate Reference System packages of the U
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="temporalCRSRef" type="gml:TemporalCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<element name="GeographicCRS" type="gml:GeographicCRSType" substitutionGroup="gml:AbstractSingleCRS">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<complexType name="GeographicCRSType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<complexContent>
-			<extension base="gml:AbstractCRSType">
-				<sequence>
-					<element ref="gml:usesEllipsoidalCS"/>
-					<element ref="gml:usesGeodeticDatum"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	<complexType name="GeographicCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<sequence minOccurs="0">
-			<element ref="gml:GeographicCRS"/>
-		</sequence>
-		<attributeGroup ref="gml:AssociationAttributeGroup"/>
-	</complexType>
-	<element name="geographicCRSRef" type="gml:GeographicCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<element name="GeocentricCRS" type="gml:GeocentricCRSType" substitutionGroup="gml:AbstractSingleCRS">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<complexType name="GeocentricCRSType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<complexContent>
-			<extension base="gml:AbstractCRSType">
-				<sequence>
-					<choice>
-						<element ref="gml:usesCartesianCS"/>
-						<element ref="gml:usesSphericalCS"/>
-					</choice>
-					<element ref="gml:usesGeodeticDatum"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	<complexType name="GeocentricCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<sequence minOccurs="0">
-			<element ref="gml:GeocentricCRS"/>
-		</sequence>
-		<attributeGroup ref="gml:AssociationAttributeGroup"/>
-	</complexType>
-	<element name="geocentricCRSRef" type="gml:GeocentricCRSPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 </schema>

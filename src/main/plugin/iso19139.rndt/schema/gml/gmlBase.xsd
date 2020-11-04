@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://www.opengis.net/gml" xmlns:gml="http://www.opengis.net/gml" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sch="http://www.ascc.net/xml/schematron" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="3.2.0">
+<schema targetNamespace="http://www.opengis.net/gml/3.2" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="3.2.1.2">
 	<annotation>
-		<appinfo source="urn:ogc:specification:gml:schema-xsd:gmlBase:3.2.0">gmlBase.xsd</appinfo>
-		<appinfo source="urn:ogc:specification:gml:schema-xsd:gmlBase:3.2.0">
-			<sch:title>Schematron validation</sch:title>
-			<sch:ns prefix="gml" uri="http://www.opengis.net/gml"/>
-			<sch:ns prefix="xlink" uri="http://www.w3.org/1999/xlink"/>
-			<sch:pattern name="Check either href or content not both">
-				<sch:rule abstract="true" id="hrefOrContent">
-					<sch:report test="@xlink:href and (*|text())">Property element may not carry both a reference to an object and contain an object.</sch:report>
-					<sch:assert test="@xlink:href | (*|text())">Property element must either carry a reference to an object or contain an object.</sch:assert>
-				</sch:rule>
-			</sch:pattern>
-		</appinfo>
+		<appinfo source="urn:x-ogc:specification:gml:schema-xsd:gmlBase:3.2.1">gmlBase.xsd</appinfo>
 		<documentation>See ISO/DIS 19136 7.2.
 The gmlBase schema components establish the GML model and syntax, in particular
 -	a root XML type from which XML types for all GML objects should be derived,
 -	a pattern and components for GML properties,
 -	patterns for collections and arrays, and components for generic collections and arrays,
 -	components for associating metadata with GML objects,
--	components for constructing definitions and dictionaries.</documentation>
+-	components for constructing definitions and dictionaries.
+
+GML is an OGC Standard.
+Copyright (c) 2007,2010 Open Geospatial Consortium.
+To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+		</documentation>
 	</annotation>
+	<include schemaLocation="gml.xsd"/>
 	<include schemaLocation="basicTypes.xsd"/>
-	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="../xlink/xlinks.xsd"/>
+	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="../xlink/xlink.xsd"/>
 	<element name="AbstractObject" abstract="true">
 		<annotation>
 			<documentation>This element has no type defined, and is therefore implicitly (according to the rules of W3C XML Schema) an XML Schema anyType. It is used as the head of an XML Schema substitution group which unifies complex content and certain simple content elements used for datatypes in GML, including the gml:AbstractGML substitution group.</documentation>
@@ -30,7 +25,7 @@ The gmlBase schema components establish the GML model and syntax, in particular
 	</element>
 	<element name="AbstractGML" type="gml:AbstractGMLType" abstract="true" substitutionGroup="gml:AbstractObject">
 		<annotation>
-			<documentation>The abstract element gml:AbstractGML is “any GML object having identity”.   It acts as the head of an XML Schema substitution group, which may include any element which is a GML feature, or other object, with identity.  This is used as a variable in content models in GML core and application schemas.  It is effectively an abstract superclass for all GML objects.</documentation>
+			<documentation>The abstract element gml:AbstractGML is "any GML object having identity".   It acts as the head of an XML Schema substitution group, which may include any element which is a GML feature, or other object, with identity.  This is used as a variable in content models in GML core and application schemas.  It is effectively an abstract superclass for all GML objects.</documentation>
 		</annotation>
 	</element>
 	<complexType name="AbstractGMLType" abstract="true">
@@ -52,34 +47,33 @@ The gmlBase schema components establish the GML model and syntax, in particular
 		<annotation>
 			<documentation>XLink components are the standard method to support hypertext referencing in XML. An XML Schema attribute group, gml:AssociationAttributeGroup, is provided to support the use of Xlinks as the method for indicating the value of a property by reference in a uniform manner in GML.</documentation>
 		</annotation>
-		<attributeGroup ref="xlink:simpleLink"/>
+		<attributeGroup ref="xlink:simpleAttrs"/>
 		<attribute name="nilReason" type="gml:NilReasonType"/>
-		<attribute ref="gml:remoteSchema"/>
+		<attribute ref="gml:remoteSchema">
+			<annotation>
+				<appinfo>deprecated</appinfo>
+			</annotation>
+		</attribute>
 	</attributeGroup>
-	<attribute name="remoteSchema" type="anyURI">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</attribute>
 	<element name="abstractAssociationRole" type="gml:AssociationRoleType" abstract="true">
 		<annotation>
 			<documentation>Applying this pattern shall restrict the multiplicity of objects in a property element using this content model to exactly one. An instance of this type shall contain an element representing an object, or serve as a pointer to a remote object.
 Applying the pattern to define an application schema specific property type allows to restrict
 -	the inline object to specified object types, 
--	the encoding to „by-reference only“ (see 7.2.3.7),
--	the encoding to „inline only“ (see 7.2.3.8).</documentation>
+-	the encoding to "by-reference only" (see 7.2.3.7),
+-	the encoding to "inline only" (see 7.2.3.8).</documentation>
 		</annotation>
 	</element>
 	<complexType name="AssociationRoleType">
 		<sequence minOccurs="0">
-			<element ref="gml:AbstractObject"/>
+			<any namespace="##any"/>
 		</sequence>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
 	<attributeGroup name="OwnershipAttributeGroup">
 		<annotation>
-			<documentation>Encoding a GML property inline vs. by-reference shall not imply anything about the “ownership” of the contained or referenced GML Object, i.e. the encoding style shall not imply any “deep-copy” or “deep-delete” semantics. To express ownership over the contained or referenced GML Object, the gml:OwnershipAttributeGroup attribute group may be added to object-valued property elements. If the attribute group is not part of the content model of such a property element, then the value may not be “owned”.
+			<documentation>Encoding a GML property inline vs. by-reference shall not imply anything about the "ownership" of the contained or referenced GML Object, i.e. the encoding style shall not imply any "deep-copy" or "deep-delete" semantics. To express ownership over the contained or referenced GML Object, the gml:OwnershipAttributeGroup attribute group may be added to object-valued property elements. If the attribute group is not part of the content model of such a property element, then the value may not be "owned".
 When the value of the owns attribute is "true", the existence of inline or referenced object(s) depends upon the existence of the parent object.</documentation>
 		</annotation>
 		<attribute name="owns" type="boolean" default="false"/>
@@ -89,13 +83,6 @@ When the value of the owns attribute is "true", the existence of inline or refer
 			<documentation>This element shows how an element 
 	declaration may include a Schematron constraint to limit the property to act 
 	in either inline or by-reference mode, but not both.</documentation>
-			<appinfo>
-				<sch:pattern name="refAndContent co-occurence prohibited">
-					<sch:rule context="gml:abstractStrictAssociationRole">
-						<sch:extends rule="hrefOrContent"/>
-					</sch:rule>
-				</sch:pattern>
-			</appinfo>
 		</annotation>
 	</element>
 	<element name="abstractReference" type="gml:ReferenceType" abstract="true">
@@ -105,7 +92,7 @@ When the value of the owns attribute is "true", the existence of inline or refer
 	</element>
 	<complexType name="ReferenceType">
 		<annotation>
-			<documentation>gml:ReferenceType is intended to be used in application schemas directly, if a property element shall use a “by-reference only” encoding.</documentation>
+			<documentation>gml:ReferenceType is intended to be used in application schemas directly, if a property element shall use a "by-reference only" encoding.</documentation>
 		</annotation>
 		<sequence/>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
@@ -118,47 +105,13 @@ When the value of the owns attribute is "true", the existence of inline or refer
 	</element>
 	<complexType name="InlinePropertyType">
 		<sequence>
-			<element ref="gml:AbstractObject"/>
+			<any namespace="##any"/>
 		</sequence>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
 	</complexType>
 	<element name="reversePropertyName" type="string">
 		<annotation>
 			<documentation>If the value of an object property is another object and that object contains also a property for the association between the two objects, then this name of the reverse property may be encoded in a gml:reversePropertyName element in an appinfo annotation of the property element to document the constraint between the two properties. The value of the element shall contain the qualified name of the property element.</documentation>
-		</annotation>
-	</element>
-	<element name="member" type="gml:AssociationRoleType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<complexType name="ArrayAssociationType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<sequence>
-			<element ref="gml:AbstractObject" minOccurs="0" maxOccurs="unbounded"/>
-		</sequence>
-		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
-	</complexType>
-	<element name="members" type="gml:ArrayAssociationType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<complexType name="StringOrRefType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<simpleContent>
-			<extension base="string">
-				<attributeGroup ref="gml:AssociationAttributeGroup"/>
-			</extension>
-		</simpleContent>
-	</complexType>
-	<element name="metaDataProperty" type="gml:MetaDataPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
 		</annotation>
 	</element>
 	<element name="description" type="gml:StringOrRefType">
@@ -214,41 +167,6 @@ The allowed values for the aggregationType attribute are defined by gml:Aggregat
 			<enumeration value="table"/>
 		</restriction>
 	</simpleType>
-	<element name="Bag" type="gml:BagType" substitutionGroup="gml:AbstractGML">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<complexType name="BagType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<complexContent>
-			<extension base="gml:AbstractGMLType">
-				<sequence>
-					<element ref="gml:member" minOccurs="0" maxOccurs="unbounded"/>
-					<element ref="gml:members" minOccurs="0"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	<element name="Array" type="gml:ArrayType" substitutionGroup="gml:AbstractGML">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<complexType name="ArrayType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<complexContent>
-			<extension base="gml:AbstractGMLType">
-				<sequence>
-					<element ref="gml:members" minOccurs="0"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
 	<complexType name="AbstractMetadataPropertyType" abstract="true">
 		<annotation>
 			<documentation>To associate metadata described by any XML Schema with a GML object, a property element shall be defined whose content model is derived by extension from gml:AbstractMetadataPropertyType. 
@@ -260,46 +178,8 @@ If metadata following the conceptual model of ISO 19115 is to be encoded in a GM
 		<sequence/>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
 	</complexType>
-	<complexType name="MetaDataPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<sequence minOccurs="0">
-			<element ref="gml:AbstractMetaData"/>
-		</sequence>
-		<attributeGroup ref="gml:AssociationAttributeGroup"/>
-		<attribute name="about" type="anyURI"/>
-	</complexType>
-	<element name="AbstractMetaData" type="gml:AbstractMetaDataType" abstract="true" substitutionGroup="gml:AbstractObject">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<complexType name="AbstractMetaDataType" abstract="true" mixed="true">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<sequence/>
-		<attribute ref="gml:id"/>
-	</complexType>
-	<element name="GenericMetaData" type="gml:GenericMetaDataType" substitutionGroup="gml:AbstractMetaData">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<complexType name="GenericMetaDataType" mixed="true">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<complexContent mixed="true">
-			<extension base="gml:AbstractMetaDataType">
-				<sequence>
-					<any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
 	<element name="targetElement" type="string"/>
 	<element name="associationName" type="string"/>
 	<element name="defaultCodeSpace" type="anyURI"/>
+	<element name="gmlProfileSchema" type="anyURI"/>
 </schema>

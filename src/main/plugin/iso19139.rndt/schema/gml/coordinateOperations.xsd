@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://www.opengis.net/gml" elementFormDefault="qualified" version="3.2.0" xml:lang="en" xmlns:gml="http://www.opengis.net/gml" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="http://www.opengis.net/gml/3.2" elementFormDefault="qualified" xml:lang="en" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns="http://www.w3.org/2001/XMLSchema" version="3.2.1.2">
 	<annotation>
-		<appinfo source="urn:ogc:specification:gml:schema-xsd:coordinateOperations:3.2.0">coordinateOperations.xsd</appinfo>
+		<appinfo source="urn:x-ogc:specification:gml:schema-xsd:coordinateOperations:3.2.1">coordinateOperations.xsd</appinfo>
 		<documentation>See ISO/DIS 19136 13.6.
 The spatial or temporal coordinate operations schema components can be divided into five logical parts, which define elements and types for XML encoding of the definitions of:
 -	Multiple abstract coordinate operations
@@ -9,8 +9,14 @@ The spatial or temporal coordinate operations schema components can be divided i
 -	Abstract and concrete parameter values and groups
 -	Operation methods
 -	Abstract and concrete operation parameters and groups
-These schema component encodes the Coordinate Operation package of the UML Model for ISO 19111 Clause 11.</documentation>
+These schema component encodes the Coordinate Operation package of the UML Model for ISO 19111 Clause 11.
+
+GML is an OGC Standard.
+Copyright (c) 2007,2010 Open Geospatial Consortium.
+To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+		</documentation>
 	</annotation>
+	<include schemaLocation="gml.xsd"/>
 	<include schemaLocation="referenceSystems.xsd"/>
 	<include schemaLocation="measures.xsd"/>
 	<import namespace="http://www.isotc211.org/2005/gmd" schemaLocation="../gmd/gmd.xsd"/>
@@ -69,11 +75,6 @@ The optional coordinateOperationAccuracy property elements provide estimates of 
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="coordinateOperationRef" type="gml:CoordinateOperationPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="AbstractSingleOperation" type="gml:AbstractCoordinateOperationType" abstract="true" substitutionGroup="gml:AbstractCoordinateOperation">
 		<annotation>
 			<documentation>gml:AbstractSingleOperation is a single (not concatenated) coordinate operation.</documentation>
@@ -88,30 +89,6 @@ The optional coordinateOperationAccuracy property elements provide estimates of 
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="singleOperationRef" type="gml:SingleOperationPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<element name="AbstractOperation" type="gml:AbstractCoordinateOperationType" abstract="true" substitutionGroup="gml:AbstractSingleOperation">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
-	<complexType name="OperationPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-		<sequence minOccurs="0">
-			<element ref="gml:AbstractOperation"/>
-		</sequence>
-		<attributeGroup ref="gml:AssociationAttributeGroup"/>
-	</complexType>
-	<element name="operationRef" type="gml:OperationPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="AbstractGeneralConversion" type="gml:AbstractGeneralConversionType" abstract="true" substitutionGroup="gml:AbstractOperation">
 		<annotation>
 			<documentation>gm:AbstractGeneralConversion is an abstract operation on coordinates that does not include any change of datum. The best-known example of a coordinate conversion is a map projection. The parameters describing coordinate conversions are defined rather than empirically derived. Note that some conversions have no parameters. The operationVersion, sourceCRS, and targetCRS elements are omitted in a coordinate conversion.
@@ -145,11 +122,6 @@ This abstract complex type is expected to be extended for well-known operation m
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="generalConversionRef" type="gml:GeneralConversionPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="AbstractGeneralTransformation" type="gml:AbstractGeneralTransformationType" abstract="true" substitutionGroup="gml:AbstractOperation">
 		<annotation>
 			<documentation>gml:AbstractGeneralTransformation is an abstract operation on coordinates that usually includes a change of Datum. The parameters of a coordinate transformation are empirically derived from data containing the coordinates of a series of points in both coordinate reference systems. This computational process is usually "over-determined", allowing derivation of error (or accuracy) estimates for the transformation. Also, the stochastic nature of the parameters may result in multiple (different) versions of the same coordinate transformation. The operationVersion, sourceCRS, and targetCRS proeprty elements are mandatory in a coordinate transformation.
@@ -186,11 +158,6 @@ This abstract complex type is expected to be extended for well-known operation m
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="generalTransformationRef" type="gml:GeneralTransformationPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="ConcatenatedOperation" type="gml:ConcatenatedOperationType" substitutionGroup="gml:AbstractCoordinateOperation"/>
 	<complexType name="ConcatenatedOperationType">
 		<annotation>
@@ -211,11 +178,6 @@ The gml:coordOperation property elements are an ordered sequence of associations
 			<documentation>gml:coordOperation is an association role to a coordinate operation.</documentation>
 		</annotation>
 	</element>
-	<element name="usesSingleOperation" type="gml:CoordinateOperationPropertyType" substitutionGroup="gml:coordOperation">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<complexType name="ConcatenatedOperationPropertyType">
 		<annotation>
 			<documentation>gml:ConcatenatedOperationPropertyType is a property type for association roles to a concatenated operation, either referencing or containing the definition of that concatenated operation.</documentation>
@@ -225,11 +187,6 @@ The gml:coordOperation property elements are an ordered sequence of associations
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="concatenatedOperationRef" type="gml:ConcatenatedOperationPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="PassThroughOperation" type="gml:PassThroughOperationType" substitutionGroup="gml:AbstractSingleOperation">
 		<annotation>
 			<documentation>gml:PassThroughOperation is a pass-through operation specifies that a subset of a coordinate tuple is subject to a specific coordinate operation.
@@ -252,11 +209,6 @@ The modifiedCoordinate property elements are an ordered sequence of positive int
 			<documentation>gml:modifiedCoordinate is a positive integer defining a position in a coordinate tuple.</documentation>
 		</annotation>
 	</element>
-	<element name="usesOperation" type="gml:CoordinateOperationPropertyType" substitutionGroup="gml:coordOperation">
-		<annotation>
-			<documentation>gml:usesOperation is deprecated, gml:coordOperation shall be used instead.</documentation>
-		</annotation>
-	</element>
 	<complexType name="PassThroughOperationPropertyType">
 		<annotation>
 			<documentation>gml:PassThroughOperationPropertyType is a property type for association roles to a pass through operation, either referencing or containing the definition of that pass through operation.</documentation>
@@ -266,11 +218,6 @@ The modifiedCoordinate property elements are an ordered sequence of positive int
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="passThroughOperationRef" type="gml:PassThroughOperationPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="Conversion" type="gml:ConversionType" substitutionGroup="gml:AbstractGeneralConversion">
 		<annotation>
 			<documentation>gml:Conversion is a concrete operation on coordinates that does not include any change of Datum. The best-known example of a coordinate conversion is a map projection. The parameters describing coordinate conversions are defined rather than empirically derived. Note that some conversions have no parameters.
@@ -293,19 +240,9 @@ The usesValue property elements are an unordered list of composition association
 			<documentation>gml:method is an association role to the operation method used by a coordinate operation.</documentation>
 		</annotation>
 	</element>
-	<element name="usesMethod" type="gml:OperationMethodPropertyType" substitutionGroup="gml:method">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="parameterValue" type="gml:AbstractGeneralParameterValuePropertyType">
 		<annotation>
 			<documentation>gml:parameterValue is a composition association to a parameter value or group of parameter values used by a coordinate operation.</documentation>
-		</annotation>
-	</element>
-	<element name="usesValue" type="gml:AbstractGeneralParameterValuePropertyType" substitutionGroup="gml:parameterValue">
-		<annotation>
-			<appinfo>deprecated</appinfo>
 		</annotation>
 	</element>
 	<complexType name="ConversionPropertyType">
@@ -317,11 +254,6 @@ The usesValue property elements are an unordered list of composition association
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="conversionRef" type="gml:ConversionPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="Transformation" type="gml:TransformationType" substitutionGroup="gml:AbstractGeneralTransformation">
 		<annotation>
 			<documentation>gml:Transformation is a concrete object element derived from gml:GeneralTransformation (13.6.2.13).
@@ -348,11 +280,6 @@ The parameterValue elements are an unordered list of composition associations to
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="transformationRef" type="gml:TransformationPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="AbstractGeneralParameterValue" type="gml:AbstractGeneralParameterValueType" abstract="true" substitutionGroup="gml:AbstractObject">
 		<annotation>
 			<documentation>gml:AbstractGeneralParameterValue is an abstract parameter value or group of parameter values.
@@ -399,11 +326,6 @@ This abstract complexType is expected to be extended and restricted for well-kno
 			<documentation>gml:value is a numeric value of an operation parameter, with its associated unit of measure.</documentation>
 		</annotation>
 	</element>
-	<element name="dmsAngleValue" type="gml:DMSAngleType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="stringValue" type="string">
 		<annotation>
 			<documentation>gml:stringValue is a character string value of an operation parameter. A string value does not have an associated unit of measure.</documentation>
@@ -439,11 +361,6 @@ This abstract complexType is expected to be extended and restricted for well-kno
 			<documentation>gml:operationParameter is an association role to the operation parameter of which this is a value.</documentation>
 		</annotation>
 	</element>
-	<element name="valueOfParameter" type="gml:OperationParameterPropertyType" substitutionGroup="gml:operationParameter">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="ParameterValueGroup" type="gml:ParameterValueGroupType" substitutionGroup="gml:AbstractGeneralParameterValue">
 		<annotation>
 			<documentation>gml:ParameterValueGroup is a group of related parameter values. The same group can be repeated more than once in a Conversion, Transformation, or higher level ParameterValueGroup, if those instances contain different values of one or more parameterValues which suitably distinquish among those groups. This concrete complex type can be used for operation methods without using an Application Schema that defines operation-method-specialized element names and contents. This complex type may be used, extended, or restricted for well-known operation methods, especially for methods with only one instance.
@@ -460,47 +377,46 @@ The parameterValue elements are an unordered set of composition association role
 			</extension>
 		</complexContent>
 	</complexType>
-	<element name="includesValue" type="gml:AbstractGeneralParameterValuePropertyType" substitutionGroup="gml:parameterValue">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="group" type="gml:OperationParameterGroupPropertyType">
 		<annotation>
 			<documentation>gml:group is an association role to the operation parameter group for which this element provides parameter values.</documentation>
 		</annotation>
 	</element>
-	<element name="valuesOfGroup" type="gml:OperationParameterGroupPropertyType" substitutionGroup="gml:group">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="OperationMethod" type="gml:OperationMethodType" substitutionGroup="gml:Definition">
 		<annotation>
 			<documentation>gml:OperationMethod is a method (algorithm or procedure) used to perform a coordinate operation. Most operation methods use a number of operation parameters, although some coordinate conversions use none. Each coordinate operation using the method assigns values to these parameters.
-The generalOperationParameter elements are an unordered list of associations to the set of operation parameters and parameter groups used by this operation method.</documentation>
+The parameter elements are an unordered list of associations to the set of operation parameters and parameter groups used by this operation method.</documentation>
 		</annotation>
 	</element>
 	<complexType name="OperationMethodType">
 		<complexContent>
 			<extension base="gml:IdentifiedObjectType">
 				<sequence>
-					<element ref="gml:formula"/>
+					<choice>
+						<element ref="gml:formulaCitation"/>
+						<element ref="gml:formula"/>
+					</choice>
 					<element ref="gml:sourceDimensions" minOccurs="0"/>
 					<element ref="gml:targetDimensions" minOccurs="0"/>
-					<element ref="gml:generalOperationParameter" minOccurs="0" maxOccurs="unbounded"/>
+					<element ref="gml:parameter" minOccurs="0" maxOccurs="unbounded"/>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
+	<element name="formulaCitation">
+		<annotation>
+			<documentation>gml:formulaCitation provides a reference to a publication giving the formula(s) or procedure used by an coordinate operation method.</documentation>
+		</annotation>
+		<complexType>
+			<sequence minOccurs="0">
+				<element ref="gmd:CI_Citation"/>
+			</sequence>
+			<attributeGroup ref="gml:AssociationAttributeGroup"/>
+		</complexType>
+	</element>
 	<element name="formula" type="gml:CodeType">
 		<annotation>
-			<documentation>gml:formula specifies a formula or procedure used by this operation method. The value may be a reference to a publication. Note that the operation method may not be analytic, in which case this element references or contains the procedure, not an analytic formula.</documentation>
-		</annotation>
-	</element>
-	<element name="methodFormula" type="gml:CodeType" substitutionGroup="gml:formula">
-		<annotation>
-			<appinfo>deprecated</appinfo>
+			<documentation>gml:formula Formula(s) or procedure used by an operation method. The use of the codespace attribite has been deprecated. The property value shall be a character string.</documentation>
 		</annotation>
 	</element>
 	<element name="sourceDimensions" type="positiveInteger">
@@ -513,14 +429,9 @@ The generalOperationParameter elements are an unordered list of associations to 
 			<documentation>gml:targetDimensions is the number of dimensions in the target CRS of this operation method.</documentation>
 		</annotation>
 	</element>
-	<element name="generalOperationParameter" type="gml:AbstractGeneralOperationParameterPropertyType">
+	<element name="parameter" type="gml:AbstractGeneralOperationParameterPropertyType">
 		<annotation>
-			<documentation>gml:generalOperationParameter is an association to an operation parameter or parameter group.</documentation>
-		</annotation>
-	</element>
-	<element name="usesParameter" type="gml:AbstractGeneralOperationParameterPropertyType" substitutionGroup="gml:generalOperationParameter">
-		<annotation>
-			<appinfo>deprecated</appinfo>
+			<documentation>gml:parameter is an association to an operation parameter or parameter group.</documentation>
 		</annotation>
 	</element>
 	<complexType name="OperationMethodPropertyType">
@@ -532,11 +443,6 @@ The generalOperationParameter elements are an unordered list of associations to 
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="operationMethodRef" type="gml:OperationMethodPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="AbstractGeneralOperationParameter" type="gml:AbstractGeneralOperationParameterType" abstract="true" substitutionGroup="gml:Definition">
 		<annotation>
 			<documentation>gml:GeneralOperationParameter is the abstract definition of a parameter or group of parameters used by an operation method.</documentation>
@@ -565,11 +471,6 @@ The generalOperationParameter elements are an unordered list of associations to 
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="abstractGeneralOperationParameterRef" type="gml:AbstractGeneralOperationParameterPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="OperationParameter" type="gml:OperationParameterType" substitutionGroup="gml:AbstractGeneralOperationParameter">
 		<annotation>
 			<documentation>gml:OperationParameter is the definition of a parameter used by an operation method. Most parameter values are numeric, but other types of parameter values are possible. This complex type is expected to be used or extended for all operation methods, without defining operation-method-specialized element names.</documentation>
@@ -591,11 +492,6 @@ The generalOperationParameter elements are an unordered list of associations to 
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="operationParameterRef" type="gml:OperationParameterPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="OperationParameterGroup" type="gml:OperationParameterGroupType" substitutionGroup="gml:AbstractGeneralOperationParameter">
 		<annotation>
 			<documentation>gml:OperationParameterGroup is the definition of a group of parameters used by an operation method. This complex type is expected to be used or extended for all applicable operation methods, without defining operation-method-specialized element names.
@@ -607,7 +503,7 @@ The generalOperationParameter elements are an unordered list of associations to 
 			<extension base="gml:AbstractGeneralOperationParameterType">
 				<sequence>
 					<element ref="gml:maximumOccurs" minOccurs="0"/>
-					<element ref="gml:generalOperationParameter" minOccurs="2" maxOccurs="unbounded"/>
+					<element ref="gml:parameter" minOccurs="2" maxOccurs="unbounded"/>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -615,11 +511,6 @@ The generalOperationParameter elements are an unordered list of associations to 
 	<element name="maximumOccurs" type="positiveInteger">
 		<annotation>
 			<documentation>gml:maximumOccurs is the maximum number of times that values for this parameter group may be included. If this attribute is omitted, the maximum number shall be one.</documentation>
-		</annotation>
-	</element>
-	<element name="includesParameter" type="gml:AbstractGeneralOperationParameterPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
 		</annotation>
 	</element>
 	<complexType name="OperationParameterGroupPropertyType">
@@ -631,9 +522,4 @@ The generalOperationParameter elements are an unordered list of associations to 
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="operationParameterGroupRef" type="gml:OperationParameterPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 </schema>
