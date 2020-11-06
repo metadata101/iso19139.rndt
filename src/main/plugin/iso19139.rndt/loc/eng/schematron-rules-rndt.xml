@@ -33,7 +33,7 @@
 	<!--DATA/SERVICE IDENTIFICATION - SERIES-->
 	<M14>Data/service Identification - Series</M14>
 	<alert.M14><div> series element is missing or has a wrong value</div></alert.M14>
-	<!--DATA/SERVICE IDENTIFICATION - DATASET RESPONSIBLE PARTY (POINT OF CONTACT)-->	
+	<!--DATA/SERVICE IDENTIFICATION - DATASET RESPONSIBLE PARTY (POINT OF CONTACT)-->
 	<M15>Data/service Identification - Dataset Responsible Party</M15>
 	<alert.M15><div> citedResponsibleParty element is missing or has a wrong value. Dataset Responsible Party must contain organisationName,role,and electronicMailAddress elements and at least one of phone and onlineResource elements</div></alert.M15>
 	<!--DATA/SERVICE IDENTIFICATION - PRESENTATION FORM-->
@@ -72,7 +72,17 @@
 	<!--DISTRIBUTION INFO - DISTRIBUTOR-->
 	<M46>Distribution Info - Distributor</M46>
 	<alert.M46><div> Distributor element is missing or has a wrong value. Distributor must contain organisationName,role,and electronicMailAddress elements and at least one of phone and onlineResource elements</div></alert.M46>
-	<!--CONSTRAINTS - USE LIMITATIONS-->
+
+  <!--DISTRIBUTION INFO - TRANSFER OPTIONS (url, protocol and description)-->
+  <M47>Distribution info - On-line resource (url, protocol and description)</M47>
+  <alert.M47><div>TransferOptions element is missing or has a wrong value. TransferOptions must contain url, protocol and description</div></alert.M47>
+
+  <!--DISTRIBUTION INFO - TRANSFER OPTIONS (applicationProfile)-->
+  <M48>Distribution info - On-line resource (profilo dell'applicazione)</M48>
+  <alert.M48><div>TransferOptions element is missing or has a wrong value. TransferOptions must contain applicationProfile</div></alert.M48>
+
+
+  <!--CONSTRAINTS - USE LIMITATIONS-->
 	<M50>Constraints - Use Limitations</M50>
 	<alert.M50><div> Uselimitations element is missing or has a wrong value</div></alert.M50>
 	<!--CONSTRAINTS - ACCESS CONSTRAINTS-->

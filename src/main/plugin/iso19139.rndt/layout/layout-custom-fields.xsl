@@ -111,6 +111,7 @@
             <xsl:with-param name="schema" select="$schema"/>
             <xsl:with-param name="labels" select="$labels"/>
             <xsl:with-param name="lang" select="'it'"/>
+            <xsl:with-param name="isRequired" select="true()"/>
           </xsl:call-template>
         </xsl:when>
         <xsl:when test="./name()='gmd:applicationProfile' and not($isService) and boolean(./gmx:Anchor)">
@@ -121,6 +122,7 @@
             <xsl:with-param name="schema" select="$schema"/>
             <xsl:with-param name="labels" select="$labels"/>
             <xsl:with-param name="lang" select="'it'"/>
+            <xsl:with-param name="isRequired" select="true()"/>
           </xsl:call-template>
         </xsl:when>
         <xsl:when test="./name()='gmd:description' and boolean(./gmx:Anchor)">
@@ -131,6 +133,7 @@
             <xsl:with-param name="schema" select="$schema"/>
             <xsl:with-param name="labels" select="$labels"/>
             <xsl:with-param name="lang" select="'it'"/>
+            <xsl:with-param name="isRequired" select="true()"/>
           </xsl:call-template>
         </xsl:when>
         <xsl:otherwise>
@@ -159,6 +162,7 @@
     <xsl:param name="labels"/>
     <xsl:param name="schema"/>
     <xsl:param name="lang"/>
+    <xsl:param name="isRequired" required="no" select="false()"/>
     <xsl:variable name="xpath" select="gn-fn-metadata:getXPath($currElement)"/>
     <xsl:variable name="isoType" select="if (@gco:isoType) then @gco:isoType else ''"/>
     <xsl:variable name="fieldLabelConfig"
@@ -166,7 +170,7 @@
     <xsl:variable name="thesaurusFile" select="concat($thesaurusDir, '/external/thesauri/theme/',$thesaurusId)"/>
     <xsl:variable name="thesaurus" select="document($thesaurusFile)"/>
     <xsl:variable name="concepts" select="$thesaurus/rdf:RDF/skos:Concept"/>
-    <div class="form-group gn-field" id="gn-el-{if ($refToDelete) then $refToDelete/@ref else $currElement/gmx:Anchor/geonet:element/@ref}">
+    <div class="form-group gn-field {if ($isRequired) then 'gn-required' else ''}" id="gn-el-{if ($refToDelete) then $refToDelete/@ref else $currElement/gmx:Anchor/geonet:element/@ref}">
     <label class="col-sm-2 control-label">
           <xsl:value-of select="$fieldLabelConfig/label"/>
     </label>

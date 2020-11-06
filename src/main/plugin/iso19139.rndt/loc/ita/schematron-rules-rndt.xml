@@ -100,7 +100,16 @@
 	<!--DISTRIBUTION INFO - DISTRIBUTOR-->
 	<M46>Distribuzione dei dati - Distributore</M46>
 	<alert.M46><div>L'elemento distributor è mancante, incompleto o ha un valore errato. Il metadato deve contenere gli elementi organisationName,role e electronicMailAddress e almeno uno tra gli elementi phone e onlineResource</div></alert.M46>
-	<!--CONSTRAINTS - USE LIMITATIONS-->
+
+  <!--DISTRIBUTION INFO - TRANSFER OPTIONS (url, protocol and description)-->
+  <M47>Distribuzione dei dati - Risorsa on-line (url, protocollo e descrizione)</M47>
+  <alert.M47><div>L'elemento transferOptions è mancante, incompleto o ha un valore errato. Il metadato deve contenere gli elementi url, protocol e description</div></alert.M47>
+
+  <!--DISTRIBUTION INFO - TRANSFER OPTIONS (applicationProfile)-->
+  <M48>Distribuzione dei dati - Risorsa on-line (profilo dell'applicazione)</M48>
+  <alert.M48><div>L'elemento transferOptions è mancante, incompleto o ha un valore errato. Il metadato deve contenere l'elemento applicationProfile</div></alert.M48>
+
+  <!--CONSTRAINTS - USE LIMITATIONS-->
 	<M50>Vincoli sui Dati - Limitazione d'uso</M50>
 	<alert.M50><div>L'elemento useLimitation è mancante, incompleto o ha un valore errato</div></alert.M50>
 	<!--CONSTRAINTS - ACCESS CONSTRAINTS-->

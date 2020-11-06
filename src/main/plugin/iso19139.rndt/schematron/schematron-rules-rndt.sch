@@ -396,6 +396,22 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 		</sch:rule>
 	</sch:pattern>
 
+   <!--DISTRIBUTION INFO - TRANSFER OPTIONS (URL, PROTOCOL, DESCRIPTION)-->
+	<sch:pattern>
+   <sch:title>$loc/strings/M47</sch:title>
+    <sch:rule context="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource">
+    			<sch:assert test="(gmd:linkage/gmd:URL!='' and gmd:protocol/gmx:Anchor!='' and gmd:protocol/gmx:Anchor/@xlink:href!='' and gmd:description/gmx:Anchor!='' and gmd:description/gmx:Anchor/@xlink:href!='')">$loc/strings/alert.M47</sch:assert>
+    		</sch:rule>
+    	</sch:pattern>
+
+    	<!--DISTRIBUTION INFO - TRANSFER OPTIONS (APPLICATION PROFILE)-->
+    	<sch:pattern>
+        <sch:title>$loc/strings/M48</sch:title>
+        	<sch:rule context="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource[not(../../../../../../gmd:identificationInfo/srv:SV_ServiceIdentification)]">
+        		<sch:assert test="gmd:applicationProfile/gmx:Anchor/text()!='' and gmd:applicationProfile/gmx:Anchor/@xlink:href!=''">$loc/strings/alert.M48</sch:assert>
+        	</sch:rule>
+      </sch:pattern>
+
 	<!--CONSTRAINTS - USE LIMITATIONS-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M50</sch:title>
