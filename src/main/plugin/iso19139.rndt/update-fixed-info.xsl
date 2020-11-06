@@ -424,7 +424,14 @@
         </gmd:hierarchyLevel>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:copy-of select="."/>
+        <xsl:variable name="value" select="gmd:MD_ScopeCode/@codeListValue"/>
+        <gmd:hierarchyLevel>
+          <gmd:MD_ScopeCode
+            codeList="{gmd:MD_ScopeCode/@codeList}"
+            codeListValue="{$value}">
+            <xsl:value-of select="$value"/>
+          </gmd:MD_ScopeCode>
+        </gmd:hierarchyLevel>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
