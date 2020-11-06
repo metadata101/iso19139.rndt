@@ -3873,7 +3873,7 @@
                 </template>
               </action>
 
-            <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:pointInPixel"
+            <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:pointInPixel/gmd:MD_PixelOrientationCode"
                    name="pointInPixel"
                    or ="pointInPixel"
                    in="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified"
@@ -3881,7 +3881,7 @@
 
           </section>
 
-          <section name="georeferenceableRaster">
+          <section name="georeferenceableRaster" displayIfRecord="count(gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable)>0">
 
             <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:controlPointAvailability"
                    or="controlPointAvailability" in = "gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable"/>
@@ -3900,12 +3900,6 @@
                 </snippet>
               </template>
             </action>
-
-            <field
-              xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:pointInPixel"
-              name="pointInPixel"
-              or ="pointInPixel" in="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified"
-            del="."/>
 
           </section>
 
