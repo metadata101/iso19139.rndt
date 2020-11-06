@@ -164,7 +164,8 @@
       <xsl:variable name="thesaurusDir" select="util:getThesaurusDir()"/>
       <xsl:variable name="thesaurusFile" select="concat($thesaurusDir, '/external/thesauri/theme/','amministrazioni.rdf')"/>
       <xsl:variable name="thesaurus" select="document($thesaurusFile)"/>
-      <xsl:variable name="PA" select="$thesaurus/rdf:RDF/skos:Concept[@rdf:about=$iPA]/skos:prefLabel"/>
+      <xsl:variable name="label" select="$thesaurus/rdf:RDF/skos:Concept[@rdf:about=$iPA]/skos:prefLabel"/>
+      <xsl:variable name="PA" select="if ($label and $label != '') then $label else $iPA"/>
       <xsl:if test="$PA != ''">
         <Field name="pa" string="{string($PA)}" store="false" index="true"/>
       </xsl:if>
