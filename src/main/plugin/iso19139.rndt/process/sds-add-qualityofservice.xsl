@@ -50,13 +50,13 @@
       <xsl:apply-templates select="gmd:report"/>
 
       <xsl:if
-        test="count(gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[@xlink:href='https://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria/availability'])=0">
+        test="count(gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[@xlink:href='http://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteriaCode/availability'])=0">
         <xsl:message>Adding missing availablility QoS</xsl:message>
         <gmd:report>
           <gmd:DQ_ConceptualConsistency>
             <gmd:nameOfMeasure>
               <gmx:Anchor
-                xlink:href="https://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria/availability">
+                xlink:href="http://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteriaCode/availability">
                 Disponibilità
               </gmx:Anchor>
             </gmd:nameOfMeasure>
@@ -67,7 +67,7 @@
               <gmd:DQ_QuantitativeResult>
                 <gmd:valueUnit xlink:href="urn:ogc:def:uom:OGC::percent"/>
                 <gmd:value>
-                  <gco:Record xsi:type="xsi:double"></gco:Record>
+                  <gco:Record xsi:type="xs:double"></gco:Record>
                 </gmd:value>
               </gmd:DQ_QuantitativeResult>
             </gmd:result>
@@ -76,13 +76,13 @@
       </xsl:if>
 
       <xsl:if
-        test="count(gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[@xlink:href='https://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria/performance'])=0">
+        test="count(gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[@xlink:href='http://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteriaCode/performance'])=0">
         <xsl:message>Adding missing performance QoS</xsl:message>
         <gmd:report>
           <gmd:DQ_ConceptualConsistency>
             <gmd:nameOfMeasure>
               <gmx:Anchor
-                xlink:href="https://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria/performance">
+                xlink:href="http://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteriaCode/performance">
                 Prestazioni
               </gmx:Anchor>
             </gmd:nameOfMeasure>
@@ -93,7 +93,7 @@
               <gmd:DQ_QuantitativeResult>
                 <gmd:valueUnit xlink:href=" http://www.opengis.net/def/uom/SI/second"/>
                 <gmd:value>
-                  <gco:Record xsi:type="xsi:double"></gco:Record>
+                  <gco:Record xsi:type="xs:double"></gco:Record>
                 </gmd:value>
               </gmd:DQ_QuantitativeResult>
             </gmd:result>
@@ -102,13 +102,13 @@
       </xsl:if>
 
       <xsl:if
-        test="count(gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[@xlink:href='https://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria/capacity'])=0">
+        test="count(gmd:report/gmd:DQ_ConceptualConsistency/gmd:nameOfMeasure/gmx:Anchor[@xlink:href='http://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteriaCode/capacity'])=0">
         <xsl:message>Adding missing capacity QoS</xsl:message>
         <gmd:report>
           <gmd:DQ_ConceptualConsistency>
             <gmd:nameOfMeasure>
               <gmx:Anchor
-                xlink:href="https://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria/capacity">
+                xlink:href="http://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteriaCode/capacity">
                 capacity
               </gmx:Anchor>
             </gmd:nameOfMeasure>
@@ -123,7 +123,7 @@
               <gmd:DQ_QuantitativeResult>
                 <gmd:valueUnit xlink:href=" http://www.opengis.net/def/uom/OGC/1.0/unity"/>
                 <gmd:value>
-                  <gco:Record xsi:type="xsi:integer"></gco:Record>
+                  <gco:Record xsi:type="xs:integer"></gco:Record>
                 </gmd:value>
               </gmd:DQ_QuantitativeResult>
             </gmd:result>
