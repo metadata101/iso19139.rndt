@@ -917,7 +917,7 @@
 
               <action type="add" or="extent" btnLabel="spatialSection"
                       in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                      if ="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox) = 0">
+                      if ="boolean(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification[not(gmd:extent/gmd:EX_Extent/gmd:geographicElement)])">
                 <template>
                   <snippet>
                     <gmd:extent>
@@ -944,6 +944,35 @@
                 </template>
               </action>
 
+              <action type="add" or="extent" btnLabel="spatialSection"
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                      if ="boolean(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification[not(srv:extent/gmd:EX_Extent/gmd:geographicElement)])">
+                <template>
+                  <snippet>
+                    <srv:extent>
+                      <gmd:EX_Extent>
+                        <gmd:geographicElement>
+                          <gmd:EX_GeographicBoundingBox>
+                            <gmd:westBoundLongitude>
+                              <gco:Decimal/>
+                            </gmd:westBoundLongitude>
+                            <gmd:eastBoundLongitude>
+                              <gco:Decimal/>
+                            </gmd:eastBoundLongitude>
+                            <gmd:southBoundLatitude>
+                              <gco:Decimal/>
+                            </gmd:southBoundLatitude>
+                            <gmd:northBoundLatitude>
+                              <gco:Decimal/>
+                            </gmd:northBoundLatitude>
+                          </gmd:EX_GeographicBoundingBox>
+                        </gmd:geographicElement>
+                      </gmd:EX_Extent>
+                    </srv:extent>
+                  </snippet>
+                </template>
+              </action>
+
             </section>
 
             <section name="temporalSection">
@@ -959,9 +988,22 @@
                        del="."
                 />
 
+
+              <field
+                xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/srv:extent/gmd:EX_Extent/gmd:temporalElement"
+                if = "count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent[boolean(./gmd:EX_Extent/gmd:temporalElement)])=0"
+                del="../.."
+              />
+
+              <field
+                xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/srv:extent/gmd:EX_Extent/gmd:temporalElement"
+                if = "count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent[boolean(./gmd:EX_Extent/gmd:temporalElement)])>0"
+                del="."
+              />
+
               <action type="add" name="extent" or="extent" btnLabel="temporalSection"
                       in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                      if = "count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent[boolean(./gmd:EX_Extent/gmd:temporalElement)])=0">
+                      if = "boolean(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification)">
                 <template>
                   <snippet>
                     <gmd:extent>
@@ -982,11 +1024,14 @@
                 </template>
               </action>
 
-              <action type="add" or="temporalElement" btnLabel="temporalSection"
-                      in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent[count(./gmd:temporalElement)>0]"
-                      if = "count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:extent[boolean(./gmd:EX_Extent/gmd:temporalElement)])>0">
+
+              <action type="add" name="extent" or="extent" btnLabel="temporalSection"
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*"
+                      if = "boolean(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification)">
                 <template>
                   <snippet>
+                    <srv:extent>
+                      <gmd:EX_Extent>
                         <gmd:temporalElement>
                           <gmd:EX_TemporalExtent>
                             <gmd:extent>
@@ -997,6 +1042,8 @@
                             </gmd:extent>
                           </gmd:EX_TemporalExtent>
                         </gmd:temporalElement>
+                      </gmd:EX_Extent>
+                    </srv:extent>
                   </snippet>
                 </template>
               </action>
