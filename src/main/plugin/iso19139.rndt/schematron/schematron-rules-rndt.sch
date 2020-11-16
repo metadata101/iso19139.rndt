@@ -359,7 +359,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 		<sch:rule context="//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification">
 			<sch:assert test="count(gmd:descriptiveKeywords[
 			gmd:MD_Keywords/gmd:keyword/*!=''
-			and gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString = $gemetThesaurusTitle
+			and gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text() = $gemetThesaurusTitle
 			and gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date = $gemetThesaurusDate
 			and gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue = $gemetThesaurusDateType]) >0">$loc/strings/alert.M39</sch:assert>
 		</sch:rule>

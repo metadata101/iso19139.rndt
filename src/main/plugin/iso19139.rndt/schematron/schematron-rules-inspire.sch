@@ -331,19 +331,19 @@ USA.
 
     </sch:pattern>
 
-
-    <sch:pattern>
+    <!-- Commented as in RNDT is not a requirement -->
+    <!--sch:pattern>
         <sch:title>$loc/strings/serviceTaxonomy</sch:title>
 
-        <sch:rule context="//srv:SV_ServiceIdentification|//*[@gco:isoType='srv:SV_ServiceIdentification']">
+        <sch:rule context="//srv:SV_ServiceIdentification|//*[@gco:isoType='srv:SV_ServiceIdentification']"-->
             <!-- Check that INSPIRE service taxonomy is available.
                 Use INSPIRE thesaurus available on SVN to check keywords in all EU languages.
             -->
-            <sch:let name="inspire-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/theme/inspire-service-taxonomy.rdf'))"/>
-            <sch:let name="inspire-st" value="$inspire-thesaurus//skos:Concept"/>
+            <!--sch:let name="inspire-thesaurus" value="document(concat('file:///', $thesaurusDir, '/external/thesauri/theme/inspire-service-taxonomy.rdf'))"/>
+            <sch:let name="inspire-st" value="$inspire-thesaurus//skos:Concept"/-->
 
             <!-- Display error if INSPIRE thesaurus is not available. -->
-            <sch:assert test="count($inspire-st) > 0">
+            <!--sch:assert test="count($inspire-st) > 0">
                 INSPIRE service taxonomy thesaurus not found. Check installation in codelist/external/thesauri/theme.
                 Download thesaurus from https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/utilities/gemet/thesauri/.
             </sch:assert>
@@ -361,7 +361,7 @@ USA.
             </sch:report>
 
         </sch:rule>
-    </sch:pattern>
+    </sch:pattern-->
 
     <sch:pattern>
         <sch:title>$loc/strings/geo</sch:title>
@@ -496,7 +496,7 @@ USA.
     <sch:pattern>
         <sch:title>$loc/strings/conformity</sch:title>
         <!-- Search for on quality report result with status ... We don't really know if it's an INSPIRE conformity report or not. -->
-        <sch:rule context="/gmd:MD_Metadata">
+        <sch:rule context="/gmd:MD_Metadata[boolean(gmd:identificationInfo/gmd:MD_DataIdentification)]">
             <sch:let name="qualityInfoDefined" value="gmd:dataQualityInfo/node()"/>
             <sch:assert test="$qualityInfoDefined" see="geonet:child[@name='dataQualityInfo']/@uuid">
                 <sch:value-of select="$loc/strings/alert.M43/div"/>
