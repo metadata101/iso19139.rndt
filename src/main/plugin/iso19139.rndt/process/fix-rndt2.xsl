@@ -19,8 +19,8 @@
 
   <xsl:template match="gmd:thesaurusName[contains(gmd:CI_Citation/gmd:title/*/text(),'GEMET')]">
     <xsl:choose>
-      <xsl:when test="count(gmx:CI_Citation/gmd:title[not(gmx:Anchor) or gmx:Anchor/@xlink:href!='http://www.eionet.europa.eu/gemet/inspire_themes'])>0
-      or string(gmx:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date) != '2008-06-01'">
+      <xsl:when test="count(gmd:CI_Citation/gmd:title[not(gmx:Anchor) or gmx:Anchor/@xlink:href!='http://www.eionet.europa.eu/gemet/inspire_themes'])>0
+      or string(gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date) != '2008-06-01'">
         <xsl:message>Fix GEMET thesaurus info</xsl:message>
         <xsl:copy>
           <gmd:CI_Citation>
