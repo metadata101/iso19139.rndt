@@ -213,9 +213,18 @@
               hiddenXlink.val(selectSplitted[0]);
            }
         } else {
-           selectEl.val(currXlinkVal + '|' + currAnchorVal);
-           hiddenAnchorEl.val(currAnchorVal);
-           hiddenXlink.val(currXlinkVal);
+           var opts =$("select[name="+selectName+"] option");
+           Array.prototype.forEach.call(opts, function(opt){
+               var optVal=opt.value;
+               if (optVal.startsWith(currXlinkVal+'|')){
+                    var optSplitted=optVal.split('|');
+                    selectEl.val(currXlinkVal + '|' + optSplitted[1]);
+                    hiddenAnchorEl.val(optSplitted[1]);
+                    hiddenXlink.val(optSplitted[0]);
+                }
+              }
+           );
+
         }
         selectEl.on('change',function() {
           var selectVal=this.value;
