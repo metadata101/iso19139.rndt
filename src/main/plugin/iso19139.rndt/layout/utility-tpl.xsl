@@ -14,14 +14,15 @@
   </xsl:template>
 
   <xsl:template name="get-iso19139.rndt-is-service">
-    <xsl:call-template name="get-iso19139-is-service">
-    </xsl:call-template>
+    <xsl:call-template name="get-iso19139-is-service"/>
   </xsl:template>
 
   <xsl:template name="get-iso19139.rndt-title">
-    <xsl:call-template name="get-iso19139-title">
-    </xsl:call-template>
+    <xsl:call-template name="get-iso19139-title"/>
   </xsl:template>
 
+  <xsl:template name="get-iso19139.rndt-extents-as-json">
+    <xsl:call-template name="get-iso19139-extents-as-json"/>
+  </xsl:template>
 
 </xsl:stylesheet>

@@ -58,11 +58,4 @@
     </xsl:call-template>
   </xsl:template>
 
-
-  <xsl:template name="get-iso19139.rndt-extents-as-json">
-    <xsl:call-template name="get-iso19139-extents-as-json">
-    </xsl:call-template>
-  </xsl:template>
-
-
 </xsl:stylesheet>
