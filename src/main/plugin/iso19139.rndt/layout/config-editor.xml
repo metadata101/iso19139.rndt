@@ -1805,7 +1805,7 @@
                 </gmd:DQ_Scope>
               </gmd:scope>
             </snippet>
-              <snippet label="dataset">
+              <snippet label="series">
                 <gmd:scope>
                   <gmd:DQ_Scope>
                     <gmd:level>
