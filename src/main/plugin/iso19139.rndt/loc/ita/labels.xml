@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labels xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:xlink="http://www.w3.org/1999/xlink">
-
-    <element name="rndt_org_box">
-        <label>Organizzazione</label>
-        <description>L'organizzazione proprietaria di questo metadato.</description>
-        <help>Una volta impostata l'organizzazione, non sarà più possibile modificarla.</help>
-    </element>
-
-    <element name="rndt_org_select">
-        <label>Organizzazione</label>
-        <description>L'organizzazione proprietaria di questo metadato.</description>
-        <help>Questa informazione serve ad associare il codice iPA al metadato.</help>
-    </element>
-
+   
   <element name="gmd:nameOfMeasure" id="100.0" context="gmd:DQ_TopologicalConsistency">
     <label>Nome della misura</label>
     <description>Nome del test eseguito sui dati</description>
@@ -765,9 +753,7 @@
 	</element>
   <element name="gmd:levelDescription" id="141.0">
     <label>Descrizione del livello</label>
-    <description>Descrizione dettagliata circa il livello dei dati specificati dal
-      campo
-    </description>
+    <description>Descrizione dettagliata circa il livello dei dati specificati dal campo</description>
     <_condition>Conditional / level not equal 'dataset' or 'series'?</_condition>
   </element>
 	<element name="gmd:report">
@@ -881,7 +867,7 @@
   </element>
 	<element name="gmd:referenceSystemIdentifier">
 		<label>Identificatore del sistema di riferimento</label>
-		<description>Identificartore del sistema di riferimento</description>
+		<description>Identificatore del sistema di riferimento</description>
 		<condition>Obbligatorio</condition>
 		<help>Per la documentazione di questo elemento, valorizzare il tag ‘gmd:code’ con il nome del sistema di riferimento presente nella colonna ‘Nome’ della lista ‘MD_ReferenceSystemCode’ di cui al § 3.4.3.11 dell’allegato 2 al DM. Alternativamente, il tag “gmd:code” può essere valorizzato con il relativo codice EPSG (v., a questo proposito, la tabella delle corrispondenze al § 3.4.8.3 dell’allegato 2 al DPCM) introducendo, in questo caso, anche il tag “gmd:codeSpace” attraverso il quale indicare l’URL del registro EPSG “http://www.epsg-registry.org”.</help>
 	</element>
@@ -930,7 +916,7 @@
 		<label>Tipo di rappresentazione spaziale</label>
 		<description>Metodo di rappresentazione spaziale dei dati</description>
 		<condition>Obbligatorio</condition>
-		<help>L’elemento Esso deve assumere uno dei valori della lista “CI_SpatialRepresentationTypeCode” (§ 3.4.3.14 - all. 2 DM)</help>
+		<help>L’elemento deve assumere uno dei valori della lista “CI_SpatialRepresentationTypeCode” (§ 3.4.3.14 - all. 2 DM)</help>
 	</element>
 	<element name="gmd:transferOptions" id="273.0">
 		<label>Risorsa on-line</label>
@@ -1200,7 +1186,7 @@
   <element name="srv:coupledResource">
     <label>Risorsa accoppiata</label>
     <description>Dettagli del servizio accoppiato</description>
-    <inspireInfo>Optional in INSPIRE</inspireInfo>
+    <inspireInfo>Opzionale in INSPIRE</inspireInfo>
   </element>
   <element name="gmd:offLine" id="278.0">
     <label>Offline</label>
