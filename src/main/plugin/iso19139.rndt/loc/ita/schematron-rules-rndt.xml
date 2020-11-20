@@ -181,4 +181,6 @@
 	<alert.M201>La data di inizio estensione non è impostata</alert.M201>
 	<alert.M202>La data di fine estensione non è impostata</alert.M202>
 
+        <alert.temporal_begin_bad_full>Errore nell'attributo della data di inizio</alert.temporal_begin_bad_full>       
+        <alert.temporal_end_bad_full>Errore nell'attributo della data di fine</alert.temporal_end_bad_full>
 </strings>

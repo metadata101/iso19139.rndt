@@ -3,7 +3,7 @@
             xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
 
 	<!-- RNDT SCHEMATRON-->
-	<sch:title xmlns="http://www.w3.org/2001/XMLSchema">Schematron validation for ISO 19115(19139) RNDT Profile</sch:title>
+	<sch:title xmlns="http://www.w3.org/2001/XMLSchema">Schematron per RNDTv2</sch:title>
 	<sch:ns prefix="gml" uri="http://www.opengis.net/gml/3.2"/>
 	<sch:ns prefix="gmd" uri="http://www.isotc211.org/2005/gmd"/>
 	<sch:ns prefix="gmx" uri="http://www.isotc211.org/2005/gmx"/>
@@ -600,14 +600,23 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
     <!--ESTENSIONE TEMPORALE-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M200</sch:title>
-		<sch:rule context="//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent[//gml:TimePeriod]
-                                  |//gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent[//gml:TimePeriod]">
+		<sch:rule context="//gmd:MD_Metadata/gmd:identificationInfo/*/*:extent/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent[//gml:TimePeriod]">
+                   <sch:let name="begin" value="gml:TimePeriod//gml:beginPosition/text()"/>
+                   <sch:let name="beginIP" value="gml:TimePeriod//gml:beginPosition/@indeterminatePosition"/>
+                   <sch:let name="beginFullGood"  value="not($begin) or ($begin and (not($beginIP) or $beginIP='before' or $beginIP='after'))"/>
+                   <sch:let name="beginEmptyGood" value="$begin or (not($begin) and $beginIP!='now' and $beginIP!='unknown')"/>
 
-			<sch:let name="beginPosition" value="gml:TimePeriod//gml:beginPosition/text()"/>
-			<sch:let name="endPosition"   value="gml:TimePeriod//gml:endPosition/text()"/>
+                   <sch:let name="end" value="gml:TimePeriod//gml:endPosition/text()"/>
+                   <sch:let name="endIP" value="gml:TimePeriod//gml:endPosition/@indeterminatePosition"/>
+                   <sch:let name="endFullGood"  value="not($end) or ($end and (not($endIP) or $endIP='before' or $endIP='after'))"/>
+                   <sch:let name="endEmptyGood" value="$end or (not($end) and ($endIP='now' or $endIP='unknown'))"/>
 
-			<sch:assert test="$beginPosition != ''">$loc/strings/alert.M201</sch:assert>
-			<sch:assert test="$endPosition   != ''">$loc/strings/alert.M202</sch:assert>
+
+                  <sch:assert test="$beginFullGood">$loc/strings/alert.temporal_begin_bad_full</sch:assert>
+                  <sch:assert test="$beginEmptyGood">$loc/strings/alert.M201</sch:assert>
+
+                  <sch:assert test="$endFullGood">$loc/strings/alert.temporal_end_bad_full</sch:assert>
+                  <sch:assert test="$endEmptyGood">$loc/strings/alert.M202</sch:assert>
 
 		</sch:rule>
 	</sch:pattern>
