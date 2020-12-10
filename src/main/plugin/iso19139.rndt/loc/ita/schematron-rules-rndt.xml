@@ -28,7 +28,7 @@
     <!--DATA/SERVICE IDENTIFICATION -  RESPONSIBLE PARTY-->
 	<M9>Identificazione dei Dati/Servizi - Responsabile dei metadati</M9>
 
-	<alert.req8><div>Devono essere forniti i seguenti elementi: nome dell'Ente, ruolo, indirizzo e-mail, sito web e/o riferimento telefonico.</div></alert.req8>
+	<alert.req8><div>Devono essere forniti i seguenti elementi: nome dell'Ente, ruolo e indirizzo e-mail.</div></alert.req8>
 	<alert.req9><div>Il valore della codelist CI_RoleCode per il ruolo deve essere "punto di contatto" (pointOfContact).</div></alert.req9>
 
 	<!--DATA/SERVICE IDENTIFICATION - IDENTIFIER-->
@@ -181,6 +181,6 @@
 	<alert.M201>La data di inizio estensione non è impostata</alert.M201>
 	<alert.M202>La data di fine estensione non è impostata</alert.M202>
 
-        <alert.temporal_begin_bad_full>Errore nell'attributo della data di inizio</alert.temporal_begin_bad_full>       
+        <alert.temporal_begin_bad_full>Errore nell'attributo della data di inizio</alert.temporal_begin_bad_full>
         <alert.temporal_end_bad_full>Errore nell'attributo della data di fine</alert.temporal_end_bad_full>
 </strings>
