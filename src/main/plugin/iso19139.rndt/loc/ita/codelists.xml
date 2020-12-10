@@ -798,5 +798,28 @@
     </entry>
   </codelist>
 
+  <codelist name="serviceType">
+    <entry>
+      <code>view</code>
+      <label>Servizio di consultazione (view)</label>
+    </entry>
+    <entry>
+      <code>download</code>
+      <label>Servizio di scaricamento (download)</label>
+    </entry>
+    <entry>
+      <code>transformation</code>
+      <label>Servizio di conversione (transformation)</label>
+    </entry>
+    <entry>
+      <code>invoke</code>
+      <label>Servizio di richiesta dei servizi di dati territoriali (invoke)</label>
+    </entry>
+    <entry>
+      <code>other</code>
+      <label>Altri servizi (other)</label>
+    </entry>
+  </codelist>
+
 
 </codelists>

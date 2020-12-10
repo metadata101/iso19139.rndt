@@ -3046,9 +3046,27 @@
 
 
           <field
+            templateModeOnly="true"
+            notDisplayedIfMissing="true"
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType"
+            name="serviceType"
             or="serviceType"
-            in="gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"/>
+            in="gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification">
+            <template>
+              <values>
+                <key label="serviceType" xpath="gco:LocalName">
+                  <codelist name="serviceType"/>
+                </key>
+              </values>
+              <snippet>
+                <srv:serviceType>
+                  <gco:LocalName codeSpace="http://inspire.ec.europa.eu/metadatacodelist/SpatialDataServiceType">
+                    {{serviceType}}
+                  </gco:LocalName>
+                </srv:serviceType>
+              </snippet>
+            </template>
+          </field>
 
           <field
             templateModeOnly="true"
