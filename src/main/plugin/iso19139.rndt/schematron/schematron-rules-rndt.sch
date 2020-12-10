@@ -405,12 +405,12 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
       </sch:pattern>
 
 	<!--CONSTRAINTS - USE LIMITATIONS-->
-	<sch:pattern>
+	<!--sch:pattern>
 		<sch:title>$loc/strings/M50</sch:title>
 		<sch:rule context="//gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification|//gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification">
 			<sch:assert test="count(gmd:resourceConstraints[gmd:MD_Constraints/gmd:useLimitation/gco:CharacterString])>0">$loc/strings/alert.M50</sch:assert>
 		</sch:rule>
-	</sch:pattern>
+	</sch:pattern-->
 
 	<!--CONSTRAINTS - ACCESS CONSTRAINTS-->
 	<sch:pattern>
