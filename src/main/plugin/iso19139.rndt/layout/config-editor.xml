@@ -4448,6 +4448,7 @@
         <for name="srv:SV_OperationMetadata"/>
         <for name="srv:SV_Parameter"/>
         <for name="srv:DCP"/>
+        <for name="srv:operationName"/>
       </flatModeExceptions>
     </view>
 
