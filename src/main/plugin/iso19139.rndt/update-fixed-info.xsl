@@ -526,6 +526,13 @@
         </xsl:copy>
     </xsl:template>
 
+  <xsl:template match="srv:serviceType/gco:LocalName[not(@codeSpace) or @codeSpace!='http://inspire.ec.europa.eu/metadatacodelist/SpatialDataServiceType']">
+    <xsl:copy>
+      <xsl:attribute name="codeSpace">http://inspire.ec.europa.eu/metadatacodelist/SpatialDataServiceType</xsl:attribute>
+      <xsl:apply-templates select="./text()"/>
+    </xsl:copy>
+  </xsl:template>
+
     <!-- ================================================================= -->
     <!-- online resources: download -->
     <!-- ================================================================= -->
