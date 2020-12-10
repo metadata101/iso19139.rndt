@@ -103,7 +103,7 @@
   <cellGeometry>Geometria della cella</cellGeometry>
 
   <!-- INSPIRE view labels and help -->
-  <url>Sito web</url>
+  <url>URL</url>
   <resourceConstraints>Vincoli sulla risorsa</resourceConstraints>
   <identifier>Resource identifier</identifier>
   <rsIdentifier>Projection</rsIdentifier>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labels xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:xlink="http://www.w3.org/1999/xlink">
-   
+
   <element name="gmd:nameOfMeasure" id="100.0" context="gmd:DQ_TopologicalConsistency">
     <label>Nome della misura</label>
     <description>Nome del test eseguito sui dati</description>
@@ -441,10 +441,15 @@
 		<help>L'identificatore deve avere come prefisso il codice IPA dell'Amministrazione titolare del dato o del servizio, seguito dal carattere ":". Il codice IPA assegnato all'Amministrazione nel momento dell'accreditamento come da comma 1 dell’art. 19 dell'allegato A del DPCM 1 aprile 2008. Nel caso di prima trasmissione l'elemento assume lo stesso valore dell’elemento "Identificatore del file".</help>
 	</element>
 	<element name="gmd:URL" context="gmd:linkage">
-		<label>Sito web</label>
+		<label>URL</label>
 		<description>Sito web</description>
 		<help>Se l'informazione è fornita per identificare un ente, un ufficio o un soggetto associato a un dato o a un servizio, può essere inserita alternativamente al 'Telefono'</help>
 	</element>
+  <element name="gmd:linkage" id="397.0">
+    <label>URL</label>
+    <description>Sito web</description>
+    <help>Se l'informazione è fornita per identificare un ente, un ufficio o un soggetto associato a un dato o a un servizio, può essere inserita alternativamente al 'Telefono'</help>
+  </element>
 	<element name="gmd:date" context="gmd:CI_Citation">
 		<condition>Obbligatorio</condition>
 		<label>Data</label>
