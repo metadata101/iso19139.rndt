@@ -174,14 +174,6 @@
           </gmd:role>
         </gmd:CI_ResponsibleParty>
       </gmd:pointOfContact>
-      <!-- Fornire almeno una parola chiave corrispondente alla categoria o sottocategoria di servizio di cui alla parte D.4 del Regolamento INSPIRE utilizzando il nome in linguaggio neutrale, senza indicare nessun thesaurus -->
-      <gmd:descriptiveKeywords>
-        <gmd:MD_Keywords>
-          <gmd:keyword>
-            <gco:CharacterString>infoMapAccessService</gco:CharacterString>
-          </gmd:keyword>
-        </gmd:MD_Keywords>
-      </gmd:descriptiveKeywords>
       <gmd:resourceConstraints xmlns:srv="http://www.isotc211.org/2005/srv"
                                xmlns:gmx="http://www.isotc211.org/2005/gmx"
                                xmlns:gml="http://www.opengis.net/gml/3.2">
