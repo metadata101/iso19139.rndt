@@ -79,6 +79,7 @@
             <xsl:with-param name="schema" select="$schema"/>
             <xsl:with-param name="labels" select="$labels"/>
             <xsl:with-param name="lang" select="'it'"/>
+            <xsl:with-param name="isRequired" select="true()"/>
           </xsl:call-template>
         </xsl:if>
       <xsl:if test="./name()='gmd:otherConstraints' and boolean(./gmx:Anchor) and boolean(../gmd:useConstraints)">
@@ -90,6 +91,7 @@
           <xsl:with-param name="schema" select="$schema"/>
           <xsl:with-param name="labels" select="$labels"/>
           <xsl:with-param name="lang" select="'it'"/>
+          <xsl:with-param name="isRequired" select="true()"/>
         </xsl:call-template>
       </xsl:if>
     </xsl:for-each>

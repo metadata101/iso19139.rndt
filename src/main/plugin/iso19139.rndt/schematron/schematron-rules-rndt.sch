@@ -435,13 +435,13 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 			//gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:resourceConstraints">
 
 			<sch:assert test="count(gmd:MD_LegalConstraints[
-                                gmd:otherConstraints/gco:CharacterString != ''
+                                gmd:otherConstraints/gmx:Anchor != ''
                             and gmd:useConstraints/gmd:MD_RestrictionCode/@codeListValue!='otherRestrictions'
                             and gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue!='otherRestrictions'])=0">$loc/strings/alert.M53notneeded</sch:assert>
 
 			<sch:assert test="count(gmd:MD_LegalConstraints[
-                                /gmd:otherConstraints/gco:CharacterString = ''
-                            and (   gmd:useConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions'
+                                /gmd:otherConstraints/gmx:Anchor = ''
+                            and (gmd:useConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions'
 				                 or gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions')]) = 0">$loc/strings/alert.M53missing</sch:assert>
 
 		</sch:rule>

@@ -1549,7 +1549,7 @@
 
           <section name="topicCategory">
           <field
-            xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:topicCategory/gmd:MD_TopicCategoryCode"
+            xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:topicCategory"
             if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
           <action type="add"
                   btnLabel="addTopic"
