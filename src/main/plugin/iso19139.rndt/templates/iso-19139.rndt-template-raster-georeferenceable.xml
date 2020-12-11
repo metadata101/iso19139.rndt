@@ -466,13 +466,13 @@
             <gmd:DQ_QuantitativeResult>
               <gmd:valueUnit>
                 <gml:BaseUnit gml:id="UD1">
-                  <gml:identifier codeSpace="http://www.bipm.fr/en/si/base_units">m</gml:identifier>
-                  <gml:unitsSystem xlink:href="http://www.bipm.fr/en/si" />
+                  <gml:identifier codeSpace="http://www.bipm.org/en/si/base_units">m</gml:identifier>
+                  <gml:unitsSystem xlink:href="http://www.bipm.org/en/si" />
                 </gml:BaseUnit>
               </gmd:valueUnit>
               <gmd:value>
                 <gco:Record>
-                  <gco:Real>0.4</gco:Real>
+                  <gco:Real></gco:Real>
                 </gco:Record>
               </gmd:value>
             </gmd:DQ_QuantitativeResult>
