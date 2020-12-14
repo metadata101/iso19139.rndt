@@ -1119,7 +1119,7 @@
 
           <action type="add" name="issueIdentification" or="series"
                   in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:series/gmd:CI_Series/gmd:issueIdentification)=0">
+                  if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:series)=0">
             <template>
               <snippet>
                 <gmd:series>

@@ -270,5 +270,6 @@
    <EPSG3004>RNDT: Monte-Mario-Italy2</EPSG3004>
 
   <updateFrequency>Frequenza di aggiornamento</updateFrequency>
+  <issueIdentification>Id Livello Superiore</issueIdentification>
 
 </strings>

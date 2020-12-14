@@ -220,6 +220,8 @@
     </xsl:variable>
 
 
+
+
     <xsl:template match="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:identifier/*/gmd:code"  priority="10">
         <xsl:message>==== RESOURCE IDENTIFIER ====</xsl:message>
         <xsl:copy>
@@ -230,6 +232,19 @@
 
     <!-- ================================================================= -->
     <!-- CI_Series -->
+
+  <xsl:template match="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation[not(gmd:series)]" >
+    <xsl:copy>
+      <xsl:apply-templates select="node()|@*"/>
+      <gmd:series>
+        <gmd:CI_Series>
+          <gmd:issueIdentification>
+            <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
+          </gmd:issueIdentification>
+        </gmd:CI_Series>
+      </gmd:series>
+    </xsl:copy>
+  </xsl:template>
 
     <xsl:template match="gmd:series/gmd:CI_Series/gmd:issueIdentification"  priority="10">
 
@@ -313,10 +328,20 @@
             </xsl:when>
             <!-- ipa defined, already present in code, metadata not new: OK, just copy it -->
             <xsl:otherwise>
-                  <xsl:message>INFO: series identifier OK</xsl:message>
+              <xsl:choose>
+                <xsl:when test="./gco:CharacterString/text() = ''">
+                  <xsl:message>ATTENZIONE: serie vuota: copia da resourceId</xsl:message>
                   <xsl:copy>
-                    <gco:CharacterString><xsl:value-of select="./gco:CharacterString"/></gco:CharacterString>
+                    <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
                   </xsl:copy>
+                </xsl:when>
+              <xsl:otherwise>
+                <xsl:message>INFO: series identifier OK</xsl:message>
+                <xsl:copy>
+                  <gco:CharacterString><xsl:value-of select="./gco:CharacterString"/></gco:CharacterString>
+                </xsl:copy>
+              </xsl:otherwise>
+              </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
