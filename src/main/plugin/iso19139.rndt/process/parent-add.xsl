@@ -39,11 +39,32 @@ Stylesheet used to update metadata adding a reference to a parent record.
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation
-  /gmd:CI_Citation/gmd:series/gmd:CI_Series/gmd:issueIdentification/gco:CharacterString">
+
+  <xsl:template match="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation" priority="10">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
-      <xsl:value-of select="$parentUuid"/>
+      <xsl:apply-templates select="gmd:title"/>
+      <xsl:apply-templates select="gmd:alternateTitle"/>
+      <xsl:apply-templates select="gmd:date"/>
+      <xsl:apply-templates select="gmd:edition"/>
+      <xsl:apply-templates select="gmd:editionDate"/>
+      <xsl:apply-templates select="gmd:identifier"/>
+      <xsl:apply-templates select="gmd:citedResponsibleParty"/>
+      <xsl:apply-templates select="gmd:presentationForm"/>
+      
+      <!-- TODO: check if series already exists, and copy name and page elements -->
+      <gmd:series>
+        <gmd:CI_Series>
+          <gmd:issueIdentification>
+            <gco:CharacterString><xsl:value-of select="$parentUuid"/></gco:CharacterString>
+          </gmd:issueIdentification>
+        </gmd:CI_Series>
+      </gmd:series>
+      
+      <xsl:apply-templates select="gmd:otherCitationDetails"/>
+      <xsl:apply-templates select="gmd:collectiveTitle"/>
+      <xsl:apply-templates select="gmd:ISBN"/>
+      <xsl:apply-templates select="gmd:ISSN"/>
     </xsl:copy>
   </xsl:template>
 

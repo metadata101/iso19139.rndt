@@ -197,7 +197,7 @@
           <Field name="identifier" string="{string(.)}" store="true" index="true"/>
         </xsl:for-each>
 
-        <xsl:for-each select="gmd:identifier/gmd:RS_Identifier/gmd:code/gco:CharacterString">
+        <xsl:for-each select="gmd:identifier/*/gmd:code/gco:CharacterString">
           <Field name="identifier" string="{string(.)}" store="true" index="true"/>
         </xsl:for-each>
 
@@ -908,15 +908,15 @@
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <xsl:for-each select="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:series/
-     gmd:CI_Series/gmd:issueIdentification/gco:CharacterString">
-      <Field name="parentUuid" string="{string(.)}" store="true" index="true"/>
-    </xsl:for-each>
-    <Field name="isChild" string="{not(gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:series/
-     gmd:CI_Series/gmd:issueIdentification/gco:CharacterString = gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/
-     gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString)}" store="true" index="true"/>
+    <xsl:variable name="identificatore" select="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:identifier/*/gmd:code/(gco:CharacterString|gmx:Anchor)/text()"/>
+    <xsl:variable name="id_livello_superiore" select="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:series/gmd:CI_Series/gmd:issueIdentification/(gco:CharacterString|gmx:Anchor)/text()"/>  
+    <xsl:variable name="is_child" select="$identificatore != $id_livello_superiore and $id_livello_superiore != ''"/>  
 
-
+    <xsl:if test="$is_child">    
+      <Field name="parentUuid" string="{string($id_livello_superiore)}" store="true" index="true"/>
+    </xsl:if>
+    
+    <Field name="isChild" string="$is_child" store="true" index="true"/>
 
     <xsl:for-each select="gmd:metadataStandardName/gco:CharacterString">
       <Field name="standardName" string="{string(.)}" store="true" index="true"/>

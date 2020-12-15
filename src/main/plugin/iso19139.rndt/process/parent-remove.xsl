@@ -36,6 +36,10 @@ Stylesheet used to remove a reference to a parent record.
     </xsl:copy>
   </xsl:template>
 
+  <!-- Remove issueIdentification element -->
+  <xsl:template match="gmd:issueIdentification" priority="2"/>
+
   <!-- Remove geonet:* elements. -->
-  <xsl:template match="geonet:*|gmd:issueIdentification" priority="2"/>
+  <xsl:template match="geonet:*" priority="2"/>
+  
 </xsl:stylesheet>
