@@ -161,11 +161,11 @@
             </gmd:CI_Date>
           </gmd:date>
           <gmd:identifier>
-            <gmd:RS_Identifier>
+            <gmd:MD_Identifier>
               <gmd:code>
                 <gco:CharacterString>id_risorsa</gco:CharacterString>
               </gmd:code>
-            </gmd:RS_Identifier>
+            </gmd:MD_Identifier>
           </gmd:identifier>
           <gmd:citedResponsibleParty>
             <gmd:CI_ResponsibleParty>

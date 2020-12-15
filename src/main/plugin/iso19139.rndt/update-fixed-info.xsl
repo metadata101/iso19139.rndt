@@ -219,6 +219,34 @@
         </xsl:choose>
     </xsl:variable>
 
+  <xsl:template match="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation[not(gmd:identifier/*/gmd:code)]"  priority="10">
+    <xsl:message>==== RESOURCE IDENTIFIER ====</xsl:message>
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:apply-templates select="gmd:title"/>
+      <xsl:apply-templates select="gmd:alternateTitle"/>
+      <xsl:apply-templates select="gmd:date"/>
+      <xsl:apply-templates select="gmd:edition"/>
+      <xsl:apply-templates select="gmd:editionDate"/>
+      
+      <gmd:identifier>
+       <gmd:MD_Identifier>
+        <gmd:code>
+         <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
+        </gmd:code>
+       </gmd:MD_Identifier>
+      </gmd:identifier>
+      
+      <xsl:apply-templates select="gmd:citedResponsibleParty"/>
+      <xsl:apply-templates select="gmd:presentationForm"/>
+      <xsl:apply-templates select="gmd:series"/>
+      <xsl:apply-templates select="gmd:otherCitationDetails"/>
+      <xsl:apply-templates select="gmd:collectiveTitle"/>
+      <xsl:apply-templates select="gmd:ISBN"/>
+      <xsl:apply-templates select="gmd:ISSN"/>
+    </xsl:copy>
+  </xsl:template>
+
 
 
 

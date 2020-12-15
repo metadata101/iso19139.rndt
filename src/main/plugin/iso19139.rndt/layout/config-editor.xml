@@ -130,7 +130,7 @@
    <name>gmd:projection</name>
    <name>gmd:ellipsoid</name>
    <name>gmd:attributes</name>
-   <name>gmd:RS_Identifier</name>
+   <name>gmd:MD_Identifier</name>
    <name>gmd:thesaurusName</name>
    <name>gmd:geographicBox</name>
    <name>gmd:EX_TemporalExtent</name>
@@ -566,8 +566,7 @@
 
           <field name="datasetcode"
                  xpath="/gmd:MD_Metadata/gmd:identificationInfo/*
-                 /gmd:citation/gmd:CI_Citation/gmd:identifier/gmd:RS_Identifier/gmd:code"
-                 or="identifier" in = "/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation" />
+                 /gmd:citation/gmd:CI_Citation/gmd:identifier/*/gmd:code"/>
 
           <field
                  xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:abstract"
