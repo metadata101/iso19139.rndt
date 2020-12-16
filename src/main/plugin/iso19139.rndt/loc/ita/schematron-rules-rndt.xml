@@ -99,7 +99,7 @@
 	<alert.M45><div>L'elemento distributionFormat è mancante, incompleto o ha un valore errato</div></alert.M45>
 	<!--DISTRIBUTION INFO - DISTRIBUTOR-->
 	<M46>Distribuzione dei dati - Distributore</M46>
-	<alert.M46><div>L'elemento distributor è mancante, incompleto o ha un valore errato. Il metadato deve contenere gli elementi organisationName,role e electronicMailAddress e almeno uno tra gli elementi phone e onlineResource</div></alert.M46>
+	<alert.M46><div>L'elemento distributor è mancante, incompleto o ha un valore errato. Il metadato deve contenere gli elementi organisationName, role e electronicMailAddress</div></alert.M46>
 
   <!--DISTRIBUTION INFO - TRANSFER OPTIONS (url, protocol and description)-->
   <M47>Distribuzione dei dati - Risorsa on-line (url, protocollo e descrizione)</M47>
