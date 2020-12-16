@@ -658,6 +658,24 @@
 		<condition>Condizionale / la scala equivalente non è documentata?</condition>
 		<help>Inserire la risoluzione geometrica al suolo espressa come valore numerico e unità di misura</help>
 	</element>
+  <element name="gmd:denominator" id="57.0">
+    <label>Denominatore</label>
+    <description>In una frazione, il numero al di sotto della linea</description>
+    <condition>aggiungere sia un denominatore sia una distanza</condition>
+    <helper>
+      <option value="5000">1:5´000</option>
+      <option value="10000">1:10´000</option>
+      <option value="25000">1:25´000</option>
+      <option value="50000">1:50´000</option>
+      <option value="100000">1:100´000</option>
+      <option value="200000">1:200´000</option>
+      <option value="300000">1:300´000</option>
+      <option value="500000">1:500´000</option>
+      <option value="1000000">1:1´000´000</option>
+    </helper>
+
+  </element>
+        
 	<element name="gmd:supplementalInformation">
 		<label>Informazioni supplementari</label>
 		<description>Informazioni descrittive supplementari sui dati</description>
@@ -678,6 +696,13 @@
       relativi metadati
     </description>
   </element>
+  <element name="gmd:MD_LegalConstraints" id="69.0">
+    <label>Vincoli giuridici</label>
+    <description>Classe di informazioni sui vincoli giuridici che insistono su dati, metadati e loro
+      utilizzo
+    </description>
+  </element>
+  
 	<element name="gmd:accessConstraints">
 		<label>Vincoli di accesso</label>
 		<condition>Obbligatorio</condition>
@@ -876,6 +901,10 @@
 		<condition>Obbligatorio</condition>
 		<help>Per la documentazione di questo elemento, valorizzare il tag ‘gmd:code’ con il nome del sistema di riferimento presente nella colonna ‘Nome’ della lista ‘MD_ReferenceSystemCode’ di cui al § 3.4.3.11 dell’allegato 2 al DM. Alternativamente, il tag “gmd:code” può essere valorizzato con il relativo codice EPSG (v., a questo proposito, la tabella delle corrispondenze al § 3.4.8.3 dell’allegato 2 al DPCM) introducendo, in questo caso, anche il tag “gmd:codeSpace” attraverso il quale indicare l’URL del registro EPSG “http://www.epsg-registry.org”.</help>
 	</element>
+  <element name="gmd:MD_Distribution" id="270.0">
+    <label>Distribuzione</label>
+    <description>Informazioni sul distributore e su come ottenere la risorsa</description>
+  </element>        
 	<element name="gmd:distributor">
 		<label>Distributore</label>
 		<description>Informazioni sull’organizzazione che distribuisce i dati</description>
@@ -923,6 +952,11 @@
 		<condition>Obbligatorio</condition>
 		<help>L’elemento deve assumere uno dei valori della lista “CI_SpatialRepresentationTypeCode” (§ 3.4.3.14 - all. 2 DM)</help>
 	</element>
+  <element name="gmd:spatialRepresentationType" id="37.0">
+    <label>Tipo di rappresentazione spaziale</label>
+    <description>Metodo di rappresentazione spaziale dei dati (es:vector)</description>
+  </element>
+        
 	<element name="gmd:transferOptions" id="273.0">
 		<label>Risorsa on-line</label>
 		<description>Informazioni sulle fonti online per accedere alla risorsa</description>

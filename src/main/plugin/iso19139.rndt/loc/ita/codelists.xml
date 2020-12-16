@@ -691,19 +691,19 @@
 	<codelist name="indeterminatePosition">
     <entry>
       <code>after</code>
-      <label>Dopo</label>
+      <label>Dopo il</label>
     </entry>
     <entry>
       <code>before</code>
-      <label>Prima</label>
+      <label>Prima del</label>
     </entry>
     <entry>
       <code>now</code>
-      <label>Ora</label>
+      <label>Adesso</label>
     </entry>
     <entry>
       <code>unknown</code>
-      <label>Sconosciuto</label>
+      <label>Data sconosciuta</label>
     </entry>
   </codelist>
 

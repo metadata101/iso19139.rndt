@@ -378,8 +378,15 @@
           </xsl:call-template>
         </dt>
         <dd><xsl:comment select="name()"/>
-          <xsl:apply-templates mode="render-value" select="*|*/@codeListValue"/>
-          <xsl:apply-templates mode="render-value" select="@*"/>
+        <xsl:choose>
+           <xsl:when test="normalize-space(*/@codeListValue) != ''">
+               <xsl:apply-templates mode="render-value" select="*/@codeListValue"/>
+           </xsl:when>
+           <xsl:otherwise>
+               <xsl:apply-templates mode="render-value" select="*"/>
+           </xsl:otherwise>
+        </xsl:choose>
+          <xsl:apply-templates mode="render-value" select="@*[name()!='codeListValue']"/>
         </dd>
       </dl>
     </xsl:if>
@@ -404,7 +411,7 @@
   </xsl:template>-->
 
   <xsl:template mode="render-field"
-                match="*[gmx:Anchor]|*[normalize-space(gco:CharacterString) != '']|gml:beginPosition[. != '']|gml:endPosition[. != '']|gml320:beginPosition[. != '']|gml320:endPosition[. != '']"
+                match="*[gmx:Anchor]|*[normalize-space(gco:CharacterString) != '']"
                 priority="50">
     <xsl:param name="fieldName" select="''" as="xs:string"/>
 
@@ -418,6 +425,25 @@
         <xsl:comment select="name()"/>
         <xsl:apply-templates mode="render-value" select="."/>
         <xsl:apply-templates mode="render-value" select="@*"/>
+      </dd>
+    </dl>
+  </xsl:template>
+
+  <xsl:template mode="render-field"
+                match="gml:beginPosition[. != '']|gml:endPosition[. != '']|gml320:beginPosition[. != '']|gml320:endPosition[. != '']"
+                priority="50">
+    <xsl:param name="fieldName" select="''" as="xs:string"/>
+    <dl>
+      <dt>
+        <xsl:call-template name="render-field-label">
+          <xsl:with-param name="fieldName" select="$fieldName"/>
+        </xsl:call-template>
+      </dt>
+      <dd>
+        <xsl:comment select="name()"/>
+        <xsl:apply-templates mode="render-value" select="@indeterminatePosition"/>
+        <xsl:apply-templates mode="render-value" select="."/>
+        <xsl:apply-templates mode="render-value" select="@*[name()!='indeterminatePosition']"/>
       </dd>
     </dl>
   </xsl:template>
