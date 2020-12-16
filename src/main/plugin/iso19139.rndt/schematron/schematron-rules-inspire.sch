@@ -658,6 +658,7 @@ USA.
                <sch:value-of select="$loc/strings/alert.M45/div"/>
            </sch:assert>
 
+         <!-- NO LONGER APPLIES
             <sch:let name="useLimitationDefined" value="gmd:resourceConstraints/*/gmd:useLimitation/node()"/>
             <sch:assert test="$useLimitationDefined" see="gmd:resourceConstraints/*/geonet:child[@name='useLimitation']/@uuid">
                 <sch:value-of select="$loc/strings/alert.M45/div"/>
@@ -671,6 +672,7 @@ USA.
                 <sch:value-of select="$loc/strings/report.M45/div"/>
                 <sch:value-of select="$useLimitation"/>
             </sch:report>
+         -->
         </sch:rule>
     </sch:pattern>
 
