@@ -54,7 +54,7 @@ public class ISO19139RNDTSchemaPlugin extends ISO19139SchemaPlugin {
     }
            
     protected String getResourceId(Element metadata) {
-       final String resourceIdPath = "gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString";
+       final String resourceIdPath = "gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString";
        
        try {
           return Xml.selectString(metadata, resourceIdPath, rndtNamespaces.asList());
