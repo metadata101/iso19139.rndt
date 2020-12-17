@@ -248,6 +248,9 @@
           <srv:DCP>
             <srv:DCPList codeList="#DCPList" codeListValue="WebServices">WebServices</srv:DCPList>
           </srv:DCP>
+          <srv:invocationName gco:nilReason="missing">
+            <gco:CharacterString/>
+          </srv:invocationName>
           <srv:connectPoint>
             <gmd:CI_OnlineResource>
               <gmd:linkage>
