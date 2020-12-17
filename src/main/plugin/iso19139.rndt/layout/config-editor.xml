@@ -618,13 +618,30 @@
                <!--
                     allow-free-text-keywords: eliminamo il bottone per l'aggiunta di keyword libere,
                                               in quanto esiste un bottone apposto nella sezione successiva
-                    data-include: eliminamo dalla lista dei thesauri quelli già usati in questo documento -->
+                    data-include: 
+                      - eliminamo dalla lista dei thesauri quelli già usati in questo documento
+                      - Eliminiamo inoltre i thesauri aggiungibili tramite bottoni appositi nelle relative sezioni:
+                         - Thesaurus nei servizi
+                            - external.theme.httpinspireeceuropaeumetadatacodelistSpatialDataServiceCategory-SpatialDataServiceCategory_RNDT
+                         - Thesauri nei dataset
+                            - external.theme.httpinspireeceuropaeutheme-theme
+                            - external.theme.httpinspireeceuropaeumetadatacodelistPriorityDataset-PriorityDataset
+                            - xternal.theme.httpinspireeceuropaeumetadatacodelistSpatialScope-SpatialScope
+                            - external.theme.rndt-all1
+               -->
                <directiveAttributes
                   data-allow-free-text-keywords="false"
-                  data-include="xpath::string-join(gmd:MD_Metadata/gmd:identificationInfo
+                  data-include="xpath::string-join((
+                           '-external.theme.httpinspireeceuropaeutheme-theme',
+                           '-external.theme.httpinspireeceuropaeumetadatacodelistPriorityDataset-PriorityDataset',
+                           '-external.theme.httpinspireeceuropaeumetadatacodelistSpatialScope-SpatialScope',
+                           '-external.theme.rndt-all1',
+                           '-external.theme.httpinspireeceuropaeumetadatacodelistSpatialDataServiceCategory-SpatialDataServiceCategory',
+                           '-external.theme.httpinspireeceuropaeumetadatacodelistSpatialDataServiceCategory-SpatialDataServiceCategory_RNDT',
+                           gmd:MD_Metadata/gmd:identificationInfo
                                           //gmd:thesaurusName/*/gmd:identifier/*/
                                             gmd:code/gmx:Anchor/
-                                             concat('-', substring-after(text()[. != ''], 'geonetwork.thesaurus.')), ',')"/>
+                                             concat('-', substring-after(text()[. != ''], 'geonetwork.thesaurus.'))), ',')"/>
             </action>
 
             <section name="freeTextKeywords">
