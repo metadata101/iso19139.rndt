@@ -193,14 +193,9 @@
                 gmd:identificationInfo/srv:SV_ServiceIdentification">
 
       <xsl:for-each select="gmd:citation/gmd:CI_Citation">
-        <xsl:for-each select="gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString">
+        <xsl:for-each select="gmd:identifier/(gmd:MD_Identifier|gmd:RS_Identifier)/gmd:code/gco:CharacterString">
           <Field name="identifier" string="{string(.)}" store="true" index="true"/>
         </xsl:for-each>
-
-        <xsl:for-each select="gmd:identifier/*/gmd:code/gco:CharacterString">
-          <Field name="identifier" string="{string(.)}" store="true" index="true"/>
-        </xsl:for-each>
-
 
         <xsl:for-each select="gmd:title/gco:CharacterString">
           <Field name="title" string="{string(.)}" store="true" index="true"/>
