@@ -124,6 +124,20 @@
   <minimumValue>Quota minima</minimumValue>
   <maximumValue>Quota massima</maximumValue>
   <verticalCRS>CRS verticale</verticalCRS>
+
+  <rsFieldAnchor>RS Anchor</rsFieldAnchor>
+  <rsFieldCode>RS codice</rsFieldCode>
+  <rsFieldCCS>RS codice+codespace</rsFieldCCS>
+
+  <rsCode>RS codice</rsCode>
+  <rsCodeSpace>RS codespace</rsCodeSpace>
+  <rsLink>RS URL</rsLink>
+  
+  <addRsRNDT>Sistema di riferimento RNDT</addRsRNDT>
+  <addRsAnchor>Anchor</addRsAnchor>
+  <addRsCode>Code</addRsCode>
+  <addRsCCS>Code+CodeSpace</addRsCCS>  
+  
   <conformity>Conformity</conformity>
   <conformity_title>Titolo</conformity_title>
   <conformity_date>Data</conformity_date>
