@@ -2258,7 +2258,7 @@
                     or="referenceSystemInfo"
                     in="/gmd:MD_Metadata"
                     if="count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code[contains(.,'RDN') or starts-with(.,'ED50')
-                    or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])=0"
+                    or contains(.,'Monte-Mario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])=0"
             >
               <template>
                 <snippet label="EPSG4936">
