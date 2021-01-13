@@ -311,7 +311,7 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
                      or contains(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gco:CharacterString,'EPSG') or boolean(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString)
                      or boolean(gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code/gmx:Anchor)]) &lt; 2">$loc/strings/alert.M38toomany</sch:assert>-->
 
-               <sch:report test="count(gmd:referenceSystemInfo) > 0"><sch:value-of select="$loc/strings/report.M38count"/> <sch:value-of select="$rscount"/></sch:report>
+               <sch:report test="count(gmd:referenceSystemInfo) > 0"><sch:value-of select="$loc/strings/report.M38count"/>: <sch:value-of select="$rscount"/></sch:report>
             </sch:rule>
 
 <!--            <sch:rule context="//gmd:MD_Metadata[gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue='dataset']/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier
@@ -391,21 +391,23 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 		</sch:rule>
 	</sch:pattern>
 
-   <!--DISTRIBUTION INFO - TRANSFER OPTIONS (URL, PROTOCOL, DESCRIPTION)-->
-	<sch:pattern>
-   <sch:title>$loc/strings/M47</sch:title>
-    <sch:rule context="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource">
-    			<sch:assert test="(gmd:linkage/gmd:URL!='' and gmd:protocol/gmx:Anchor!='' and gmd:protocol/gmx:Anchor/@xlink:href!='' and gmd:description/gmx:Anchor!='' and gmd:description/gmx:Anchor/@xlink:href!='')">$loc/strings/alert.M47</sch:assert>
-    		</sch:rule>
-    	</sch:pattern>
-
-    	<!--DISTRIBUTION INFO - TRANSFER OPTIONS (APPLICATION PROFILE)-->
-    	<sch:pattern>
-        <sch:title>$loc/strings/M48</sch:title>
-        	<sch:rule context="/gmd:MD_Metadata/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource[not(../../../../../../gmd:identificationInfo/srv:SV_ServiceIdentification)]">
-        		<sch:assert test="gmd:applicationProfile/gmx:Anchor/text()!='' and gmd:applicationProfile/gmx:Anchor/@xlink:href!=''">$loc/strings/alert.M48</sch:assert>
-        	</sch:rule>
-      </sch:pattern>
+        <!-- dataset e serie - DISTRIBUTION INFO - TRANSFER OPTIONS (URL, PROTOCOL, DESCRIPTION)-->
+        <sch:pattern>
+           <sch:title>$loc/strings/M3_6_3</sch:title>
+           <sch:rule context="/gmd:MD_Metadata[gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue!='service']">
+              <sch:assert test="count(gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource) > 0">$loc/strings/alert.M3.6.3_missing</sch:assert>
+           </sch:rule>
+        </sch:pattern>
+        
+        <sch:pattern>
+           <sch:title>$loc/strings/M3_6_3</sch:title>
+           <sch:rule context="/gmd:MD_Metadata[gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue!='service']/gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource">
+              <sch:assert test="gmd:linkage/gmd:URL!=''">$loc/strings/alert.R1_8</sch:assert>
+              <sch:assert test="gmd:protocol/gmx:Anchor!='' and gmd:protocol/gmx:Anchor/@xlink:href!='' 
+                           and gmd:applicationProfile/gmx:Anchor/text()!='' and gmd:applicationProfile/gmx:Anchor/@xlink:href!=''
+                           and gmd:description/gmx:Anchor!='' and gmd:description/gmx:Anchor/@xlink:href!=''">$loc/strings/alert.R1_10</sch:assert>
+           </sch:rule>
+        </sch:pattern>
 
 	<!--CONSTRAINTS - USE LIMITATIONS-->
 	<!--sch:pattern>

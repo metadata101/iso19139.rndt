@@ -101,13 +101,13 @@
 	<M46>Distribuzione dei dati - Distributore</M46>
 	<alert.M46><div>L'elemento distributor è mancante, incompleto o ha un valore errato. Il metadato deve contenere gli elementi organisationName, role e electronicMailAddress</div></alert.M46>
 
-  <!--DISTRIBUTION INFO - TRANSFER OPTIONS (url, protocol and description)-->
-  <M47>Distribuzione dei dati - Risorsa on-line (url, protocollo e descrizione)</M47>
-  <alert.M47><div>L'elemento transferOptions è mancante, incompleto o ha un valore errato. Il metadato deve contenere gli elementi url, protocol e description</div></alert.M47>
-
-  <!--DISTRIBUTION INFO - TRANSFER OPTIONS (applicationProfile)-->
-  <M48>Distribuzione dei dati - Risorsa on-line (profilo dell'applicazione)</M48>
-  <alert.M48><div>L'elemento transferOptions è mancante, incompleto o ha un valore errato. Il metadato deve contenere l'elemento applicationProfile</div></alert.M48>
+        <!--DISTRIBUTION INFO - TRANSFER OPTIONS (url, protocol and description)-->
+        <M3_6_3>Localizzatore della risorsa (dataset e serie)</M3_6_3>
+        <alert.M3.6.3_missing>Nessun localizzatore della risorsa trovato. Creare almeno una Risorsa on-line</alert.M3.6.3_missing>
+        <alert.R1_8><div>Requisito 1.8: URL mancante</div></alert.R1_8>
+        <alert.R1_10>
+           <div>Requisito 1.10: elemento incompleto o errato: Il localizzatore deve contenere gli elementi protocol, applicationProfile e description</div>
+        </alert.R1_10>
 
   <!--CONSTRAINTS - USE LIMITATIONS-->
 	<M50>Vincoli sui Dati - Limitazione d'uso</M50>
