@@ -23,29 +23,29 @@
   -->
 
 <strings>
-  <schematron.title>Inspire strict rules extension</schematron.title>
+  <schematron.title>INSPIRE Strict Rules</schematron.title>
   <report.M44.spec>
     <div>Specification:</div>
   </report.M44.spec>
   <assert.M44.date>
-    <div>Il rapporto di Conformità richiede una data.</div>
+    <div>Conformance report requires date.</div>
   </assert.M44.date>
   <assert.M44.title>
-    <div>Il rapporto di Conformità richiede un titolo nella lingua del metadato</div>
+    <div>Conformance report requires a title in the metadata language</div>
   </assert.M44.title>
-  <conformity>Conformità</conformity>
+  <conformity>Conformity</conformity>
   <assert.M44.conformityActual>
-    <div>Titolo di Conformità errato:
+    <div>Invalid Conformity Title:
       <br></br>
     </div>
   </assert.M44.conformityActual>
   <assert.M44.conformityExpected>
-    <div><br></br>Titolo di Conformità atteso:
+    <div><br></br>Expected Conformity Title:
       <br></br>
     </div>
   </assert.M44.conformityExpected>
   <report.M44.degree>
-    <div>Grado di Conformità trovato:</div>
+    <div>Degree of conformity found:</div>
   </report.M44.degree>
 
 </strings>
