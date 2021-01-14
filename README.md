@@ -1,6 +1,6 @@
 # iso19139.rndt
 
-GeoNetwork Italian RNDT metadata pluggable schema for version 3.x .
+GeoNetwork Italian RNDT metadata pluggable schema for version 3.10.x.
 
 - Home site:
   http://www.rndt.gov.it/
@@ -9,13 +9,9 @@ GeoNetwork Italian RNDT metadata pluggable schema for version 3.x .
   http://geodati.gov.it/geoportale/regole-tecniche-rndt
   
 
-  
-  
-  This version of plugin was built against a nightly version of Geonetwork 3.4.0, and is used by Provincia Autonoma di Trento (Italy) to publish its metadata italian rules compliants. 
-The Provincia Autonoma di Trento has financed the creation of the geonetwork 3.x plugin for the compilation of metadata according to the rndt standard.
-The code is donated to the geonetwork community for its public usage.
+This plugin requires GeoNetwork version >= 3.10.6.
 
- The development of this plugin is based on rndt plugin built for Geonetwork 2.x, you can find it  here: https://github.com/geonetwork/schema-plugins
+
  
 ## Configurazione iPA
   Il codice iPA deve essere definito nel campo descrizione del Gruppo cui è associato.
@@ -32,3 +28,6 @@ The code is donated to the geonetwork community for its public usage.
       Gruppo metadati per il Comune di Firenze.
 
       iPA:c_d612:
+
+
+Per informazioni di installazione e configurazione fere riferimento alla documentazione a http://bit.ly/geonetwork-rndt
