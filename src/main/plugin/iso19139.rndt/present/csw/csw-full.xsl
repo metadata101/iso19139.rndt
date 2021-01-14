@@ -19,9 +19,7 @@
 
                 xmlns:gml="http://www.opengis.net/gml/3.2"
 
-                xmlns:ITgmd="http://www.cnipa.gov.it/RNDT/ITgmd"
-
-                exclude-result-prefixes="geonet dc dct ows srv ITgmd">
+                exclude-result-prefixes="geonet dc dct ows srv">
 
 
     <xsl:param name="displayInfo"/>
@@ -45,19 +43,6 @@
 		<xsl:variable name="info" select="geonet:info"/>
 		<xsl:copy copy-namespaces="no">
 			<xsl:apply-templates select="@*|node()"/>
-
-			<!-- GeoNetwork elements added when resultType is equal to results_with_summary -->
-			<xsl:if test="$displayInfo = 'true'">
-				<xsl:copy-of select="$info"/>
-			</xsl:if>
-
-		</xsl:copy>
-	</xsl:template>
-
-	<xsl:template match="@*|node()" mode="tile">
-		<xsl:variable name="info" select="geonet:info"/>
-		<xsl:copy copy-namespaces="no">
-			<xsl:apply-templates select="@*|node()" mode="tile"/>
 
 			<!-- GeoNetwork elements added when resultType is equal to results_with_summary -->
 			<xsl:if test="$displayInfo = 'true'">
@@ -272,35 +257,6 @@
 		<xsl:for-each select="gmd:MD_Keywords/gmd:keyword"><xsl:copy-of select="gco:CharacterString" /></xsl:for-each>
 	</xsl:template>
 
-	<!-- ================================================================= -->
-	<!-- ================================================================= -->
-    <!-- Templates per i tile                                              -->
-	<!-- ================================================================= -->
-	<!-- ================================================================= -->
-
-	<!-- Metadata root elem for tile related metadata -->
-
-	<xsl:template match="gmd:MD_Metadata" mode="tile">
-		<xsl:element name="ITgmd:MD_Metadata">
-			<xsl:apply-templates select="gmd:fileIdentifier"/>
-			<xsl:apply-templates select="gmd:language"/>
-			<xsl:apply-templates select="gmd:characterSet"/>
-			<ITgmd:parentIdentifier>
-				<gco:CharacterString>
-					<xsl:choose>
-						<xsl:when test="//gmd:MD_Metadata/gmd:parentIdentifier/gco:CharacterString != '' ">
-							<xsl:value-of select="//gmd:MD_Metadata/gmd:parentIdentifier/gco:CharacterString"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="./gmd:fileIdentifier/gco:CharacterString"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</gco:CharacterString>
-			</ITgmd:parentIdentifier>
-			<xsl:apply-templates select="child::* except (gmd:fileIdentifier|gmd:parentIdentifier|gmd:language|gmd:characterSet)"/>
-			<!-- <xsl:apply-templates select="//*[not(self::gmd:fileIdentifier)|not(self::gmd:language)|not(self::gmd:characterSet)]"/> -->
-		</xsl:element>
-	</xsl:template>
 
 	<!-- ================================================================= -->
     <!-- remap generic gmd elements in tile metadata -->
