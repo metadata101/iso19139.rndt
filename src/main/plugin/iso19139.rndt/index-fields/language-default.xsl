@@ -29,13 +29,18 @@
                 xmlns:gco="http://www.isotc211.org/2005/gco"
                 xmlns:gmx="http://www.isotc211.org/2005/gmx"
                 xmlns:xlink="http://www.w3.org/1999/xlink"
-                xmlns:gml="http://www.opengis.net/gml"
+                xmlns:gml="http://www.opengis.net/gml/3.2"
+                xmlns:gml320="http://www.opengis.net/gml"
                 xmlns:srv="http://www.isotc211.org/2005/srv"
                 xmlns:geonet="http://www.fao.org/geonetwork"
                 xmlns:util="java:org.fao.geonet.util.XslUtil"
                 xmlns:skos="http://www.w3.org/2004/02/skos/core#"
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                 exclude-result-prefixes="#all">
+
+  <xsl:import href="../convert/functions.xsl"/>
+  <xsl:include href="../../../xsl/utils-fn.xsl"/>
+  <xsl:include href="inspire-util.xsl" />
 
   <!--This file defines what parts of the metadata are indexed by Lucene
       Searches can be conducted on indexes defined here.
@@ -47,9 +52,6 @@
   <!-- ========================================================================================= -->
 
   <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="no"/>
-  <xsl:include href="../convert/functions.xsl"/>
-  <xsl:include href="../../../xsl/utils-fn.xsl"/>
-  <xsl:include href="inspire-util.xsl" />
 
   <xsl:param name="thesauriDir"/>
   <xsl:param name="inspire">false</xsl:param>

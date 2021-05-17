@@ -28,7 +28,7 @@
     <!--DATA/SERVICE IDENTIFICATION -  RESPONSIBLE PARTY-->
 	<M9>Identificazione dei Dati/Servizi - Responsabile dei metadati</M9>
 
-	<alert.req8><div>Devono essere forniti i seguenti elementi: nome dell'Ente, ruolo, indirizzo e-mail, sito web e/o riferimento telefonico.</div></alert.req8>
+	<alert.req8><div>Devono essere forniti i seguenti elementi: nome dell'Ente, ruolo e indirizzo e-mail.</div></alert.req8>
 	<alert.req9><div>Il valore della codelist CI_RoleCode per il ruolo deve essere "punto di contatto" (pointOfContact).</div></alert.req9>
 
 	<!--DATA/SERVICE IDENTIFICATION - IDENTIFIER-->
@@ -37,7 +37,7 @@
 	<!--DATA/SERVICE IDENTIFICATION - SERIES-->
 	<M14>Identificazione dei Dati/Servizi - Id livello superiore</M14>
 	<alert.M14><div>L'elemento series è mancante, incompleto o ha un valore errato</div></alert.M14>
-	<!--DATA/SERVICE IDENTIFICATION - DATASET RESPONSIBLE PARTY -->	
+	<!--DATA/SERVICE IDENTIFICATION - DATASET RESPONSIBLE PARTY -->
 	<M15>Identificazione dei Dati/Servizi - Responsabile del dato/servizio</M15>
 	<!--<alert.M15><div>L'elemento citedResponsibleParty è mancante, incompleto o ha un valore errato. Il metadato deve contenere gli elementi organisationName,role e electronicMailAddress e almeno uno tra gli elementi phone e onlineResource</div></alert.M15>-->
 	<alert.M15missing><div>Responsabile del dato|servizio mancante</div></alert.M15missing>
@@ -75,20 +75,20 @@
 	<alert.M38><div>L'elemento referenceSystemInfo è mancante, incompleto o ha un valore errato</div></alert.M38>
 
     <alert.M38missing><div>L'elemento referenceSystemInfo è mancante.</div></alert.M38missing>
-    <alert.M38toomany><div>L'elemento referenceSystemInfo deve essere unico.</div></alert.M38toomany>
-    <alert.M38badcodespace><div>È ammesso il solo codeSpace http://www.epsg-registry.org</div></alert.M38badcodespace>
+    <!--<alert.M38toomany><div>L'elemento referenceSystemInfo deve essere unico.</div></alert.M38toomany>-->
+    <!--<alert.M38badcodespace><div>È ammesso il solo codeSpace http://www.epsg-registry.org</div></alert.M38badcodespace>-->
     <alert.M38version><div>Non è ammessa la versione del codeSpace.</div></alert.M38version>
 
-    <report.M38count><div>Trovato un unico referenceSystemInfo.</div></report.M38count>
-    <report.M38nocodespace><div>Il codeSpace mancante denota la presenza di un codice preso dalla codeList RNDT.</div></report.M38nocodespace>
-    <report.M38codespace><div>CodeSpace EPSG corretto.</div></report.M38codespace>
+    <report.M38count>Elementi referenceSystemInfo trovati</report.M38count>
+    <!--<report.M38nocodespace><div>Il codeSpace mancante denota la presenza di un codice preso dalla codeList RNDT.</div></report.M38nocodespace>-->
+    <!--<report.M38codespace><div>CodeSpace EPSG corretto.</div></report.M38codespace>-->
 
-    <alert.M38code><div>Codice non riconosciuto </div></alert.M38code>
-    <alert.M38badrndt><div>Codice RNDT richiesto ma non riconosciuto </div></alert.M38badrndt>
-    <alert.M38badepsg><div>Codice EPSG richiesto ma non riconosciuto </div></alert.M38badepsg>
-    
-    <report.M38rndtcode><div>Codice RNDT corretto.</div></report.M38rndtcode>
-    <report.M38epsgcode><div>Codice EPSG corretto.</div></report.M38epsgcode>
+    <!--<alert.M38code><div>Codice non riconosciuto </div></alert.M38code>-->
+    <!--<alert.M38badrndt><div>Codice RNDT richiesto ma non riconosciuto </div></alert.M38badrndt>-->
+    <!--<alert.M38badepsg><div>Codice EPSG richiesto ma non riconosciuto </div></alert.M38badepsg>-->
+
+    <!--<report.M38rndtcode><div>Codice RNDT corretto.</div></report.M38rndtcode>-->
+    <!--<report.M38epsgcode><div>Codice EPSG corretto.</div></report.M38epsgcode>-->
 
 
 	<!--DATA/SERVICE IDENTIFICATION - KEYWORDS-->
@@ -99,8 +99,17 @@
 	<alert.M45><div>L'elemento distributionFormat è mancante, incompleto o ha un valore errato</div></alert.M45>
 	<!--DISTRIBUTION INFO - DISTRIBUTOR-->
 	<M46>Distribuzione dei dati - Distributore</M46>
-	<alert.M46><div>L'elemento distributor è mancante, incompleto o ha un valore errato. Il metadato deve contenere gli elementi organisationName,role e electronicMailAddress e almeno uno tra gli elementi phone e onlineResource</div></alert.M46>
-	<!--CONSTRAINTS - USE LIMITATIONS-->
+	<alert.M46><div>L'elemento distributor è mancante, incompleto o ha un valore errato. Il metadato deve contenere gli elementi organisationName, role e electronicMailAddress</div></alert.M46>
+
+        <!--DISTRIBUTION INFO - TRANSFER OPTIONS (url, protocol and description)-->
+        <M3_6_3>Localizzatore della risorsa (dataset e serie)</M3_6_3>
+        <alert.M3.6.3_missing>Nessun localizzatore della risorsa trovato. Creare almeno una Risorsa on-line</alert.M3.6.3_missing>
+        <alert.R1_8><div>Requisito 1.8: URL mancante</div></alert.R1_8>
+        <alert.R1_10>
+           <div>Requisito 1.10: elemento incompleto o errato: Il localizzatore deve contenere gli elementi protocol, applicationProfile e description</div>
+        </alert.R1_10>
+
+  <!--CONSTRAINTS - USE LIMITATIONS-->
 	<M50>Vincoli sui Dati - Limitazione d'uso</M50>
 	<alert.M50><div>L'elemento useLimitation è mancante, incompleto o ha un valore errato</div></alert.M50>
 	<!--CONSTRAINTS - ACCESS CONSTRAINTS-->
@@ -139,7 +148,7 @@
 	<alert.M99>La data del metadato deve essere documentata attraverso l'elemento gco:Date</alert.M99>
 	<!--DATE FORMAT-->
 	<M100>Data - Formato</M100>
-	<alert.M100>La date devono essere documentate attraverso l'elemento gco:Date</alert.M100>
+	<alert.M100>Le date devono essere documentate attraverso l'elemento gco:Date o gco:DateTime</alert.M100>
 	<!--COD IPA-->
 	<M101>Identificativi - Codice IPA</M101>
 	<alert.M101>Gli identificativi devono avere come prefisso il codice IPA dell'Amministrazione Responsabile. Verificare che sia stato correttamente configurato il SiteId di GeoNetwork.</alert.M101>
@@ -164,12 +173,14 @@
 
 	<M120>Elementi di lista</M120>
 	<alert.M120>L'elemento della codelist è vuoto: </alert.M120>
-	
+
 	<M121>Nome operazione</M121>
 	<alert.M121>Il nome dell'operazione è mancante</alert.M121>
-	
+
 	<M200>Estensione temporale</M200>
 	<alert.M201>La data di inizio estensione non è impostata</alert.M201>
 	<alert.M202>La data di fine estensione non è impostata</alert.M202>
 
+        <alert.temporal_begin_bad_full>Errore nell'attributo della data di inizio</alert.temporal_begin_bad_full>
+        <alert.temporal_end_bad_full>Errore nell'attributo della data di fine</alert.temporal_end_bad_full>
 </strings>

@@ -35,9 +35,8 @@
                 version="2.0"
                 exclude-result-prefixes="#all">
 
-  <xsl:include href="../iso19139/convert/functions.xsl"/>
 
-  <xsl:function name="gn-fn-rel:translate">
+  <xsl:function name="gn-fn-rel:translate-rndt">
     <xsl:param name="el"/>
     <xsl:param name="lang"/>
     <xsl:choose>
@@ -58,7 +57,7 @@
 
   <!-- Convert an element gco:CharacterString
   to the GN localized string structure -->
-  <xsl:template mode="get-iso19139-localized-string" match="*">
+  <xsl:template mode="get-iso19139rndt-localized-string" match="*">
 
     <xsl:variable name="mainLanguage"
                   select="string(ancestor::metadata/*[@gco:isoType='gmd:MD_Metadata' or name()='gmd:MD_Metadata']/
@@ -98,7 +97,7 @@
               <xsl:value-of select="gmd:fileName/gco:CharacterString"/>
             </id>
             <url>
-              <xsl:apply-templates mode="get-iso19139-localized-string"
+              <xsl:apply-templates mode="get-iso19139rndt-localized-string"
                                    select="gmd:fileName"/>
             </url>
             <title>
@@ -142,7 +141,7 @@
                                    select="gmd:description"/>
             </description>
             <protocol>
-              <xsl:value-of select="gn-fn-rel:translate(gmd:protocol, $langCode)"/>
+              <xsl:value-of select="gn-fn-rel:translate-rndt(gmd:protocol, $langCode)"/>
             </protocol>
             <type>onlinesrc</type>
           </item>

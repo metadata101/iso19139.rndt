@@ -5,7 +5,8 @@
                 xmlns:srv="http://www.isotc211.org/2005/srv"
                 xmlns:gmx="http://www.isotc211.org/2005/gmx"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xmlns:gml="http://www.opengis.net/gml"
+                xmlns:gml="http://www.opengis.net/gml/3.2"
+                xmlns:gml320="http://www.opengis.net/gml"
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 xmlns:gn="http://www.fao.org/geonetwork"
                 xmlns:gn-fn-core="http://geonetwork-opensource.org/xsl/functions/core"
@@ -15,9 +16,7 @@
   <xsl:include href="utility-tpl.xsl"/>
 
   <xsl:template name="iso19139.rndtBrief">
-    <metadata>
-      <xsl:call-template name="iso19139-brief"/>
-    </metadata>
+    <xsl:call-template name="iso19139Brief"/>
   </xsl:template>
 
   <xsl:template name="iso19139.rndt-brief">

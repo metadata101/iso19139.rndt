@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 rel. 2 U (http://www.xmlspy.com) by Clemens Portele (interactive instruments) -->
-<schema targetNamespace="http://www.opengis.net/gml" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" elementFormDefault="qualified" version="3.2.0" xml:lang="en">
+<schema targetNamespace="http://www.opengis.net/gml/3.2" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" elementFormDefault="qualified" xml:lang="en" version="3.2.1.2">
 	<annotation>
-		<appinfo source="urn:ogc:specification:gml:schema-xsd:datums:3.2.0">datums.xsd</appinfo>
+		<appinfo source="urn:x-ogc:specification:gml:schema-xsd:datums:3.2.1">datums.xsd</appinfo>
 		<documentation>See ISO/DIS 19136 13.5
 The datums schema components can be divided into three logical parts, which define elements and types for XML encoding of the definitions of:
 -	Abstract datum
 -	Geodetic datums, including ellipsoid and prime meridian
 -	Multiple other concrete types of spatial or temporal datums
-These schema components encode the Datum packages of the UML Models of ISO 19111 Clause 10 and ISO/DIS 19136 D.3.10.</documentation>
+These schema components encode the Datum packages of the UML Models of ISO 19111 Clause 10 and ISO/DIS 19136 D.3.10.
+
+GML is an OGC Standard.
+Copyright (c) 2007,2010 Open Geospatial Consortium.
+To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+		</documentation>
 	</annotation>
+	<include schemaLocation="gml.xsd"/>
 	<include schemaLocation="referenceSystems.xsd"/>
 	<include schemaLocation="measures.xsd"/>
 	<element name="AbstractDatum" type="gml:AbstractDatumType" abstract="true" substitutionGroup="gml:Definition">
@@ -38,11 +44,6 @@ These schema components encode the Datum packages of the UML Models of ISO 19111
 -	For a temporal datum, this attribute is not defined. Instead of the anchor definition, a temporal datum carries a separate time origin of type DateTime.</documentation>
 		</annotation>
 	</element>
-	<element name="anchorPoint" type="gml:CodeType" substitutionGroup="gml:anchorDefinition">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="realizationEpoch" type="date">
 		<annotation>
 			<documentation>gml:realizationEpoch is the time after which this datum definition is valid. See ISO 19111 Table 32 for details.</documentation>
@@ -57,11 +58,6 @@ These schema components encode the Datum packages of the UML Models of ISO 19111
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="datumRef" type="gml:DatumPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="GeodeticDatum" type="gml:GeodeticDatumType" substitutionGroup="gml:AbstractDatum">
 		<annotation>
 			<documentation>gml:GeodeticDatum is a geodetic datum defines the precise location and orientation in 3-dimensional space of a defined ellipsoid (or sphere), or of a Cartesian coordinate system centered in this ellipsoid (or sphere).</documentation>
@@ -82,19 +78,9 @@ These schema components encode the Datum packages of the UML Models of ISO 19111
 			<documentation>gml:primeMeridian is an association role to the prime meridian used by this geodetic datum.</documentation>
 		</annotation>
 	</element>
-	<element name="usesPrimeMeridian" type="gml:PrimeMeridianPropertyType" substitutionGroup="gml:primeMeridian">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="ellipsoid" type="gml:EllipsoidPropertyType">
 		<annotation>
 			<documentation>gml:ellipsoid is an association role to the ellipsoid used by this geodetic datum.</documentation>
-		</annotation>
-	</element>
-	<element name="usesEllipsoid" type="gml:EllipsoidPropertyType" substitutionGroup="gml:ellipsoid">
-		<annotation>
-			<appinfo>deprecated</appinfo>
 		</annotation>
 	</element>
 	<complexType name="GeodeticDatumPropertyType">
@@ -106,11 +92,6 @@ These schema components encode the Datum packages of the UML Models of ISO 19111
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="geodeticDatumRef" type="gml:GeodeticDatumPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="Ellipsoid" type="gml:EllipsoidType" substitutionGroup="gml:Definition">
 		<annotation>
 			<documentation>A gml:Ellipsoid is a geometric figure that may be used to describe the approximate shape of the earth. In mathematical terms, it is a surface formed by the rotation of an ellipse about its minor axis.</documentation>
@@ -148,13 +129,7 @@ The semiMinorAxis element contains the length of the semi-minor axis of the elli
 			<choice>
 				<element name="inverseFlattening" type="gml:MeasureType"/>
 				<element name="semiMinorAxis" type="gml:LengthType"/>
-				<element name="isSphere">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="sphere"/>
-						</restriction>
-					</simpleType>
-				</element>
+				<element name="isSphere" type="boolean" default="true"/>
 			</choice>
 		</complexType>
 	</element>
@@ -167,11 +142,6 @@ The semiMinorAxis element contains the length of the semi-minor axis of the elli
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="ellipsoidRef" type="gml:EllipsoidPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="PrimeMeridian" type="gml:PrimeMeridianType" substitutionGroup="gml:Definition">
 		<annotation>
 			<documentation>A gml:PrimeMeridian defines the origin from which longitude values are determined. The default value for the prime meridian gml:identifier value is "Greenwich".</documentation>
@@ -188,7 +158,7 @@ The semiMinorAxis element contains the length of the semi-minor axis of the elli
 	</complexType>
 	<element name="greenwichLongitude" type="gml:AngleType">
 		<annotation>
-			<documentation>gml:greenwichLongitude is the longitude of the prime meridian measured from the Greenwich meridian, positive eastward. If the value of the prime meridian “name” is "Greenwich" then the value of greenwichLongitude shall be 0 degrees.</documentation>
+			<documentation>gml:greenwichLongitude is the longitude of the prime meridian measured from the Greenwich meridian, positive eastward. If the value of the prime meridian "name" is "Greenwich" then the value of greenwichLongitude shall be 0 degrees.</documentation>
 		</annotation>
 	</element>
 	<complexType name="PrimeMeridianPropertyType">
@@ -200,11 +170,6 @@ The semiMinorAxis element contains the length of the semi-minor axis of the elli
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="primeMeridianRef" type="gml:PrimeMeridianPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="EngineeringDatum" type="gml:EngineeringDatumType" substitutionGroup="gml:AbstractDatum">
 		<annotation>
 			<documentation>gml:EngineeringDatum defines the origin of an engineering coordinate reference system, and is used in a region around that origin. This origin may be fixed with respect to the earth (such as a defined point at a construction site), or be a defined point on a moving vehicle (such as on a ship or satellite).</documentation>
@@ -224,11 +189,6 @@ The semiMinorAxis element contains the length of the semi-minor axis of the elli
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="engineeringDatumRef" type="gml:EngineeringDatumPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="ImageDatum" type="gml:ImageDatumType" substitutionGroup="gml:AbstractDatum">
 		<annotation>
 			<documentation>gml:ImageDatum defines the origin of an image coordinate reference system, and is used in a local context only. For an image datum, the anchor definition is usually either the centre of the image or the corner of the image. For more information, see ISO 19111 B.3.5.</documentation>
@@ -257,11 +217,6 @@ The semiMinorAxis element contains the length of the semi-minor axis of the elli
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="imageDatumRef" type="gml:ImageDatumPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="VerticalDatum" type="gml:VerticalDatumType" substitutionGroup="gml:AbstractDatum">
 		<annotation>
 			<documentation>gml:VerticalDatum is a textual description and/or a set of parameters identifying a particular reference level surface used as a zero-height surface, including its position with respect to the Earth for any of the height types recognized by this International Standard.</documentation>
@@ -281,11 +236,6 @@ The semiMinorAxis element contains the length of the semi-minor axis of the elli
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="verticalDatumRef" type="gml:VerticalDatumPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 	<element name="TemporalDatum" type="gml:TemporalDatumType" substitutionGroup="gml:AbstractDatum">
 		<annotation>
 			<documentation>A gml:TemporalDatum defines the origin of a Temporal Reference System. This type omits the "anchorDefinition" and "realizationEpoch" elements and adds the "origin" element with the dateTime type.</documentation>
@@ -334,9 +284,4 @@ The semiMinorAxis element contains the length of the semi-minor axis of the elli
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 	</complexType>
-	<element name="temporalDatumRef" type="gml:TemporalDatumPropertyType">
-		<annotation>
-			<appinfo>deprecated</appinfo>
-		</annotation>
-	</element>
 </schema>

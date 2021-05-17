@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://www.opengis.net/gml" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml" elementFormDefault="qualified" version="3.2.0">
+<schema targetNamespace="http://www.opengis.net/gml/3.2" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" elementFormDefault="qualified" version="3.2.1.2">
 	<annotation>
-		<appinfo source="urn:ogc:specification:gml:schema-xsd:observation:3.2.0">observation.xsd</appinfo>
+		<appinfo source="urn:x-ogc:specification:gml:schema-xsd:observation:3.2.1">observation.xsd</appinfo>
 		<documentation>See ISO/DIS 19136 Clause 19.
-A GML observation models the act of observing, often with a camera, a person or some form of instrument.  An observation feature describes the “metadata” associated with an information capture event, together with a value for the result of the observation.  This covers a broad range of cases, from a tourist photo (not the photo but the act of taking the photo), to images acquired by space borne sensors or the measurement of a temperature 5 meters below the surfaces of a lake.
+A GML observation models the act of observing, often with a camera, a person or some form of instrument.  An observation feature describes the "metadata" associated with an information capture event, together with a value for the result of the observation.  This covers a broad range of cases, from a tourist photo (not the photo but the act of taking the photo), to images acquired by space borne sensors or the measurement of a temperature 5 meters below the surfaces of a lake.
 The basic structures introduced in this schema are intended to serve as the foundation for more comprehensive schemas for scientific, technical and engineering measurement schemas.
-</documentation>
+
+GML is an OGC Standard.
+Copyright (c) 2007,2010 Open Geospatial Consortium.
+To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+		</documentation>
 	</annotation>
+	<include schemaLocation="gml.xsd"/>
 	<include schemaLocation="feature.xsd"/>
 	<include schemaLocation="direction.xsd"/>
 	<include schemaLocation="valueObjects.xsd"/>
@@ -17,7 +22,7 @@ The gml:validTime element describes the time of the observation. Note that this 
 The gml:using property contains or references a description of a sensor, instrument or procedure used for the observation.
 The gml:target property contains or references the specimen, region or station which is the object of the observation. This property is particularly useful for remote observations, such as photographs, where a generic location property might apply to the location of the camera or the location of the field of view, and thus may be ambiguous.  
 The gml:subject element is provided as a convenient synonym for gml:target. This is the term commonly used in phtotography.  
-The gml:resultOf property indicates the result of the observation.  The value may be inline, or a reference to a value elsewhere. If the value is inline, it shall be a member of the gml:AbstractObject substitution group.
+The gml:resultOf property indicates the result of the observation.  The value may be inline, or a reference to a value elsewhere.
 </documentation>
 		</annotation>
 	</element>
@@ -54,7 +59,7 @@ The gml:resultOf property indicates the result of the observation.  The value ma
 	<element name="resultOf" type="gml:ResultType"/>
 	<complexType name="ResultType">
 		<sequence minOccurs="0">
-			<element ref="gml:AbstractObject"/>
+			<any namespace="##any"/>
 		</sequence>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>

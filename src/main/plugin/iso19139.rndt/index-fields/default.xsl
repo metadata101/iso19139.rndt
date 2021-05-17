@@ -24,7 +24,8 @@
 
 <xsl:stylesheet xmlns:gmd="http://www.isotc211.org/2005/gmd"
                 xmlns:gco="http://www.isotc211.org/2005/gco"
-                xmlns:gml="http://www.opengis.net/gml"
+                xmlns:gml="http://www.opengis.net/gml/3.2"
+                xmlns:gml320="http://www.opengis.net/gml"
                 xmlns:srv="http://www.isotc211.org/2005/srv"
                 xmlns:geonet="http://www.fao.org/geonetwork"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -39,6 +40,7 @@
   <xsl:include href="../convert/functions.xsl"/>
   <xsl:include href="../../../xsl/utils-fn.xsl"/>
   <xsl:include href="inspire-util.xsl" />
+  <xsl:include href="../rndt-utils.xsl"/>
 
   <!-- This file defines what parts of the metadata are indexed by Lucene
        Searches can be conducted on indexes defined here.
@@ -144,6 +146,32 @@
     <xsl:apply-templates mode="index" select="*|@*"/>
   </xsl:template>
 
+  <xsl:template mode="index" match="gmd:fileIdentifier/gco:CharacterString">
+
+    <xsl:variable name="fileId"><xsl:value-of select="text()"/></xsl:variable>
+
+    <xsl:variable name="ipaDefined" select="contains($fileId, ':')"/>
+
+    <xsl:if test="$ipaDefined">
+
+      <xsl:variable name="iPA">
+          <xsl:call-template name="substring-before-last">
+            <xsl:with-param name="string1" select="$fileId"/>
+            <xsl:with-param name="string2" select="':'"/>
+          </xsl:call-template>
+      </xsl:variable>
+      <Field name="ipa" string="{string($iPA)}" store="false" index="true"/>
+      <xsl:variable name="thesaurusDir" select="util:getThesaurusDir()"/>
+      <xsl:variable name="thesaurusFile" select="concat($thesaurusDir, '/external/thesauri/theme/','amministrazioni.rdf')"/>
+      <xsl:variable name="thesaurus" select="document($thesaurusFile)"/>
+      <xsl:variable name="label" select="$thesaurus/rdf:RDF/skos:Concept[@rdf:about=$iPA]/skos:prefLabel"/>
+      <xsl:variable name="PA" select="if ($label and $label != '') then $label else $iPA"/>
+      <xsl:if test="$PA != ''">
+        <Field name="pa" string="{string($PA)}" store="false" index="true"/>
+      </xsl:if>
+    </xsl:if>
+  </xsl:template>
+
 
   <xsl:template mode="index"
                 match="gmd:extent/gmd:EX_Extent/gmd:description/gco:CharacterString[normalize-space(.) != '']">
@@ -165,14 +193,9 @@
                 gmd:identificationInfo/srv:SV_ServiceIdentification">
 
       <xsl:for-each select="gmd:citation/gmd:CI_Citation">
-        <xsl:for-each select="gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString">
+        <xsl:for-each select="gmd:identifier/(gmd:MD_Identifier|gmd:RS_Identifier)/gmd:code/gco:CharacterString">
           <Field name="identifier" string="{string(.)}" store="true" index="true"/>
         </xsl:for-each>
-
-        <xsl:for-each select="gmd:identifier/gmd:RS_Identifier/gmd:code/gco:CharacterString">
-          <Field name="identifier" string="{string(.)}" store="true" index="true"/>
-        </xsl:for-each>
-
 
         <xsl:for-each select="gmd:title/gco:CharacterString">
           <Field name="title" string="{string(.)}" store="true" index="true"/>
@@ -300,6 +323,8 @@
         <xsl:variable name="listOfKeywords"
                       select="gmd:keyword/gco:CharacterString|
                                         gmd:keyword/gmx:Anchor"/>
+        <xsl:variable name="thesaurusName" select="gmd:thesaurusName/gmd:CI_Citation/gmd:title/*[1]"/>
+
         <xsl:for-each select="$listOfKeywords">
           <xsl:variable name="keyword" select="string(.)"/>
 
@@ -307,7 +332,8 @@
 
           <!-- If INSPIRE is enabled, check if the keyword is one of the 34 themes
                and index annex, theme and theme in english. -->
-          <xsl:if test="$inspire='true'">
+          <xsl:if test="$inspire='true' and normalize-space(lower-case($thesaurusName)) = 'gemet - inspire themes, version 1.0'">
+
             <xsl:if test="string-length(.) &gt; 0">
 
               <xsl:variable name="inspireannex">
@@ -407,25 +433,27 @@
                       select="//gmd:MD_Keywords[
                                 not(gmd:thesaurusName) or gmd:thesaurusName/*/gmd:title/*/text() = '']/
                                   gmd:keyword[*/text() != '']"/>
-        <xsl:if test="count($keywordWithNoThesaurus) > 0">
-          'keywords': [
-          <xsl:for-each select="$keywordWithNoThesaurus/(gco:CharacterString|gmx:Anchor)">
-            <xsl:value-of select="concat('''', replace(., '''', '\\'''), '''')"/>
-            <xsl:if test="position() != last()">,</xsl:if>
-          </xsl:for-each>
-          ]
-          <xsl:if test="//gmd:MD_Keywords[gmd:thesaurusName]">,</xsl:if>
-        </xsl:if>
         <xsl:for-each-group select="//gmd:MD_Keywords[gmd:thesaurusName/*/gmd:title/*/text() != '']"
                             group-by="gmd:thesaurusName/*/gmd:title/*/text()">
           '<xsl:value-of select="replace(current-grouping-key(), '''', '\\''')"/>' :[
-          <xsl:for-each select="gmd:keyword/(gco:CharacterString|gmx:Anchor)">
-            <xsl:value-of select="concat('''', replace(., '''', '\\'''), '''')"/>
+          <xsl:for-each select="current-group()/gmd:keyword/(gco:CharacterString|gmx:Anchor)">
+            {'value': <xsl:value-of select="concat('''', replace(., '''', '\\'''), '''')"/>,
+            'link': '<xsl:value-of select="@xlink:href"/>'}
             <xsl:if test="position() != last()">,</xsl:if>
           </xsl:for-each>
           ]
           <xsl:if test="position() != last()">,</xsl:if>
         </xsl:for-each-group>
+        <xsl:if test="count($keywordWithNoThesaurus) > 0">
+          <xsl:if test="count(//gmd:MD_Keywords[gmd:thesaurusName/*/gmd:title/*/text() != '']) > 0">,</xsl:if>
+          'otherKeywords': [
+          <xsl:for-each select="$keywordWithNoThesaurus/(gco:CharacterString|gmx:Anchor)">
+            {'value': <xsl:value-of select="concat('''', replace(., '''', '\\'''), '''')"/>,
+            'link': '<xsl:value-of select="@xlink:href"/>'}
+            <xsl:if test="position() != last()">,</xsl:if>
+          </xsl:for-each>
+          ]
+        </xsl:if>
         }
       </xsl:variable>
 
@@ -875,11 +903,15 @@
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-    <xsl:for-each select="gmd:parentIdentifier/gco:CharacterString">
-      <Field name="parentUuid" string="{string(.)}" store="true" index="true"/>
-    </xsl:for-each>
-    <Field name="isChild" string="{exists(gmd:parentIdentifier)}" store="true" index="true"/>
+    <xsl:variable name="identificatore" select="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:identifier/*/gmd:code/(gco:CharacterString|gmx:Anchor)/text()"/>
+    <xsl:variable name="id_livello_superiore" select="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:series/gmd:CI_Series/gmd:issueIdentification/(gco:CharacterString|gmx:Anchor)/text()"/>  
+    <xsl:variable name="is_child" select="$identificatore != $id_livello_superiore and $id_livello_superiore != ''"/>  
 
+    <xsl:if test="$is_child">    
+      <Field name="parentUuid" string="{string($id_livello_superiore)}" store="true" index="true"/>
+    </xsl:if>
+    
+    <Field name="isChild" string="$is_child" store="true" index="true"/>
 
     <xsl:for-each select="gmd:metadataStandardName/gco:CharacterString">
       <Field name="standardName" string="{string(.)}" store="true" index="true"/>

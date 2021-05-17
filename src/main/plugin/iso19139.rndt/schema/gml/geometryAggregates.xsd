@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://www.opengis.net/gml" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml" xmlns:sch="http://www.ascc.net/xml/schematron" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="3.2.0">
+<schema targetNamespace="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="3.2.1.2">
 	<annotation>
-		<appinfo source="urn:ogc:specification:gml:schema-xsd:geometryAggregates:3.2.0">geometryAggregates.xsd</appinfo>
+		<appinfo source="urn:x-ogc:specification:gml:schema-xsd:geometryAggregates:3.2.1">geometryAggregates.xsd</appinfo>
 		<documentation>See ISO/DIS 19136 12.3.
-Geometric aggregates (i.e. instances of a subtype of gml:AbstractGeometricAggregateType) are arbitrary aggregations of geometry elements. They are not assumed to have any additional internal structure and are used to "collect" pieces of geometry of a specified type. Application schemas may use aggregates for features that use multiple geometric objects in their representations.</documentation>
+Geometric aggregates (i.e. instances of a subtype of gml:AbstractGeometricAggregateType) are arbitrary aggregations of geometry elements. They are not assumed to have any additional internal structure and are used to "collect" pieces of geometry of a specified type. Application schemas may use aggregates for features that use multiple geometric objects in their representations.
+
+GML is an OGC Standard.
+Copyright (c) 2007,2010 Open Geospatial Consortium.
+To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+		</documentation>
 	</annotation>
+	<include schemaLocation="gml.xsd"/>
 	<include schemaLocation="geometryPrimitives.xsd"/>
 	<complexType name="AbstractGeometricAggregateType" abstract="true">
 		<complexContent>
@@ -54,11 +60,6 @@ The members of the geometric aggregate may be specified either using the "standa
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
 	</complexType>
-	<element name="multiGeometryProperty" type="gml:MultiGeometryPropertyType">
-		<annotation>
-			<documentation>This property element either references a geometric aggregate via the XLink-attributes or contains the "multi geometry" element. multiGeometryProperty is the predefined property, which may be used by GML Application Schemas whenever a GML feature has a property with a value that is substitutable for AbstractGeometricAggregate.</documentation>
-		</annotation>
-	</element>
 	<complexType name="MultiPointType">
 		<complexContent>
 			<extension base="gml:AbstractGeometricAggregateType">
@@ -95,11 +96,6 @@ The members of the geometric aggregate may be specified either using the "standa
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
 	</complexType>
-	<element name="multiPointProperty" type="gml:MultiPointPropertyType">
-		<annotation>
-			<documentation>This property element either references a point aggregate via the XLink-attributes or contains the "multi point" element. multiPointProperty is the predefined property, which may be used by GML Application Schemas whenever a GML feature has a property with a value that is substitutable for MultiPoint.</documentation>
-		</annotation>
-	</element>
 	<complexType name="MultiCurveType">
 		<complexContent>
 			<extension base="gml:AbstractGeometricAggregateType">
@@ -131,11 +127,6 @@ The members of the geometric aggregate may be specified either using the "standa
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
 	</complexType>
-	<element name="multiCurveProperty" type="gml:MultiCurvePropertyType">
-		<annotation>
-			<documentation>This property element either references a curve aggregate via the XLink-attributes or contains the "multi curve" element. multiCurveProperty is the predefined property, which may be used by GML Application Schemas whenever a GML feature has a property with a value that is substitutable for MultiCurve.</documentation>
-		</annotation>
-	</element>
 	<complexType name="MultiSurfaceType">
 		<complexContent>
 			<extension base="gml:AbstractGeometricAggregateType">
@@ -167,11 +158,6 @@ The members of the geometric aggregate may be specified either using the "standa
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
 	</complexType>
-	<element name="multiSurfaceProperty" type="gml:MultiSurfacePropertyType">
-		<annotation>
-			<documentation>This property element either references a surface aggregate via the XLink-attributes or contains the "multi surface" element. multiSurfaceProperty is the predefined property, which may be used by GML Application Schemas whenever a GML feature has a property with a value that is substitutable for MultiSurface.</documentation>
-		</annotation>
-	</element>
 	<complexType name="MultiSolidType">
 		<complexContent>
 			<extension base="gml:AbstractGeometricAggregateType">
@@ -208,9 +194,4 @@ The members of the geometric aggregate may be specified either using the "standa
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
 	</complexType>
-	<element name="multiSolidProperty" type="gml:MultiSolidPropertyType">
-		<annotation>
-			<documentation>This property element either references a solid aggregate via the XLink-attributes or contains the "multi solid" element. multiSolidProperty is the predefined property, which may be used by GML Application Schemas whenever a GML feature has a property with a value that is substitutable for MultiSolid.</documentation>
-		</annotation>
-	</element>
 </schema>

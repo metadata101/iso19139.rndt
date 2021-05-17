@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
-                  xmlns:gml="http://www.opengis.net/gml"
+                  xmlns:gml="http://www.opengis.net/gml/3.2"
                   xmlns:srv="http://www.isotc211.org/2005/srv"
                   xmlns:gmx="http://www.isotc211.org/2005/gmx"
                   xmlns:gco="http://www.isotc211.org/2005/gco"
@@ -10,6 +10,10 @@
                   exclude-result-prefixes="gmd srv gmx">
 
     <xsl:include href="../iso19139/convert/functions.xsl"/>
+    <xsl:include href="rndt-utils.xsl"/>
+
+
+  <!-- ================================================================== -->
 
     <!-- ================================================================= -->
 
@@ -41,24 +45,48 @@
     -->
 
 
-    <xsl:variable name="isNew" select="not(contains(//gmd:fileIdentifier/gco:CharacterString, /root/env/uuid))"/>
+  <xsl:variable name="ipaJustAssigned" select="string(/root/env/uuid) != string(//gmd:fileIdentifier/gco:CharacterString) and ends-with(//gmd:fileIdentifier/gco:CharacterString, /root/env/uuid)"/>
 
-    <xsl:variable name="ipaJustAssigned" select="string(/root/env/uuid) != string(//gmd:fileIdentifier/gco:CharacterString) and ends-with(//gmd:fileIdentifier/gco:CharacterString, /root/env/uuid)"/>
+  <xsl:variable name="iPA">
+    <xsl:variable name="iPAPrefixed">
+    <xsl:call-template name="substring-before-last">
+      <xsl:with-param name="string1" select="/root/env/group/description"/>
+      <xsl:with-param name="string2" select="':'"/>
+    </xsl:call-template>
+    </xsl:variable>
+    <xsl:value-of select="substring-after($iPAPrefixed,'iPA:')"/>
+  </xsl:variable>
 
-    <xsl:variable name="fileId">
+  <xsl:variable name="iPAExists" select="not($iPA='')"/>
+  <xsl:variable name="isNew" select="not(contains(//gmd:fileIdentifier/gco:CharacterString,':'))"/>
+
+  <xsl:variable name="fileId">
         <xsl:choose>
-            <xsl:when test="$isNew">
-
-                <xsl:value-of select="concat('p_tn:',/root/env/uuid)"/>
+            <xsl:when test="$isNew and $iPAExists">
+                <xsl:value-of select="concat(concat($iPA,':'),/root/env/uuid)"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="//gmd:fileIdentifier/gco:CharacterString"/>
+              <xsl:choose>
+                <xsl:when test="$iPAExists and not(contains(//gmd:fileIdentifier/gco:CharacterString,$iPA))">
+                  <xsl:message>Old id updating</xsl:message>
+                    <xsl:variable name="oldIPA">
+                      <xsl:call-template name="substring-before-last">
+                        <xsl:with-param name="string1" select="//gmd:fileIdentifier/gco:CharacterString"/>
+                        <xsl:with-param name="string2" select="':'"/>
+                      </xsl:call-template>
+                    </xsl:variable>
+                  <xsl:value-of select="replace(//gmd:fileIdentifier/gco:CharacterString,
+                  $oldIPA, $iPA)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="//gmd:fileIdentifier/gco:CharacterString"/>
+                </xsl:otherwise>
+              </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
 
     <xsl:variable name="ipaDefined" select="contains($fileId, ':')"/>
-    <xsl:variable name="ipa" select="substring-before($fileId, ':')"/>
 
     <!-- ================================================================= -->
 
@@ -69,13 +97,16 @@
             <xsl:if test="$isNew">
                 <xsl:message>INFO: creazione di nuovo metadato</xsl:message>
             </xsl:if>
-            <xsl:message>INFO: /root/env/uuid is <xsl:value-of select="/root/env/uuid"/></xsl:message>
+          <xsl:if test="not($iPAExists)">
+            <xsl:message>INFO: iPA not found in /root/env/group/description. Value is <xsl:value-of select="/root/env/group/description"/></xsl:message>
+          </xsl:if>
+          <xsl:message>INFO: /root/env/uuid is <xsl:value-of select="/root/env/uuid"/></xsl:message>
             <xsl:message>INFO: /root/env/parentUuid is <xsl:value-of select="/root/env/parentUuid"/></xsl:message>
             <xsl:message>INFO: old fileId is <xsl:value-of select="//gmd:fileIdentifier/gco:CharacterString"/></xsl:message>
             <xsl:message>INFO: old parentiId is <xsl:value-of select="//gmd:parentIdentifier/gco:CharacterString"/></xsl:message>
             <xsl:message>INFO: iPA is defined: <xsl:value-of select="$ipaDefined"/></xsl:message>
             <xsl:message>INFO: iPA is just assigned: <xsl:value-of select="$ipaJustAssigned"/></xsl:message>
-            <xsl:message>INFO: iPA is <xsl:value-of select="$ipa"/></xsl:message>
+            <xsl:message>INFO: iPA is <xsl:value-of select="$iPA"/></xsl:message>
             <xsl:message>INFO: fileId is <xsl:value-of select="$fileId"/></xsl:message>
 
             <!-- fileIdentifier : handling RNDT iPA-->
@@ -95,45 +126,41 @@
             <xsl:choose>
                 <xsl:when test="not($ipaDefined)">
                     <xsl:message>ATTENZIONE: CODICE iPA NON DEFINITO: parentId non sarà impostato</xsl:message>
-                    <gmd:parentIdentifier>
-                        <gco:CharacterString></gco:CharacterString>
-                    </gmd:parentIdentifier>
+                  <xsl:copy-of select="gmd:parentIdentifier"/>
                 </xsl:when>
                 <xsl:when test="/root/env/parentUuid!=''">
-                    <xsl:if test="starts-with(/root/env/parentUuid, $ipa)">
+                  <xsl:choose>
+                      <xsl:when test="starts-with(/root/env/parentUuid, $iPA)">
                         <xsl:message>INFO: parentId richiesto OK</xsl:message>
                         <gmd:parentIdentifier>
                             <gco:CharacterString>
                                 <xsl:value-of select="/root/env/parentUuid"/>
                             </gco:CharacterString>
                         </gmd:parentIdentifier>
-                    </xsl:if>
-                    <xsl:if test="not(starts-with(/root/env/parentUuid, $ipa))">
+                      </xsl:when>
+                    <xsl:otherwise>
                         <xsl:message>ATTENZIONE: parentId: codice iPA non corrisponde. Eliminazione parentId (<xsl:value-of select="/root/env/parentUuid"/>)</xsl:message>
                         <gmd:parentIdentifier>
                             <gco:CharacterString/>
                         </gmd:parentIdentifier>
-                    </xsl:if>
+                    </xsl:otherwise>
+                  </xsl:choose>
                 </xsl:when>
-                <xsl:when test="gmd:parentIdentifier!=''">
+                <xsl:when test="gmd:parentIdentifier/gco:CharacterString!=''">
                     <xsl:choose>
-                        <xsl:when test="starts-with(gmd:parentIdentifier/gco:CharacterString, $ipa)">
+                        <xsl:when test="starts-with(gmd:parentIdentifier/gco:CharacterString, $iPA)">
                             <xsl:message>INFO: parentId esterno OK</xsl:message>
                             <xsl:copy-of select="gmd:parentIdentifier"/>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:message>ATTENZIONE: iPA non corrispondente nel parentId esterno. Eliminazione parentId (<xsl:value-of select="gmd:parentIdentifier/gco:CharacterString"/>)</xsl:message>
-                            <gmd:parentIdentifier>
-                                <gco:CharacterString/>
-                            </gmd:parentIdentifier>
+
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:message>INFO: parentId non trovato: env[<xsl:value-of select="/root/env/parentUuid"/>] md[<xsl:value-of select="gmd:parentIdentifier/gco:CharacterString"/>]</xsl:message>
-                    <gmd:parentIdentifier>
-                        <gco:CharacterString/>
-                    </gmd:parentIdentifier>
+                  <xsl:copy-of select="gmd:parentIdentifier"/>
                 </xsl:otherwise>
             </xsl:choose>
 
@@ -157,6 +184,7 @@
     <!-- this var is used both for the resource id and the series id -->
 
     <xsl:variable name="resId">
+        <xsl:message>==== RESOURCE IDENTIFIER ====</xsl:message>
         <xsl:choose>
             <!-- no iPA defined -->
             <xsl:when test="not($ipaDefined)">
@@ -169,20 +197,20 @@
             <!-- Will be equals to the resource identifier, which is OK -->
             <xsl:when test="not(contains($oldResId , ':'))">
                 <xsl:message>INFO: creating resource identifier</xsl:message>
-                <xsl:value-of select="concat($fileId,'_resource')"/>
+                <xsl:value-of select="$fileId"/>
             </xsl:when>
             <!-- ipa defined, different from the one in code -->
             <!-- redefine the current code since it may no longer be valid -->
-            <xsl:when test="not(starts-with($oldResId , $ipa))">
+            <xsl:when test="not(starts-with($oldResId , $iPA))">
                 <xsl:message>ATTENZIONE: iPA non corrispondente: resource identifier ricreato</xsl:message>
-                <xsl:value-of select="concat($fileId,'_resource')"/>
+                <xsl:value-of select="$fileId"/>
             </xsl:when>
             <!-- ipa defined, right one, but metadata is new-->
             <!-- redefine the current code since it may no longer be valid -->
             <!-- ** test non valido su multi ipa ** -->
             <xsl:when test="$ipaJustAssigned">
                 <xsl:message>INFO: resource identifier ricreato su metadato nuovo</xsl:message>
-                <xsl:value-of select="concat($fileId,'_resource')"/>
+                <xsl:value-of select="$fileId"/>
             </xsl:when>
             <!-- ipa defined, already present in code, metadata not new: OK, just copy it -->
             <xsl:otherwise>
@@ -193,12 +221,126 @@
     </xsl:variable>
 
 
-    <xsl:template match="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:identifier/*/gmd:code"  priority="10">
-        <xsl:message>==== RESOURCE IDENTIFIER ====</xsl:message>
-        <xsl:copy>
-            <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
-        </xsl:copy>
-    </xsl:template>
+    <xsl:variable name="oldLivSupId" select="//gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:series/gmd:CI_Series/gmd:issueIdentification/gco:CharacterString/text()"/>
+
+    <xsl:variable name="livSupId">
+       <xsl:message>==== CI_Series ISSUE IDENTIFIER ====</xsl:message>
+       <!-- TODO: controllare se i riferimenti a /root/env esistono ancora -->
+
+       <xsl:choose>
+          <!-- no iPA defined -->
+          <!--xsl:when test="not($ipaDefined)">
+              <xsl:message>ATTENZIONE: CODICE iPA NON DEFINITO: series identifier rimosso</xsl:message>
+              <xsl:copy>
+                  <gco:CharacterString><xsl:value-of select="concat('NON DEFINITO___', $fileId)"/></gco:CharacterString>
+              </xsl:copy>
+          </xsl:when-->
+
+          <xsl:when test=" exists(/root/env/parentUuid) and contains(/root/env/parentUuid,':')">
+             <xsl:message>INFO: series identifier impostato per metadato figlio</xsl:message>
+             <xsl:value-of select="/root/env/parentUuid"/>
+          </xsl:when>
+          <!-- empty series: fill with current resId-->
+          <xsl:when test="$oldLivSupId = ''">
+             <xsl:message>ATTENZIONE: serie vuota: copia da resourceId</xsl:message>
+             <xsl:value-of select="$resId"/>
+          </xsl:when>
+
+          <!-- ipa defined, not ":" in code -->
+          <!-- either first metadatacreation, or ipa just defined: create the code -->
+          <!-- Will be equals to the resource identifier, which is OK -->
+          <xsl:when test="not(contains($oldLivSupId, ':'))">
+             <xsl:message>INFO: creating series identifier</xsl:message>
+             <xsl:value-of select="$resId"/>
+          </xsl:when>
+
+          <!-- ipa doesn't correspond, replace existing issueIdentification with fileIdentifier-->
+          <xsl:when test="contains($oldLivSupId, ':') and not(contains($oldLivSupId, $iPA))">
+             <xsl:message>INFO: iPA is different from the one set for current group, replacing current value with the resourceId</xsl:message>
+             <xsl:value-of select="$resId"/>
+          </xsl:when>
+          <!-- ipa defined, different from the one in code -->
+          <!-- redefine the current code since it may no longer be valid -->
+          <!--xsl:when test="not(starts-with(./gco:CharacterString , $iPA))">
+              <xsl:message>ATTENZIONE: iPA non corrispondente: series identifier ricreato</xsl:message>
+              <xsl:copy>
+                  <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
+              </xsl:copy>
+          </xsl:when-->
+          <!-- ipa defined, right one, but metadata is new-->
+          <!-- redefine the current code since it may no longer be valid -->
+
+          <xsl:when test="$ipaJustAssigned">
+
+             <!-- Check if gmd:Identifier != gmd:parentIdentifier, in this case this    -->
+             <!-- metadata is a child so the gmd:issueIdentification must assume        -->
+             <!-- the value of the gmd:parentIdentifier.                                -->
+             <xsl:choose>
+
+                <xsl:when test="/root/env/uuid != /root/env/parentUuid">
+                   <xsl:message>INFO: series identifier impostato per metadato figlio</xsl:message>
+                   <xsl:value-of select="/root/env/parentUuid"/>
+                </xsl:when>
+                <xsl:otherwise>
+                   <xsl:message>INFO: series identifier ricreato su metadato nuovo</xsl:message>
+                   <xsl:value-of select="$resId"/>
+                </xsl:otherwise>
+             </xsl:choose>
+          </xsl:when>
+          <!-- ipa defined, already present in code, metadata not new: OK, just copy it -->
+          <xsl:otherwise>
+             <xsl:message>INFO: series identifier OK</xsl:message>
+             <xsl:value-of select="$oldLivSupId"/>
+          </xsl:otherwise>
+       </xsl:choose>
+        
+    </xsl:variable>
+
+
+  <xsl:template match="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation" priority="10">
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:apply-templates select="gmd:title"/>
+      <xsl:apply-templates select="gmd:alternateTitle"/>
+      <xsl:apply-templates select="gmd:date"/>
+      <xsl:apply-templates select="gmd:edition"/>
+      <xsl:apply-templates select="gmd:editionDate"/>
+      
+      <gmd:identifier>
+         <gmd:MD_Identifier>
+            <gmd:code>
+               <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
+            </gmd:code>
+         </gmd:MD_Identifier>
+      </gmd:identifier>
+      
+      <xsl:apply-templates select="gmd:citedResponsibleParty"/>
+      <xsl:apply-templates select="gmd:presentationForm"/>
+      
+      <xsl:choose>
+         <xsl:when test="gmd:series/gmd:CI_Series/gmd:issueIdentification">
+            <xsl:apply-templates select="gmd:series"/>            
+         </xsl:when>
+         <xsl:otherwise>         
+            <!-- issueIdentification is missing, create a brand new element -->
+            <!-- TODO: may need to copy other CI_Series/* elements -->
+            <gmd:series>
+              <gmd:CI_Series>
+                <gmd:issueIdentification>
+                  <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
+                </gmd:issueIdentification>
+              </gmd:CI_Series>
+            </gmd:series>
+            
+         </xsl:otherwise>
+      </xsl:choose>
+      
+      <xsl:apply-templates select="gmd:otherCitationDetails"/>
+      <xsl:apply-templates select="gmd:collectiveTitle"/>
+      <xsl:apply-templates select="gmd:ISBN"/>
+      <xsl:apply-templates select="gmd:ISSN"/>
+    </xsl:copy>
+  </xsl:template>
 
 
     <!-- ================================================================= -->
@@ -210,12 +352,21 @@
 
         <xsl:choose>
             <!-- no iPA defined -->
-            <xsl:when test="not($ipaDefined)">
+            <!--xsl:when test="not($ipaDefined)">
                 <xsl:message>ATTENZIONE: CODICE iPA NON DEFINITO: series identifier rimosso</xsl:message>
                 <xsl:copy>
                     <gco:CharacterString><xsl:value-of select="concat('NON DEFINITO___', $fileId)"/></gco:CharacterString>
                 </xsl:copy>
-            </xsl:when>
+            </xsl:when-->
+
+          <xsl:when test=" exists(/root/env/parentUuid) and contains(/root/env/parentUuid,':')">
+            <xsl:message>INFO: series identifier impostato per metadato figlio</xsl:message>
+            <xsl:copy>
+              <gco:CharacterString>
+                <xsl:value-of select="/root/env/parentUuid"/>
+              </gco:CharacterString>
+            </xsl:copy>
+          </xsl:when>
             <!-- empty series: fill with current resId-->
             <xsl:when test="./gco:CharacterString/text() = ''">
                 <xsl:message>ATTENZIONE: serie vuota: copia da resourceId</xsl:message>
@@ -233,14 +384,22 @@
                     <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
                 </xsl:copy>
             </xsl:when>
+
+          <!-- ipa doesn't correspond, replace existing issueIdentification with fileIdentifier-->
+          <xsl:when test="contains(./gco:CharacterString , ':') and not(contains(./gco:CharacterString,$iPA))">
+            <xsl:message>INFO: iPA is different from the one set for current group, replacing current value with the resourceId</xsl:message>
+            <xsl:copy>
+              <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
+            </xsl:copy>
+          </xsl:when>
             <!-- ipa defined, different from the one in code -->
             <!-- redefine the current code since it may no longer be valid -->
-            <xsl:when test="not(starts-with(./gco:CharacterString , $ipa))">
+            <!--xsl:when test="not(starts-with(./gco:CharacterString , $iPA))">
                 <xsl:message>ATTENZIONE: iPA non corrispondente: series identifier ricreato</xsl:message>
                 <xsl:copy>
                     <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
                 </xsl:copy>
-            </xsl:when>
+            </xsl:when-->
             <!-- ipa defined, right one, but metadata is new-->
             <!-- redefine the current code since it may no longer be valid -->
 
@@ -255,7 +414,7 @@
                         <xsl:message>INFO: series identifier impostato per metadato figlio</xsl:message>
                         <xsl:copy>
                             <gco:CharacterString>
-                                <xsl:value-of select="concat($ipa, substring-after(/root/env/parentUuid,':'), '_resource')"/>
+                                <xsl:value-of select="/root/env/parentUuid"/>
                             </gco:CharacterString>
                         </xsl:copy>
                     </xsl:when>
@@ -269,10 +428,20 @@
             </xsl:when>
             <!-- ipa defined, already present in code, metadata not new: OK, just copy it -->
             <xsl:otherwise>
+              <xsl:choose>
+                <xsl:when test="./gco:CharacterString/text() = ''">
+                  <xsl:message>ATTENZIONE: serie vuota: copia da resourceId</xsl:message>
+                  <xsl:copy>
+                    <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
+                  </xsl:copy>
+                </xsl:when>
+              <xsl:otherwise>
                 <xsl:message>INFO: series identifier OK</xsl:message>
                 <xsl:copy>
-                    <gco:CharacterString><xsl:value-of select="./gco:CharacterString"/></gco:CharacterString>
+                  <gco:CharacterString><xsl:value-of select="./gco:CharacterString"/></gco:CharacterString>
                 </xsl:copy>
+              </xsl:otherwise>
+              </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -300,21 +469,82 @@
 
     <!-- Only set metadataStandardName and metadataStandardVersion
     if not set. -->
-    <xsl:template match="gmd:metadataStandardName[@gco:nilReason='missing' or gco:CharacterString='']" priority="10">
+    <xsl:template match="gmd:metadataStandardName" priority="10">
+      <xsl:choose>
+        <xsl:when test="exists(./gco:CharacterString)">
+          <xsl:choose>
+          <xsl:when test="./gco:CharacterString='' or ./gco:CharacterString !='Linee Guida RNDT'">
+            <xsl:copy>
+              <gco:CharacterString>Linee Guida RNDT</gco:CharacterString>
+            </xsl:copy>
+          </xsl:when>
+            <xsl:otherwise>
+              <xsl:copy-of select="."/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:if test="exists(./gmx:Anchor)">
+            <xsl:copy>
+              <gco:CharacterString>Linee Guida RNDT</gco:CharacterString>
+            </xsl:copy>
+          </xsl:if>
+        </xsl:otherwise>
+      </xsl:choose>
+
+    </xsl:template>
+
+
+    <!-- ================================================================= -->
+
+    <xsl:template match="gmd:metadataStandardVersion" priority="10">
+      <xsl:choose>
+      <xsl:when test="./gco:CharacterString='' or ./gco:CharacterString != '2.0'">
         <xsl:copy>
-            <gco:CharacterString>DM - Regole tecniche RNDT</gco:CharacterString>
+          <gco:CharacterString>2.0</gco:CharacterString>
         </xsl:copy>
+      </xsl:when>
+        <xsl:otherwise>
+          <xsl:copy-of select="."/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:template>
 
     <!-- ================================================================= -->
 
-    <xsl:template match="gmd:metadataStandardVersion[@gco:nilReason='missing' or gco:CharacterString='']" priority="10">
-        <xsl:copy>
-            <gco:CharacterString>10 novembre 2011</gco:CharacterString>
-        </xsl:copy>
-    </xsl:template>
+  <!-- ================================================================= -->
 
-    <!-- ================================================================= -->
+  <xsl:template match="gmd:hierarchyLevelName" priority="10">
+    <xsl:if test="exists(../gmd:identificationInfo/srv:SV_ServiceIdentification)">
+      <xsl:copy>
+        <gco:CharacterString>servizio</gco:CharacterString>
+      </xsl:copy>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="gmd:hierarchyLevel" priority="10">
+    <xsl:choose>
+      <xsl:when test="exists(../gmd:identificationInfo/srv:SV_ServiceIdentification)">
+        <gmd:hierarchyLevel>
+          <gmd:MD_ScopeCode
+            codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode"
+            codeListValue="service">service</gmd:MD_ScopeCode>
+        </gmd:hierarchyLevel>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:variable name="value" select="gmd:MD_ScopeCode/@codeListValue"/>
+        <gmd:hierarchyLevel>
+          <gmd:MD_ScopeCode
+            codeList="{gmd:MD_ScopeCode/@codeList}"
+            codeListValue="{$value}">
+            <xsl:value-of select="$value"/>
+          </gmd:MD_ScopeCode>
+        </gmd:hierarchyLevel>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!-- ================================================================= -->
 
     <xsl:template match="@gml:id">
         <xsl:choose>
@@ -421,6 +651,13 @@
         </xsl:copy>
     </xsl:template>
 
+  <xsl:template match="srv:serviceType/gco:LocalName[not(@codeSpace) or @codeSpace!='http://inspire.ec.europa.eu/metadatacodelist/SpatialDataServiceType']">
+    <xsl:copy>
+      <xsl:attribute name="codeSpace">http://inspire.ec.europa.eu/metadatacodelist/SpatialDataServiceType</xsl:attribute>
+      <xsl:apply-templates select="./text()"/>
+    </xsl:copy>
+  </xsl:template>
+
     <!-- ================================================================= -->
     <!-- online resources: download -->
     <!-- ================================================================= -->
@@ -514,14 +751,14 @@
     and constrain users to use uuidref attribute to link
     service metadata to datasets. This will avoid to have
     error on XSD validation. -->
-    <xsl:template match="srv:operatesOn">
+    <!--xsl:template match="srv:operatesOn">
         <xsl:choose>
-            <xsl:when test="$ipaDefined and not(starts-with(@uuidref, $ipa))">
+            <xsl:when test="$ipaDefined and not(starts-with(@xlink:href, $iPA)) and @xlink:href != ''">
                 <xsl:message>ATTENZIONE: operatesOn: codice iPA non corrisponde. Eliminazione operatesOn (<xsl:value-of select="@uuidref"/>)</xsl:message>
             </xsl:when>
-            <xsl:when test=".[not(@uuidref)]">
+            <xsl:when test=".[not(@xlink:href)]">
                 <xsl:copy>
-                    <xsl:attribute name="uuidref" select="''"/>
+                    <xsl:attribute name="xlink:href" select="''"/>
                     <xsl:apply-templates select="@*"/>
                 </xsl:copy>
             </xsl:when>
@@ -531,7 +768,7 @@
                 </xsl:copy>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:template>
+    </xsl:template-->
 
     <!-- ================================================================= -->
     <!-- Set local identifier to the first 3 letters of iso code. Locale ids
@@ -621,54 +858,16 @@
         gmx:Anchor is usually used for linking element using xlink.
         TODO : Currently gmx:Anchor is not supported
     -->
-    <xsl:template match="gmx:Anchor">
+    <!--xsl:template match="gmx:Anchor">
         <gco:CharacterString>
             <xsl:value-of select="."/>
         </gco:CharacterString>
-    </xsl:template>
+    </xsl:template-->
 
     <!-- Don't save some gmd:thesaurusName|gmd:MD_Keywords sub elements because not required by RNDT -->
-    <xsl:template match="gmd:thesaurusName/gmd:CI_Citation/gmd:identifier"/>
-    <xsl:template match="gmd:MD_Keywords/gmd:type"/>
+    <!--xsl:template match="gmd:thesaurusName/gmd:CI_Citation/gmd:identifier"/>
+    <xsl:template match="gmd:MD_Keywords/gmd:type"/-->
     <!-- ======== -->
-
-    <xsl:template match="gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:pass">
-        <xsl:choose>
-            <xsl:when test="../gmd:explanation/gco:CharacterString='non valutato'">
-                <!--<xsl:copy>
-                    <xsl:attribute name="nilReason">unknown</xsl:attribute>
-                </xsl:copy>
-                <xsl:comment>Conformance non compilata</xsl:comment>-->
-                <xsl:element name="gmd:pass">
-                    <xsl:text></xsl:text>
-                    <xsl:attribute name="gco:nilReason">unknown</xsl:attribute>
-                </xsl:element>
-            </xsl:when>
-            <xsl:otherwise>
-                <!--<xsl:copy>
-                    <xsl:apply-templates select="@*|node()"/>
-                </xsl:copy>-->
-                <xsl:call-template name="create_pass"></xsl:call-template>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-
-    <xsl:template name="create_pass">
-        <xsl:element name="gmd:pass">
-            <xsl:choose>
-                <xsl:when test="../gmd:explanation/gco:CharacterString='conforme'">
-                    <xsl:element name="gco:Boolean">
-                        <xsl:text>true</xsl:text>
-                    </xsl:element>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:element name="gco:Boolean">
-                        <xsl:text>false</xsl:text>
-                    </xsl:element>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:element>
-    </xsl:template>
 
     <!-- ================================================================= -->
     <!-- transform datoPubblico as requested by specs -->
@@ -685,14 +884,14 @@
 						<gco:CharacterString>Dato pubblico</gco:CharacterString>
 					</gmd:otherConstraints>-->
 
-    <xsl:template match="gmd:resourceConstraints[.//gmd:MD_RestrictionCode/@codeListValue='datoPubblico']">
+    <!--xsl:template match="gmd:resourceConstraints[.//gmd:MD_RestrictionCode/@codeListValue='datoPubblico']">
         <xsl:copy>
             <xsl:apply-templates select="@*|node()" mode="datoPubblico"/>
         </xsl:copy>
-    </xsl:template>
+    </xsl:template-->
 
        <!-- forza otherConstraints a Dato pubblico, che esista o no -->
-    <xsl:template match="gmd:MD_LegalConstraints" mode="datoPubblico">
+    <!--xsl:template match="gmd:MD_LegalConstraints" mode="datoPubblico">
         <xsl:copy>
             <xsl:apply-templates select="child::* except (gmd:otherConstraints)" mode="datoPubblico"/>
 
@@ -701,40 +900,40 @@
             </gmd:otherConstraints>
         </xsl:copy>
 
-    </xsl:template>
+    </xsl:template-->
 
        <!-- replace MD_RestrictionCode codeListValue-->
-    <xsl:template match="gmd:MD_RestrictionCode[@codeListValue='datoPubblico']" mode="datoPubblico">
+    <!--xsl:template match="gmd:MD_RestrictionCode[@codeListValue='datoPubblico']" mode="datoPubblico">
         <gmd:MD_RestrictionCode
             codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_RestrictionCode"
             codeListValue="otherRestrictions">otherRestrictions"</gmd:MD_RestrictionCode>
-    </xsl:template>
+    </xsl:template-->
 
        <!-- copy everything else as is -->
-    <xsl:template match="@*|node()" mode="datoPubblico">
+    <!--xsl:template match="@*|node()" mode="datoPubblico">
         <xsl:copy>
             <xsl:apply-templates select="@*|node()" mode="datoPubblico"/>
         </xsl:copy>
-    </xsl:template>
+    </xsl:template-->
 
     <!-- ================================================================= -->
     <!-- setup the CRS info -->
 
     <!-- prendi solo l'ultimo nodo, che dovrebbe essere l'ultimo aggiunto -->
 
-    <xsl:template match="gmd:referenceSystemInfo">
+    <!--xsl:template match="gmd:referenceSystemInfo">
         <xsl:message>Elimino CRS <xsl:value-of select=".//gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code"/></xsl:message>
-    </xsl:template>
+    </xsl:template-->
 
-    <xsl:template match="gmd:referenceSystemInfo[last()]">
+    <!--xsl:template match="gmd:referenceSystemInfo[last()]">
         <xsl:copy>
             <xsl:apply-templates select="@*|node()"/>
         </xsl:copy>
-    </xsl:template>
+    </xsl:template-->
 
     <!-- parsa il CRS e imposta il formato RNDT -->
 
-    <xsl:template match="gmd:referenceSystemIdentifier/gmd:RS_Identifier">
+    <!--xsl:template match="gmd:referenceSystemIdentifier/gmd:RS_Identifier">
 
        <xsl:variable name="fullcode" select="gmd:code/gco:CharacterString/text()"/>
        <xsl:variable name="epsgcode" select="substring-before(substring-after($fullcode,'(EPSG:'), ')')"/>
@@ -743,21 +942,21 @@
        <xsl:message>EPSG: <xsl:value-of select="$epsgcode"/></xsl:message>
 
         <xsl:copy>
-            <xsl:choose>
+            <xsl:choose-->
                 <!-- se e' un numero, consideralo un codice EPSG -->
-                <xsl:when test="string(number($fullcode)) != 'NaN'">
+                <!--xsl:when test="string(number($fullcode)) != 'NaN'">
                     <xsl:call-template name="srsEPSGsnippet">
                         <xsl:with-param name="epsg" select="$fullcode"/>
                     </xsl:call-template>
-                </xsl:when>
+                </xsl:when-->
                 <!-- se il code contiene la stringa "(EPSG:nnnn)" dovrebbe essere un codice preso dal CRS selector -->
-                <xsl:when test="string(number($epsgcode)) != 'NaN'">
+                <!--xsl:when test="string(number($epsgcode)) != 'NaN'">
                     <xsl:call-template name="srsEPSGsnippet">
                         <xsl:with-param name="epsg" select="$epsgcode"/>
                     </xsl:call-template>
-                </xsl:when>
+                </xsl:when-->
                 <!-- altrimenti copia solo il codice, che dovrebbe essere stringa RNDT -->
-                <xsl:otherwise>
+                <!--xsl:otherwise>
                     <xsl:apply-templates select="gmd:code"/>
                 </xsl:otherwise>
             </xsl:choose>
@@ -775,7 +974,7 @@
             <gmd:codeSpace>
                 <gco:CharacterString>http://www.epsg-registry.org/</gco:CharacterString>
             </gmd:codeSpace>
-    </xsl:template>
+    </xsl:template-->
 
     <!-- ================================================================= -->
     <!-- copy everything else as is -->
@@ -786,4 +985,32 @@
         </xsl:copy>
     </xsl:template>
 
+  <!--ensure field date does not contains time-->
+  <xsl:template match="gco:Date">
+    <xsl:choose>
+      <xsl:when test="contains(.,'T')">
+        <gco:Date>
+          <xsl:value-of select="substring-before(., 'T')"/>
+        </gco:Date>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:copy-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="gmd:resolution">
+    <xsl:choose>
+      <xsl:when test="gco:Measure/@uom!='http://standards.iso.org/iso/19139/resources/uom/ML_gmxUom.xml#m'">
+          <gmd:resolution>
+            <gco:Measure uom="http://standards.iso.org/iso/19139/resources/uom/ML_gmxUom.xml#m">
+              <xsl:value-of select="gco:Measure"/>
+            </gco:Measure>
+          </gmd:resolution>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:copy-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
 </xsl:stylesheet>

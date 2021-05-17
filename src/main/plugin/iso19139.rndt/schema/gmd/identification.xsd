@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema targetNamespace="http://www.isotc211.org/2005/gmd" elementFormDefault="qualified" version="0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmd="http://www.isotc211.org/2005/gmd">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gmd="http://www.isotc211.org/2005/gmd" targetNamespace="http://www.isotc211.org/2005/gmd" elementFormDefault="qualified" version="2012-07-13">
 	<!-- ================================= Annotation ================================ -->
 	<xs:annotation>
-		<xs:documentation>This file was generated from ISO TC/211 UML class diagrams == 01-26-2005 12:40:05 ====== </xs:documentation>
+		<xs:documentation>Geographic MetaData (GMD) extensible markup language is a component of the XML Schema Implementation of Geographic Information Metadata documented in ISO/TS 19139:2007. GMD includes all the definitions of http://www.isotc211.org/2005/gmd namespace. The root document of this namespace is the file gmd.xsd. This identification.xsd schema implements the UML conceptual schema defined in A.2.2 of ISO 19115:2003. It contains the implementation of the following classes: MD_Identification, MD_BrowseGraphic, MD_DataIdentification, MD_ServiceIdentification, MD_RepresentativeFraction, MD_Usage, MD_Keywords, DS_Association, MD_AggregateInformation, MD_CharacterSetCode, MD_SpatialRepresentationTypeCode, MD_TopicCategoryCode, MD_ProgressCode, MD_KeywordTypeCode, DS_AssociationTypeCode, DS_InitiativeTypeCode, MD_ResolutionType.</xs:documentation>
 	</xs:annotation>
 	<!-- ================================== Imports ================================== -->
 	<xs:import namespace="http://www.isotc211.org/2005/gco" schemaLocation="../gco/gco.xsd"/>
-	<xs:include schemaLocation="../gmd/constraints.xsd"/>
-	<xs:include schemaLocation="../gmd/distribution.xsd"/>
-	<xs:include schemaLocation="../gmd/maintenance.xsd"/>
+	<xs:include schemaLocation="gmd.xsd"/>
+	<xs:include schemaLocation="constraints.xsd"/>
+	<xs:include schemaLocation="distribution.xsd"/>
+	<xs:include schemaLocation="maintenance.xsd"/>
 	<!-- ########################################################################### -->
 	<!-- ########################################################################### -->
 	<!-- ================================== Classes ================================= -->
@@ -30,7 +31,7 @@
 					<xs:element name="resourceFormat" type="gmd:MD_Format_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="descriptiveKeywords" type="gmd:MD_Keywords_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
 					<xs:element name="resourceSpecificUsage" type="gmd:MD_Usage_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="resourceConstraints" type="gmd:MD_Constraints_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="resourceConstraints" type="gmd:MD_Constraints_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
 					<xs:element name="aggregationInfo" type="gmd:MD_AggregateInformation_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
@@ -78,11 +79,11 @@
 				<xs:sequence>
 					<xs:element name="spatialRepresentationType" type="gmd:MD_SpatialRepresentationTypeCode_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
 					<xs:element name="spatialResolution" type="gmd:MD_Resolution_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
-					<xs:element name="language" type="gco:CharacterString_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="language" type="gco:CharacterString_PropertyType" maxOccurs="unbounded"/>
 					<xs:element name="characterSet" type="gmd:MD_CharacterSetCode_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="topicCategory" type="gmd:MD_TopicCategoryCode_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
 					<xs:element name="environmentDescription" type="gco:CharacterString_PropertyType" minOccurs="0"/>
-					<xs:element name="extent" type="gmd:EX_Extent_PropertyType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="extent" type="gmd:EX_Extent_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
 					<xs:element name="supplementalInformation" type="gco:CharacterString_PropertyType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
@@ -171,7 +172,7 @@
 		<xs:complexContent>
 			<xs:extension base="gco:AbstractObject_Type">
 				<xs:sequence>
-					<xs:element name="keyword" type="gco:CharacterString_PropertyType" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="keyword" type="gco:CharacterString_PropertyType" maxOccurs="unbounded"/>
 					<xs:element name="type" type="gmd:MD_KeywordTypeCode_PropertyType" minOccurs="0"/>
 					<xs:element name="thesaurusName" type="gmd:CI_Citation_PropertyType" minOccurs="0"/>
 				</xs:sequence>

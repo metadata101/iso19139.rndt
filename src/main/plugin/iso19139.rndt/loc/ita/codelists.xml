@@ -2,6 +2,41 @@
 <codelists xmlns:gmd="http://www.isotc211.org/2005/gmd">
 	<!-- ==================================================== -->
 	<!-- RNDT -->
+  <codelist name="gmd:CI_OnLineFunctionCode" alias="function">
+  <entry>
+    <code>download</code>
+    <label>Download</label>
+    <description>istruzioni online per il trasferimento dei dati da un supporto di memorizzazione
+      ad un altro sistema
+    </description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>information</code>
+    <label>Informazioni</label>
+    <description>informazioni online sulla risorsa</description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>offlineAccess</code>
+    <label>Accesso offline</label>
+    <description>istruzioni per la richiesta di risorse dal fornitore</description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>order</code>
+    <label>Organizza</label>
+    <description>procedura online per ottenere la risorsa</description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <entry>
+    <code>search</code>
+    <label>Ricerca</label>
+    <description>interfaccia di ricerca online per cercare informazioni sulla risorsa
+    </description>
+  </entry>
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+</codelist>
 	<codelist name="gmd:CI_DateTypeCode">
 		<entry>
 			<code>creation</code>
@@ -29,6 +64,7 @@
 			<description>Data che identifica l’osservazione del fenomeno (es. volo)</description>
 		</entry>
 	</codelist>
+
 	<!-- ==================================================== -->
 	<!-- RNDT -->
 	<codelist name="gmd:MD_DimensionNameTypeCode">
@@ -66,19 +102,6 @@
 			<description>Le informazioni si applicano ad una serie</description>
 		</entry>
 
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
-		<entry>
-			<code>service</code>
-			<label>Service</label>
-			<description>Le informazioni si applicano alla capacità che un ente fornitore di servizi mette a disposizione di un ente di servizio utente attraverso una serie di interfacce che definiscono un comportamento, come un caso d'uso</description>
-		</entry>
-		<!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-		<entry>
-			<code>tile</code>
-			<label>Tile</label>
-			<description>Le informazioni si applicano ad un tile, un sottoinsieme spaziale dei dati geografici</description>
-		</entry>
 	</codelist>
 	<!-- ==================================================== -->
 	<!-- RNDT -->
@@ -650,19 +673,153 @@
 	<codelist name="srv:SV_CouplingType">
 			<entry>
 					<code>tight</code>
-					<label>Strettamente accoppiati</label>
-					<description>Strettamente accoppiati: dati associati</description>
+					<label>Vincolato</label>
+					<description>Il servizio è strettamente agganciato a un tipo di dato</description>
 			</entry>
 			<entry>
 					<code>mixed</code>
-					<label>Misto</label>
-					<description>Accoppiato misto: dati associati, inoltre, potrebbero essere trattati dati esterni</description>
+					<label>misto</label>
+					<description>Il servizio è agganciato ad alcuni dati, ma può operare anche con altri dati</description>
 			</entry>
 			<entry>
 					<code>loose</code>
-					<label>Accoppiamento debole</label>
-					<description>Accoppiamento debole: non ci sono dati associati</description>
+					<label>svincolato</label>
+					<description>Il servizio è sganciato dai dati, ovvero non strettamente legato ad alcun tipo di dato</description>
 			</entry>
 	</codelist>
+
+	<codelist name="indeterminatePosition">
+    <entry>
+      <code>after</code>
+      <label>Dopo il</label>
+    </entry>
+    <entry>
+      <code>before</code>
+      <label>Prima del</label>
+    </entry>
+    <entry>
+      <code>now</code>
+      <label>Adesso</label>
+    </entry>
+    <entry>
+      <code>unknown</code>
+      <label>Data sconosciuta</label>
+    </entry>
+  </codelist>
+
+  <codelist name="gmd:LanguageCode">
+    <entry>
+      <code>bul</code>
+      <label>Bulgaro</label>
+    </entry>
+    <entry>
+      <code>cze</code>
+      <label>Ceco</label>
+    </entry>
+    <entry>
+      <code>hrv</code>
+      <label>Croato</label>
+    </entry>
+    <entry>
+      <code>est</code>
+      <label>Estone</label>
+    </entry>
+    <entry>
+      <code>fin</code>
+      <label>Finlandese</label>
+    </entry>
+    <entry>
+      <code>fre</code>
+      <label>Francese</label>
+    </entry>
+    <entry>
+      <code>gre</code>
+      <label>Greco</label>
+    </entry>
+    <entry>
+      <code>eng</code>
+      <label>Inglese</label>
+    </entry>
+    <entry>
+      <code>gle</code>
+      <label>Irlandese</label>
+    </entry>
+    <entry>
+      <code>ita</code>
+      <label>Italiano</label>
+    </entry>
+    <entry>
+      <code>lav</code>
+      <label>Lettone</label>
+    </entry>
+    <entry>
+      <code>mlt</code>
+      <label>Maltese</label>
+    </entry>
+    <entry>
+      <code>dut</code>
+      <label>Olandese</label>
+    </entry>
+    <entry>
+      <code>pol</code>
+      <label>Polacco</label>
+    </entry>
+    <entry>
+      <code>por</code>
+      <label>Portoghese</label>
+    </entry>
+    <entry>
+      <code>rum</code>
+      <label>Rumeno</label>
+    </entry>
+    <entry>
+      <code>slo</code>
+      <label>Slovacco</label>
+    </entry>
+    <entry>
+      <code>slv</code>
+      <label>Sloveno</label>
+    </entry>
+    <entry>
+      <code>spa</code>
+      <label>Spagnolo</label>
+    </entry>
+    <entry>
+      <code>swe</code>
+      <label>Svedese</label>
+    </entry>
+    <entry>
+      <code>ger</code>
+      <label>Tedesco</label>
+    </entry>
+    <entry>
+      <code>hun</code>
+      <label>Ungherese</label>
+    </entry>
+  </codelist>
+
+  <codelist name="serviceType">
+    <entry>
+      <code>view</code>
+      <label>Servizio di consultazione (view)</label>
+    </entry>
+    <entry>
+      <code>download</code>
+      <label>Servizio di scaricamento (download)</label>
+    </entry>
+    <entry>
+      <code>transformation</code>
+      <label>Servizio di conversione (transformation)</label>
+    </entry>
+    <entry>
+      <code>invoke</code>
+      <label>Servizio di richiesta dei servizi di dati territoriali (invoke)</label>
+    </entry>
+    <entry>
+      <code>other</code>
+      <label>Altri servizi (other)</label>
+    </entry>
+  </codelist>
+
 
 </codelists>
