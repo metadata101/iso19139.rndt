@@ -35,6 +35,13 @@
 
   <!-- =================================================================== -->
 
+  <!-- Convert ISO profile elements to their base type -->
+  <xsl:template match="*[@gco:isoType]">
+    <xsl:element name="{@gco:isoType}">
+      <xsl:apply-templates select="@*[name() != 'gco:isoType']|*"/>
+    </xsl:element>
+  </xsl:template>
+
   <xsl:template match="gmd:MD_Metadata|*[@gco:isoType='gmd:MD_Metadata']">
     <xsl:variable name="info" select="geonet:info"/>
     <xsl:element name="{if (@gco:isoType) then @gco:isoType else name()}">
@@ -68,7 +75,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="gmd:MD_BrowseGraphic">
-    <xsl:copy>
+    <xsl:copy copy-namespaces="no">
       <xsl:apply-templates select="gmd:fileName"/>
     </xsl:copy>
   </xsl:template>
@@ -76,13 +83,13 @@
   <!-- =================================================================== -->
 
   <xsl:template match="gmd:EX_Extent">
-    <xsl:copy>
+    <xsl:copy copy-namespaces="no">
       <xsl:apply-templates select="gmd:geographicElement[child::gmd:EX_GeographicBoundingBox]"/>
     </xsl:copy>
   </xsl:template>
 
   <xsl:template match="gmd:EX_GeographicBoundingBox">
-    <xsl:copy>
+    <xsl:copy copy-namespaces="no">
       <xsl:apply-templates select="gmd:westBoundLongitude"/>
       <xsl:apply-templates select="gmd:eastBoundLongitude"/>
       <xsl:apply-templates select="gmd:southBoundLatitude"/>
@@ -93,7 +100,7 @@
   <!-- =================================================================== -->
 
   <xsl:template match="gmd:CI_Citation">
-    <xsl:copy>
+    <xsl:copy copy-namespaces="no">
       <xsl:apply-templates select="gmd:title"/>
     </xsl:copy>
   </xsl:template>
@@ -101,7 +108,7 @@
   <!-- === copy template ================================================= -->
 
   <xsl:template match="@*|node()">
-    <xsl:copy>
+    <xsl:copy copy-namespaces="no">
       <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
   </xsl:template>

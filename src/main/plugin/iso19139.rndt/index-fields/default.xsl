@@ -57,7 +57,7 @@
   <!-- ========================================================================================= -->
 
   <xsl:param name="thesauriDir"/>
-  <xsl:param name="inspire">false</xsl:param>
+  <xsl:param name="inspire">true</xsl:param>
 
   <xsl:variable name="inspire-thesaurus"
                 select="if ($inspire!='false') then document(concat('file:///', replace($thesauriDir, '\\', '/'), '/external/thesauri/theme/inspire-theme.rdf')) else ''"/>
@@ -161,17 +161,35 @@
           </xsl:call-template>
       </xsl:variable>
       <Field name="ipa" string="{string($iPA)}" store="false" index="true"/>
-      <xsl:variable name="thesaurusDir" select="util:getThesaurusDir()"/>
-      <xsl:variable name="thesaurusFile" select="concat($thesaurusDir, '/external/thesauri/theme/','amministrazioni.rdf')"/>
-      <xsl:variable name="thesaurus" select="document($thesaurusFile)"/>
-      <xsl:variable name="label" select="$thesaurus/rdf:RDF/skos:Concept[@rdf:about=$iPA]/skos:prefLabel"/>
+      <xsl:variable name="iPAterminator" select="concat('#', $iPA)"/>
+
+      <xsl:variable name="extThesaurusFile" select="concat($thesauriDir, '/external/thesauri/theme/','amministrazioni.rdf')"/>
+      <xsl:variable name="extThesaurus" select="document($extThesaurusFile)"/>
+
+      <xsl:variable name="label">
+         <xsl:choose>
+            <xsl:when test="$extThesaurus">
+	       <!-- <xsl:message>EXT IPA THESAURUS FOUND</xsl:message> -->
+               <xsl:value-of select="$extThesaurus/rdf:RDF/skos:Concept[@rdf:about=$iPA or ends-with(@rdf:about, $iPAterminator)]/skos:prefLabel"/>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:variable name="locThesaurusFile" select="concat($thesauriDir, '/local/thesauri/theme/','amministrazioni.rdf')"/>
+               <xsl:variable name="locThesaurus" select="document($locThesaurusFile)"/>
+               <xsl:if test="$locThesaurus">
+                  <!-- <xsl:message>LOCAL IPA THESAURUS FOUND</xsl:message> -->
+                  <xsl:value-of select="$locThesaurus/rdf:RDF/rdf:Description[ends-with(@rdf:about, $iPAterminator)]/skos:prefLabel"/>
+               </xsl:if>
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:variable>
+
+      <!-- <xsl:message>IPA LABEL <xsl:value-of select="$label"/></xsl:message> -->
       <xsl:variable name="PA" select="if ($label and $label != '') then $label else $iPA"/>
       <xsl:if test="$PA != ''">
-        <Field name="pa" string="{string($PA)}" store="false" index="true"/>
+         <Field name="pa" string="{string($PA)}" store="false" index="true"/>
       </xsl:if>
-    </xsl:if>
+    </xsl:if> <!-- ipa defined -->
   </xsl:template>
-
 
   <xsl:template mode="index"
                 match="gmd:extent/gmd:EX_Extent/gmd:description/gco:CharacterString[normalize-space(.) != '']">

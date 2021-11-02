@@ -1,322 +1,382 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xsl:stylesheet version="2.0"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-
-                xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
-                xmlns:ows="http://www.opengis.net/ows"
-
-                xmlns:dc ="http://purl.org/dc/elements/1.1/"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:csw="http://www.opengis.net/cat/csw/2.0.2"
+                xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns:dct="http://purl.org/dc/terms/"
-
-                xmlns:gmd="http://www.isotc211.org/2005/gmd"
                 xmlns:gco="http://www.isotc211.org/2005/gco"
-                xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                xmlns:gmd="http://www.isotc211.org/2005/gmd"
                 xmlns:srv="http://www.isotc211.org/2005/srv"
-
                 xmlns:geonet="http://www.fao.org/geonetwork"
+                xmlns:ows="http://www.opengis.net/ows"
+                version="2.0"
+                exclude-result-prefixes="gmd srv gco geonet">
 
-                xmlns:gml="http://www.opengis.net/gml/3.2"
+  <xsl:param name="displayInfo"/>
+  <xsl:param name="lang"/>
 
-                exclude-result-prefixes="geonet dc dct ows srv">
+  <xsl:include href="../metadata-utils.xsl"/>
+
+  <!-- ============================================================================= -->
+
+  <xsl:template match="gmd:MD_Metadata|*[@gco:isoType='gmd:MD_Metadata']">
+
+    <xsl:variable name="info" select="geonet:info"/>
+    <xsl:variable name="langId">
+      <xsl:call-template name="getLangId">
+        <xsl:with-param name="langGui" select="$lang"/>
+        <xsl:with-param name="md" select="."/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <xsl:variable name="identification" select="gmd:identificationInfo/gmd:MD_DataIdentification|
+      gmd:identificationInfo/*[contains(@gco:isoType, 'MD_DataIdentification')]|
+      gmd:identificationInfo/srv:SV_ServiceIdentification|
+      gmd:identificationInfo/*[contains(@gco:isoType, 'SV_ServiceIdentification')]"/>
+
+    <csw:Record>
+
+      <xsl:for-each select="gmd:fileIdentifier">
+        <dc:identifier>
+          <xsl:value-of select="gco:CharacterString"/>
+        </dc:identifier>
+      </xsl:for-each>
+
+      <xsl:for-each select="gmd:dateStamp">
+        <dc:date>
+          <xsl:value-of select="gco:Date|gco:DateTime"/>
+        </dc:date>
+      </xsl:for-each>
+
+      <!-- DataIdentification - - - - - - - - - - - - - - - - - - - - - -->
+
+      <xsl:for-each select="$identification/gmd:citation/gmd:CI_Citation">
+        <xsl:for-each select="gmd:title">
+          <dc:title>
+            <xsl:apply-templates mode="localised" select=".">
+              <xsl:with-param name="langId" select="$langId"/>
+            </xsl:apply-templates>
+          </dc:title>
+        </xsl:for-each>
+
+        <!-- Type - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <xsl:for-each select="../../../../gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue">
+          <dc:type>
+            <xsl:apply-templates mode="localised" select=".">
+              <xsl:with-param name="langId" select="$langId"/>
+            </xsl:apply-templates>
+          </dc:type>
+        </xsl:for-each>
+
+        <!-- subject -->
+
+        <xsl:for-each
+          select="../../gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[not(@gco:nilReason)]">
+          <dc:subject>
+            <xsl:apply-templates mode="localised" select=".">
+              <xsl:with-param name="langId" select="$langId"/>
+            </xsl:apply-templates>
+          </dc:subject>
+        </xsl:for-each>
+        <xsl:for-each select="../../gmd:topicCategory/gmd:MD_TopicCategoryCode">
+          <dc:subject>
+            <xsl:value-of select="."/>
+          </dc:subject><!-- TODO : translate ? -->
+        </xsl:for-each>
 
 
-    <xsl:param name="displayInfo"/>
+        <!-- Distribution - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+        <xsl:for-each select="../../../../gmd:distributionInfo/gmd:MD_Distribution">
+          <xsl:for-each select="gmd:distributionFormat/gmd:MD_Format/gmd:name">
+            <dc:format>
+              <xsl:apply-templates mode="localised" select=".">
+                <xsl:with-param name="langId" select="$langId"/>
+              </xsl:apply-templates>
+            </dc:format>
+          </xsl:for-each>
+        </xsl:for-each>
 
 
-    <xsl:variable name="isSrv" select="boolean(//srv:*)"/>
+        <xsl:for-each
+          select="gmd:date/gmd:CI_Date[gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='revision']/gmd:date/gco:Date">
+          <dct:modified>
+            <xsl:value-of select="."/>
+          </dct:modified>
+        </xsl:for-each>
+
+        <xsl:for-each
+          select="gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue='originator']/gmd:organisationName">
+          <dc:creator>
+            <xsl:apply-templates mode="localised" select=".">
+              <xsl:with-param name="langId" select="$langId"/>
+            </xsl:apply-templates>
+          </dc:creator>
+        </xsl:for-each>
+
+        <xsl:for-each
+          select="gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue='publisher']/gmd:organisationName">
+          <dc:publisher>
+            <xsl:apply-templates mode="localised" select=".">
+              <xsl:with-param name="langId" select="$langId"/>
+            </xsl:apply-templates>
+          </dc:publisher>
+        </xsl:for-each>
+
+        <xsl:for-each
+          select="gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue='author']/gmd:organisationName">
+          <dc:contributor>
+            <xsl:apply-templates mode="localised" select=".">
+              <xsl:with-param name="langId" select="$langId"/>
+            </xsl:apply-templates>
+          </dc:contributor>
+        </xsl:for-each>
+      </xsl:for-each>
 
 
-	<!-- ================================================================= -->
+      <!-- abstract -->
 
-	<!-- Generic node -->
+      <xsl:for-each select="$identification/gmd:abstract">
+        <dct:abstract>
+          <xsl:apply-templates mode="localised" select=".">
+            <xsl:with-param name="langId" select="$langId"/>
+          </xsl:apply-templates>
+        </dct:abstract>
+        <dc:description>
+          <xsl:apply-templates mode="localised" select=".">
+            <xsl:with-param name="langId" select="$langId"/>
+          </xsl:apply-templates>
+        </dc:description>
+      </xsl:for-each>
 
-    <xsl:template match="/">
-                <xsl:copy copy-namespaces="no">
-                    <xsl:apply-templates select="node()"/>
-                </xsl:copy>
-    </xsl:template>
+      <!-- rights -->
+
+      <xsl:for-each select="$identification/gmd:resourceConstraints/gmd:MD_LegalConstraints|
+        gmd:resourceConstraints/*[@gco:isoType='gmd:MD_LegalConstraints']">
+        <xsl:for-each select="*/gmd:MD_RestrictionCode/@codeListValue">
+          <dc:rights>
+            <xsl:value-of select="."/>
+          </dc:rights>
+        </xsl:for-each>
+
+        <xsl:for-each select="$identification/otherConstraints">
+          <dc:rights>
+            <xsl:apply-templates mode="localised" select=".">
+              <xsl:with-param name="langId" select="$langId"/>
+            </xsl:apply-templates>
+          </dc:rights>
+        </xsl:for-each>
+      </xsl:for-each>
+
+      <!-- language -->
+
+      <xsl:for-each select="$identification/gmd:language">
+        <dc:language>
+          <xsl:value-of select="gco:CharacterString|gmd:LanguageCode/@codeListValue"/>
+        </dc:language>
+      </xsl:for-each>
+
+      <!-- Lineage -->
+
+      <xsl:for-each
+        select="gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage/gmd:statement">
+        <dc:source>
+          <xsl:apply-templates mode="localised" select=".">
+            <xsl:with-param name="langId" select="$langId"/>
+          </xsl:apply-templates>
+        </dc:source>
+      </xsl:for-each>
+
+      <!-- Parent Identifier -->
+
+      <xsl:for-each select="gmd:parentIdentifier/gco:CharacterString">
+        <dc:relation>
+          <xsl:value-of select="."/>
+        </dc:relation>
+      </xsl:for-each>
 
 
-	<xsl:template match="@*|node()">
-		<xsl:variable name="info" select="geonet:info"/>
-		<xsl:copy copy-namespaces="no">
-			<xsl:apply-templates select="@*|node()"/>
+      <!-- Distribution - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-			<!-- GeoNetwork elements added when resultType is equal to results_with_summary -->
-			<xsl:if test="$displayInfo = 'true'">
-				<xsl:copy-of select="$info"/>
-			</xsl:if>
+      <xsl:for-each select="gmd:distributionInfo/gmd:MD_Distribution">
+        <xsl:for-each select="gmd:distributionFormat/gmd:MD_Format/gmd:name">
+          <dc:format>
+            <xsl:apply-templates mode="localised" select=".">
+              <xsl:with-param name="langId" select="$langId"/>
+            </xsl:apply-templates>
+          </dc:format>
+        </xsl:for-each>
+      </xsl:for-each>
 
-		</xsl:copy>
-	</xsl:template>
+      <!-- bounding box -->
 
+      <xsl:for-each
+        select="$identification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox">
+        <xsl:variable name="rsi" select="/gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/
+          gmd:referenceSystemIdentifier/gmd:RS_Identifier|/gmd:MD_Metadata/gmd:referenceSystemInfo/
+          *[@gco:isoType='MD_ReferenceSystem']/gmd:referenceSystemIdentifier/gmd:RS_Identifier"/>
+        <xsl:variable name="auth" select="$rsi/gmd:codeSpace/gco:CharacterString"/>
+        <xsl:variable name="id" select="$rsi/gmd:code/gco:CharacterString"/>
+        <xsl:variable name="crs" select="concat('urn:ogc:def:crs:', $auth, '::', $id)"/>
 
-	<!-- ================================================================= -->
-
-	<!-- Metadata root elem for non-tile metadata: set sane namespaces -->
-
-	<xsl:template match="gmd:MD_Metadata">
-		<xsl:element name="gmd:MD_Metadata">
-			<xsl:namespace name="gmd" select="'http://www.isotc211.org/2005/gmd'"/>
-			<xsl:namespace name="gco" select="'http://www.isotc211.org/2005/gco'"/>
-			<xsl:namespace name="gmx" select="'http://www.isotc211.org/2005/gmx'"/>
-            <xsl:if test="$isSrv">
-                <xsl:namespace name="srv" select="'http://www.isotc211.org/2005/srv'"/>
-            </xsl:if>
-			<xsl:namespace name="gml" select="'http://www.opengis.net/gml/3.2'"/>
-			<xsl:namespace name="xlink" select="'http://www.w3.org/1999/xlink'"/>
-			<xsl:copy-of select="@*[name()!='xsi:schemaLocation' and name()!='gco:isoType']"/>
-
+        <ows:BoundingBox>
+          <xsl:attribute name="crs">
             <xsl:choose>
-                <xsl:when test="$isSrv">
-                    <xsl:attribute name="xsi:schemaLocation">http://www.isotc211.org/2005/gmd http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/gmd/gmd.xsd http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20060504/srv/srv.xsd</xsl:attribute>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:attribute name="xsi:schemaLocation">http://www.isotc211.org/2005/gmd http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/gmd/gmd.xsd</xsl:attribute>
-                </xsl:otherwise>
+              <xsl:when test="$crs = 'urn:ogc:def:crs:::'">urn:ogc:def:crs:EPSG:6.6:4326</xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="$crs"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:attribute>
+
+          <ows:LowerCorner>
+            <xsl:value-of
+              select="concat(gmd:eastBoundLongitude/gco:Decimal, ' ', gmd:southBoundLatitude/gco:Decimal)"/>
+          </ows:LowerCorner>
+
+          <ows:UpperCorner>
+            <xsl:value-of
+              select="concat(gmd:westBoundLongitude/gco:Decimal, ' ', gmd:northBoundLatitude/gco:Decimal)"/>
+          </ows:UpperCorner>
+        </ows:BoundingBox>
+      </xsl:for-each>
+
+
+      <!-- Create as many URI element
+                * thumbnails
+                * dataset online source elements
+                * as coupledResource defined for a WMS service.
+                 * Get one connect point for the service
+                 * Add as many layers defined in coupled resource elements.
+
+                With this information, client could access to onlinesource defined in the metadata.
+
+                CSW 2.0.2 ISO profil does not support dc:URI elements.
+                What could be done is to add an output format supporting dclite4g
+                http://wiki.osgeo.org/wiki/DCLite4G (TODO)
+                -->
+      <xsl:for-each select="
+        gmd:identificationInfo/srv:SV_ServiceIdentification[srv:serviceType/gco:LocalName='OGC:WMS']|
+        gmd:identificationInfo/*[contains(@gco:isoType, 'SV_ServiceIdentification') and srv:serviceType/gco:LocalName='OGC:WMS'] ">
+
+        <xsl:variable name="connectPoint"
+                      select="srv:containsOperations/srv:SV_OperationMetadata/srv:connectPoint/gmd:CI_OnlineResource/gmd:linkage/gmd:URL"/>
+        <xsl:variable name="serviceUrl">
+          <xsl:choose>
+            <xsl:when test="$connectPoint=''">
+              <xsl:value-of
+                select="../gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource/gmd:linkage/gmd:URL"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="$connectPoint"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+
+        <dc:URI protocol="OGC:WMS-1.1.1-http-get-capabilities">
+          <xsl:value-of select="$serviceUrl"/>
+        </dc:URI>
+        <xsl:for-each select="srv:coupledResource/srv:SV_CoupledResource">
+          <xsl:if test="gco:ScopedName!=''">
+            <dc:URI protocol="OGC:WMS" name="{gco:ScopedName}">
+              <xsl:value-of select="$serviceUrl"/>
+            </dc:URI>
+          </xsl:if>
+        </xsl:for-each>
+
+      </xsl:for-each>
+
+
+      <xsl:for-each select="gmd:distributionInfo/gmd:MD_Distribution">
+        <xsl:for-each
+          select="gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource">
+          <xsl:if test="gmd:linkage">
+            <dc:URI>
+              <xsl:if test="gmd:protocol">
+                <xsl:attribute name="protocol">
+                  <xsl:value-of select="gmd:protocol/gco:CharacterString"/>
+                </xsl:attribute>
+              </xsl:if>
+
+              <xsl:if test="gmd:name">
+                <xsl:attribute name="name">
+                  <xsl:for-each select="gmd:name">
+                    <xsl:apply-templates mode="localised" select=".">
+                      <xsl:with-param name="langId" select="$langId"/>
+                    </xsl:apply-templates>
+                  </xsl:for-each>
+                </xsl:attribute>
+              </xsl:if>
+
+              <xsl:if test="gmd:description">
+                <xsl:attribute name="description">
+                  <xsl:for-each select="gmd:description">
+                    <xsl:apply-templates mode="localised" select=".">
+                      <xsl:with-param name="langId" select="$langId"/>
+                    </xsl:apply-templates>
+                  </xsl:for-each>
+                </xsl:attribute>
+              </xsl:if>
+
+              <xsl:value-of select="gmd:linkage/gmd:URL"/>
+            </dc:URI>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:for-each>
+
+      <xsl:for-each
+        select="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:graphicOverview/gmd:MD_BrowseGraphic">
+        <xsl:variable name="fileName" select="gmd:fileName/gco:CharacterString"/>
+        <xsl:variable name="fileDescr" select="gmd:fileDescription/gco:CharacterString"/>
+
+        <xsl:if test="$fileName!=''">
+          <dc:URI>
+            <xsl:choose>
+              <xsl:when test="contains(gmd:fileName/gco:CharacterString, '.gif')">
+                <xsl:attribute name="protocol">image/gif</xsl:attribute>
+              </xsl:when>
+              <xsl:when test="contains(gmd:fileName/gco:CharacterString, '.png')">
+                <xsl:attribute name="protocol">image/png</xsl:attribute>
+              </xsl:when>
+              <xsl:when test="contains(gmd:fileName/gco:CharacterString, '.jpg') or
+                                        contains(gmd:fileName/gco:CharacterString, '.jpeg')">
+                <xsl:attribute name="protocol">image/jpeg</xsl:attribute>
+              </xsl:when>
             </xsl:choose>
 
-			<xsl:apply-templates select="gmd:fileIdentifier"/>
-			<xsl:apply-templates select="gmd:language"/>
-			<xsl:apply-templates select="gmd:characterSet"/>
-			<gmd:parentIdentifier>
-				<gco:CharacterString>
-					<xsl:choose>
-						<xsl:when test="//gmd:MD_Metadata/gmd:parentIdentifier/gco:CharacterString != '' ">
-							<xsl:value-of select="//gmd:MD_Metadata/gmd:parentIdentifier/gco:CharacterString"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="./gmd:fileIdentifier/gco:CharacterString"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</gco:CharacterString>
-			</gmd:parentIdentifier>
-			<xsl:apply-templates select="child::* except (gmd:fileIdentifier|gmd:parentIdentifier|gmd:language|gmd:characterSet)"/>
-			<!-- <xsl:apply-templates select="//*[not(self::gmd:fileIdentifier)|not(self::gmd:language)|not(self::gmd:characterSet)]"/> -->
-		</xsl:element>
-	</xsl:template>
+            <xsl:if test="$fileDescr">
+              <xsl:attribute name="name">
+                <xsl:value-of select="$fileDescr"/>
+              </xsl:attribute>
+            </xsl:if>
+            <xsl:choose>
+              <xsl:when test="contains($fileName ,'://')">
+                <xsl:value-of select="$fileName"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of
+                  select="concat('resources.get?id=',$info/id,'&amp;fname=',$fileName,'&amp;access=public')"/>
+              </xsl:otherwise>
+            </xsl:choose>
 
-	<!-- ================================================================= -->
+          </dc:URI>
+        </xsl:if>
+      </xsl:for-each>
 
-	<!-- Remove comments -->
+      <!-- GeoNetwork elements added when resultType is equal to results_with_summary -->
+      <xsl:if test="$displayInfo = 'true'">
+        <xsl:copy-of select="$info"/>
+      </xsl:if>
 
-	<xsl:template match="comment()" priority="100"/>
-
-	<!-- Remove geonet's own stuff -->
-
-	<xsl:template match="geonet:info" priority="100"/>
-
-	<!-- ================================================================= -->
-	<!-- Remap gml URI from /gml to /gml/3.2 -->
-
-    <xsl:template match="@*[namespace-uri()='http://www.opengis.net/gml']">
-        <xsl:attribute name="gml:{local-name()}">
-            <xsl:value-of select="."/>
-        </xsl:attribute>
-    </xsl:template>
-
-    <xsl:template match="*[namespace-uri()='http://www.opengis.net/gml']">
-        <xsl:element name="gml:{local-name()}">
-            <xsl:apply-templates select="node()|@*"/>
-        </xsl:element>
-    </xsl:template>
-
-	<!-- ================================================================= -->
-
-	<!-- Replace RNDT metadata standard name/version -->
-
-  <xsl:template match="gmd:metadataStandardName">
-    <gmd:metadataStandardName>
-      <gco:CharacterString>Linee Guida RNDT</gco:CharacterString>
-    </gmd:metadataStandardName>
+    </csw:Record>
   </xsl:template>
 
-  <xsl:template match="gmd:metadataStandardVersion">
-    <gmd:metadataStandardVersion>
-      <gco:CharacterString>2.0</gco:CharacterString>
-    </gmd:metadataStandardVersion>
+  <!-- ============================================================================= -->
+
+  <xsl:template match="*">
+    <xsl:apply-templates select="*"/>
   </xsl:template>
 
-	<!-- ================================================================= -->
-
-	<xsl:template match="*[@gco:isoType]" priority="100">
-		<xsl:variable name="elemName" select="@gco:isoType"/>
-
-		<xsl:element name="{$elemName}">
-			<xsl:apply-templates select="@*[name()!='gco:isoType']"/>
-			<xsl:apply-templates select="node()"/>
-		</xsl:element>
-	</xsl:template>
-
-	<!-- ================================================================= -->
-	<!-- Manage the gmd:pass -->
-
-<!--	<xsl:template match="gmd:DQ_ConformanceResult">
-		<xsl:choose>
-			<xsl:when test="not(exists(gmd:pass))">
-				<xsl:copy>
-					<xsl:apply-templates select="@*|node()"/>
-					<xsl:element name="gmd:pass">
-						<xsl:text></xsl:text>
-						<xsl:attribute name="nilReason">unknown</xsl:attribute>
-					</xsl:element>
-				</xsl:copy>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:variable name="pass">
-					<xsl:value-of select="gmd:pass"/>
-				</xsl:variable>
-				<xsl:if test="$pass = ''">
-					<xsl:copy>
-						<xsl:apply-templates select="@*|gmd:specification"/>
-						<xsl:apply-templates select="@*|gmd:explanation"/>
-						<xsl:element name="gmd:pass">
-							<xsl:text></xsl:text>
-							<xsl:attribute name="nilReason">unknown</xsl:attribute>
-						</xsl:element>
-					</xsl:copy>
-				</xsl:if>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>-->
-
-	<!-- Use 'nilReason' to unknown for the pass element in un-compiled conformance
-	<xsl:template match="gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:pass">
-		<xsl:choose>
-			<xsl:when test="../gmd:explanation/gco:CharacterString='non valutato'">
-				<xsl:copy>
-					<xsl:attribute name="nilReason">unknown</xsl:attribute>
-				</xsl:copy>
-				<xsl:comment>Conformance non compilata</xsl:comment>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:copy>
-					<xsl:apply-templates select="@*|node()"/>
-				</xsl:copy>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template> -->
-
-	<!-- ================================================================= -->
-
-	<!-- Remove empty keywords
-         1) remove parent <gmd:descriptiveKeywords> if all <gmd:MD_Keywords> are empty
-         2) remove <gmd:keyword> if empty
-    -->
-	<!--
-        <gmd:identificationInfo>
-            <srv:SV_ServiceIdentification | gmd:MD_DataIdentification >
-                <gmd:descriptiveKeywords>   0..n, insieme di keywords da un determinato thesaurus
-                    <gmd:MD_Keywords>       1..1
-                        <gmd:keyword>
-                            <gco:CharacterString/>
-                        </gmd:keyword>
-                    </gmd:MD_Keywords>
-                </gmd:descriptiveKeywords>
-    -->
-
-	<!-- Remove empty keywords 1) remove parent <gmd:descriptiveKeywords> if all <gmd:MD_Keywords> are empty -->
-
-	<xsl:template match="gmd:identificationInfo/*/gmd:descriptiveKeywords">
-		<xsl:variable name="concatkw">
-			<xsl:call-template name="extract_keywords_text"/>
-		</xsl:variable>
-
-		<!--<xsl:comment>lista keyword: [<xsl:copy-of select="$concatkw" />]</xsl:comment>-->
-
-		<xsl:choose>
-			<xsl:when test="not(string($concatkw))">
-				<xsl:comment>descriptiveKeywords vuota</xsl:comment>
-			</xsl:when>
-			<xsl:otherwise>
-                <xsl:copy copy-namespaces="no">
-					<xsl:apply-templates select="@*|node()"/>
-				</xsl:copy>
-      </xsl:otherwise>
-    </xsl:choose>
-	</xsl:template>
-
-	<!-- Remove empty keywords 2) remove <gmd:keyword> if empty -->
-
-	<xsl:template match="gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword">
-		<xsl:choose>
-			<xsl:when test="not(string(gco:CharacterString))">
-				<xsl:comment>Keyword vuota</xsl:comment>
-			</xsl:when>
-			<xsl:otherwise>
-                <xsl:copy copy-namespaces="no">
-					<xsl:apply-templates select="@*|node()"/>
-				</xsl:copy>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
-	<xsl:template name="extract_keywords_text">
-		<xsl:for-each select="gmd:MD_Keywords/gmd:keyword"><xsl:copy-of select="gco:CharacterString" /></xsl:for-each>
-	</xsl:template>
-
-
-	<!-- ================================================================= -->
-    <!-- remap generic gmd elements in tile metadata -->
-
-    <xsl:template match="@*[namespace-uri()='http://www.isotc211.org/2005/gmd']">
-                <xsl:attribute name="{name()}">
-                    <xsl:value-of select="."/>
-                </xsl:attribute>
-    </xsl:template>
-
-    <xsl:template match="*[namespace-uri()='http://www.isotc211.org/2005/gmd' and name()!= 'gmd:MD_Metadata'] ">
-                <xsl:copy copy-namespaces="no">
-                    <xsl:apply-templates select="node()|@*"/>
-                </xsl:copy>
-    </xsl:template>
-
-    <!-- These elements do not need namespace conversion -->
-    <xsl:template match="gmd:LanguageCode|gmd:MD_CharacterSetCode|gmd:MD_ScopeCode|gmd:MD_Format|gmd:name|gmd:version|
-                         gmd:CI_OnlineResource|gmd:CI_Date|gmd:CI_DateTypeCode|gmd:CI_PresentationFormCode|gmd:CI_RoleCode|
-                         gmd:linkage|gmd:URL|gmd:RS_Identifier|gmd:code|
-                         gmd:dateType|gmd:MD_SpatialRepresentationTypeCode|
-                         gmd:MD_Resolution|gmd:MD_Resolution//gmd:*|
-                         gmd:descriptiveKeywords//gmd:*|
-                         gmd:CI_Date//gmd:*|
-                         gmd:DQ_DomainConsistency|gmd:DQ_DomainConsistency//gmd:*|
-                         gmd:geographicElement//gmd:*|
-                         gmd:DQ_Scope|gmd:level|
-                         gmd:DQ_AbsoluteExternalPositionalAccuracy|gmd:DQ_AbsoluteExternalPositionalAccuracy//gmd:*"
-                  priority="10">
-        <xsl:copy copy-namespaces="no">
-            <xsl:apply-templates select="node()|@*"/>
-        </xsl:copy>
-    </xsl:template>
-
-
-	<!-- ================================================================= -->
-
-	<xsl:template match="*[@gco:isoType]" priority="100">
-		<xsl:variable name="elemName" select="@gco:isoType"/>
-
-		<xsl:element name="{$elemName}">
-			<xsl:apply-templates select="@*[name()!='gco:isoType']"/>
-			<xsl:apply-templates select="node()"/>
-		</xsl:element>
-	</xsl:template>
-
-
-	<!-- ================================================================= -->
-
-        <!-- L'harvester RNDT non riconosce l'elemento gmx:MimeFile -->
-
-        <!-- Disabilitare questo template nel caso in cui servano per qualche altro scopo le informazioni aggiuntive fornite da gmx:MimeFile.
-             In questo caso l'eliminazione dell'elemento non riconosciuto può essere effettuata in un postprocessing XSL:
-             - l'XSL presente (iso-full.xsl) effettua la maggior parte del processing, lasciando nell'output anche le informazioni aggiuntive
-               non riconosciute dall'harvester del Repertorio Nazionale.
-             - viene creato un servizio CSW aggiuntivo, a cui si fanno effettuare le trasformazioni finali (da MimeType a CharacterString)
-        -->
-
-        <xsl:template match="gmx:MimeFileType">
-            <gco:CharacterString><xsl:value-of select="text()"/></gco:CharacterString>
-        </xsl:template>
+  <!-- ============================================================================= -->
 
 </xsl:stylesheet>
