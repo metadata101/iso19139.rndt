@@ -56,7 +56,7 @@
   <xsl:param name="thesauriDir"/>
   <xsl:param name="inspire">false</xsl:param>
 
-  <xsl:variable name="inspire-thesaurus" select="if ($inspire!='false') then document(concat('file:///', $thesauriDir, '/external/thesauri/theme/inspire-theme.rdf')) else ''"/>
+  <xsl:variable name="inspire-thesaurus" select="if ($inspire!='false') then document(concat('file:///', $thesauriDir, '/external/thesauri/theme/httpinspireeceuropaeutheme-theme.rdf')) else ''"/>
   <xsl:variable name="inspire-theme" select="if ($inspire!='false') then $inspire-thesaurus//skos:Concept else ''"/>
 
   <!-- ========================================================================================= -->
@@ -110,7 +110,7 @@
         <Field name="_defaultTitle" string="{string($_defaultTitle)}" store="true" index="true"/>
       </xsl:if>
       <xsl:variable name="title"
-                    select="/*[name(.)='gmd:MD_Metadata' or @gco:isoType='gmd:MD_Metadata']/gmd:identificationInfo//gmd:citation//gmd:title//gmd:LocalisedCharacterString[@locale=$poundLangId]"/>
+                    select="/*[name(.)='gmd:MD_Metadata' or @gco:isoType='gmd:MD_Metadata']/gmd:identificationInfo/./gmd:citation/./gmd:title/./gmd:LocalisedCharacterString[@locale=$poundLangId]"/>
 
       <!-- not tokenized title for sorting -->
       <xsl:choose>
@@ -148,6 +148,10 @@
   <xsl:template match="*" mode="metadata">
     <xsl:param name="langId"/>
     <xsl:param name="isoLangId"/>
+
+    <xsl:for-each select="gmd:dateStamp/*">
+      <Field name="changeDate" string="{string(.)}" store="true" index="true"/>
+    </xsl:for-each>
 
     <!-- === Data or Service Identification === -->
 
@@ -341,7 +345,8 @@
           <xsl:if test="count($keywordWithNoThesaurus) > 0">
             'keywords': [
             <xsl:for-each select="$keywordWithNoThesaurus/(gco:CharacterString|gmx:Anchor)">
-              <xsl:value-of select="concat('''', replace(., '''', '\\'''), '''')"/>
+              {'value': <xsl:value-of select="concat('''', replace(., '''', '\\'''), '''')"/>,
+              'link': '<xsl:value-of select="@xlink:href"/>'}
               <xsl:if test="position() != last()">,</xsl:if>
             </xsl:for-each>
             ]
@@ -353,8 +358,9 @@
                               group-by="gmd:thesaurusName/*/gmd:title/*/text()">
 
             '<xsl:value-of select="replace(current-grouping-key(), '''', '\\''')"/>' :[
-            <xsl:for-each select="gmd:keyword//gmd:LocalisedCharacterString[@locale = $langId and text() != '']">
-              <xsl:value-of select="concat('''', replace(., '''', '\\'''), '''')"/>
+            <xsl:for-each select="current-group()/gmd:keyword//gmd:LocalisedCharacterString[@locale = $langId and text() != '']">
+              {'value': <xsl:value-of select="concat('''', replace(., '''', '\\'''), '''')"/>,
+              'link': '<xsl:value-of select="@xlink:href"/>'}
               <xsl:if test="position() != last()">,</xsl:if>
             </xsl:for-each>
             ]
@@ -547,12 +553,15 @@
         <Field name="format" string="{string(.)}" store="true" index="true"/>
       </xsl:for-each>
 
+      <!-- For local atom feed services -->
+      <xsl:if test="count(gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource[gmd:function/gmd:CI_OnLineFunctionCode/@codeListValue='download'])>0">
+        <Field name="has_atom" string="true" store="false" index="true"/>
+      </xsl:if>
+
       <xsl:for-each select="gmd:transferOptions/gmd:MD_DigitalTransferOptions">
         <xsl:variable name="tPosition" select="position()"></xsl:variable>
-        <xsl:for-each select="gmd:onLine/gmd:CI_OnlineResource[
-        gmd:name/*/gmd:textGroup/gmd:LocalisedCharacterString[@locale=$langId] or
-        gmd:description/*/gmd:textGroup/gmd:LocalisedCharacterString[@locale=$langId]
-        ]">
+
+        <xsl:for-each select="gmd:onLine/gmd:CI_OnlineResource">
           <xsl:variable name="download_check"><xsl:text>&amp;fname=&amp;access</xsl:text></xsl:variable>
           <xsl:variable name="linkage" select="gmd:linkage/gmd:URL" />
           <xsl:variable name="title"
@@ -564,7 +573,7 @@
                                 then normalize-space(gmd:description/*/gmd:textGroup/gmd:LocalisedCharacterString[@locale=$langId])
                                 else normalize-space(gmd:description/gco:CharacterString)"/>
           <xsl:variable name="protocol" select="normalize-space(gmd:protocol/gco:CharacterString)"/>
-          <xsl:variable name="applicationProfile" select="normalize-space(gmd:applicationProfile/gco:CharacterString)"/>
+          <xsl:variable name="applicationProfile" select="normalize-space(gmd:applicationProfile/*/text())"/>
           <xsl:variable name="mimetype" select="if ($linkage != '') then geonet:protocolMimeType($linkage, $protocol, gmd:name/gmx:MimeFileType/@type) else ''"/>
 
           <!-- If the linkage points to WMS service and no protocol specified, manage as protocol OGC:WMS -->
@@ -586,11 +595,17 @@
           <xsl:if test="contains($protocol, 'WWW:DOWNLOAD') or contains($protocol, 'DB')
            or contains($protocol, 'FILE')  or contains($protocol, 'WFS')  or contains($protocol, 'WCS')  or contains($protocol, 'COPYFILE')">
             <Field name="download" string="true" store="false" index="true"/>
+            <Field name="_mdActions" string="mdActions-download" store="false" index="true"/>
           </xsl:if>
 
           <xsl:if test="contains($protocol, 'OGC:WMS') or contains($protocol, 'OGC:WMC') or contains($protocol, 'OGC:OWS')
                     or contains($protocol, 'OGC:OWS-C') or $wmsLinkNoProtocol">
             <Field name="dynamic" string="true" store="false" index="true"/>
+            <Field name="_mdActions" string="mdActions-view" store="false" index="true"/>
+          </xsl:if>
+
+          <xsl:if test="contains($protocol, 'OGC:WPS')">
+            <Field name="_mdActions" string="mdActions-process" store="false" index="true"/>
           </xsl:if>
 
           <!-- ignore WMS links without protocol (are indexed below with mimetype application/vnd.ogc.wms_xml) -->
@@ -697,7 +712,8 @@
 
             <xsl:variable name="crsDetails">
             {
-             "code": "<xsl:value-of select="gmd:codeSpace/*/text()"/>:<xsl:value-of select="gmd:code/*/text()"/>",
+              "code": "<xsl:value-of select="gmd:code/*/text()"/>",
+              "codeSpace": "<xsl:value-of select="gmd:codeSpace/*/text()"/>",
              "name": "<xsl:value-of select="gmd:code/*/@xlink:title"/>",
              "url": "<xsl:value-of select="gmd:code/*/@xlink:href"/>"
             }
