@@ -6,6 +6,7 @@
                 xmlns:gco="http://www.isotc211.org/2005/gco"
                 xmlns:gmd="http://www.isotc211.org/2005/gmd"
                 xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                xmlns:gml="http://www.opengis.net/gml/3.2"                
                 xmlns:srv="http://www.isotc211.org/2005/srv"
                 xmlns:geonet="http://www.fao.org/geonetwork"
                 xmlns:ows="http://www.opengis.net/ows"
@@ -204,10 +205,10 @@
          <!-- bounding box -->
 
          <xsl:for-each
-            select="$identification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox">
-            <xsl:variable name="rsi" select="/gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/
-          gmd:referenceSystemIdentifier/gmd:RS_Identifier|/gmd:MD_Metadata/gmd:referenceSystemInfo/
-          *[@gco:isoType='MD_ReferenceSystem']/gmd:referenceSystemIdentifier/gmd:RS_Identifier"/>
+            select="$identification/(gmd:extent|srv:extent)/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox">
+            <xsl:variable name="rsi" select="
+               /gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier|
+               /gmd:MD_Metadata/gmd:referenceSystemInfo/*[@gco:isoType='MD_ReferenceSystem']/gmd:referenceSystemIdentifier/gmd:RS_Identifier"/>
             <xsl:variable name="auth" select="$rsi/gmd:codeSpace/gco:CharacterString"/>
             <xsl:variable name="id" select="$rsi/gmd:code/gco:CharacterString"/>
             <xsl:variable name="crs" select="concat('urn:ogc:def:crs:', $auth, '::', $id)"/>
@@ -234,6 +235,14 @@
             </ows:BoundingBox>
          </xsl:for-each>
 
+         <xsl:for-each
+            select="$identification/(gmd:extent|srv:extent)/gmd:EX_Extent/gmd:temporalElement/gmd:EX_TemporalExtent/gmd:extent/gml:TimePeriod">
+            <xsl:variable name="start" select="gml:beginPosition"/>
+            <xsl:variable name="startIp" select="gml:beginPosition/@indeterminatePosition"/>
+            <xsl:variable name="end" select="gml:endPosition"/>
+            <xsl:variable name="endIp" select="gml:endPosition/@indeterminatePosition"/>            
+            <dct:temporal>start=<xsl:value-of select="$start"/><xsl:value-of select="$startIp"/>; end=<xsl:value-of select="$end"/><xsl:value-of select="$endIp"/></dct:temporal>
+         </xsl:for-each>
 
          <!-- Create as many URI element
          * thumbnails
