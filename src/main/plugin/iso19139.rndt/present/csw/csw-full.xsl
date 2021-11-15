@@ -121,14 +121,14 @@
          </xsl:for-each>
 
          <xsl:for-each
-            select="$identification/gmd:date/gmd:CI_Date[gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='revision']/gmd:date/gco:Date">
+            select="$identification/gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date[gmd:dateType/gmd:CI_DateTypeCode/@codeListValue='revision']/gmd:date/gco:Date">
             <dct:modified>
                <xsl:value-of select="."/>
             </dct:modified>
          </xsl:for-each>
 
          <xsl:for-each
-            select="$identification/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue='originator']/gmd:organisationName">
+            select="$identification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue='originator']/gmd:organisationName">
             <dc:creator>
                <xsl:apply-templates mode="localised" select=".">
                   <xsl:with-param name="langId" select="$langId"/>
@@ -137,7 +137,7 @@
          </xsl:for-each>
 
          <xsl:for-each
-            select="$identification/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue='publisher']/gmd:organisationName">
+            select="$identification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue='publisher']/gmd:organisationName">
             <dc:publisher>
                <xsl:apply-templates mode="localised" select=".">
                   <xsl:with-param name="langId" select="$langId"/>
@@ -146,7 +146,7 @@
          </xsl:for-each>
 
          <xsl:for-each
-            select="$identification/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue='author']/gmd:organisationName">
+            select="$identification/gmd:citation/gmd:CI_Citation/gmd:citedResponsibleParty/gmd:CI_ResponsibleParty[gmd:role/gmd:CI_RoleCode/@codeListValue='author']/gmd:organisationName">
             <dc:contributor>
                <xsl:apply-templates mode="localised" select=".">
                   <xsl:with-param name="langId" select="$langId"/>
