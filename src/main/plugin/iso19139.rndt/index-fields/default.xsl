@@ -60,7 +60,7 @@
   <xsl:param name="inspire">true</xsl:param>
 
   <xsl:variable name="inspire-thesaurus"
-                select="if ($inspire!='false') then document(concat('file:///', replace($thesauriDir, '\\', '/'), '/external/thesauri/theme/inspire-theme.rdf')) else ''"/>
+                select="if ($inspire!='false') then document(concat('file:///', replace($thesauriDir, '\\', '/'), '/external/thesauri/theme/httpinspireeceuropaeutheme-theme.rdf')) else ''"/>
   <xsl:variable name="inspire-theme"
                 select="if ($inspire!='false') then $inspire-thesaurus//skos:Concept else ''"/>
 
@@ -211,8 +211,17 @@
                 gmd:identificationInfo/srv:SV_ServiceIdentification">
 
       <xsl:for-each select="gmd:citation/gmd:CI_Citation">
-        <xsl:for-each select="gmd:identifier/(gmd:MD_Identifier|gmd:RS_Identifier)/gmd:code/gco:CharacterString">
+        <xsl:for-each select="gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString|gmd:identifier/gmd:MD_Identifier/gmd:code/gmx:Anchor">
           <Field name="identifier" string="{string(.)}" store="true" index="true"/>
+        </xsl:for-each>
+
+        <xsl:for-each select="gmd:identifier/gmd:RS_Identifier/gmd:code/gco:CharacterString|gmd:identifier/gmd:RS_Identifier/gmd:code/gmx:Anchor">
+          <Field name="identifier" string="{string(.)}" store="true" index="true"/>
+        </xsl:for-each>
+
+        <xsl:for-each select="gmd:identifier/gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString">
+        <!-- For local atom feed services -->
+          <Field name="identifierNamespace" string="{string(.)}" store="true" index="true"/>
         </xsl:for-each>
 
         <xsl:for-each select="gmd:title/gco:CharacterString">
@@ -329,10 +338,18 @@
                    store="true" index="true"/>
             <Field name="tempExtentEnd" string="{lower-case(substring-after($times,'|'))}"
                    store="true" index="true"/>
+            <Field name="tempExtentPeriod" string="{lower-case($times)}"
+                   store="true" index="true"/>
           </xsl:for-each>
 
         </xsl:for-each>
       </xsl:for-each>
+
+      <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+      <xsl:if test="*/gmd:EX_Extent/*/gmd:EX_BoundingPolygon">
+        <Field name="boundingPolygon" string="y" store="true" index="false"/>
+      </xsl:if>
 
       <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
@@ -579,6 +596,16 @@
                  string="{string(.)}" store="true" index="true"/>
         </xsl:for-each>
 
+        <xsl:for-each select="gmd:otherConstraints/gmx:Anchor[not(string(@xlink:href))]">
+          <Field name="{$fieldPrefix}OtherConstraints"
+                 string="{string(.)}" store="true" index="true"/>
+        </xsl:for-each>
+
+        <xsl:for-each select="gmd:otherConstraints/gmx:Anchor[string(@xlink:href)]">
+          <Field name="{$fieldPrefix}OtherConstraints"
+                 string="{concat('link|',string(@xlink:href), '|', string(.))}" store="true" index="true"/>
+        </xsl:for-each>
+
         <xsl:for-each select="gmd:useLimitation/gco:CharacterString">
             <Field name="{$fieldPrefix}UseLimitation"
                    string="{string(.)}" store="true" index="true"/>
@@ -705,6 +732,11 @@
         <Field name="format" string="{string(.)}" store="true" index="true"/>
       </xsl:for-each>
 
+      <!-- For local atom feed services -->
+      <xsl:if test="count(gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine/gmd:CI_OnlineResource[gmd:function/gmd:CI_OnLineFunctionCode/@codeListValue='download'])>0">
+        <Field name="has_atom" string="true" store="false" index="true"/>
+      </xsl:if>
+
       <!-- index online protocol -->
       <xsl:for-each select="gmd:transferOptions/gmd:MD_DigitalTransferOptions">
         <xsl:variable name="tPosition" select="position()"></xsl:variable>
@@ -716,7 +748,7 @@
           <xsl:variable name="title"
                         select="normalize-space(gmd:name/gco:CharacterString|gmd:name/gmx:MimeFileType)"/>
           <xsl:variable name="desc" select="normalize-space(gmd:description/gco:CharacterString)"/>
-          <xsl:variable name="protocol" select="normalize-space(gmd:protocol/gco:CharacterString)"/>
+          <xsl:variable name="protocol" select="normalize-space(gmd:protocol/*/text())"/>
           <xsl:variable name="mimetype"
                         select="geonet:protocolMimeType($linkage, $protocol, gmd:name/gmx:MimeFileType/@type)"/>
 
@@ -741,10 +773,16 @@
 
           <xsl:if test="contains($protocol, 'WWW:DOWNLOAD')">
             <Field name="download" string="true" store="false" index="true"/>
+            <Field name="_mdActions" string="mdActions-download" store="false" index="true"/>
           </xsl:if>
 
           <xsl:if test="contains($protocol, 'OGC:WMS') or $wmsLinkNoProtocol">
             <Field name="dynamic" string="true" store="false" index="true"/>
+            <Field name="_mdActions" string="mdActions-view" store="false" index="true"/>
+          </xsl:if>
+
+          <xsl:if test="contains($protocol, 'OGC:WPS')">
+            <Field name="_mdActions" string="mdActions-process" store="false" index="true"/>
           </xsl:if>
 
           <!-- ignore WMS links without protocol (are indexed below with mimetype application/vnd.ogc.wms_xml) -->
@@ -815,28 +853,29 @@
             "1089/2010" is maybe too fuzzy but could work for translated citation like "Règlement n°1089/2010, Annexe II-6" TODO improved
         -->
         <xsl:if test="(
-                                contains(gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gco:CharacterString, '1089/2010') or
-                                contains(gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gco:CharacterString, 'INSPIRE Data Specification') or
-                                contains(gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gco:CharacterString, 'INSPIRE Specification'))">
+                                contains(gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/(gco:CharacterString|gmx:Anchor), '1089/2010') or
+                                contains(gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/(gco:CharacterString|gmx:Anchor), 'INSPIRE Data Specification') or
+                                contains(gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/(gco:CharacterString|gmx:Anchor), 'INSPIRE Specification'))">
           <Field name="inspirerelated" string="on" store="false" index="true"/>
         </xsl:if>
       </xsl:if>
 
-      <xsl:for-each select="//gmd:pass/gco:Boolean">
+      <xsl:for-each select="./*/gmd:pass/gco:Boolean">
         <Field name="degree" string="{string(.)}" store="true" index="true"/>
       </xsl:for-each>
 
-      <xsl:for-each select="//gmd:specification/*/gmd:title/gco:CharacterString">
+      <xsl:for-each select="./*/gmd:specification/*/gmd:title/(gco:CharacterString|gmx:Anchor)">
+
         <Field name="specificationTitle" string="{string(.)}" store="true" index="true"/>
       </xsl:for-each>
 
-      <xsl:for-each select="//gmd:specification/*/gmd:date/*/gmd:date">
+      <xsl:for-each select="./*/gmd:specification/*/gmd:date/*/gmd:date">
         <Field name="specificationDate" string="{string(gco:Date[.!='']|gco:DateTime[.!=''])}"
                store="true" index="true"/>
       </xsl:for-each>
 
       <xsl:for-each
-        select="//gmd:specification/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue">
+        select="./*/gmd:specification/*/gmd:date/*/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue">
         <Field name="specificationDateType" string="{string(.)}" store="true" index="true"/>
       </xsl:for-each>
     </xsl:for-each>
@@ -971,7 +1010,8 @@
 
             <xsl:variable name="crsDetails">
             {
-              "code": "<xsl:value-of select="gmd:codeSpace/*/text()"/>:<xsl:value-of select="gmd:code/*/text()"/>",
+              "code": "<xsl:value-of select="gmd:code/*/text()"/>",
+              "codeSpace": "<xsl:value-of select="gmd:codeSpace/*/text()"/>",
               "name": "<xsl:value-of select="gmd:code/*/@xlink:title"/>",
               "url": "<xsl:value-of select="gmd:code/*/@xlink:href"/>"
             }
@@ -1057,6 +1097,7 @@
     <xsl:variable name="roleTranslation"
                   select="util:getCodelistTranslation('gmd:CI_RoleCode', string($role), string($isoLangId))"/>
     <xsl:variable name="logo" select=".//gmx:FileName/@src"/>
+    <xsl:variable name="website" select=".//gmd:onlineResource/*/gmd:linkage/gmd:URL"/>
     <xsl:variable name="email"
                   select="gmd:contactInfo/*/gmd:address/*/gmd:electronicMailAddress/gco:CharacterString"/>
     <xsl:variable name="phone"
@@ -1070,7 +1111,8 @@
                                         gmd:administrativeArea|gmd:country)/gco:CharacterString/text(), ', ')"/>
 
     <Field name="{$fieldPrefix}"
-           string="{concat($roleTranslation, '|', $type,'|',
+           string="{concat($roleTranslation, '|',
+                             $type,'|',
                              $orgName, '|',
                              $logo, '|',
                              string-join($email, ','), '|',
@@ -1079,7 +1121,8 @@
                              $address, '|',
                              string-join($phone, ','), '|',
                              $uuid, '|',
-                             $position)}"
+                             $position, '|',
+                             $website)}"
            store="true" index="false"/>
 
     <xsl:for-each select="$email">
