@@ -1,563 +1,932 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:gmd="http://www.isotc211.org/2005/gmd" 
-	xmlns:gts="http://www.isotc211.org/2005/gts"
-	xmlns:gco="http://www.isotc211.org/2005/gco" 
-	xmlns:gmx="http://www.isotc211.org/2005/gmx" 
-	xmlns:srv="http://www.isotc211.org/2005/srv"
-	xmlns:gml="http://www.opengis.net/gml" 
-	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xmlns:geonet="http://www.fao.org/geonetwork" 
-	xmlns:exslt="http://exslt.org/common"
-	exclude-result-prefixes="gmd gco gml gts srv xlink exslt geonet">
+<!--
+  ~ Copyright (C) 2001-2016 Food and Agriculture Organization of the
+  ~ United Nations (FAO-UN), United Nations World Food Programme (WFP)
+  ~ and United Nations Environment Programme (UNEP)
+  ~
+  ~ This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation; either version 2 of the License, or (at
+  ~ your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  ~ General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+  ~
+  ~ Contact: Jeroen Ticheler - FAO - Viale delle Terme di Caracalla 2,
+  ~ Rome - Italy. email: geonetwork@osgeo.org
+  -->
 
-  <xsl:template name="iso19139.rndtBrief">
-    <metadata>
-			<xsl:choose>
-		    <xsl:when test="geonet:info/isTemplate='s'">
-		      <xsl:apply-templates mode="iso19139-subtemplate" select="."/>
-		      <xsl:copy-of select="geonet:info" copy-namespaces="no"/>
-		    </xsl:when>
-		    <xsl:otherwise>
-	
-			<!-- call iso19139 brief -->
-			<xsl:call-template name="iso19139-brief"/>
-		    </xsl:otherwise>
-		  </xsl:choose>    
-    </metadata>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:gmd="http://www.isotc211.org/2005/gmd"
+                xmlns:gts="http://www.isotc211.org/2005/gts"
+                xmlns:gco="http://www.isotc211.org/2005/gco"
+                xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                xmlns:srv="http://www.isotc211.org/2005/srv"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:gml="http://www.opengis.net/gml"
+                xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:geonet="http://www.fao.org/geonetwork"
+                xmlns:exslt="http://exslt.org/common" xmlns:saxon="http://saxon.sf.net/"
+                version="2.0" extension-element-prefixes="saxon"
+                exclude-result-prefixes="gmx xsi gmd gco gml gts srv xlink exslt geonet">
+
+  <xsl:include href="metadata-utils.xsl"/>
+
+  <xsl:template name="view-with-header-iso19139.rndt">
+    <xsl:param name="tabs"/>
+
+    <xsl:call-template name="md-content">
+      <xsl:with-param name="title">
+        <xsl:apply-templates mode="localised"
+                             select="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:title">
+          <xsl:with-param name="langId" select="$langId"/>
+        </xsl:apply-templates>
+      </xsl:with-param>
+      <xsl:with-param name="exportButton"/>
+      <xsl:with-param name="abstract">
+        <xsl:call-template name="addLineBreaksAndHyperlinks">
+          <xsl:with-param name="txt">
+            <xsl:apply-templates mode="localised" select="gmd:identificationInfo/*/gmd:abstract">
+              <xsl:with-param name="langId" select="$langId"/>
+            </xsl:apply-templates>
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="logo">
+        <img src="../../images/logos/{//geonet:info/source}.gif" alt="logo" class="logo"/>
+      </xsl:with-param>
+      <xsl:with-param name="relatedResources">
+        <xsl:apply-templates mode="relatedResources"
+                             select="."
+        />
+      </xsl:with-param>
+      <xsl:with-param name="tabs" select="$tabs"/>
+
+    </xsl:call-template>
+
+
   </xsl:template>
 
-	<!-- main template - the way into processing iso19139.rndt -->
-	<xsl:template name="metadata-iso19139.rndt">
-		<xsl:param name="schema"/>
-		<xsl:param name="edit" select="false()"/>
-		<xsl:param name="embedded"/>
-		
-        <!--<!-\- process in profile mode first -\->
-		<xsl:variable name="rndtElements">
-			<xsl:apply-templates mode="iso19139.rndt" select="." >
-				<xsl:with-param name="schema" select="$schema"/>
-				<xsl:with-param name="edit"   select="$edit"/>
-				<xsl:with-param name="embedded" select="$embedded" />
-			</xsl:apply-templates>
-		</xsl:variable>
-		
-		<xsl:choose> 
-			
-			<!-\- If we got a match in profile mode then show it -\->
-			<xsl:when test="count($rndtElements/*)>0">
-				<xsl:copy-of select="$rndtElements"/>
-			</xsl:when>
-			
-			<!-\- Otherwise process in base iso19139 mode -\->
-			<xsl:otherwise>
-				<xsl:apply-templates mode="iso19139" select="." >
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit"   select="$edit"/>
-					<xsl:with-param name="embedded" select="$embedded" />
-				</xsl:apply-templates>
-			</xsl:otherwise>
-		</xsl:choose>-->
-		
-		<xsl:apply-templates mode="iso19139" select="." >
-			<xsl:with-param name="schema" select="$schema"/>
-			<xsl:with-param name="edit"   select="$edit"/>
-			<xsl:with-param name="embedded" select="$embedded" />
-		</xsl:apply-templates>
-	</xsl:template>	
+  <!-- View templates are available only in view mode and does not provide editing
+  capabilities. Template MUST start with "view". -->
+  <!-- ===================================================================== -->
+  <!-- iso19139-simple -->
+  <xsl:template name="metadata-iso19139.rndtview-simple" match="metadata-iso19139.rndtview-simple">
+    <!--<xsl:apply-templates mode="iso19139-simple" select="*"/>-->
 
-	<xsl:template mode="iso19139" match="gmd:MD_Metadata|*[@gco:isoType='gmd:MD_Metadata']" priority="2">
-		<xsl:param name="schema"/>
-		<xsl:param name="edit"/>
-		<xsl:param name="embedded"/>
-		
-		<xsl:variable name="dataset" select="gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue='dataset' or normalize-space(gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue)=''"/>
-		
-		<!-- thumbnail -->
-		<tr>
-			<td valign="middle" colspan="2">
-				<xsl:if test="$currTab='rndt' or $currTab='metadata' or $currTab='identification' or /root/gui/config/metadata-tab/*[name(.)=$currTab]/@flat">
-					<div style="float:left;width:70%;text-align:center;">
-						<!-- FIXME: template thumbnail seems not to exist 
-						<xsl:variable name="md">
-							<xsl:apply-templates mode="brief" select="."/>
-						</xsl:variable>
-						<xsl:variable name="metadata" select="exslt:node-set($md)/*[1]"/>
-						<xsl:call-template name="thumbnail">
-							<xsl:with-param name="metadata" select="$metadata"/>
-						</xsl:call-template>
-						-->
-					</div>
-				</xsl:if>
-				<xsl:if test="/root/gui/config/editor-metadata-relation">
-					<div style="float:right;">                                
-						<xsl:call-template name="relatedResources">
-							<xsl:with-param name="edit" select="$edit"/>
-						</xsl:call-template>
-					</div>
-				</xsl:if>
-			</td>
-		</tr>
-		
-		<xsl:choose>
-			
-			<!-- metadata tab -->
-			<xsl:when test="$currTab='metadata'">
-				<xsl:call-template name="iso19139Metadata">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:call-template>
-			</xsl:when>
-			
-			<!-- identification tab -->
-			<xsl:when test="$currTab='identification'">
-				<xsl:apply-templates mode="elementEP" select="gmd:identificationInfo|geonet:child[string(@name)='identificationInfo']">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- maintenance tab -->
-			<xsl:when test="$currTab='maintenance'">
-				<xsl:apply-templates mode="elementEP" select="gmd:metadataMaintenance|geonet:child[string(@name)='metadataMaintenance']">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- constraints tab -->
-			<xsl:when test="$currTab='constraints'">
-				<xsl:apply-templates mode="elementEP" select="gmd:metadataConstraints|geonet:child[string(@name)='metadataConstraints']">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- spatial tab -->
-			<xsl:when test="$currTab='spatial'">
-				<xsl:apply-templates mode="elementEP" select="gmd:spatialRepresentationInfo|geonet:child[string(@name)='spatialRepresentationInfo']">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- refSys tab -->
-			<xsl:when test="$currTab='refSys'">
-				<xsl:apply-templates mode="elementEP" select="gmd:referenceSystemInfo|geonet:child[string(@name)='referenceSystemInfo']">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- distribution tab -->
-			<xsl:when test="$currTab='distribution'">
-				<xsl:apply-templates mode="elementEP" select="gmd:distributionInfo|geonet:child[string(@name)='distributionInfo']">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- embedded distribution tab -->
-			<xsl:when test="$currTab='distribution2'">
-				<xsl:apply-templates mode="elementEP" select="gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- dataQuality tab -->
-			<xsl:when test="$currTab='dataQuality'">
-				<xsl:apply-templates mode="elementEP" select="gmd:dataQualityInfo|geonet:child[string(@name)='dataQualityInfo']">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- appSchInfo tab -->
-			<xsl:when test="$currTab='appSchInfo'">
-				<xsl:apply-templates mode="elementEP" select="gmd:applicationSchemaInfo|geonet:child[string(@name)='applicationSchemaInfo']">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- porCatInfo tab -->
-			<xsl:when test="$currTab='porCatInfo'">
-				<xsl:apply-templates mode="elementEP" select="gmd:portrayalCatalogueInfo|geonet:child[string(@name)='portrayalCatalogueInfo']">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- contentInfo tab -->
-			<xsl:when test="$currTab='contentInfo'">
-				<xsl:apply-templates mode="elementEP" select="gmd:contentInfo|geonet:child[string(@name)='contentInfo']">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- extensionInfo tab -->
-			<xsl:when test="$currTab='extensionInfo'">
-				<xsl:apply-templates mode="elementEP" select="gmd:metadataExtensionInfo|geonet:child[string(@name)='metadataExtensionInfo']">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			
-			<!-- ISOMinimum tab -->
-			<xsl:when test="$currTab='ISOMinimum'">
-				<xsl:call-template name="isotabs">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-					<xsl:with-param name="dataset" select="$dataset"/>
-					<xsl:with-param name="core" select="false()"/>
-				</xsl:call-template>
-			</xsl:when>
-			
-			<!-- ISOCore tab -->
-			<xsl:when test="$currTab='ISOCore'">
-				<xsl:call-template name="isotabs">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-					<xsl:with-param name="dataset" select="$dataset"/>
-					<xsl:with-param name="core" select="true()"/>
-				</xsl:call-template>
-			</xsl:when>
-			
-			<!-- ISOAll tab -->
-			<xsl:when test="$currTab='ISOAll'">
-				<xsl:call-template name="iso19139Complete">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-				</xsl:call-template>
-			</xsl:when>
-			
-			<!-- INSPIRE tab -->
-			<xsl:when test="$currTab='inspire'">
-				<xsl:call-template name="inspiretabs">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-					<xsl:with-param name="dataset" select="$dataset"/>
-				</xsl:call-template>
-			</xsl:when>
-			
-			<!-- RNDT tab -->
-			<xsl:when test="$currTab='rndt'">
-				<xsl:call-template name="rndttabs">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-					<xsl:with-param name="dataset" select="$dataset"/>
-				</xsl:call-template>
-			</xsl:when>
-			
-			<!-- default -->
-			<xsl:otherwise>
-				<xsl:call-template name="iso19139Simple">
-					<xsl:with-param name="schema" select="$schema"/>
-					<xsl:with-param name="edit" select="$edit"/>
-					<xsl:with-param name="flat" select="/root/gui/config/metadata-tab/*[name(.)=$currTab]/@flat"/>
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
+    <xsl:call-template name="view-with-header-iso19139.rndt">
+      <xsl:with-param name="tabs">
+        <xsl:call-template name="complexElementSimpleGui">
+          <xsl:with-param name="title"
+                          select="/root/gui/schemas/iso19139/strings/understandResource"/>
+          <xsl:with-param name="content">
+            <xsl:apply-templates mode="block"
+                                 select="
+                gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:date[1]
+                |gmd:identificationInfo/*/gmd:extent/*/gmd:temporalElement
+                "/>
+            <xsl:apply-templates mode="block"
+                                 select="
+                  gmd:identificationInfo/*/gmd:language
+                  |gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:edition
+                  |gmd:identificationInfo/*/gmd:topicCategory
+                  |gmd:identificationInfo/*/gmd:descriptiveKeywords
+                  |gmd:identificationInfo/*/gmd:graphicOverview[1]
+                  |gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:geographicElement
+                  "/>
+            <xsl:apply-templates mode="block"
+                                 select="gmd:referenceSystemInfo/*/gmd:referenceSystemIdentifier"/>
+          </xsl:with-param>
+        </xsl:call-template>
 
-	<!-- =================================================================== -->
-	<!-- === Javascript used by functions in this presentation XSLT          -->
-	<!-- =================================================================== -->
-	<!-- Javascript used by functions in this XSLT -->
-	<xsl:template name="iso19139.rndt-javascript">
-		<!-- original iso19139-javascript is empty as well -->
-		<!--
-		<xsl:call-template name="iso19139-javascript" />
-		-->
-		
-		<script type="text/javascript">
-			<![CDATA[
-				/**
-				 * JavaScript Functions to support the RNDT Profile
-				 */
-				 				 
-				/**
-				 * RNDT: Utility function for Vertical CRS suggestions dropdown.  
-				 */
-				function setInputCRSel(elem, hrefId){
-					var selectEl = elem;
-					var input = document.getElementById(hrefId);
-					var v = input.value;	
-				   
-				    if(selectEl.value == ""){
-						input.value = "http://www.rndt.gov.it/ReferenceSystemCode#999";
-					}else{
-						if(input.value.indexOf("ReferenceSystemCode") != -1){
-							input.value = "http://www.epsg-registry.org/export.htm?gml=urn:ogc:def:crs:" + selectEl.value;
-						}else{
-							input.value = v.substring(0, v.indexOf('EPSG')) + selectEl.value;
-						}
-					}
-				}
-				
-				/**
-				 * RNDT: gm:pass management
-				 */
-				function setConformityPass(sel, selRef, explRef){	
-					if (sel.value.indexOf("non conforme") != -1) {
-						$(selRef).value = 'false';
-						$(explRef).value = 'non conforme';
-					} else if (sel.value.indexOf("conforme") != -1) {	
-						$(selRef).value = 'true';
-						$(explRef).value = 'conforme';
-					} else {
-						$(selRef).value = 'false';
-						$(explRef).value = sel.value;
-					}
-				}
-				
-                /**
-				 * RNDT: Special validation function for the telephone/linkage in ResponsibleParty
-				 */
-				function validateNonEmpty_rndt(linkageElem, phoneRef){
-					var phone = $(phoneRef);
-					
-					if(phone && phone.value.length < 1){
-						if (linkageElem.value.length < 1) {
-					        linkageElem.addClassName('error');
-					        return false;
-					    } else {
-					        linkageElem.removeClassName('error');
-					        return true;
-					    }
-					}else{
-				        linkageElem.removeClassName('error');
-				        return true;
-					}
-				}
-				
-				/**
-				 * RNDT: Force the linkage validation when editing the phone
-				 */
-				function setValidationCheck_rndt(linkageElem, phoneRef){
-					var phone = $(phoneRef);
-					var linkage = $(linkageElem);
-					
-					if(phone){
-						phone.onkeyup = function(){
-							if(phone.value.length > 1){							
-								linkage.removeClassName('error');
-						        return true;
-							}else if(linkage.value.length < 1){
-								linkage.addClassName('error');
-						        return false;
-							}
-						};
-					}
-				}
-				
-				// //////////////////////////////////////////////////////////////
-				// Overvrite some core JS function introducing more controls 
-				// on fields in order to avoid bugs when the user delete an 
-				// element from the metadata edit page. 
-				// //////////////////////////////////////////////////////////////
-				
-				/**
-				 * See the original one in metadata-editor.js
-				 */
-				function topElement(el){
-					if(el){
-						if (el.previous() == undefined) return true;
-						else return (!isSameElement(el.previous(),el));
-					}else{
-						return false;
-					}
-				}
-				
-				/**
-				 * See the original one in metadata-editor.js
-				 */
-				function getControlsFromElement(el) {					
-					elButtons = null;
-					
-				    if(el){
-					    var id = el.getAttribute('id');
-						elButtons = $('buttons_'+id);
-						elButtons = elButtons ? elButtons.immediateDescendants() : elButtons;
-					}
-				
-					return elButtons;
-				}
-				
-				/**
-				 * See the original one in metadata-editor.js
-				 */
-				function topControls(el, min){
-					var elDescs = getControlsFromElement(el);
-					
-					if(elDescs){
-						// Check addXmlFragment control
-						var index = 0;
-						if (elDescs.length == 5) index = 1;
-						
-						// sort out +
-						if (bottomElement(el) && !orElement(el)) elDescs[0].show();
-						else elDescs[0].hide();
-						
-						// sort out +/x (addXmlFragment)
-						if (index == 1) {
-							if (bottomElement(el) && !orElement(el))
-								elDescs[index].show();
-							else
-								elDescs[index].hide();
-						}
-				
-						// sort out x
-						if (bottomElement(el)) {
-							if (min == 0) elDescs[1+index].show();
-							else elDescs[1+index].hide();
-						} else elDescs[1+index].show();
-				
-						// sort out ^
-						elDescs[2+index].hide();
-				
-						// sort out v
-						if (bottomElement(el)) elDescs[3+index].hide();
-						else elDescs[3+index].show();
-					}
-				}
-				
-				/**
-				 * See the original one in metadata-editor.js
-				 */
-				function swapControls(el1, el2){
-					var el1Descs = getControlsFromElement(el1);
-					var el2Descs = getControlsFromElement(el2);
-					for (var index = 0; index < el1Descs.length; ++index){
-						var visible1 = null;
-					 	if(el1Descs != null)
-							visible1 = el1Descs[index].visible();
-						
-						var visible2 = null;	
-					 	if(el2Descs != null)
-							visible2 = el2Descs[index].visible();
-					
-				     	if(el2Descs != null){
-					 		if (visible1) el2Descs[index].show();
-							else el2Descs[index].hide();
-					 	}	
-				
-					 	if(el1Descs != null){
-							if (visible2) el1Descs[index].show();
-							else el1Descs[index].hide();
-					 	}
-					}
-				}
-				
-				/**
-				 * See the original one in metadata-editor.js
-				 */
-				function doRemoveElementAction(action, ref, parentref, id, min){
-					var metadataId = document.mainForm.id.value;
-					var thisElement = $(id);
-					var nextElement = thisElement.next();
-					var prevElement = thisElement.previous();
-					var myExtAJaxRequest = Ext.Ajax.request({
-						url: getGNServiceURL(action),
-						method: 'GET',
-						params: {id:metadataId, ref:ref, parent:parentref},
-						success: function(result, request) {
-							var html = result.responseText;
-							if (html.blank()) { 
-								// /////////////////////////////////////////////////////////////////////
-								// We have to ensure that the elements (thisElement and prevElement) 
-								// are components of the same type before swapping controls (see later). 
-								// Otherwise the risk is to swapp controls between different components 
-								// types and this is an error.
-								// /////////////////////////////////////////////////////////////////////
-							    var prevIsSameSubComponent = false;
-							    if(thisElement && prevElement){
-							    	prevIsSameSubComponent = thisElement.id.split('_')[0] == prevElement.id.split('_')[0];
-							    }
-							    
-							    // /////////////////////////////////////////////////////////////////////
-								// We have to ensure that the elements (thisElement and nextElement) 
-								// are components of the same type before set top controls (see later). 
-								// Otherwise the risk is to set controls between different components 
-								// types and this is an error.
-								// /////////////////////////////////////////////////////////////////////
-							    var nextIsSameSubComponent = false;
-							    if(thisElement && nextElement){
-							    	nextIsSameSubComponent = thisElement.id.split('_')[0] == nextElement.id.split('_')[0];
-							    }
-							    
-							    // /////////////////////////////////////////////////////////////////
-								// More than one left, no child-placeholder returned
-							    // in simple mode, returned snippets will be empty in all cases
-							    // because a geonet:child alone is not take into account.
-							    // No elements are suggested then and last element is removed.
-							    // //////////////////////////////////////////////////////////////////							    
-								if (bottomElement(thisElement) && document.mainForm.currTab.value!='simple') { 
-									if(prevIsSameSubComponent){
-										swapControls(thisElement,prevElement);
-									}									
-									thisElement.remove();
-									thisElement = prevIsSameSubComponent ? prevElement : undefined;
-								} else {
-									thisElement.remove();
-									thisElement = nextIsSameSubComponent ? nextElement : undefined;
-								}
-								
-								if (topElement(thisElement)){
-									topControls(thisElement,min); 
-								}
-							} else { 
-								// ///////////////////////////////////////////////////////
-								// Last one, so replace with child-placeholder returned
-								// ///////////////////////////////////////////////////////
-								if (orElement(thisElement)) thisElement.remove();
-								else thisElement.replace(html);
-							} 
-							setBunload(true); // Reset warning for window destroy
-						},
-						failure:function (result, request) { 
-							Ext.MessageBox.alert(translate("errorDeleteElement") + name + " " + translate("errorFromDoc") 
-										+ " / status " + result.status + " text: " + result.statusText + " - " + translate("tryAgain"));
-							setBunload(true); // reset warning for window destroy
-						}
-					});
-				}
-				
-			 ]]>
-		</script>
-	</xsl:template>
-	
-	<!-- Do not try do display element with no children in view mode -->
-	<!-- Usually this should not happen because GeoNetwork will add default children like gco:CharacterString. 
-		 Fixed #299
-		 TODO : metadocument contains geonet:element which is probably not required ?
-	-->
-	<xsl:template mode="iso19139" priority="200" match="*[(@gco:nilReason='missing' or @gco:nilReason='unknown') and geonet:element and count(*)=1]"/>
-	
-	<xsl:template mode="iso19139" priority="200" match="*[geonet:element and count(*)=1 and text()='']"/>
-	
-	<!--<xsl:template mode="iso19139" match="gmd:DQ_AbsoluteExternalPositionalAccuracy">
-		<xsl:param name="schema"/>
-		<xsl:param name="edit"/>
-		
-		<xsl:choose>
-			<xsl:when test="$edit=true()">
-                <!-\-<xsl:apply-templates mode="complexElement" select=".">
-                    <xsl:with-param name="schema" select="$schema"/>
-                    <xsl:with-param name="edit"   select="$edit"/>
-                </xsl:apply-templates>-\->
+
+        <xsl:call-template name="complexElementSimpleGui">
+          <xsl:with-param name="title" select="/root/gui/schemas/iso19139/strings/contactInfo"/>
+          <xsl:with-param name="content">
+            <xsl:apply-templates mode="block"
+                                 select="gmd:identificationInfo/*/gmd:pointOfContact"/>
+          </xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="complexElementSimpleGui">
+          <xsl:with-param name="title" select="/root/gui/schemas/iso19139/strings/mdContactInfo"/>
+          <xsl:with-param name="content">
+            <xsl:apply-templates mode="block"
+                                 select="gmd:contact"/>
+          </xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:call-template name="complexElementSimpleGui">
+          <xsl:with-param name="title" select="/root/gui/schemas/iso19139/strings/techInfo"/>
+          <xsl:with-param name="content">
+            <xsl:apply-templates mode="block"
+                                 select="
+              gmd:identificationInfo/*/gmd:spatialResolution[1]
+              |gmd:identificationInfo/*/gmd:spatialRepresentationType
+              |gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage
+              |gmd:identificationInfo/*/gmd:resourceConstraints[1]
+              "
+            ></xsl:apply-templates>
+          </xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:variable name="modifiedDate" select="gmd:dateStamp/*[1]"/>
+        <span class="madeBy">
+          <xsl:value-of select="/root/gui/strings/changeDate"/>&#160;<xsl:value-of
+          select="if (contains($modifiedDate, 'T')) then substring-before($modifiedDate, 'T') else $modifiedDate"/>
+          |
+          <xsl:value-of select="/root/gui/strings/uuid"/>&#160;<xsl:value-of
+          select="gmd:fileIdentifier"/>
+        </span>
+
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="block"
+                match="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:date[1]"
+                priority="100">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title" select="/root/gui/schemas/iso19139/strings/refDate"/>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:apply-templates mode="iso19139.rndt-simple"
+                             select=".|following-sibling::node()[name(.)='gmd:date']"/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="block" match="gmd:identificationInfo/*/gmd:extent/*/gmd:temporalElement"
+                priority="100">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title" select="/root/gui/schemas/iso19139/strings/temporalRef"/>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:apply-templates mode="iso19139.rndt-simple" select="*/gmd:extent/*/gml:beginPosition
+                                                            |*/gmd:extent/*/gml:endPosition
+                                                            |*/gmd:extent//gml:timePosition"/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="block" match="gmd:identificationInfo/*/gmd:resourceConstraints[1]"
+                priority="100">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title" select="/root/gui/schemas/iso19139/strings/constraintInfo"/>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:apply-templates mode="iso19139.rndt-simple"
+                             select="*|following-sibling::node()[name(.)='gmd:resourceConstraints']/*"/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="block" match="gmd:contact|gmd:pointOfContact" priority="100">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title">
+        <xsl:value-of
+          select="geonet:getCodeListValue(/root/gui/schemas, 'iso19139', 'gmd:CI_RoleCode', */gmd:role/gmd:CI_RoleCode/@codeListValue)"
+        />
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:apply-templates mode="iso19139-simple"
+                             select="
+          gmd:CI_ResponsibleParty/descendant::node()[(gco:CharacterString and normalize-space(gco:CharacterString)!='')]
+          "/>
+
+        <xsl:for-each
+          select="gmd:CI_ResponsibleParty/gmd:contactInfo/gmd:CI_Contact/gmd:onlineResource/gmd:CI_OnlineResource">
+
+          <xsl:call-template name="simpleElement">
+            <xsl:with-param name="id" select="generate-id(.)"/>
+            <xsl:with-param name="title">
+              <xsl:call-template name="getTitle">
+                <xsl:with-param name="name" select="'gmd:onlineResource'"/>
+                <xsl:with-param name="schema" select="$schema"/>
+              </xsl:call-template>
+            </xsl:with-param>
+            <xsl:with-param name="help"></xsl:with-param>
+            <xsl:with-param name="content">
+              <a href="{gmd:linkage/gmd:URL}" target="_blank">
+                <xsl:value-of select="gmd:name/gco:CharacterString"/>
+              </a>
+            </xsl:with-param>
+          </xsl:call-template>
+        </xsl:for-each>
+
+        <xsl:if test="descendant::gmx:FileName">
+          <img src="{descendant::gmx:FileName/@src}" alt="logo" class="logo orgLogo"
+               style="float:right;"/>
+          <!-- FIXME : css -->
+        </xsl:if>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="block"
+                match="gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords"
+                priority="90">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+
+        <xsl:if test="gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString">
+          (<xsl:value-of
+          select="gmd:thesaurusName/gmd:CI_Citation/gmd:title/gco:CharacterString"/>)
+        </xsl:if>
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:for-each select="gmd:keyword">
+          <xsl:if test="position() &gt; 1">
+            <xsl:text>, </xsl:text>
+          </xsl:if>
+
+
+          <xsl:choose>
+            <xsl:when test="gmx:Anchor">
+              <a href="{gmx:Anchor/@xlink:href}">
+                <xsl:value-of
+                  select="if (gmx:Anchor/text()) then gmx:Anchor/text() else gmx:Anchor/@xlink:href"/>
+              </a>
             </xsl:when>
             <xsl:otherwise>
-				<xsl:apply-templates mode="simpleElement" select=".">
-					<xsl:with-param name="schema" select="$schema"/>
-                    <xsl:with-param name="edit"   select="$edit"/>
-                    <xsl:with-param name="text" select="."/>
-                </xsl:apply-templates>
+              <xsl:call-template name="translatedString">
+                <xsl:with-param name="schema" select="$schema"/>
+                <xsl:with-param name="langId">
+                  <xsl:call-template name="getLangId">
+                    <xsl:with-param name="langGui" select="/root/gui/language"/>
+                    <xsl:with-param name="md"
+                                    select="ancestor-or-self::*[name(.)='gmd:MD_Metadata' or @gco:isoType='gmd:MD_Metadata']"/>
+                  </xsl:call-template>
+                </xsl:with-param>
+              </xsl:call-template>
             </xsl:otherwise>
-        </xsl:choose>
-        
-	</xsl:template>-->
+          </xsl:choose>
+
+        </xsl:for-each>
+
+
+        <xsl:variable name="type" select="gmd:type/gmd:MD_KeywordTypeCode/@codeListValue"/>
+        <xsl:if test="$type != ''">
+          (<xsl:value-of
+          select="/root/gui/schemas/*[name(.)='iso19139']/codelists/codelist[@name = 'gmd:MD_KeywordTypeCode']/
+            entry[code = $type]/label"/>)
+        </xsl:if>
+
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="block" match="gmd:referenceSystemInfo/*/gmd:referenceSystemIdentifier">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:value-of select="gmd:RS_Identifier/gmd:code/gco:CharacterString"/>
+        <xsl:if test="gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString != ''">
+          <xsl:value-of
+            select="concat(' (', gmd:RS_Identifier/gmd:codeSpace/gco:CharacterString, ')')"/>
+        </xsl:if>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="block" match="gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage"
+                priority="90">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:apply-templates mode="iso19139.rndt-simple"
+                             select="gmd:LI_Lineage/gmd:statement"/>
+
+        <xsl:if test=".//gmd:source[@uuidref]">
+
+          <xsl:call-template name="simpleElement">
+            <xsl:with-param name="id" select="generate-id(.)"/>
+            <xsl:with-param name="title">
+              <xsl:call-template name="getTitle">
+                <xsl:with-param name="name" select="'gmd:source'"/>
+                <xsl:with-param name="schema" select="$schema"/>
+              </xsl:call-template>
+            </xsl:with-param>
+            <xsl:with-param name="help"></xsl:with-param>
+            <xsl:with-param name="content">
+              <xsl:for-each select=".//gmd:source[@uuidref]">
+                <br/>
+                <a href="#" onclick="javascript:catalogue.metadataShow('{@uuidref}');">
+                  <xsl:call-template name="getMetadataTitle">
+                    <xsl:with-param name="uuid" select="@uuidref"/>
+                  </xsl:call-template>
+                </a>
+              </xsl:for-each>
+            </xsl:with-param>
+          </xsl:call-template>
+        </xsl:if>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+
+  <xsl:template mode="block" match="gmd:identificationInfo/*/gmd:language" priority="99">
+   <xsl:variable name="lang">
+      <xsl:call-template name="langId_from_gmdlanguage19139">
+            <xsl:with-param name="gmdlanguage" select="."/>
+      </xsl:call-template>
+   </xsl:variable>
+
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:call-template name="iso19139GetIsoLanguage">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="edit" select="false()"/>
+          <xsl:with-param name="value"
+                          select="$lang"/>
+        </xsl:call-template>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="block" match="gmd:topicCategory
+    " priority="98">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:variable name="choiceValue" select="gmd:MD_TopicCategoryCode"/>
+        <xsl:variable name="name" select="'gmd:MD_TopicCategoryCode'"/>
+        <xsl:variable name="schemaLabel"
+                      select="/root/gui/schemas/*[name(.)=$schema]/codelists/codelist[@name = $name]/entry[code = $choiceValue]/label"/>
+
+        <xsl:variable name="label">
+          <xsl:choose>
+            <xsl:when
+              test="normalize-space($schemaLabel) = '' and starts-with($schema, 'iso19139.')">
+              <!-- Check iso19139 label -->
+              <xsl:value-of
+                select="/root/gui/schemas/*[name(.)='iso19139']/codelists/codelist[@name = $name]/entry[code = $choiceValue]/label"/>
+            </xsl:when>
+            <xsl:when test="$schemaLabel">
+              <xsl:value-of select="$schemaLabel"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="$choiceValue"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+
+        <xsl:value-of select="$label"/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="block"
+                match="gmd:identificationInfo/*/gmd:extent/gmd:EX_Extent/gmd:geographicElement"
+                priority="99">
+    <xsl:apply-templates mode="iso19139" select="gmd:EX_GeographicBoundingBox">
+      <xsl:with-param name="schema" select="$schema"/>
+      <xsl:with-param name="edit" select="false()"/>
+    </xsl:apply-templates>
+  </xsl:template>
+
+
+  <xsl:template mode="block" match="gmd:graphicOverview" priority="98">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <!-- FIXME template name or move to generic layout -->
+        <xsl:apply-templates mode="logo"
+                             select=".|following-sibling::node()[name(.)='gmd:graphicOverview']"/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+
+  <xsl:template mode="block" match="*[*/@codeList]" priority="100">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:apply-templates mode="iso19139GetAttributeText" select="*/@codeListValue">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="edit" select="false()"/>
+        </xsl:apply-templates>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="block" match="*[gco:Integer]
+    " priority="99">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:value-of select="gco:Integer"/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+  <xsl:template mode="block" match="*[gco:CharacterString]
+    " priority="98">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <!-- TODO multilingual -->
+        <xsl:value-of select="gco:CharacterString"/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+
+  <xsl:template mode="block" match="gmd:spatialResolution" priority="100">
+    <xsl:call-template name="simpleElementSimpleGUI">
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="'gmd:spatialResolution'"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="name" select="name(.)"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:apply-templates mode="iso19139.rndt-simple"
+                             select="
+          gmd:MD_Resolution/gmd:equivalentScale/gmd:MD_RepresentativeFraction/gmd:denominator
+          |gmd:MD_Resolution/gmd:distance
+          |following-sibling::node()[name(.)='gmd:spatialResolution']/gmd:MD_Resolution/gmd:equivalentScale/gmd:MD_RepresentativeFraction/gmd:denominator
+          |following-sibling::node()[name(.)='gmd:spatialResolution']/gmd:MD_Resolution/gmd:distance
+          "/>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="block" match="*|@*">
+    <xsl:apply-templates mode="block" select="*"/>
+  </xsl:template>
+
+
+  <!-- List of related resources defined in the online resource section of the metadata record.
+-->
+  <xsl:template mode="relatedResources"
+                match="*">
+    <table class="related">
+      <tbody>
+        <tr
+          style="display:none;"><!-- FIXME needed by JS to append other type of relation from xml.relation service -->
+          <td class="main"></td>
+          <td></td>
+        </tr>
+        <xsl:for-each-group
+          select="gmd:distributionInfo/descendant::gmd:onLine[gmd:CI_OnlineResource/gmd:linkage/gmd:URL!='']"
+          group-by="gmd:CI_OnlineResource/gmd:protocol">
+          <tr>
+            <td class="main">
+              <!-- Usually, protocole format is OGC:WMS-version-blahblah, remove ':' and get
+              prefix of the protocol to set the CSS icon class-->
+              <xsl:variable name="protocolIcon">
+                <xsl:choose>
+                  <xsl:when
+                    test="translate(substring-before(current-grouping-key(), '-'), ':', '') = ''">
+                    WWWLINK
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of
+                      select="translate(substring-before(current-grouping-key(), '-'), ':', '')"/>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:variable>
+              <span class="{$protocolIcon} icon">
+                <xsl:value-of
+                  select="/root/gui/schemas/iso19139/labels/element[@name = 'gmd:protocol']/helper/option[@value=normalize-space(current-grouping-key())]"/>
+              </span>
+            </td>
+            <td>
+              <ul>
+                <xsl:for-each select="current-group()">
+                  <xsl:variable name="desc">
+                    <xsl:apply-templates mode="localised"
+                                         select="gmd:CI_OnlineResource/gmd:description">
+                      <xsl:with-param name="langId" select="$langId"/>
+                    </xsl:apply-templates>
+                  </xsl:variable>
+                  <li>
+                    <a href="{gmd:CI_OnlineResource/gmd:linkage/gmd:URL}">
+                      <xsl:choose>
+                        <xsl:when
+                          test="contains(current-grouping-key(), 'OGC') or contains(current-grouping-key(), 'DOWNLOAD')">
+                          <!-- Name contains layer, feature type, coverage ... -->
+                          <xsl:choose>
+                            <xsl:when test="normalize-space($desc)!=''">
+                              <xsl:value-of select="$desc"/>
+                              <xsl:if test="gmd:CI_OnlineResource/gmd:name/gmx:MimeFileType/@type">
+                                (<xsl:value-of
+                                select="gmd:CI_OnlineResource/gmd:name/gmx:MimeFileType/@type"/>)
+                              </xsl:if>
+                            </xsl:when>
+                            <xsl:when
+                              test="normalize-space(gmd:CI_OnlineResource/gmd:name/gco:CharacterString)!=''">
+                              <xsl:value-of
+                                select="gmd:CI_OnlineResource/gmd:name/gco:CharacterString"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                              <xsl:value-of select="gmd:CI_OnlineResource/gmd:linkage/gmd:URL"/>
+                            </xsl:otherwise>
+                          </xsl:choose>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:if test="normalize-space($desc)!=''">
+                            <xsl:attribute name="title">
+                              <xsl:value-of select="$desc"/>
+                            </xsl:attribute>
+                          </xsl:if>
+                          <xsl:choose>
+                            <xsl:when
+                              test="normalize-space(gmd:CI_OnlineResource/gmd:name/gco:CharacterString)!=''">
+                              <xsl:value-of
+                                select="gmd:CI_OnlineResource/gmd:name/gco:CharacterString"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                              <xsl:value-of select="gmd:CI_OnlineResource/gmd:linkage/gmd:URL"/>
+                            </xsl:otherwise>
+                          </xsl:choose>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </a>
+
+                    <!-- Display add to map action for WMS -->
+                    <xsl:if test="contains(current-grouping-key(), 'WMS')">
+                      &#160;
+                      <a href="#" class="md-mn addLayer"
+                         onclick="app.switchMode('1', true);app.getIMap().addWMSLayer([[
+                              '{gmd:CI_OnlineResource/gmd:description/gco:CharacterString}',
+                              '{gmd:CI_OnlineResource/gmd:linkage/gmd:URL}',
+                              '{gmd:CI_OnlineResource/gmd:name/gco:CharacterString}', '{generate-id()}']]);">
+                        &#160;</a>
+                    </xsl:if>
+                    <xsl:if test="contains(current-grouping-key(), 'WMC')">
+                      &#160;
+                      <a href="#" class="md-mn addLayer"
+                         onclick="app.switchMode('1', true);app.getIMap().addWMC('{gmd:CI_OnlineResource/gmd:linkage/gmd:URL}');">
+                        &#160;</a>
+                    </xsl:if>
+                  </li>
+                </xsl:for-each>
+              </ul>
+            </td>
+          </tr>
+        </xsl:for-each-group>
+      </tbody>
+    </table>
+  </xsl:template>
+
+
+  <!-- Extract logo -->
+  <xsl:template mode="logo" match="gmd:graphicOverview">
+    <xsl:variable name="fileName" select="gmd:MD_BrowseGraphic/gmd:fileName/gco:CharacterString"/>
+    <xsl:if test="normalize-space($fileName)!=''">
+      <xsl:variable name="url"
+                    select="if (contains($fileName, '://'))
+        then $fileName
+        else geonet:get-thumbnail-url($fileName, //geonet:info, /root/gui/locService)"/>
+
+      <a href="{$url}" rel="lightbox-viewset">
+        <img class="thumbnail" src="{$url}" alt="thumbnail"
+             title="{gmd:MD_BrowseGraphic/gmd:fileDescription/gco:CharacterString}"/>
+      </a>
+    </xsl:if>
+  </xsl:template>
+
+
+  <!-- Hide them -->
+  <xsl:template mode="iso19139.rndt-simple" match="
+    geonet:*|*[@gco:nilReason='missing']|@gco:isoType" priority="99"/>
+  <!-- Don't display -->
+
+  <!-- these elements should be boxed -->
+  <xsl:template mode="iso19139.rndt-simple"
+                match="gmd:identificationInfo|gmd:distributionInfo
+    |gmd:descriptiveKeywords|gmd:thesaurusName
+    |gmd:spatialRepresentationInfo
+    |gmd:pointOfContact|gmd:contact
+    |gmd:dataQualityInfo
+    |gmd:MD_Constraints|gmd:MD_LegalConstraints|gmd:MD_SecurityConstraints
+    |gmd:referenceSystemInfo|gmd:equivalentScale|gmd:projection|gmd:ellipsoid
+    |gmd:extent|gmd:geographicBox|gmd:EX_TemporalExtent
+    |gmd:MD_Distributor
+    |srv:containsOperations|srv:SV_CoupledResource|gmd:metadataConstraints"
+                priority="2">
+    <xsl:call-template name="complexElement">
+      <xsl:with-param name="id" select="generate-id(.)"/>
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="helpLink">
+        <xsl:call-template name="getHelpLink">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:apply-templates mode="iso19139-simple" select="@*|*">
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:apply-templates>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+
+  <xsl:template mode="iso19139.rndt-simple"
+                match="
+    gmd:*[gco:Integer|gco:Decimal|gco:Boolean|gco:Real|gco:Measure|gco:Length|gco:Distance|gco:Angle|gco:Scale|gco:RecordType|gmx:MimeFileType]|
+    srv:*[gco:Integer|gco:Decimal|gco:Boolean|gco:Real|gco:Measure|gco:Length|gco:Distance|gco:Angle|gco:Scale|gco:RecordType|gmx:MimeFileType]"
+                priority="2">
+
+    <xsl:call-template name="simpleElement">
+      <xsl:with-param name="id" select="generate-id(.)"/>
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="help"></xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:value-of
+          select="gco:Integer|gco:Decimal|gco:Boolean|gco:Real|gco:Measure
+          |gco:Length|gco:Distance|gco:Angle|gco:Scale|gco:RecordType|gmx:MimeFileType"
+        />
+        <xsl:if test="gco:Distance/@uom">
+          <xsl:text>&#160;</xsl:text>
+          <xsl:choose>
+            <xsl:when test="contains(gco:Distance/@uom, '#')">
+              <a href="{gco:Distance/@uom}">
+                <xsl:value-of select="substring-after(gco:Distance/@uom, '#')"/>
+              </a>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="gco:Distance/@uom"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:if>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="iso19139.rndt-simple"
+                match="
+    gmd:date|
+    srv:date"
+                priority="99">
+
+    <xsl:call-template name="simpleElement">
+      <xsl:with-param name="id" select="generate-id(.)"/>
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="' '"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="help"></xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:value-of
+          select="./gmd:CI_Date/gmd:date/gco:Date|gmd:CI_Date/gmd:date/gco:DateTime"
+        />
+        <xsl:if
+          test="normalize-space(gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue)!=''">
+          (
+          <xsl:apply-templates mode="iso19139GetAttributeText"
+                               select="gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue">
+            <xsl:with-param name="schema" select="$schema"/>
+            <xsl:with-param name="edit" select="false()"/>
+          </xsl:apply-templates>
+          )
+        </xsl:if>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+
+  <!-- gco:CharacterString are swallowed -->
+  <!-- TODO : PT_FreeText -->
+  <xsl:template mode="iso19139.rndt-simple" match="*[gco:CharacterString]" priority="2">
+
+    <xsl:call-template name="simpleElement">
+      <xsl:with-param name="id" select="generate-id(.)"/>
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="help"></xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:call-template name="addLineBreaksAndHyperlinks">
+          <xsl:with-param name="txt">
+            <xsl:apply-templates mode="localised" select=".">
+              <xsl:with-param name="langId" select="$langId"/>
+            </xsl:apply-templates>
+          </xsl:with-param>
+        </xsl:call-template>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <!-- TODO other gml time information may be used. -->
+  <xsl:template mode="iso19139.rndt-simple" match="gml:endPosition|gml:beginPosition|gml:timePosition"
+                priority="2">
+    <xsl:call-template name="simpleElement">
+      <xsl:with-param name="id" select="generate-id(.)"/>
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="help"></xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:value-of select="."/>
+
+        <xsl:for-each select="@*">
+          <xsl:variable name="label">
+            <xsl:call-template name="getTitle">
+              <xsl:with-param name="name" select="name(.)"/>
+              <xsl:with-param name="schema" select="$schema"/>
+            </xsl:call-template>
+          </xsl:variable>
+          |
+          <xsl:value-of select="concat($label, ': ', .)"/>
+        </xsl:for-each>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template mode="iso19139.rndt-simple" match="gmd:*[*/@codeList]|srv:*[*/@codeList]">
+
+    <xsl:call-template name="simpleElement">
+      <xsl:with-param name="id" select="generate-id(.)"/>
+      <xsl:with-param name="type" select="*/@codeListValue"/>
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="help"></xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:apply-templates mode="iso19139GetAttributeText" select="*/@codeListValue">
+          <xsl:with-param name="schema" select="$schema"/>
+          <xsl:with-param name="edit" select="false()"/>
+        </xsl:apply-templates>
+      </xsl:with-param>
+    </xsl:call-template>
+  </xsl:template>
+
+  <!-- All others
+   -->
+  <xsl:template mode="iso19139.rndt-simple" match="*|@*">
+    <xsl:call-template name="simpleElement">
+      <xsl:with-param name="id" select="generate-id(.)"/>
+      <xsl:with-param name="title">
+        <xsl:call-template name="getTitle">
+          <xsl:with-param name="name" select="name(.)"/>
+          <xsl:with-param name="schema" select="$schema"/>
+        </xsl:call-template>
+      </xsl:with-param>
+      <xsl:with-param name="help"></xsl:with-param>
+      <xsl:with-param name="content">
+        <xsl:variable name="empty">
+          <xsl:apply-templates mode="iso19139IsEmpty" select="."/>
+        </xsl:variable>
+        <xsl:if test="$empty!=''">
+          <xsl:apply-templates mode="iso19139.rndt-simple" select="*|@*"/>
+        </xsl:if>
+      </xsl:with-param>
+    </xsl:call-template>
+
+  </xsl:template>
 
 </xsl:stylesheet>
