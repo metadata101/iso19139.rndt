@@ -45,7 +45,7 @@
 
   <xsl:template match="gmd:MD_Metadata|*[@gco:isoType='gmd:MD_Metadata']">
     <xsl:variable name="info" select="geonet:info"/>
-    <xsl:element name="{if (@gco:isoType) then @gco:isoType else name()}">
+    <xsl:copy>
       <xsl:apply-templates select="gmd:fileIdentifier"/>
       <xsl:apply-templates select="gmd:language"/>
       <xsl:apply-templates select="gmd:characterSet"/>
@@ -66,7 +66,7 @@
         <xsl:copy-of select="$info"/>
       </xsl:if>
 
-    </xsl:element>
+    </xsl:copy>
   </xsl:template>
 
   <!-- =================================================================== -->
@@ -219,6 +219,10 @@
 
   <!-- Avoid insertion of schema location in the CSW response - which is invalid. -->
   <xsl:template match="@xsi:schemaLocation"/>
+
+  <!-- Remove empty topicCat https://github.com/metadata101/iso19139.rndt/issues/25 -->
+  <xsl:template match="gmd:topicCategory[not(gmd:MD_TopicCategoryCode)]" priority="10" />
+
 </xsl:stylesheet>
 
 
