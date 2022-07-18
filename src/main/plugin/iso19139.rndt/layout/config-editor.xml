@@ -4383,7 +4383,8 @@
                    or="checkPointDescription" in = "gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified"/>
 
 
-              <field name="cornerPoints" templateModeOnly="true" notDisplayedIfMissing="true" xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:cornerPoints"
+              <field name="cornerPoints" 
+                     xpath="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:cornerPoints"
                      del=".">
                 <template>
                   <values>
@@ -4401,7 +4402,8 @@
                 </template>
               </field>
 
-              <action type="add" btnLabel="cornerPoints" name="gmd:cornerPoints" or="cornerPoints" in ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified">
+              <action type="add" btnLabel="cornerPoints" name="gmd:cornerPoints" or="cornerPoints" 
+                      in ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified">
                 <template>
                   <snippet>
                     <gmd:cornerPoints>
