@@ -985,6 +985,13 @@
         </xsl:copy>
     </xsl:template>
 
+
+  <!-- copied from iso19139 UFI.xsl -->
+  <xsl:template
+    match="gmd:topicCategory[not(gmd:MD_TopicCategoryCode)]"
+    priority="10" />
+
+
   <!--ensure field date does not contains time-->
   <xsl:template match="gco:Date">
     <xsl:choose>
