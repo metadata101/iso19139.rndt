@@ -322,6 +322,17 @@
         <directive data-gn-need-help="user-guide/describing-information/creating-metadata.html"/>
       </sidePanel>
 
+        <thesaurusList>
+           <thesaurus key="external.theme.httpinspireeceuropaeutheme-theme"
+                      fieldset="false"
+                      transformations="to-iso19139-keyword-with-anchor"/>
+           <thesaurus key="external.theme.rndt-all1"
+                      maxtags="1"
+                      fieldset="false"
+                      transformations="to-iso19139-keyword-with-anchor"/>   
+        </thesaurusList>
+
+
       <tab id="default" default="true" mode="flat">
 
         <section name="metadataInfo">
@@ -1181,7 +1192,11 @@
 
                <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'GEMET - INSPIRE themes, version 1.0') ]"
-                      del="." />
+                      del="." >
+                   <directiveAttributes  />
+
+
+               </field>
 
                <action type="add"
                        btnLabel="keyword_add_inspire_theme"
