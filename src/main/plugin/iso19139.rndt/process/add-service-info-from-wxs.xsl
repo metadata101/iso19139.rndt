@@ -27,6 +27,7 @@
                 xmlns:gco="http://www.isotc211.org/2005/gco"
                 xmlns:srv="http://www.isotc211.org/2005/srv"
                 xmlns:gmd="http://www.isotc211.org/2005/gmd"
+                xmlns:gmx="http://www.isotc211.org/2005/gmx"
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 xmlns:wfs="http://www.opengis.net/wfs"
                 xmlns:wcs="http://www.opengis.net/wcs"
@@ -73,9 +74,9 @@
                 select="//gmd:distributionInfo/gmd:MD_Distribution/gmd:transferOptions/gmd:MD_DigitalTransferOptions/gmd:onLine//gmd:CI_OnlineResource[(contains(gmd:protocol/gco:CharacterString, 'OGC:WMS')
     or contains(gmd:protocol/gco:CharacterString, 'OGC:WFS')) and gmd:linkage/gmd:URL = $wxsServiceUrl]"/>
   <xsl:variable name="wxsProtocol" select="$wxsOnlineNodes/gmd:protocol/gmx:Anchor/text()"/>
-  <xsl:variable name="wxsProtocolLink" select="$wxsOnlineNodes/gmd:protocol/gmx:Anchor/@link:hreaf"/>
+  <xsl:variable name="wxsProtocolLink" select="$wxsOnlineNodes/gmd:protocol/gmx:Anchor/@xlink:href"/>
   <xsl:variable name="wxsDesc" select="$wxsOnlineNodes/gmd:description/gmx:Anchor/text()"/>
-  <xsl:variable name="wxsDescLink" select="$wxsOnlineNodes/gmd:description/gmx:Anchor/@link:hreaf"/>
+  <xsl:variable name="wxsDescLink" select="$wxsOnlineNodes/gmd:description/gmx:Anchor/@xlink:href"/>
 
   <xsl:variable name="alreadyContainsOp" select="count(//srv:containsOperations[
       srv:SV_OperationMetadata/srv:connectPoint/gmd:CI_OnlineResource/gmd:linkage/gmd:URL=$wxsServiceUrl])"/>

@@ -23,10 +23,14 @@
   -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:exslt="http://exslt.org/common" xmlns:geonet="http://www.fao.org/geonetwork"
+                xmlns:exslt="http://exslt.org/common" 
+                xmlns:geonet="http://www.fao.org/geonetwork"
                 xmlns:gco="http://www.isotc211.org/2005/gco"
                 xmlns:srv="http://www.isotc211.org/2005/srv"
-                xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:math="http://exslt.org/math"
+                xmlns:gmd="http://www.isotc211.org/2005/gmd" 
+                xmlns:math="http://exslt.org/math"
+                xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
                 version="2.0"
                 exclude-result-prefixes="srv gco gmd exslt geonet math">
 
