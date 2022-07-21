@@ -17,7 +17,8 @@
 
   <xsl:template match="geonet:*" priority="2"/>
 
-  <xsl:template match="gmd:thesaurusName[contains(gmd:CI_Citation/gmd:title/*/text(),'GEMET')]">
+  <xsl:template match="gmd:thesaurusName[
+                       normalize-space(lower-case(gmd:CI_Citation/gmd:title/*/text())) = 'gemet - inspire themes, version 1.0']">
     <xsl:choose>
       <xsl:when test="count(gmd:CI_Citation/gmd:title[not(gmx:Anchor) or gmx:Anchor/@xlink:href!='http://www.eionet.europa.eu/gemet/inspire_themes'])>0
       or string(gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date) != '2008-06-01'">

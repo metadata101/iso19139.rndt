@@ -44,7 +44,7 @@
 
    <xsl:template match="@*|node()[name(.)!='geonet:info']">
       <xsl:variable name="info" select="geonet:info"/>
-      <xsl:copy copy-namespaces="no">
+      <xsl:copy>
          <xsl:apply-templates select="@*|node()[name(.)!='geonet:info']"/>
          <!-- GeoNetwork elements added when resultType is equal to results_with_summary -->
          <xsl:if test="$displayInfo = 'true'">
@@ -69,5 +69,8 @@
          <xsl:value-of select="text()"/>
       </gco:CharacterString>
    </xsl:template>
+
+  <!-- Remove empty topicCat https://github.com/metadata101/iso19139.rndt/issues/25 -->
+  <xsl:template match="gmd:topicCategory[not(gmd:MD_TopicCategoryCode)]" priority="10" />   
    
 </xsl:stylesheet>

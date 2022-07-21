@@ -262,7 +262,7 @@
           <gmd:thesaurusName>
             <gmd:CI_Citation>
               <gmd:title>
-                <gco:CharacterString>GEMET - INSPIRE themes, version 1.0</gco:CharacterString>
+                <gmx:Anchor xlink:href="http://www.eionet.europa.eu/gemet/inspire_themes">GEMET - INSPIRE themes, version 1.0</gmx:Anchor>
               </gmd:title>
               <gmd:date>
                 <gmd:CI_Date>
