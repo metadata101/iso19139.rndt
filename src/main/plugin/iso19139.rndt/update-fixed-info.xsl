@@ -297,7 +297,7 @@
     </xsl:variable>
 
 
-  <xsl:template match="gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation" priority="10">
+  <xsl:template match="gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation" priority="10">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:apply-templates select="gmd:title"/>
@@ -342,6 +342,28 @@
     </xsl:copy>
   </xsl:template>
 
+<!--Modifica CSI: Distinto comportamento dei servizi che non devono avere il tag gmd:series-->
+<xsl:template match="gmd:identificationInfo/srv:SV_ServiceIdentification/gmd:citation/gmd:CI_Citation" priority="10">
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+      <xsl:apply-templates select="gmd:title"/>
+      <xsl:apply-templates select="gmd:alternateTitle"/>
+      <xsl:apply-templates select="gmd:date"/>
+      <xsl:apply-templates select="gmd:edition"/>
+      <xsl:apply-templates select="gmd:editionDate"/>
+
+      <gmd:identifier>
+         <gmd:MD_Identifier>
+            <gmd:code>
+               <gco:CharacterString><xsl:value-of select="$resId"/></gco:CharacterString>
+            </gmd:code>
+         </gmd:MD_Identifier>
+      </gmd:identifier>
+
+      <xsl:apply-templates select="gmd:citedResponsibleParty"/>
+      </xsl:copy>
+  </xsl:template>
+  <!--fine modifica CSI-->
 
     <!-- ================================================================= -->
     <!-- CI_Series -->
