@@ -332,7 +332,6 @@
                       transformations="to-iso19139-keyword-with-anchor"/>   
         </thesaurusList>
 
-
       <tab id="default" default="true" mode="flat">
 
         <section name="metadataInfo">
@@ -2862,15 +2861,16 @@
                             <gmd:URL>http://url.accesso.servizio.it</gmd:URL>
                           </gmd:linkage>
                           <gmd:protocol>
-                            <gmx:Anchor
-                              xlink:href=""/>
+                              <gmx:Anchor xlink:href=""/>
                           </gmd:protocol>
                           <gmd:applicationProfile>
-                            <gmx:Anchor
-                              xlink:href=""/>
+                              <gmx:Anchor xlink:href=""/>
                           </gmd:applicationProfile>
+                          <gmd:name>
+                              <gco:CharacterString></gco:CharacterString>
+                          </gmd:name>                         
                           <gmd:description>
-                            <gmx:Anchor xlink:href=""/>
+                              <gmx:Anchor xlink:href=""/>
                           </gmd:description>
                         </gmd:CI_OnlineResource>
                       </gmd:onLine>
@@ -2896,23 +2896,21 @@
                                 <gmd:URL>http://url.accesso.servizio.it</gmd:URL>
                               </gmd:linkage>
                               <gmd:protocol>
-                                <gmx:Anchor
-                                  xlink:href=""/>
+                                  <gmx:Anchor xlink:href=""/>
                               </gmd:protocol>
                               <gmd:applicationProfile>
-                                <gmx:Anchor
-                                  xlink:href=""/>
+                                  <gmx:Anchor xlink:href=""/>
                               </gmd:applicationProfile>
                               <gmd:name>
-                                <gco:CharacterString/>
+                                  <gco:CharacterString/>
                               </gmd:name>
                               <gmd:description>
-                                <gmx:Anchor xlink:href=""/>
+                                  <gmx:Anchor xlink:href=""/>
                               </gmd:description>
                               <gmd:function>
-                                <gmd:CI_OnLineFunctionCode
-                                  codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">
-                                </gmd:CI_OnLineFunctionCode>
+                                  <gmd:CI_OnLineFunctionCode 
+                                      codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">
+                                  </gmd:CI_OnLineFunctionCode>
                               </gmd:function>
                             </gmd:CI_OnlineResource>
                           </gmd:onLine>
