@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>schemas</artifactId>
-    <groupId>org.geonetwork-opensource</groupId>
-    <version>3.7</version>
+    <groupId>org.geonetwork-opensource.schemas</groupId>
+    <version>3.12-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -13,7 +13,7 @@
   <name>GeoNetwork schema plugin for ISO19139.rndt standard</name>
 
   <properties>
-    <gn.version>3.10.4-SNAPSHOT</gn.version>
+    <gn.version>3.12-SNAPSHOT</gn.version>
   </properties>
 
   <dependencies>
@@ -28,12 +28,12 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>org.geonetwork-opensource</groupId>
       <artifactId>core</artifactId>
       <version>${gn.version}</version>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>org.geonetwork-opensource</groupId>
       <artifactId>domain</artifactId>
       <version>${gn.version}</version>
     </dependency>
@@ -60,6 +60,25 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>plugin-assembly</id>
+            <phase>package</phase>
+            <goals><goal>single</goal></goals>
+            <inherited>false</inherited>
+            <configuration>
+             <appendAssemblyId>false</appendAssemblyId>
+             <descriptors>
+              <descriptor>src/assembly/schema-plugin.xml</descriptor>
+             </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 

@@ -313,11 +313,11 @@
 
       <sidePanel>
         <directive data-gn-validation-report=""/>
-        <directive data-gn-onlinesrc-list=""/>
-        <directive gn-geo-publisher=""
+<!--        <directive data-gn-onlinesrc-list=""/>-->
+<!--        <directive gn-geo-publisher=""
                    data-ng-if="gnCurrentEdit.geoPublisherConfig"
                    data-config="{{gnCurrentEdit.geoPublisherConfig}}"
-                   data-lang="lang"/>
+                   data-lang="lang"/>-->
         <directive data-gn-suggestion-list=""/>
         <directive data-gn-need-help="user-guide/describing-information/creating-metadata.html"/>
       </sidePanel>
@@ -331,7 +331,6 @@
                       fieldset="false"
                       transformations="to-iso19139-keyword-with-anchor"/>   
         </thesaurusList>
-
 
       <tab id="default" default="true" mode="flat">
 
@@ -593,6 +592,14 @@
                (3.2.4.5) interesse generale
              vanno escluse le keyword relative a servizi:
                (4.1.2.1) gestire keyword INSPIRE service types
+             vanno esclusi i thesauri usati come codelist 
+                    Conditions Applying To Access and Use
+                    regions
+                    Indice Pubblica amministrazione
+                    INSPIRE Protocol values
+                    Limitations on public access
+                    Online description code
+                    Tipo di servizio di dati territoriali               
           -->
 
           <section name="descriptiveKeywords">
@@ -603,7 +610,14 @@
                      and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'INSPIRE priority data set'))
                      and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Spatial scope'))
                      and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Registro dei dati di interesse generale per il RNDT'))
-                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'REGOLAMENTO (CE) N. 1205/2008'))
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'REGOLAMENTO (CE) N. 1205/2008'))
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Conditions Applying To Access and Use'))
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Continents, countries, sea regions of the world'))
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Indice Pubblica Amministrazione'))
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'INSPIRE Protocol values'))
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Limitations on public access'))
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Online description code'))
+                     and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Spatial data service type'))
                      ]"
                    notDisplayedIfMissing="true"
                    name="keyword_con_thesaurus"
@@ -648,7 +662,15 @@
                            '-external.theme.httpinspireeceuropaeumetadatacodelistSpatialScope-SpatialScope',
                            '-external.theme.rndt-all1',
                            '-external.theme.httpinspireeceuropaeumetadatacodelistSpatialDataServiceCategory-SpatialDataServiceCategory',
-                           '-external.theme.httpinspireeceuropaeumetadatacodelistSpatialDataServiceCategory-SpatialDataServiceCategory_RNDT',
+                           '-external.theme.httpinspireeceuropaeumetadatacodelistSpatialDataServiceCategory-SpatialDataServiceCategory_RNDT',                           
+                           '-external.theme.httpinspireeceuropaeumetadatacodelistConditionsApplyingToAccessAndUse-ConditionsApplyingToAccessAndUse',
+                           '-external.place.regions',
+                           '-external.theme.amministrazioni',
+                           '-local.theme.amministrazioni',
+                           '-external.theme.httpinspireeceuropaeumetadatacodelistProtocolValue-ProtocolValue',
+                           '-external.theme.httpinspireeceuropaeumetadatacodelistLimitationsOnPublicAccess-LimitationsOnPublicAccess',
+                           '-external.theme.httpinspireeceuropaeumetadatacodelistOnLineDescriptionCode-OnLineDescriptionCode',
+                           '-external.theme.httpinspireeceuropaeumetadatacodelistSpatialDataServiceType-SpatialDataServiceType',
                            gmd:MD_Metadata/gmd:identificationInfo
                                           //gmd:thesaurusName/*/gmd:identifier/*/
                                             gmd:code/gmx:Anchor/
@@ -2862,15 +2884,16 @@
                             <gmd:URL>http://url.accesso.servizio.it</gmd:URL>
                           </gmd:linkage>
                           <gmd:protocol>
-                            <gmx:Anchor
-                              xlink:href=""/>
+                              <gmx:Anchor xlink:href=""/>
                           </gmd:protocol>
                           <gmd:applicationProfile>
-                            <gmx:Anchor
-                              xlink:href=""/>
+                              <gmx:Anchor xlink:href=""/>
                           </gmd:applicationProfile>
+                          <gmd:name>
+                              <gco:CharacterString></gco:CharacterString>
+                          </gmd:name>                         
                           <gmd:description>
-                            <gmx:Anchor xlink:href=""/>
+                              <gmx:Anchor xlink:href=""/>
                           </gmd:description>
                         </gmd:CI_OnlineResource>
                       </gmd:onLine>
@@ -2896,23 +2919,21 @@
                                 <gmd:URL>http://url.accesso.servizio.it</gmd:URL>
                               </gmd:linkage>
                               <gmd:protocol>
-                                <gmx:Anchor
-                                  xlink:href=""/>
+                                  <gmx:Anchor xlink:href=""/>
                               </gmd:protocol>
                               <gmd:applicationProfile>
-                                <gmx:Anchor
-                                  xlink:href=""/>
+                                  <gmx:Anchor xlink:href=""/>
                               </gmd:applicationProfile>
                               <gmd:name>
-                                <gco:CharacterString/>
+                                  <gco:CharacterString/>
                               </gmd:name>
                               <gmd:description>
-                                <gmx:Anchor xlink:href=""/>
+                                  <gmx:Anchor xlink:href=""/>
                               </gmd:description>
                               <gmd:function>
-                                <gmd:CI_OnLineFunctionCode
-                                  codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">
-                                </gmd:CI_OnLineFunctionCode>
+                                  <gmd:CI_OnLineFunctionCode 
+                                      codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode" codeListValue="download">
+                                  </gmd:CI_OnLineFunctionCode>
                               </gmd:function>
                             </gmd:CI_OnlineResource>
                           </gmd:onLine>

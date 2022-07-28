@@ -21,8 +21,6 @@
                 exclude-result-prefixes="#all">
 
   <xsl:include xmlns:svrl="http://purl.oclc.org/dsdl/svrl" href="../../../xsl/utils-fn.xsl"/>
-  <xsl:include href="../../iso19139/layout/layout-custom-fields-keywords.xsl"/>
-
 
   <xsl:variable name="thesaurusDir" select="java:getThesaurusDir()"/>
 
