@@ -23,18 +23,24 @@
   -->
 
 <!--
-Stylesheet used to remove a reference to a online resource.
+Stylesheet used to detach a feature catalogue
 -->
-<xsl:stylesheet xmlns:geonet="http://www.fao.org/geonetwork" 
-                xmlns:gmd="http://www.isotc211.org/2005/gmd"
-                xmlns:gmx="http://www.isotc211.org/2005/gmx"
-                xmlns:gco="http://www.isotc211.org/2005/gco"
-                xmlns:xlink="http://www.w3.org/1999/xlink"                
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:geonet="http://www.fao.org/geonetwork"
                 version="2.0">
 
-  <xsl:param name="url"/>
-  <xsl:param name="name"/>
+  <xsl:param name="uuidref"/>
+
+  <!-- Detach -->
+  <!-- Remove attributes uuidref and xlink:href -->
+  <xsl:template
+    match="gmd:contentInfo/gmd:MD_FeatureCatalogueDescription/gmd:featureCatalogueCitation[@uuidref=$uuidref]"
+    priority="2">
+    <xsl:copy>
+      <xsl:apply-templates select="node()"/>
+    </xsl:copy>
+  </xsl:template>
+
 
   <!-- Do a copy of every nodes and attributes -->
   <xsl:template match="@*|node()">
@@ -44,13 +50,6 @@ Stylesheet used to remove a reference to a online resource.
   </xsl:template>
 
   <!-- Remove geonet:* elements. -->
-  <xsl:template
-    match="geonet:*|gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:linkage/gmd:URL) = $url and normalize-space(gmd:CI_OnlineResource/gmd:name/gco:CharacterString) = $name]"
-    priority="2"/>
-  <xsl:template
-    match="geonet:*|gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:linkage/gmd:URL) = $url and count(gmd:CI_OnlineResource/gmd:name/gmd:PT_FreeText/gmd:textGroup[gmd:LocalisedCharacterString = $name]) > 0]"
-    priority="2"/>
-  <xsl:template
-    match="geonet:*|gmd:onLine[normalize-space(gmd:CI_OnlineResource/gmd:linkage/gmd:URL) = $url and normalize-space(gmd:CI_OnlineResource/gmd:protocol/gmx:Anchor/@xlink:href)='download']"
-    priority="2"/>
+  <xsl:template match="geonet:*" priority="2"/>
+
 </xsl:stylesheet>
