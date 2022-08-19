@@ -1,0 +1,27 @@
+{
+  "config": {
+    "display": "radio",
+    "types": [{
+      "label": "addThumbnail",
+      "sources": {
+        "filestore": true,
+        "thumbnailMaker": true
+      },
+      "icon": "fa gn-icon-thumbnail",
+      "fileStoreFilter": "*.{jpg,JPG,jpeg,JPEG,png,PNG,gif,GIF}",
+      "process": "thumbnail-add",
+      "fields": {
+        "url": {
+          "param": "thumbnail_url",
+          "isMultilingual": false,
+          "required": true
+        },
+        "name": {"param": "thumbnail_desc"}
+      }
+    }],
+    "multilingualFields": ["name", "desc"],
+    "wmsResources": {
+      "addLayerNamesMode": "resourcename"
+    }
+  }
+}
