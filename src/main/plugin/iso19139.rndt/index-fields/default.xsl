@@ -170,14 +170,14 @@
          <xsl:choose>
             <xsl:when test="$extThesaurus">
 	       <!-- <xsl:message>EXT IPA THESAURUS FOUND</xsl:message> -->
-               <xsl:value-of select="$extThesaurus/rdf:RDF/skos:Concept[@rdf:about=$iPA or ends-with(@rdf:about, $iPAterminator)]/skos:prefLabel"/>
+               <xsl:value-of select="$extThesaurus/rdf:RDF/skos:Concept[@rdf:about=$iPA or ends-with(@rdf:about, $iPAterminator)]/skos:prefLabel[@xml:lang='it']"/>
             </xsl:when>
             <xsl:otherwise>
                <xsl:variable name="locThesaurusFile" select="concat($thesauriDir, '/local/thesauri/theme/','amministrazioni.rdf')"/>
                <xsl:variable name="locThesaurus" select="document($locThesaurusFile)"/>
                <xsl:if test="$locThesaurus">
                   <!-- <xsl:message>LOCAL IPA THESAURUS FOUND</xsl:message> -->
-                  <xsl:value-of select="$locThesaurus/rdf:RDF/rdf:Description[ends-with(@rdf:about, $iPAterminator)]/skos:prefLabel"/>
+                  <xsl:value-of select="$locThesaurus/rdf:RDF/rdf:Description[ends-with(@rdf:about, $iPAterminator)]/skos:prefLabel[@xml:lang='it']"/>
                </xsl:if>
             </xsl:otherwise>
          </xsl:choose>
