@@ -221,7 +221,7 @@ public class RNDTMetadataManager extends BaseMetadataManager {
             env.addContent(new Element("parentUuid").setText(parentUuid));
         }
         if (metadataId.isPresent()) {
-            final Path resourceDir = Lib.resource.getDir(context, Params.Access.PRIVATE, metadataId.get());
+            final Path resourceDir = Lib.resource.getDir(Params.Access.PRIVATE, metadataId.get());
             env.addContent(new Element("datadir").setText(resourceDir.toString()));
         }
 

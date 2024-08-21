@@ -5,40 +5,36 @@
   <parent>
     <artifactId>schemas</artifactId>
     <groupId>org.geonetwork-opensource.schemas</groupId>
-    <version>3.12-SNAPSHOT</version>
+    <version>3.12.12</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>schema-iso19139.rndt</artifactId>
   <name>GeoNetwork schema plugin for ISO19139.rndt standard</name>
 
-  <properties>
-    <gn.version>3.12-SNAPSHOT</gn.version>
-  </properties>
-
   <dependencies>
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>org.geonetwork-opensource.schemas</groupId>
       <artifactId>schema-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>org.geonetwork-opensource.schemas</groupId>
       <artifactId>schema-iso19139</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geonetwork-opensource</groupId>
       <artifactId>core</artifactId>
-      <version>${gn.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geonetwork-opensource</groupId>
       <artifactId>domain</artifactId>
-      <version>${gn.version}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>org.geonetwork-opensource.schemas</groupId>
       <artifactId>schema-core</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
