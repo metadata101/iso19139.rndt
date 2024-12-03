@@ -38,7 +38,7 @@
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                 exclude-result-prefixes="#all">
 
-  <xsl:import href="../convert/functions.xsl"/>
+  <xsl:import href="../../iso19139/convert/functions.xsl"/>
   <xsl:include href="../../../xsl/utils-fn.xsl"/>
   <xsl:include href="inspire-util.xsl" />
 

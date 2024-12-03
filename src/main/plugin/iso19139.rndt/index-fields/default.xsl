@@ -37,7 +37,7 @@
                 version="2.0"
                 exclude-result-prefixes="#all">
 
-  <xsl:include href="../convert/functions.xsl"/>
+  <xsl:include href="../../iso19139/convert/functions.xsl"/>
   <xsl:include href="../../../xsl/utils-fn.xsl"/>
   <xsl:include href="inspire-util.xsl" />
   <xsl:include href="../rndt-utils.xsl"/>
