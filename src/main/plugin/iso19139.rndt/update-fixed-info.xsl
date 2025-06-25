@@ -510,9 +510,13 @@
       </xsl:choose>
     </xsl:template>
 
-    <!-- ================================================================= -->
+   <!-- ================================================================= -->
 
-  <!-- ================================================================= -->
+   <xsl:template
+     match="gmd:topicCategory[not(gmd:MD_TopicCategoryCode)]"
+     priority="10" />
+
+   <!-- ================================================================= -->
 
   <xsl:template match="gmd:hierarchyLevelName" priority="10">
     <xsl:if test="exists(../gmd:identificationInfo/srv:SV_ServiceIdentification)">
@@ -620,20 +624,26 @@
         <gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/">
             <xsl:apply-templates select="@*[name(.)!='codeList']"/>
 
-            <!-- add a node text-->
-            <xsl:value-of select="@codeListValue"/>
+      <xsl:if test="normalize-space(./text()) != '' and string(@codeListValue)">
+        <xsl:value-of select="java:getIsoLanguageLabel(@codeListValue, $mainLanguage)" />
+        <!--
+             If wanting to get strings from codelists then add gmd:LanguageCode codelist in loc/{lang}/codelists.xml
+             and use getCodelistTranslation instead of getIsoLanguageLabel. This will allow for custom values such as "eng; USA"
+             i.e.
+             <xsl:value-of select="java:getCodelistTranslation(name(), string(@codeListValue), string($mainLanguage))"/>
+        -->
+      </xsl:if>
         </gmd:LanguageCode>
     </xsl:template>
+
 
     <xsl:template match="gmd:*[@codeListValue]">
         <xsl:copy>
             <xsl:apply-templates select="@*"/>
             <xsl:attribute name="codeList">
-                <xsl:value-of select="concat('http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#',local-name(.))"/>
+               <xsl:value-of
+                  select="concat('http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#',local-name(.))"/>
             </xsl:attribute>
-
-            <!-- add a node text-->
-            <xsl:value-of select="@codeListValue"/>
         </xsl:copy>
     </xsl:template>
 
@@ -643,9 +653,9 @@
         <xsl:copy>
             <xsl:apply-templates select="@*"/>
             <xsl:attribute name="codeList">
-                <xsl:value-of select="concat('http://www.isotc211.org/2005/iso19119/resources/Codelist/gmxCodelists.xml#',local-name(.))"/>
+               <xsl:value-of
+                  select="concat('http://www.isotc211.org/2005/iso19119/resources/Codelist/gmxCodelists.xml#',local-name(.))"/>
             </xsl:attribute>
-
             <!-- add a node text-->
             <xsl:value-of select="@codeListValue"/>
         </xsl:copy>
@@ -782,7 +792,7 @@
             <xsl:apply-templates select="@*"/>
             <xsl:if test="@id and (normalize-space(@id)='' or normalize-space(@id)!=$id)">
                 <xsl:attribute name="id">
-                    <xsl:value-of select="$id"/>
+          <xsl:value-of select="normalize-space($id)"/>
                 </xsl:attribute>
             </xsl:if>
             <xsl:apply-templates select="node()"/>
@@ -854,127 +864,35 @@
         </xsl:call-template>
     </xsl:template>
 
-    <!-- Replace gmx:Anchor element by a simple gco:CharacterString.
-        gmx:Anchor is usually used for linking element using xlink.
-        TODO : Currently gmx:Anchor is not supported
-    -->
-    <!--xsl:template match="gmx:Anchor">
-        <gco:CharacterString>
-            <xsl:value-of select="."/>
-        </gco:CharacterString>
-    </xsl:template-->
-
     <!-- Don't save some gmd:thesaurusName|gmd:MD_Keywords sub elements because not required by RNDT -->
     <!--xsl:template match="gmd:thesaurusName/gmd:CI_Citation/gmd:identifier"/>
     <xsl:template match="gmd:MD_Keywords/gmd:type"/-->
     <!-- ======== -->
 
-    <!-- ================================================================= -->
-    <!-- transform datoPubblico as requested by specs -->
 
-<!--        <gmd:resourceConstraints>
-				<gmd:MD_LegalConstraints>
-					<gmd:accessConstraints>
-						<gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_RestrictionCode" codeListValue="trademark">trademark</gmd:MD_RestrictionCode>
-					</gmd:accessConstraints>
-					<gmd:useConstraints>
-						<gmd:MD_RestrictionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_RestrictionCode" codeListValue="otherRestrictions">otherRestrictions</gmd:MD_RestrictionCode>
-					</gmd:useConstraints>
-					<gmd:otherConstraints>
-						<gco:CharacterString>Dato pubblico</gco:CharacterString>
-					</gmd:otherConstraints>-->
+  <!-- Remove geographic/temporal extent if doesn't contain child elements.
+       Used to clean up the element, for example when removing the the temporal extent
+       in the editor, to avoid an element like <gmd:extent><gmd:EX_Extent></gmd:EX_Extent></gmd:extent>,
+       that causes a validation error in schematron iso: [ISOFTDS19139:2005-TableA1-Row23] - Extent element required
+  -->
+  <xsl:template match="gmd:extent[gmd:EX_Extent/not(*)]|srv:extent[gmd:EX_Extent/not(*)]"/>
 
-    <!--xsl:template match="gmd:resourceConstraints[.//gmd:MD_RestrictionCode/@codeListValue='datoPubblico']">
-        <xsl:copy>
-            <xsl:apply-templates select="@*|node()" mode="datoPubblico"/>
-        </xsl:copy>
-    </xsl:template-->
 
-       <!-- forza otherConstraints a Dato pubblico, che esista o no -->
-    <!--xsl:template match="gmd:MD_LegalConstraints" mode="datoPubblico">
-        <xsl:copy>
-            <xsl:apply-templates select="child::* except (gmd:otherConstraints)" mode="datoPubblico"/>
+  <!-- Remove empty boolean  and set gco:nilReason='unknown' -->
+  <xsl:template match="*[gco:Boolean and not(string(gco:Boolean))]">
+    <xsl:copy>
+      <xsl:copy-of select="@*[name() != 'gco:nilReason']" />
+      <xsl:attribute name="gco:nilReason">unknown</xsl:attribute>
+    </xsl:copy>
+  </xsl:template>
 
-            <gmd:otherConstraints>
-                <gco:CharacterString>Dato pubblico</gco:CharacterString>
-            </gmd:otherConstraints>
-        </xsl:copy>
-
-    </xsl:template-->
-
-       <!-- replace MD_RestrictionCode codeListValue-->
-    <!--xsl:template match="gmd:MD_RestrictionCode[@codeListValue='datoPubblico']" mode="datoPubblico">
-        <gmd:MD_RestrictionCode
-            codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/Codelist/ML_gmxCodelists.xml#MD_RestrictionCode"
-            codeListValue="otherRestrictions">otherRestrictions"</gmd:MD_RestrictionCode>
-    </xsl:template-->
-
-       <!-- copy everything else as is -->
-    <!--xsl:template match="@*|node()" mode="datoPubblico">
-        <xsl:copy>
-            <xsl:apply-templates select="@*|node()" mode="datoPubblico"/>
-        </xsl:copy>
-    </xsl:template-->
-
-    <!-- ================================================================= -->
-    <!-- setup the CRS info -->
-
-    <!-- prendi solo l'ultimo nodo, che dovrebbe essere l'ultimo aggiunto -->
-
-    <!--xsl:template match="gmd:referenceSystemInfo">
-        <xsl:message>Elimino CRS <xsl:value-of select=".//gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code"/></xsl:message>
-    </xsl:template-->
-
-    <!--xsl:template match="gmd:referenceSystemInfo[last()]">
-        <xsl:copy>
-            <xsl:apply-templates select="@*|node()"/>
-        </xsl:copy>
-    </xsl:template-->
-
-    <!-- parsa il CRS e imposta il formato RNDT -->
-
-    <!--xsl:template match="gmd:referenceSystemIdentifier/gmd:RS_Identifier">
-
-       <xsl:variable name="fullcode" select="gmd:code/gco:CharacterString/text()"/>
-       <xsl:variable name="epsgcode" select="substring-before(substring-after($fullcode,'(EPSG:'), ')')"/>
-
-       <xsl:message>FULL: <xsl:value-of select="$fullcode"/></xsl:message>
-       <xsl:message>EPSG: <xsl:value-of select="$epsgcode"/></xsl:message>
-
-        <xsl:copy>
-            <xsl:choose-->
-                <!-- se e' un numero, consideralo un codice EPSG -->
-                <!--xsl:when test="string(number($fullcode)) != 'NaN'">
-                    <xsl:call-template name="srsEPSGsnippet">
-                        <xsl:with-param name="epsg" select="$fullcode"/>
-                    </xsl:call-template>
-                </xsl:when-->
-                <!-- se il code contiene la stringa "(EPSG:nnnn)" dovrebbe essere un codice preso dal CRS selector -->
-                <!--xsl:when test="string(number($epsgcode)) != 'NaN'">
-                    <xsl:call-template name="srsEPSGsnippet">
-                        <xsl:with-param name="epsg" select="$epsgcode"/>
-                    </xsl:call-template>
-                </xsl:when-->
-                <!-- altrimenti copia solo il codice, che dovrebbe essere stringa RNDT -->
-                <!--xsl:otherwise>
-                    <xsl:apply-templates select="gmd:code"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:copy>
-    </xsl:template>
-
-    <xsl:template name="srsEPSGsnippet">
-        <xsl:param name="epsg"/>
-
-            <gmd:code>
-                <gco:CharacterString>
-                    <xsl:value-of select="$epsg"/>
-                </gco:CharacterString>
-            </gmd:code>
-            <gmd:codeSpace>
-                <gco:CharacterString>http://www.epsg-registry.org/</gco:CharacterString>
-            </gmd:codeSpace>
-    </xsl:template-->
+  <!-- Remove gco:nilReason if not empty boolean -->
+  <xsl:template match="*[string(gco:Boolean)]">
+    <xsl:copy>
+      <xsl:copy-of select="@*[name() != 'gco:nilReason']" />
+      <xsl:apply-templates select="*" />
+    </xsl:copy>
+  </xsl:template>
 
     <!-- ================================================================= -->
     <!-- copy everything else as is -->
@@ -985,12 +903,22 @@
         </xsl:copy>
     </xsl:template>
 
+  <xsl:template match="@xsi:schemaLocation">
+    <xsl:if test="java:getSettingValue('system/metadata/validation/removeSchemaLocation') = 'false'">
+      <xsl:copy-of select="."/>
+    </xsl:if>
+  </xsl:template>
 
-  <!-- copied from iso19139 UFI.xsl -->
-  <xsl:template
-    match="gmd:topicCategory[not(gmd:MD_TopicCategoryCode)]"
-    priority="10" />
-
+  <!-- Force element with DateTime_PropertyType to have gco:DateTime -->
+  <xsl:template match="gmd:dateTime|gmd:plannedAvailableDateTime|gmd:usageDateTime"
+                priority="200">
+    <xsl:variable name="value" select="gco:Date|gco:DateTime" />
+    <xsl:copy>
+      <gco:DateTime>
+        <xsl:value-of select="$value" /><xsl:if test="string-length($value) = 10">T00:00:00</xsl:if>
+      </gco:DateTime>
+    </xsl:copy>
+  </xsl:template>
 
   <!--ensure field date does not contains time-->
   <xsl:template match="gco:Date">
