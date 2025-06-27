@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<editor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../config-editor.xsd"
+<editor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"        
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
         xmlns:gn="http://www.fao.org/geonetwork"
         xmlns:gco="http://www.isotc211.org/2005/gco"
@@ -9,47 +8,44 @@
         xmlns:srv="http://www.isotc211.org/2005/srv"
         xmlns:gml="http://www.opengis.net/gml/3.2"
         xmlns:xlink="http://www.w3.org/1999/xlink"
-        >
+        xsi:noNamespaceSchemaLocation="../../../../../../config-editor.xsd">
 
   <!-- Form field type configuration. Default is text. -->
   <fields>
     <for name="gmd:abstract" use="textarea"/>
+    <for name="gmd:checkPointDescription" use="textarea"/>
     <for name="gmd:credit" use="textarea"/>
     <for name="gmd:description" use="textarea"/>
+    <for name="gmd:evaluationMethodDescription" use="textarea"/>
     <for name="gmd:explanation" use="textarea"/>
     <for name="gmd:handlingDescription" use="textarea"/>
     <for name="gmd:maintenanceNote" use="textarea"/>
+    <for name="gmd:measureDescription" use="textarea"/>
     <for name="gmd:purpose" use="textarea"/>
     <for name="gmd:orderingInstructions" use="textarea"/>
+    <for name="gmd:otherConstraints" use="textarea"/>
     <for name="gmd:statement" use="textarea"/>
     <for name="gmd:supplementalInformation" use="textarea"/>
     <for name="gmd:specificUsage" use="textarea"/>
     <for name="gmd:userNote" use="textarea"/>
     <for name="gmd:useLimitation" use="textarea"/>
-    <for name="gmd:title" use="textarea"/>
-    <for name="gmd:URL" use="textarea"/>
-    <for name="gmd:individualName" use="textarea"/>
-    <for name="gml:identifier" use="textarea"/>
-    <for name="gmd:nameOfMeasure" use="textarea"/>
-    <for name="gmd:evaluationMethodDescription" use="textarea"/>
-    <for name="gco:Record" use="number"/>
-    <for name="gco:Measure" use="number"/>
     <for name="gco:Distance" use="number"/>
     <for name="gco:Decimal" use="number"/>
     <for name="gco:Integer" use="number"/>
     <for name="gco:Real" use="number"/>
     <for name="gco:Boolean" use="checkbox"/>
-    <for name="gco:CharacterString" use="textarea"/>
-    <for name="gml:coordinates" use="textarea"/>
-    <for name="gml:name" use="textarea"/>
-    <for name="gco:Date" use="date"/>
-    <for name="gco:DateTime" use="datetime"/>
+    <for name="gco:Date" use="data-gn-date-picker"/>
+    <for name="gco:DateTime" use="data-gn-date-picker"/>
 
-    <for name="gco:aName" use ="textarea"/>
-    <for name="gco:Name" use="textarea"/>
+
     <!-- gmx:FileName/@src attribute -->
-    <for name="src" use="data-gn-logo-selector"/>
+    <for name="gmx:FileName/@src" use="data-gn-logo-selector"/>
+
     <for name="gmd:electronicMailAddress" use="email"/>
+
+    <for name="gmd:language" use="data-gn-language-picker"/>
+    <for name="gmd:languageCode" use="data-gn-language-picker"/>
+
     <for name="gmd:country" use="data-gn-country-picker"/>
     <for name="gmd:referenceSystemInfo" addDirective="data-gn-crs-selector"/>
     <for name="gmd:MD_ScopeCode" use="textarea"/>
@@ -112,13 +108,13 @@
  <fieldsWithFieldset>
    <name>gmd:MD_Metadata</name>
    <name>gmd:identificationInfo</name>
-   <name>gmd:pointOfContact</name>
-   <name>gmd:distributorContact</name>
-   <name>gmd:contact</name>
    <name>gmd:distributionInfo</name>
    <name>gmd:portrayalCatalogueInfo</name>
    <name>gmd:portrayalCatalogueCitation</name>
+   <name>gmd:thesaurusName</name>
    <name>gmd:spatialRepresentationInfo</name>
+   <name>gmd:pointOfContact</name>
+   <name>gmd:contact</name>
    <name>gmd:graphicOverview</name>
    <name>gmd:citedResponsibleParty</name>
    <name>gmd:dataQualityInfo</name>
@@ -130,32 +126,33 @@
    <name>gmd:projection</name>
    <name>gmd:ellipsoid</name>
    <name>gmd:attributes</name>
-   <name>gmd:MD_Identifier</name>
-   <name>gmd:thesaurusName</name>
    <name>gmd:geographicBox</name>
    <name>gmd:EX_TemporalExtent</name>
+   <name>gmd:EX_VerticalExtent</name>
    <name>gmd:MD_Distributor</name>
    <name>srv:containsOperations</name>
-   <name>srv:SV_OperationMetadata</name>
-   <name>srv:parameters</name>
    <name>srv:SV_Parameter</name>
    <name>gmd:metadataConstraints</name>
    <name>gmd:aggregationInfo</name>
    <name>gmd:processStep</name>
    <name>gmd:lineage</name>
    <name>gmd:centerPoint</name>
-   <name>gmd:EX_VerticalExtent</name>
    <name>gml:verticalCS</name>
    <name>gml:verticalDatum</name>
-   <name>gmd:identifier</name>
    <name>gmd:axisDimensionProperties</name>
+   <name>gmd:identifier</name>
+
+   <name>gmd:MD_Identifier</name>
    <name>gmd:MD_ImageDescription</name>
+   <name>gmd:MD_MaintenanceInformation</name>
+   <name>srv:SV_OperationMetadata</name>
+   <name>gmd:distributorContact</name>
+   <name>srv:parameters</name>
    <name>gmd:contentType</name>
    <name>gmd:dimension</name>
    <name>gmd:presentationForm</name>
    <name>gco:Record</name>
    <name>gmd:resourceMaintenance</name>
-   <name>gmd:MD_MaintenanceInformation</name>
    <name>gmd:minimumValue</name>
    <name>gmd:maximumValue</name>
  </fieldsWithFieldset>
@@ -183,13 +180,21 @@
     -->
     <exclude>
       <name>gmd:identifier</name>
-
+      <name>gmd:metadataStandardName</name>
+      <name>gmd:metadataStandardVersion</name>
+      <name>gmd:hierarchyLevelName</name>
+      <name>gmd:parentIdentifier</name>
       <name>gmd:dataSetURI</name>
       <name>gmd:postalCode</name>
+      <name>gmd:city</name>
       <name>gmd:language</name>
+      <name>gmd:administrativeArea</name>
       <name>gmd:voice</name>
       <name>gmd:facsimile</name>
       <name>gmd:dataset</name>
+      <name>gmd:other</name>
+      <name>gmd:hoursOfService</name>
+      <name>gmd:applicationProfile</name>
       <name>gmd:page</name>
       <name>gmd:date</name>
       <name>gmd:linkage</name>
@@ -198,8 +203,10 @@
       <name>gmd:fileType</name>
       <name>gmd:unitsOfDistribution</name>
       <name>gmd:amendmentNumber</name>
+      <name>gmd:specification</name>
       <name>gmd:fileDecompressionTechnique</name>
       <name>gmd:turnaround</name>
+      <name>gmd:fees</name>
       <name>gmd:userDeterminedLimitations</name>
       <name>gmd:codeSpace</name>
       <name>gmd:version</name>
@@ -209,22 +216,35 @@
       <name>gmd:errorStatistic</name>
       <name>gmd:schemaAscii</name>
       <name>gmd:softwareDevelopmentFileFormat</name>
+      <name>gmd:shortName</name>
       <name>gmd:condition</name>
       <name>gmd:maximumOccurence</name>
       <name>gmd:domainValue</name>
+      <name>gmd:minimumValue</name>
+      <name>gmd:maximumValue</name>
+      <name>gmd:dimensionSize</name>
+      <name>gmd:numberOfDimensions</name>
       <name>gmd:densityUnits</name>
       <name>gmd:descriptor</name>
       <name>gmd:denominator</name>
+      <name>gmd:classificationSystem</name>
+      <name>gmd:checkPointDescription</name>
+      <name>gmd:transformationDimensionDescription</name>
+      <name>gmd:orientationParameterDescription</name>
       <name>gmd:distance</name>
+      <name>gmd:geometricObjectCount</name>
+      <name>srv:name</name>
       <name>srv:invocationName</name>
       <name>srv:serviceTypeVersion</name>
       <name>srv:operationName</name>
       <name>srv:identifier</name>
+      <name>srv:serviceType</name>
       <name ancestor="gmd:thesaurusName">gmd:code</name>
       <name ancestor="gmd:aggregateDataSetIdentifier">gmd:code</name>
       <name ancestor="gmd:CI_Citation">gmd:code</name>
     </exclude>
   </multilingualFields>
+
   <tableFields>
     <table for="gmd:CI_ResponsibleParty" fieldset="true">
       <header>
