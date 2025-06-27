@@ -1,25 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
-                  xmlns:gml="http://www.opengis.net/gml/3.2"
-                  xmlns:srv="http://www.isotc211.org/2005/srv"
-                  xmlns:gmx="http://www.isotc211.org/2005/gmx"
-                  xmlns:gco="http://www.isotc211.org/2005/gco"
-                  xmlns:gmd="http://www.isotc211.org/2005/gmd"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  exclude-result-prefixes="gmd srv gmx">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:gml="http://www.opengis.net/gml/3.2"
+                xmlns:gml320="http://www.opengis.net/gml"
+                xmlns:srv="http://www.isotc211.org/2005/srv"
+                xmlns:gmx="http://www.isotc211.org/2005/gmx"
+                xmlns:gco="http://www.isotc211.org/2005/gco"
+                xmlns:gmd="http://www.isotc211.org/2005/gmd"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlns:gn-fn-iso19139="http://geonetwork-opensource.org/xsl/functions/profiles/iso19139"
+                xmlns:geonet="http://www.fao.org/geonetwork"
+                xmlns:java="java:org.fao.geonet.util.XslUtil"
+                version="2.0" exclude-result-prefixes="#all">
 
     <xsl:include href="../iso19139/convert/functions.xsl"/>
     <xsl:include href="rndt-utils.xsl"/>
 
+  <xsl:variable name="serviceUrl" select="/root/env/siteURL"/>
+  <xsl:variable name="node" select="/root/env/node"/>
 
-  <!-- ================================================================== -->
+  <!-- We use the category check to find out if this is an SDS metadata. Please replace with anything better -->
+  <xsl:variable name="isSDS"
+                select="count(//gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gmx:Anchor[starts-with(@xlink:href, 'http://inspire.ec.europa.eu/metadata-codelist/Category')]) = 1"/>
 
-    <!-- ================================================================= -->
+
+  <!-- The default language is also added as gmd:locale
+  for multilingual metadata records. -->
+  <xsl:variable name="mainLanguage">
+    <xsl:call-template name="langId_from_gmdlanguage19139">
+      <xsl:with-param name="gmdlanguage" select="/root/*/gmd:language"/>
+    </xsl:call-template>
+  </xsl:variable>
+
+  <xsl:variable name="isMultilingual"
+                select="count(/root/*/gmd:locale[*/gmd:languageCode/*/@codeListValue != $mainLanguage]) > 0"/>
+
+  <xsl:variable name="mainLanguageId">
+    <!-- Potential options include 3 char or 2 char code in both upper and lower. -->
+
+    <xsl:variable name="localeList"
+                  select="/root/*/gmd:locale/gmd:PT_Locale"/>
+    <xsl:variable name="twoCharMainLangCode"
+                  select="java:twoCharLangCode($mainLanguage)"/>
+    <xsl:variable name="nextThreeCharLangCode"
+                  select="substring(concat($localeList[1]/@id, '   '), 1, 3)"/>
+    <xsl:variable name="nextTwoCharLangCode"
+                  select="java:twoCharLangCode($localeList[1]/@id)"/>
+
+    <xsl:choose>
+      <!-- If one of the locales is equal to the main language then that is the id that will be used. -->
+      <xsl:when test="$localeList[upper-case(@id) = upper-case($mainLanguage)]">
+        <xsl:value-of  select="$localeList[upper-case(@id) = upper-case($mainLanguage)]/@id"/>
+      </xsl:when>
+      <!-- If one of the locales is equal to the 2 Char main language then that is the id that will be used. -->
+      <xsl:when test="$localeList[upper-case(@id) = upper-case($twoCharMainLangCode)]">
+        <xsl:value-of  select="$localeList[upper-case(@id) = upper-case($twoCharMainLangCode)]/@id"/>
+      </xsl:when>
+
+      <!-- If one of the locales is equal to the upper case version then the codes are assumed to be in uppercase. -->
+      <xsl:when test="$localeList[@id = upper-case($nextThreeCharLangCode)]">
+        <xsl:value-of  select="upper-case($mainLanguage)"/>
+      </xsl:when>
+      <!-- If one of the locales is equal to the lower case version then the codes are assumed to be in lowercase. -->
+      <xsl:when test="$localeList[@id = lower-case($nextThreeCharLangCode)]">
+        <xsl:value-of  select="lower-case($mainLanguage)"/>
+      </xsl:when>
+
+      <!-- If one of the locales is equal to the 2 char upper case version then the codes are assumed to be in uppercase 2 char. -->
+      <xsl:when test="$localeList[@id = upper-case($nextTwoCharLangCode)]">
+        <xsl:value-of  select="upper-case($twoCharMainLangCode)"/>
+      </xsl:when>
+      <!-- If one of the locales is equal to the 2 char lower case version then the codes are assumed to be in lowercase 2 char. -->
+      <xsl:when test="$localeList[@id = lower-case($nextTwoCharLangCode)]">
+        <xsl:value-of  select="lower-case($twoCharMainLangCode)"/>
+      </xsl:when>
+
+      <!-- If we did not find an option then just use the main language as the code. -->
+      <xsl:otherwise><xsl:value-of select="$mainLanguage"/></xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name="locales"
+                select="/root/*/gmd:locale/gmd:PT_Locale"/>
+
+  <xsl:variable name="defaultEncoding"
+                select="'utf8'"/>
+
+  <xsl:variable name="editorConfig"
+                select="document('layout/config-editor.xml')"/>
+
+  <xsl:variable name="nonMultilingualFields"
+                select="$editorConfig/editor/multilingualFields/exclude"/>
+
+
 
     <xsl:template match="/root">
-        <xsl:apply-templates select="gmd:MD_Metadata"/>
+        <xsl:apply-templates select="*:MD_Metadata"/>
     </xsl:template>
+
+
 
     <!-- ================================================================= -->
 
@@ -948,4 +1027,18 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+
+
+<!-- empty keywords are used when they are added, so this block is commented out -->
+    <!-- Remove empty gmd:keyword elements -->    
+    <!--
+    <xsl:template match="gmd:keyword[
+        not(normalize-space(gco:CharacterString | gmx:Anchor) != '')]"/>
+    -->
+    <!-- Remove gmd:descriptiveKeywords if there are no remaining gmd:keyword elements -->
+    <!--
+    <xsl:template match="gmd:descriptiveKeywords[
+        not(.//gmd:keyword[normalize-space(gco:CharacterString | gmx:Anchor) != ''])]"/>
+    -->
+
 </xsl:stylesheet>
