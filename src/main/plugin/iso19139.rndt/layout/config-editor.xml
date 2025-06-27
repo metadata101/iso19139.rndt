@@ -677,8 +677,10 @@
             <section name="freeTextKeywords">
               <!-- Keywords senza thesauri (escluso opendata) -->
               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
-                           [not(../gmd:thesaurusName) and not(./gco:CharacterString='open data')
-                           and not(./gco:CharacterString='opendata')]"
+                           [not(../gmd:thesaurusName) 
+                            and not(./gco:CharacterString='open data') 
+                            and not(./gco:CharacterString='opendata')
+                            and count(../gmd:keyword)>1]"
                      name="keyword_libera"
                      del="."
                      if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/
@@ -686,9 +688,11 @@
               />
 
               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
-                           [not(../gmd:thesaurusName) and not(./gco:CharacterString='opendata')
-                           and not(./gco:CharacterString='open data') and not(./gco:CharacterString='opendata')]"
-                     name="keyword_libera"
+                           [not(../gmd:thesaurusName) 
+                            and not(./gco:CharacterString='open data') 
+                            and not(./gco:CharacterString='opendata')
+                            and count(../gmd:keyword)=1]"
+                     name="keyword_libera" 
                      del="../.."
                      if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/
                        gmd:keyword[not(boolean(../gmd:thesaurusName))])=1"
