@@ -94,10 +94,17 @@ public class RNDTMetadataManager extends BaseMetadataManager {
 
         // --- force namespace prefix for iso19139 metadata
         setNamespacePrefixUsingSchemas(schema, metadataXml);
-        if (updateFixedInfo && newMetadata.getDataInfo().getType() == MetadataType.METADATA) {
-            String parentUuid = null;
-            metadataXml = updateFixedInfo(newMetadata.getSourceInfo().getGroupOwner(), schema, Optional.<Integer>absent(), newMetadata.getUuid(), metadataXml,
-                parentUuid, updateDatestamp, context);
+        if (newMetadata.getDataInfo().getType() == MetadataType.METADATA) {
+            // This var should catch the case when a new metadata is uploaded and the UUID is recreated
+            boolean forceUFI = schema.equals("iso19139.rndt") && !newMetadata.getUuid().contains(":"); 
+            if (!updateFixedInfo && forceUFI) {
+                LOGGER_DATA_MANAGER.warn("Forcing updateFixedInfo");
+            }
+            if (updateFixedInfo || forceUFI) {
+                String parentUuid = null;
+                metadataXml = updateFixedInfo(newMetadata.getSourceInfo().getGroupOwner(), schema, Optional.<Integer>absent(), newMetadata.getUuid(), metadataXml,
+                    parentUuid, updateDatestamp, context);
+            }
         }
 
         // --- store metadata
