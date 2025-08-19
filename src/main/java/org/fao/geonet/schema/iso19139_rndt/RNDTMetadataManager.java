@@ -34,11 +34,14 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Lazy;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import org.fao.geonet.kernel.datamanager.base.BaseMetadataUtils;
 
 public class RNDTMetadataManager extends BaseMetadataManager {
     @Autowired
@@ -104,6 +107,23 @@ public class RNDTMetadataManager extends BaseMetadataManager {
                 String parentUuid = null;
                 metadataXml = updateFixedInfo(newMetadata.getSourceInfo().getGroupOwner(), schema, Optional.<Integer>absent(), newMetadata.getUuid(), metadataXml,
                     parentUuid, updateDatestamp, context);
+                
+                // RNDT UFI may change the UUID by adding the IPA code
+                String oldUUID = newMetadata.getUuid();
+                String newUUID = metadataUtils.extractUUID(schema, metadataXml);
+                if(!oldUUID.equals(newUUID)) {
+                    LOGGER_DATA_MANAGER.warn("Changing metadata UUID from " + oldUUID + " --> " + newUUID);
+                    newMetadata.setUuid(newUUID);
+
+                    // check if the old UUID has to be replaced elsewhere (maybe the graphicOverview, even if it will point to a not existing resource
+                    Path styleSheet = metadataSchemaUtils.getSchemaDir(schema).resolve("rndt_replace.xsl");
+                    if(Files.exists(styleSheet)) {
+                        HashMap<String, Object> params = new HashMap<>();
+                        params.put("src", oldUUID);
+                        params.put("trg", newUUID);                                                    
+                        metadataXml = Xml.transform(metadataXml, styleSheet, params);                            
+                    }
+                }
             }
         }
 
