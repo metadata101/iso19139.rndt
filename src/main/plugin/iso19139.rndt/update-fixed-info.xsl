@@ -723,6 +723,8 @@
                <xsl:value-of
                   select="concat('http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#',local-name(.))"/>
             </xsl:attribute>
+            <!-- add a node text-->
+            <xsl:value-of select="@codeListValue"/>
         </xsl:copy>
     </xsl:template>
 
