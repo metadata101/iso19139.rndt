@@ -333,6 +333,7 @@
 
       <sidePanel>
         <directive data-gn-validation-report=""/>
+        <directive data-gn-overview-manager=""/>
         <directive data-gn-onlinesrc-list=""
                    data-types="thumbnail|parent|dataset|service|fcats"/>
         <directive data-gn-suggestion-list=""/>
