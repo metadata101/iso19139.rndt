@@ -1022,6 +1022,20 @@
     </xsl:choose>
   </xsl:template>
 
+    <!-- Mergia tutte le free keywords in un unico blocco (il primo) -->
+    <xsl:template match="gmd:descriptiveKeywords[not(.//gmd:thesaurusName)][1]">
+        <!-- Create merged descriptiveKeywords -->
+        <gmd:descriptiveKeywords>
+            <gmd:MD_Keywords>
+                <xsl:for-each select="/root//gmd:descriptiveKeywords[not(.//gmd:thesaurusName)]/gmd:MD_Keywords/gmd:keyword">
+                    <xsl:copy-of select="."/>
+                </xsl:for-each>
+            </gmd:MD_Keywords>
+        </gmd:descriptiveKeywords>
+    </xsl:template>
+
+    <!-- Elimina tutte le altre occorrenze di keyword (già copiate nel primo blocco) -->
+    <xsl:template match="gmd:descriptiveKeywords[not(.//gmd:thesaurusName)][position() > 1]"/>
 
 <!-- empty keywords are used when they are added, so this block is commented out -->
     <!-- Remove empty gmd:keyword elements -->    

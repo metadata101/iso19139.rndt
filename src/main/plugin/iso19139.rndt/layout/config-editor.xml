@@ -697,17 +697,25 @@
 
             <section name="freeTextKeywords">
               <!-- Keywords senza thesauri (escluso opendata) -->
+              <!-- Nota: il count va nel xpath, in modo da selezionare solo i nodi richiesti,
+                         Questo perche' la stampa PDF prende solo l'xpat dei field e non considera l'@if -->
+              
+              <!-- Esiste OD, count = 1 ->  non visualizza keyword (od e' nel tab dataset -->
+              <!-- Esiste OD, count > 1 ->  alla cancellazione elimina solo gmd:keyword -->
+              <!-- Non esiste OD, count > 1 ->  alla cancellazione elimina solo gmd:keyword -->
+              <!-- Non esiste OD, count = 1 ->  alla cancellazione elimina gmd:descriptiveKeywords -->
+              
               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
                            [not(../gmd:thesaurusName) 
                             and not(./gco:CharacterString='open data') 
                             and not(./gco:CharacterString='opendata')
-                            and count(../gmd:keyword)>1]"
+                            and count(../gmd:keyword)>1
+                           ]"
                      name="keyword_libera"
                      del="."
-                     if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/
-                       gmd:keyword[not(../gmd:thesaurusName)])>1"
               />
 
+              <!-- Se c'e' solo una keyword, alla cancellazione elimina da gmd:descriptiveKeywords -->
               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
                            [not(../gmd:thesaurusName) 
                             and not(./gco:CharacterString='open data') 
@@ -719,6 +727,7 @@
                        gmd:keyword[not(boolean(../gmd:thesaurusName))])=1"
               />
 
+              <!-- Aggiunge tutto l'elemento gmd:descriptiveKeywords se non esiste già -->
               <action type="add"
                       btnLabel="keyword_libera"
                       or="descriptiveKeywords"
@@ -738,6 +747,7 @@
                 </template>
               </action>
 
+              <!-- Aggiunge solo gmd:keyword all'interno dell'elemento esistente gmd:descriptiveKeywords -->
               <action type="add" btnLabel="keyword_libera" or="keyword"
                       in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[not(gmd:thesaurusName)]"
                       if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[not(../gmd:thesaurusName)])>0"
@@ -1474,32 +1484,33 @@
 
             </section>
 
+            <!-- OPENDATA -->
             <section name="keyword_opendata" >
 
-              <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
-                        [gco:CharacterString/text()='open data' or gco:CharacterString/text()='opendata']"
-                     del="../.."
-              />
+                <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+                             [gco:CharacterString/text()='open data' or gco:CharacterString/text()='opendata']"
+                       name="keyword_opendata_label" 
+                />
+                
+                <action type="process"
+                        process="opendata-keyword-add"
+                        if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+                               [not(../gmd:thesaurusName) 
+                                and 
+                                  (./gco:CharacterString='open data' or
+                                   ./gco:CharacterString='opendata')
+                               ])=0"
+                />
 
-            <action type="add"
-                    btnLabel="openData"
-                    or="descriptiveKeywords"
-                    in="/gmd:MD_Metadata/gmd:identificationInfo/*"
-                    if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/gmd:MD_Keywords
-                              [gmd:keyword='open data' or gmd:keyword='opendata'])=0"
-            >
-              <template>
-                <snippet>
-                  <gmd:descriptiveKeywords>
-                    <gmd:MD_Keywords>
-                      <gmd:keyword>
-                        <gco:CharacterString>opendata</gco:CharacterString>
-                      </gmd:keyword>
-                    </gmd:MD_Keywords>
-                  </gmd:descriptiveKeywords>
-                </snippet>
-              </template>
-            </action>
+                <action type="process"
+                        process="opendata-keyword-remove"
+                        if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+                               [not(../gmd:thesaurusName) 
+                                and 
+                                  (./gco:CharacterString='open data' or 
+                                   ./gco:CharacterString='opendata')
+                               ])>0"
+                />
 
             </section>
 
