@@ -123,48 +123,43 @@
         se uuid e fileIdentifier sono diversi e il codice uuid compare dentro il fileIdentifier.
     -->
 
-
-  <xsl:variable name="ipaJustAssigned" select="string(/root/env/uuid) != string(//gmd:fileIdentifier/gco:CharacterString) and ends-with(//gmd:fileIdentifier/gco:CharacterString, /root/env/uuid)"/>
+  <xsl:variable name="oldFileId" select="//gmd:fileIdentifier/gco:CharacterString"/>
+  <xsl:variable name="ipaJustAssigned" select="string(/root/env/uuid) != string($oldFileId) and ends-with($oldFileId, /root/env/uuid)"/>
 
   <xsl:variable name="iPA">
-    <xsl:variable name="iPAPrefixed">
-    <xsl:call-template name="substring-before-last">
-      <xsl:with-param name="string1" select="/root/env/group/description"/>
-      <xsl:with-param name="string2" select="':'"/>
+    <xsl:call-template name="ipa-from-group-description">
+      <xsl:with-param name="description" select="/root/env/group/description"/>
     </xsl:call-template>
-    </xsl:variable>
-    <xsl:value-of select="substring-after($iPAPrefixed,'iPA:')"/>
   </xsl:variable>
 
   <xsl:variable name="iPAExists" select="not($iPA='')"/>
-  <xsl:variable name="isNew" select="not(contains(//gmd:fileIdentifier/gco:CharacterString,':'))"/>
+  <xsl:variable name="isNew" select="not(contains($oldFileId,':'))"/>
 
   <xsl:variable name="fileId">
         <xsl:choose>
             <xsl:when test="$isNew and $iPAExists">
+                <xsl:message>INFO: Adding iPA in fileIdentifier</xsl:message>
                 <xsl:value-of select="concat(concat($iPA,':'),/root/env/uuid)"/>
             </xsl:when>
             <xsl:otherwise>
               <xsl:choose>
-                <xsl:when test="$iPAExists and not(contains(//gmd:fileIdentifier/gco:CharacterString,$iPA))">
-                  <xsl:message>Old id updating</xsl:message>
-                    <xsl:variable name="oldIPA">
-                      <xsl:call-template name="substring-before-last">
-                        <xsl:with-param name="string1" select="//gmd:fileIdentifier/gco:CharacterString"/>
-                        <xsl:with-param name="string2" select="':'"/>
-                      </xsl:call-template>
-                    </xsl:variable>
-                  <xsl:value-of select="replace(//gmd:fileIdentifier/gco:CharacterString,
-                  $oldIPA, $iPA)"/>
+                <xsl:when test="$iPAExists and not(contains($oldFileId, $iPA))">
+                  <xsl:message>Updating fileIdentifier</xsl:message>
+                  <xsl:variable name="oldIPA">
+                    <xsl:call-template name="ipa-from-fileidentifier">
+                      <xsl:with-param name="fileid" select="$oldFileId"/>
+                    </xsl:call-template>
+                  </xsl:variable>
+                  <xsl:value-of select="replace($oldFileId, $oldIPA, $iPA)"/>
                 </xsl:when>
                 <xsl:otherwise>
-                  <xsl:value-of select="//gmd:fileIdentifier/gco:CharacterString"/>
+                  <xsl:value-of select="$oldFileId"/>
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
-
+    
     <xsl:variable name="ipaDefined" select="contains($fileId, ':')"/>
 
     <!-- ================================================================= -->
@@ -173,6 +168,9 @@
         <xsl:copy>
             <xsl:apply-templates select="@*"/>
 
+            <!-- forces saxon to eagerly compute the fileId -->
+            <xsl:message>INFO: Computing fileId....&#xa;<xsl:value-of select="$fileId"/></xsl:message>
+            
             <xsl:if test="$isNew">
                 <xsl:message>INFO: creazione di nuovo metadato</xsl:message>
             </xsl:if>
@@ -180,9 +178,9 @@
             <xsl:message>INFO: iPA not found in /root/env/group/description. Value is <xsl:value-of select="/root/env/group/description"/></xsl:message>
           </xsl:if>
           <xsl:message>INFO: /root/env/uuid is <xsl:value-of select="/root/env/uuid"/></xsl:message>
-            <xsl:message>INFO: /root/env/parentUuid is <xsl:value-of select="/root/env/parentUuid"/></xsl:message>
-            <xsl:message>INFO: old fileId is <xsl:value-of select="//gmd:fileIdentifier/gco:CharacterString"/></xsl:message>
-            <xsl:message>INFO: old parentiId is <xsl:value-of select="//gmd:parentIdentifier/gco:CharacterString"/></xsl:message>
+            <xsl:message>INFO: /root/env/parentUuid is "<xsl:value-of select="/root/env/parentUuid"/>"</xsl:message>
+            <xsl:message>INFO: old fileId is <xsl:value-of select="$oldFileId"/></xsl:message>
+            <xsl:message>INFO: old parentiId is "<xsl:value-of select="//gmd:parentIdentifier/gco:CharacterString"/>"</xsl:message>
             <xsl:message>INFO: iPA is defined: <xsl:value-of select="$ipaDefined"/></xsl:message>
             <xsl:message>INFO: iPA is just assigned: <xsl:value-of select="$ipaJustAssigned"/></xsl:message>
             <xsl:message>INFO: iPA is <xsl:value-of select="$iPA"/></xsl:message>

@@ -154,14 +154,9 @@
 
     <xsl:if test="$ipaDefined">
         
-      <!-- usare questo se i codici contengono più : - workaround parziale per https://github.com/metadata101/iso19139.rndt/issues/41 -->
-      <!-- <xsl:variable name="iPA" select="substring-before($fileId, ':')" /> -->
-      
-      <!-- usare questo se i codici sono del tipo :ipa:ente: -->
-      <xsl:variable name="iPA">          
-          <xsl:call-template name="substring-before-last">
-            <xsl:with-param name="string1" select="$fileId"/>
-            <xsl:with-param name="string2" select="':'"/>
+      <xsl:variable name="iPA">
+          <xsl:call-template name="ipa-from-fileidentifier">
+            <xsl:with-param name="fileid" select="$fileId"/>
           </xsl:call-template>
       </xsl:variable>
       

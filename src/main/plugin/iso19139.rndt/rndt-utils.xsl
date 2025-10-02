@@ -18,4 +18,42 @@
     </xsl:if>
   </xsl:template>
 
+
+  <xsl:template name="ipa-from-group-description">
+    <xsl:param name="description"/>
+
+    <xsl:variable name="iPAPrefixed">
+        <xsl:call-template name="substring-before-last">
+            <xsl:with-param name="string1" select="$description"/>
+            <xsl:with-param name="string2" select="':'"/>
+        </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:value-of select="substring-after($iPAPrefixed,'iPA:')"/>
+  </xsl:template>
+
+
+  <xsl:template name="ipa-from-fileidentifier">
+    <xsl:param name="fileid"/>
+
+    <!-- use substring-before-last if fileIdentifier is in the format 
+         - ipa:CODE or
+         - ipa:sub_pa:CODE 
+         and CODE does not contain semicolon        
+    -->
+    <!--    
+        <xsl:call-template name="substring-before-last">
+          <xsl:with-param name="string1" select="$fileid"/>
+          <xsl:with-param name="string2" select="':'"/>
+        </xsl:call-template>
+    -->
+
+    <!-- use substring-before if fileIdentifier is in the format 
+     - ipa:CODE 
+     and CODE may contain semicolon        
+    -->
+    <xsl:value-of select="substring-before($fileid, ':')"/>
+          
+  </xsl:template>
+
 </xsl:stylesheet>
