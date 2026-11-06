@@ -3126,7 +3126,7 @@
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType"
             name="serviceType"
             or="serviceType"
-            in="gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification">
+            in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification">
             <template>
               <values>
                 <key label="serviceType" xpath="gco:LocalName">
@@ -3925,9 +3925,9 @@
                   btnLabel="spatialReferenceSystem"
                   or="referenceSystemInfo"
                   in="/gmd:MD_Metadata"
-                  if="count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])=0
+                  if="(count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])=0
                   and count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code[contains(.,'RDN') or starts-with(.,'ED50')
-                  or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])=0"
+                  or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])=0)"
           >
             <template>
               <snippet label="anchor">
@@ -4544,10 +4544,10 @@
 
       <tab id="metadata" default="true">
         <section name="metadata">
-          <field xpath="/gmd:MD_Metadata/gmd:fileIdentifier" or="fileIdentifier" in="gmd:MD_Metadata"/>
+          <field xpath="/gmd:MD_Metadata/gmd:fileIdentifier" or="fileIdentifier" in="/gmd:MD_Metadata"/>
 
           <field
-            xpath="/gmd:MD_Metadata/gmd:language" or ="language" in ="gmd:MD_Metadata"/>
+            xpath="/gmd:MD_Metadata/gmd:language" or ="language" in ="/gmd:MD_Metadata"/>
 
 
           <field xpath="/gmd:MD_Metadata/gmd:characterSet" or="characterSet" in ="/gmd:MD_Metadata"/>
@@ -4617,11 +4617,11 @@
       <tab id="identificationInfo">
         <section xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
                  or="SV_ServiceIdentification"
-                 in="gmd:MD_Metadata/gmd:identificationInfo"
+                 in="/gmd:MD_Metadata/gmd:identificationInfo"
         />
         <section xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification"
                  or="gmd:MD_MetadataIdentification"
-                 in="gmd:MD_Metadata/gmd:identificationInfo"/>
+                 in="/gmd:MD_Metadata/gmd:identificationInfo"/>
       </tab>
       <tab id="dataDistribution">
         <section xpath="/gmd:MD_Metadata/gmd:distributionInfo" or="distributionInfo"
@@ -4699,8 +4699,8 @@
           <action type="add" name="conformity" or="report"
                   btnLabel="conformitySpecifications"
                   in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0 and
-                    count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult)=0">
+                  if="(count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0 and
+                    count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult)=0)">
             <template>
               <snippet>
                 <gmd:report>
@@ -4747,8 +4747,8 @@
           <action type="add" name="serviceSpecification" or="report"
                   btnLabel="conformitySpecifications"
                   in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0 and
-                    count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult) = 0">
+                  if="(count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0 and
+                    count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult) = 0)">
             <template>
               <snippet label="network_services">
                 <gmd:report>
@@ -4869,10 +4869,10 @@
           <action type="add" or="report"
                   btnLabel="sds-category"
                   in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
-                  if="gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType/
+                  if="(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType/
                   gco:LocalName/text()='other' and count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/
                   gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult[gmd:specification/
-                  gmd:CI_Citation/gmd:title/gmx:Anchor/text()!='invocable']) = 0">
+                  gmd:CI_Citation/gmd:title/gmx:Anchor/text()!='invocable']) = 0)">
             <template>
               <snippet>
                 <gmd:report>
@@ -4921,8 +4921,8 @@
 
           <action type="process"
                   process="sds-add-dataquality"
-                  if="count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service'])=0
-            and count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+                  if="(count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service'])=0
+            and count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0)"/>
 
           <field
             xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_ConceptualConsistency"/>
@@ -5107,7 +5107,7 @@
         />
       </tab>
       <tab id="referenceSystemInfo" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
-        <section xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo" or="gmd:referenceSystemInfo" in="gmd:MD_Metadata"/>
+        <section xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo" or="gmd:referenceSystemInfo" in="/gmd:MD_Metadata"/>
       </tab>
     </view>
 
