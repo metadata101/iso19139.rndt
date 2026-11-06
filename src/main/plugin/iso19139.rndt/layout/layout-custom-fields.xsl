@@ -53,7 +53,11 @@
     <xsl:call-template name="render-element">
       <xsl:with-param name="label"
                       select="$labelConfig/*"/>
-      <xsl:with-param name="value" select="*"/>
+      <!-- Skip the gn:element nodes added by the editor (GeoNetwork 4 passes
+           a single value); for code lists (hierarchyLevel) use the code. -->
+      <xsl:with-param name="value"
+                      select="if (*/@codeListValue) then */@codeListValue
+                              else *[namespace-uri(.) != 'http://www.fao.org/geonetwork']"/>
       <xsl:with-param name="cls" select="local-name()"/>
       <xsl:with-param name="xpath" select="$xpath"/>
       <xsl:with-param name="type" select="gn-fn-metadata:getFieldType($editorConfig, name(), '', $xpath)"/>
@@ -63,6 +67,26 @@
       <xsl:with-param name="isDisabled" select="true()"/>
     </xsl:call-template>
 
+  </xsl:template>
+
+  <!-- RNDT encodes quantitative results as gmd:value/gco:Record/gco:Real
+       (rule M35). The iso19139 layout of GeoNetwork 4 renders gmd:value
+       using the text of gco:Record, which here is only whitespace, and the
+       editor fails ("more than one item ... normalize-space()"). Render the
+       typed value inside gco:Record instead, with the label of gmd:value. -->
+  <xsl:template mode="mode-iso19139" priority="2000"
+                match="gmd:value[gco:Record/(gco:Real|gco:Integer|gco:Decimal)]">
+    <xsl:param name="schema" select="$schema" required="no"/>
+    <xsl:param name="labels" select="$labels" required="no"/>
+
+    <xsl:variable name="labelConfig"
+                  select="gn-fn-metadata:getLabel($schema, name(), $labels, name(..), '', '')"/>
+
+    <xsl:apply-templates mode="mode-iso19139" select="gco:Record">
+      <xsl:with-param name="schema" select="$schema"/>
+      <xsl:with-param name="labels" select="$labels"/>
+      <xsl:with-param name="overrideLabel" select="string($labelConfig/label)"/>
+    </xsl:apply-templates>
   </xsl:template>
 
   <xsl:template mode="mode-iso19139" match="gmd:resourceConstraints[not(gmd:MD_Constraints) and boolean(gmd:MD_LegalConstraints/*/gmx:Anchor)]">
