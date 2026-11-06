@@ -3862,9 +3862,9 @@
         </section>
 
         <section name="referenceSystems">
-          <section name="spatialReferenceSystem" displayIfRecord="count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])>0
+          <section name="spatialReferenceSystem" displayIfRecord="(count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])>0
           or count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code[contains(.,'RDN') or starts-with(.,'ED50')
-          or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])>0">
+          or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])>0)">
 
             <field
               xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier[boolean(gmd:RS_Identifier/gmd:code/gmx:Anchor)]"
