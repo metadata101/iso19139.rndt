@@ -25,7 +25,13 @@ mvn install -DskipTests -pl schemas/iso19139.rndt -am
 ```
 
 `add-schema.sh` adds the plugin to `schemas/` and to the `web` module, so a full
-build of GeoNetwork includes it. The build produces
+build of GeoNetwork includes it. To run the tests (parent lookup through the
+series, iPA rules of `rndt-utils.xsl`), leave out `-DskipTests`:
+
+```shell
+mvn install -pl schemas/iso19139.rndt
+```
+ The build produces
 `schemas/iso19139.rndt/target/gn-schema-iso19139.rndt-<version>.jar` and a zip
 of the plugin folder (`src/main/plugin/iso19139.rndt`).
 

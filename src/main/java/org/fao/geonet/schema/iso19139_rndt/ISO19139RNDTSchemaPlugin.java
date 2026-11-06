@@ -42,13 +42,13 @@ public class ISO19139RNDTSchemaPlugin extends ISO19139SchemaPlugin {
 
     /**
      * RNDT encodes the parent (series) as gmd:citation/gmd:CI_Citation/gmd:series/gmd:CI_Series/gmd:issueIdentification,
-     * not as gmd:parentIdentifier. GeoNetwork 4 looks parents up with this method (associated resources, DCAT
-     * formatters): add the issueIdentification values, except the identifier of the resource itself, to the parents
-     * found by iso19139.
+     * not as gmd:parentIdentifier, which is ignored as in the GeoNetwork 3 version of this plugin. GeoNetwork 4 looks
+     * parents up with this method (associated resources, DCAT formatters): the parents are the issueIdentification
+     * values, except the identifier of the resource itself.
      */
     @Override
     public Set<AssociatedResource> getAssociatedParents(Element metadata) {
-        Set<AssociatedResource> parents = new HashSet<>(super.getAssociatedParents(metadata));
+        Set<AssociatedResource> parents = new HashSet<>();
 
         String resourceId = getResourceId(metadata);
         ElementFilter elementFilter = new ElementFilter("issueIdentification", GMD);
@@ -58,11 +58,8 @@ public class ISO19139RNDTSchemaPlugin extends ISO19139SchemaPlugin {
             "CharacterString", GCO,
             null);
         filtered.removeIf(s -> s.equals(resourceId));
-        Set<String> known = parents.stream().map(AssociatedResource::getUuid).collect(Collectors.toSet());
         for (String uuid : filtered) {
-            if (known.add(uuid)) {
-                parents.add(new AssociatedResource(uuid, "", ""));
-            }
+            parents.add(new AssociatedResource(uuid, "", ""));
         }
         return parents;
     }
