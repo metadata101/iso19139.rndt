@@ -11,6 +11,7 @@
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:gn="http://www.fao.org/geonetwork"
                 xmlns:gn-fn-metadata="http://geonetwork-opensource.org/xsl/functions/metadata"
+                xmlns:gn-fn-rndt="http://geonetwork-opensource.org/xsl/functions/profiles/iso19139.rndt"
                 xmlns:java-xsl-util="java:org.fao.geonet.util.XslUtil"
                 xmlns:saxon="http://saxon.sf.net/"
                 xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -23,6 +24,16 @@
   <xsl:include xmlns:svrl="http://purl.oclc.org/dsdl/svrl" href="../../../xsl/utils-fn.xsl"/>
 
   <xsl:variable name="thesaurusDir" select="java:getThesaurusDir()"/>
+
+  <!-- Value for a single-quoted JavaScript string: labels such as
+       "Nessuna condizione per l'accesso e l'uso" would otherwise end the
+       string and break the script. -->
+  <xsl:function name="gn-fn-rndt:js-string" as="xs:string">
+    <xsl:param name="value"/>
+    <xsl:value-of select="replace(replace(replace(string-join($value, ''),
+                            '\\', '\\\\'), &quot;'&quot;, &quot;\\'&quot;),
+                            '[&#13;&#10;]+', ' ')"/>
+  </xsl:function>
 
   <!-- Readonly element -->
   <xsl:template mode="mode-iso19139" priority="2000" match="gmd:fileIdentifier|gmd:dateStamp|
@@ -225,8 +236,8 @@
       <script type="text/javascript">
         $(document).ready(function(){
         var id = <xsl:value-of select="$currElement/gmx:Anchor/geonet:element/@ref"/>;
-        var currAnchorVal='<xsl:value-of select="$currElement/gmx:Anchor/text()"/>';
-        var currXlinkVal='<xsl:value-of select="$currElement/gmx:Anchor/@xlink:href"/>';
+        var currAnchorVal='<xsl:value-of select="gn-fn-rndt:js-string($currElement/gmx:Anchor/text())"/>';
+        var currXlinkVal='<xsl:value-of select="gn-fn-rndt:js-string($currElement/gmx:Anchor/@xlink:href)"/>';
         var gnHidden = "_" + id + "_xlinkCOLONhref";
         var selectName="select-"+id;
         var gnAnchor = "_" + id;

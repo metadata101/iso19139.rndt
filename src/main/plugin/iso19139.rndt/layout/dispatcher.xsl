@@ -27,12 +27,14 @@
   <!-- Dispatch to the current profile mode -->
   <xsl:template name="dispatch-iso19139.rndt">
     <xsl:param name="base" as="node()"/>
-    <xsl:param name="overrideLabel" as="xs:string" required="no" select="''"/>
+    <xsl:param name="overrideLabel" as="xs:string?" required="no" select="''"/>
     <xsl:param name="refToDelete" as="node()?" required="no"/>
+    <xsl:param name="config" as="node()?" required="no"/>
 
     <xsl:apply-templates mode="mode-iso19139" select="$base">
       <xsl:with-param name="overrideLabel" select="$overrideLabel"/>
       <xsl:with-param name="refToDelete" select="$refToDelete"/>
+      <xsl:with-param name="config" select="$config"/>
     </xsl:apply-templates>
   </xsl:template>
 
