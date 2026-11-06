@@ -3,39 +3,39 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>schemas</artifactId>
+    <artifactId>gn-schemas</artifactId>
     <groupId>org.geonetwork-opensource.schemas</groupId>
-    <version>3.12.12</version>
+    <version>4.4.12-0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>schema-iso19139.rndt</artifactId>
+  <artifactId>gn-schema-iso19139.rndt</artifactId>
   <name>GeoNetwork schema plugin for ISO19139.rndt standard</name>
 
   <dependencies>
     <dependency>
       <groupId>org.geonetwork-opensource.schemas</groupId>
-      <artifactId>schema-core</artifactId>
+      <artifactId>gn-schema-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geonetwork-opensource.schemas</groupId>
-      <artifactId>schema-iso19139</artifactId>
+      <artifactId>gn-schema-iso19139</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geonetwork-opensource</groupId>
-      <artifactId>core</artifactId>
+      <artifactId>gn-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geonetwork-opensource</groupId>
-      <artifactId>domain</artifactId>
+      <artifactId>gn-domain</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.geonetwork-opensource.schemas</groupId>
-      <artifactId>schema-core</artifactId>
+      <artifactId>gn-schema-core</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
