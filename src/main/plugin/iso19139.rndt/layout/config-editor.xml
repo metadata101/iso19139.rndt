@@ -4568,7 +4568,7 @@
             <template>
               <snippet>
                 <gmd:metadataStandardName>
-                  <gmx:Anchor xlink:href="https://registry.geodati.gov.it/document/lgrndt">Linee Guida RNDT</gmx:Anchor>
+                  <gmx:Anchor xlink:href="https://registry.geodati.gov.it/document/lg-rndt">Linee Guida RNDT</gmx:Anchor>
                 </gmd:metadataStandardName>
               </snippet>
             </template>

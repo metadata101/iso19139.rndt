@@ -298,7 +298,8 @@ public class RNDTMetadataManager extends BaseMetadataManager {
 
 
     private Group getGroup(Integer groupOwner){
-        return groupRepository.findById(groupOwner).orElse(null);
+        // Records may have no owner group (e.g. imported or harvested): findById does not accept null
+        return groupOwner == null ? null : groupRepository.findById(groupOwner).orElse(null);
     }
 
     private Element addGroupToEnv(Element env, AbstractMetadata metadata){
@@ -308,7 +309,9 @@ public class RNDTMetadataManager extends BaseMetadataManager {
     private Element addGroupToEnv(Element env, Integer groupOwner){
             Group group=getGroup(groupOwner);
             Element groupEl = new Element ("group");
-            groupEl.addContent(new Element("description").setText(group.getDescription()));
+            // No group, or a group without description: no iPA code (update-fixed-info.xsl keeps the identifier)
+            String description = group == null || group.getDescription() == null ? "" : group.getDescription();
+            groupEl.addContent(new Element("description").setText(description));
             env.addContent(groupEl);
             return env;
     }

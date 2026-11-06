@@ -372,10 +372,15 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<sch:pattern>
 		<sch:title>$loc/strings/M45</sch:title>
 		<sch:rule context="//gmd:MD_Metadata[gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue!='service']">
-			<sch:assert test="(gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:name/gco:CharacterString
-			and gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:name/gco:CharacterString!='')
-			and (gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:version/gco:CharacterString
-			and gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:version/gco:CharacterString!='')">$loc/strings/alert.M45</sch:assert>
+			<!-- Manuale RNDT 2, requisito 2.6 e raccomandazione R1.9: every format has a name
+			     (gco:CharacterString or gmx:Anchor to the INSPIRE media-types register) and a version,
+			     or an empty version with nilReason "unknown" or "inapplicable". -->
+			<sch:let name="formats" value="gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format"/>
+			<sch:assert test="count($formats) &gt; 0
+			and count($formats[not(gmd:name/*[normalize-space(.)!=''])]) = 0
+			and count($formats[not(gmd:version/*[normalize-space(.)!='']
+			                        or gmd:version/@gco:nilReason='unknown'
+			                        or gmd:version/@gco:nilReason='inapplicable')]) = 0">$loc/strings/alert.M45</sch:assert>
 		</sch:rule>
 	</sch:pattern>
 

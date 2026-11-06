@@ -35,6 +35,12 @@ mvn install -pl schemas/iso19139.rndt
 `schemas/iso19139.rndt/target/gn-schema-iso19139.rndt-<version>.jar` and a zip
 of the plugin folder (`src/main/plugin/iso19139.rndt`).
 
+## Sample records
+
+`src/main/plugin/iso19139.rndt/sample-data` holds four RNDT 2.0 records (vector, two rasters, service), loaded from
+*Admin console > Metadata and templates*. How they were converted from the 2011 profile:
+[tools/sample-data](tools/sample-data/README.md).
+
 ## Installing in an existing GeoNetwork 4.4
 
 1. Copy `gn-schema-iso19139.rndt-<version>.jar` to `WEB-INF/lib`.
