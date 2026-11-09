@@ -24,6 +24,19 @@ cd core-geonetwork
 mvn install -DskipTests -pl schemas/iso19139.rndt -am
 ```
 
+Notes:
+
+- Build with Java 11 (GeoNetwork 4.4 does not build with newer JDKs), e.g. on macOS
+  `export JAVA_HOME=$(/usr/libexec/java_home -v 11)`.
+- In GeoNetwork 4.4.12 `schemas/pom.xml` has no `<profiles>` section, so
+  `add-schema.sh` does not register the module there (it only updates `web` and
+  `services`) and Maven fails with `Could not find the selected project in the
+  reactor`. Add it by hand to the `<modules>` list of `schemas/pom.xml`:
+
+  ```xml
+  <module>iso19139.rndt</module>
+  ```
+
 `add-schema.sh` adds the plugin to `schemas/` and to the `web` module, so a full
 build of GeoNetwork includes it. To run the tests (parent lookup through the
 series, iPA rules of `rndt-utils.xsl`), leave out `-DskipTests`:
@@ -31,9 +44,30 @@ series, iPA rules of `rndt-utils.xsl`), leave out `-DskipTests`:
 ```shell
 mvn install -pl schemas/iso19139.rndt
 ```
- The build produces
+
+The build produces
 `schemas/iso19139.rndt/target/gn-schema-iso19139.rndt-<version>.jar` and a zip
 of the plugin folder (`src/main/plugin/iso19139.rndt`).
+
+### Building a local working copy
+
+To build your own checkout (including uncommitted changes) instead of a clone,
+link it into `schemas/` before running `add-schema.sh`, which then skips the
+clone and only updates the poms:
+
+```shell
+ln -s /path/to/iso19139.rndt schemas/iso19139.rndt
+./add-schema.sh iso19139.rndt https://github.com/metadata101/iso19139.rndt 4.4.x
+```
+
+Maven resolves the symlink, so the parent pom is not found through
+`../pom.xml`: install the GeoNetwork parent poms in the local repository first
+(from `core-geonetwork`):
+
+```shell
+mvn install -N
+mvn install -N -f schemas/pom.xml
+```
 
 ## Sample records
 
