@@ -37,6 +37,13 @@ Notes:
   <module>iso19139.rndt</module>
   ```
 
+  A fix for the script is proposed upstream in
+  [geonetwork/core-geonetwork#9613](https://github.com/geonetwork/core-geonetwork/pull/9613);
+  the fix applied to 4.4.12 is on branch
+  [`4.4.12-rndt`](https://github.com/glascaleia/core-geonetwork/tree/4.4.12-rndt)
+  of the `glascaleia/core-geonetwork` fork. Cloning that branch instead of the
+  `4.4.12` tag makes the manual step unnecessary.
+
 `add-schema.sh` adds the plugin to `schemas/` and to the `web` module, so a full
 build of GeoNetwork includes it. To run the tests (parent lookup through the
 series, iPA rules of `rndt-utils.xsl`), leave out `-DskipTests`:
