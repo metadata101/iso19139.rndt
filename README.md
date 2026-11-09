@@ -15,38 +15,31 @@ This plugin requires GeoNetwork version 4.4.x (built and tested with 4.4.12).
 ## Building
 
 GeoNetwork 4 Maven artifacts are not published, so the plugin is built inside
-the GeoNetwork sources, like the other `metadata101` schema plugins:
+the GeoNetwork sources, like the other `metadata101` schema plugins. Build with
+Java 11 (GeoNetwork 4.4 does not build with newer JDKs), e.g. on macOS
+`export JAVA_HOME=$(/usr/libexec/java_home -v 11)`.
 
 ```shell
-git clone --branch 4.4.12 https://github.com/geonetwork/core-geonetwork.git
+git clone --branch 4.4.12-rndt https://github.com/glascaleia/core-geonetwork.git
 cd core-geonetwork
-./add-schema.sh iso19139.rndt https://github.com/metadata101/iso19139.rndt 4.4.x
+./add-schema.sh iso19139.rndt https://github.com/glascaleia/iso19139.rndt 4.4.x
 mvn install -DskipTests -pl schemas/iso19139.rndt -am
 ```
 
-Notes:
+Branch `4.4.12-rndt` is GeoNetwork 4.4.12 plus a fix to `add-schema.sh`, which
+in 4.4.12 does not register the module in `schemas/pom.xml` (Maven then fails
+with `Could not find the selected project in the reactor`). The fix is proposed
+upstream in
+[geonetwork/core-geonetwork#9613](https://github.com/geonetwork/core-geonetwork/pull/9613);
+once it is released, clone the GeoNetwork tag instead. With the plain `4.4.12`
+tag, add the module by hand to the `<modules>` list of `schemas/pom.xml`:
 
-- Build with Java 11 (GeoNetwork 4.4 does not build with newer JDKs), e.g. on macOS
-  `export JAVA_HOME=$(/usr/libexec/java_home -v 11)`.
-- In GeoNetwork 4.4.12 `schemas/pom.xml` has no `<profiles>` section, so
-  `add-schema.sh` does not register the module there (it only updates `web` and
-  `services`) and Maven fails with `Could not find the selected project in the
-  reactor`. Add it by hand to the `<modules>` list of `schemas/pom.xml`:
+```xml
+<module>iso19139.rndt</module>
+```
 
-  ```xml
-  <module>iso19139.rndt</module>
-  ```
-
-  A fix for the script is proposed upstream in
-  [geonetwork/core-geonetwork#9613](https://github.com/geonetwork/core-geonetwork/pull/9613);
-  the fix applied to 4.4.12 is on branch
-  [`4.4.12-rndt`](https://github.com/glascaleia/core-geonetwork/tree/4.4.12-rndt)
-  of the `glascaleia/core-geonetwork` fork. Cloning that branch instead of the
-  `4.4.12` tag makes the manual step unnecessary.
-
-`add-schema.sh` adds the plugin to `schemas/` and to the `web` module, so a full
-build of GeoNetwork includes it. To run the tests (parent lookup through the
-series, iPA rules of `rndt-utils.xsl`), leave out `-DskipTests`:
+To run the tests (parent lookup through the series, iPA rules of
+`rndt-utils.xsl`), leave out `-DskipTests`:
 
 ```shell
 mvn install -pl schemas/iso19139.rndt
@@ -58,22 +51,23 @@ of the plugin folder (`src/main/plugin/iso19139.rndt`).
 
 ### Building a local working copy
 
-To build your own checkout (including uncommitted changes) instead of a clone,
-link it into `schemas/` before running `add-schema.sh`, which then skips the
+`add-schema.sh` clones the plugin as a git submodule into `schemas/iso19139.rndt`,
+a second copy separate from your checkout. To build your own checkout (including
+uncommitted changes), link it into `schemas/` instead; the script then skips the
 clone and only updates the poms:
 
 ```shell
 ln -s /path/to/iso19139.rndt schemas/iso19139.rndt
-./add-schema.sh iso19139.rndt https://github.com/metadata101/iso19139.rndt 4.4.x
+./add-schema.sh iso19139.rndt https://github.com/glascaleia/iso19139.rndt 4.4.x
 ```
 
 Maven resolves the symlink, so the parent pom is not found through
-`../pom.xml`: install the GeoNetwork parent poms in the local repository first
-(from `core-geonetwork`):
+`../pom.xml`: install the GeoNetwork parent poms in the local repository first:
 
 ```shell
 mvn install -N
 mvn install -N -f schemas/pom.xml
+mvn install -pl schemas/iso19139.rndt
 ```
 
 ## Sample records
