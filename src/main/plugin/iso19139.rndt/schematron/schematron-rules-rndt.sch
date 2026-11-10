@@ -130,8 +130,10 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<sch:pattern>
 		<sch:title>$loc/strings/M5</sch:title>
 		<sch:rule context="//gmd:MD_Metadata">
-			<sch:assert test="(gmd:metadataStandardName/gco:CharacterString and
-			gmd:metadataStandardName/gco:CharacterString = 'Linee Guida RNDT')">
+			<!-- RNDT 2.0 records published by the RNDT itself use gmx:Anchor
+			     (xlink:href="http://registry.geodati.gov.it/document/rndt-lg"): both encodings are valid. -->
+			<sch:assert test="normalize-space(gmd:metadataStandardName/gco:CharacterString) = 'Linee Guida RNDT'
+			or normalize-space(gmd:metadataStandardName/gmx:Anchor) = 'Linee Guida RNDT'">
 			 $loc/strings/alert.M5
 			 </sch:assert>
 			<!--			<sch:assert test="gmd:metadataStandardName/gco:CharacterString and contains(gmd:metadataStandardName/gco:CharacterString,'DM - Regole tecniche RNDT')">$loc/strings/alert.M5</sch:assert>-->

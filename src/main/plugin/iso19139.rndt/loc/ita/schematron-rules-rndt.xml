@@ -14,7 +14,7 @@
 	<alert.M4><div>L'elemento hierarchyLevel è mancante, incompleto o ha un valore errato</div></alert.M4>
 	<!--METADATA STANDARD NAME-->
 	<M5>Informazioni sui dati - Nome dello standard</M5>
-	<alert.M5><div>L'elemento metadataStandardName è mancante, incompleto o ha un valore errato. Il valore dell'elemento deve essere uguale a 'DM - Regole tecniche RNDT'</div></alert.M5>
+	<alert.M5><div>L'elemento metadataStandardName è mancante, incompleto o ha un valore errato. Il valore dell'elemento deve essere uguale a 'Linee Guida RNDT'</div></alert.M5>
 	<!--METADATA STANDARD NAME-->
 	<M6>Informazioni sui dati - Versione dello standard</M6>
 	<alert.M6><div>L'elemento metadataStandardVersion è mancante, incompleto o ha un valore errato. Il valore dell'elemento deve essere uguale a '10 novembre 2011'</div></alert.M6>

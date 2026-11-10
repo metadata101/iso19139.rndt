@@ -14,7 +14,7 @@
 	<alert.M4><div> hierarchyLevel element is missing or has a wrong value</div></alert.M4>
 	<!--METADATA STANDARD NAME-->
 	<M5>Metadata Standard</M5>
-	<alert.M5><div> metadataStandardName must be present and equal to 'DM - Regole tecniche RNDT'</div></alert.M5>
+	<alert.M5><div> metadataStandardName must be present and equal to 'Linee Guida RNDT'</div></alert.M5>
 	<!--METADATA STANDARD NAME-->
 	<M6>Metadata Standard Version</M6>
 	<alert.M6><div> metadataStandardVersion must be present and equal to '10 novembre 2011'</div></alert.M6>
