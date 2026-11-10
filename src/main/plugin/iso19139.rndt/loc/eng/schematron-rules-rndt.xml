@@ -136,4 +136,40 @@
 	<!--NIL REASON-->
 	<M110>Attribute not allowed</M110>
 	<alert.M110>No must have attribute gco:nilReason</alert.M110>
+	<!--VERTICAL CRS-->
+	<M111>Wrong attribute</M111>
+	<alert.M111>The vertical CRS element must have the xlink:href attribute</alert.M111>
+	<alert.M112>The external reference (XLink) to the vertical CRS cannot be empty</alert.M112>
+	<!--CODELIST ELEMENTS-->
+	<M120>Codelist elements</M120>
+	<alert.M120>The codelist element is empty: </alert.M120>
+	<!--OPERATION NAME-->
+	<M121>Operation name</M121>
+	<alert.M121>The operation name is missing</alert.M121>
+	<!--DATASET RESPONSIBLE PARTY-->
+	<alert.M15mail><div>E-mail address missing</div></alert.M15mail>
+	<alert.M15missing><div>Data|service responsible party missing</div></alert.M15missing>
+	<alert.M15org><div>Organisation name missing</div></alert.M15org>
+	<alert.M15poc><div>Role missing</div></alert.M15poc>
+	<alert.req8><div>The following elements must be provided: organisation name, role and e-mail address.</div></alert.req8>
+	<alert.req9><div>The CI_RoleCode codelist value for the role must be "point of contact" (pointOfContact).</div></alert.req9>
+	<!--GEOGRAPHIC LOCATION-->
+	<alert.M33a><div>The geographic bounding box must be defined only once</div></alert.M33a>
+	<!--REFERENCE SYSTEM-->
+	<alert.M38missing><div>The referenceSystemInfo element is missing.</div></alert.M38missing>
+	<report.M38count>referenceSystemInfo elements found</report.M38count>
+	<!--OTHER CONSTRAINTS-->
+	<alert.M53missing><div>The text element [other constraints] is mandatory when <i>other restrictions</i> is selected. Add the text element.</div></alert.M53missing>
+	<alert.M53notneeded><div>The text element [other constraints] must be filled in only when <i>other restrictions</i> is selected. Remove the text element.</div></alert.M53notneeded>
+	<!--TEMPORAL EXTENT-->
+	<M200>Temporal extent</M200>
+	<alert.M201>The begin date of the extent is not set</alert.M201>
+	<alert.M202>The end date of the extent is not set</alert.M202>
+	<alert.temporal_begin_bad_full>Error in the begin date attribute</alert.temporal_begin_bad_full>
+	<alert.temporal_end_bad_full>Error in the end date attribute</alert.temporal_end_bad_full>
+	<!--RESOURCE LOCATOR-->
+	<M3_6_3>Resource locator (datasets and series)</M3_6_3>
+	<alert.M3.6.3_missing>No resource locator found. Create at least one online resource</alert.M3.6.3_missing>
+	<alert.R1_8><div>Requirement 1.8: URL missing</div></alert.R1_8>
+	<alert.R1_10><div>Requirement 1.10: incomplete or wrong element: the locator must contain the protocol, applicationProfile and description elements</div></alert.R1_10>
 </strings>
