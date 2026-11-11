@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  <xsl:import href="dcat-brief.xsl"/>
+<!-- CSW output of RNDT records: same as the iso19139 schema of the GeoNetwork core. -->
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                version="2.0">
+  <xsl:import href="../../../iso19139/present/csw/dcat-full.xsl"/>
 </xsl:stylesheet>

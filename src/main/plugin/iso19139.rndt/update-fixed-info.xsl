@@ -302,7 +302,9 @@
 
     <xsl:variable name="livSupId">
        <xsl:message>==== CI_Series ISSUE IDENTIFIER ====</xsl:message>
-       <!-- TODO: controllare se i riferimenti a /root/env esistono ancora -->
+       <!-- /root/env checked against GeoNetwork 4.4.12: parentUuid is only set when a
+            child record is created; on a plain save it is missing and the value already
+            in the record is used. group/description is added by RNDTMetadataManager. -->
 
        <xsl:choose>
           <!-- no iPA defined -->
@@ -752,23 +754,12 @@
             </xsl:call-template>
         </xsl:variable>
 
+        <!-- The link is kept as it is: GeoNetwork 4 has neither the downloadservice
+             setting nor the resources.get and file.disclaimer services of GeoNetwork 2
+             and 3 that this template used to rewrite it to. -->
         <xsl:copy>
             <xsl:copy-of select="@*"/>
-            <gmd:linkage>
-                <gmd:URL>
-                    <xsl:choose>
-                        <xsl:when test="/root/env/config/downloadservice/simple='true'">
-                            <xsl:value-of select="concat(/root/env/siteURL,'/resources.get?id=',/root/env/id,'&amp;fname=',$fname,'&amp;access=private')"/>
-                        </xsl:when>
-                        <xsl:when test="/root/env/config/downloadservice/withdisclaimer='true'">
-                            <xsl:value-of select="concat(/root/env/siteURL,'/file.disclaimer?id=',/root/env/id,'&amp;fname=',$fname,'&amp;access=private')"/>
-                        </xsl:when>
-                        <xsl:otherwise> <!-- /root/env/config/downloadservice/leave='true' -->
-                            <xsl:value-of select="gmd:linkage/gmd:URL"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </gmd:URL>
-            </gmd:linkage>
+            <xsl:copy-of select="gmd:linkage"/>
             <xsl:copy-of select="gmd:protocol"/>
             <xsl:copy-of select="gmd:applicationProfile"/>
             <gmd:name>
@@ -802,27 +793,6 @@
             </gmd:name>
             <xsl:copy-of select="gmd:description"/>
             <xsl:copy-of select="gmd:function"/>
-        </xsl:copy>
-    </xsl:template>
-
-    <!-- ================================================================= -->
-
-    <xsl:template match="gmx:FileName[name(..)!='gmd:contactInstructions']">
-        <xsl:copy>
-            <xsl:attribute name="src">
-                <xsl:choose>
-                    <xsl:when test="/root/env/config/downloadservice/simple='true'">
-                        <xsl:value-of select="concat(/root/env/siteURL,'/resources.get?id=',/root/env/id,'&amp;fname=',.,'&amp;access=private')"/>
-                    </xsl:when>
-                    <xsl:when test="/root/env/config/downloadservice/withdisclaimer='true'">
-                        <xsl:value-of select="concat(/root/env/siteURL,'/file.disclaimer?id=',/root/env/id,'&amp;fname=',.,'&amp;access=private')"/>
-                    </xsl:when>
-                    <xsl:otherwise> <!-- /root/env/config/downloadservice/leave='true' -->
-                        <xsl:value-of select="@src"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:attribute>
-            <xsl:value-of select="."/>
         </xsl:copy>
     </xsl:template>
 

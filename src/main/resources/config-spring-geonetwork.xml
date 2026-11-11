@@ -2,10 +2,21 @@
 <beans
     xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="iso19139.rndtSchemaPlugin"
         class="org.fao.geonet.schema.iso19139_rndt.ISO19139RNDTSchemaPlugin"/>
 
     <bean name="metadataManager" primary="true" class="org.fao.geonet.schema.iso19139_rndt.RNDTMetadataManager"/>
+
+    <!-- Working copies of RNDT records (readwriteUuid): same states that create a working copy as in the core -->
+    <bean name="rndtMetadataUtils" primary="true" class="org.fao.geonet.schema.iso19139_rndt.RNDTMetadataUtils">
+      <property name="listOfStatusCreatingDraft">
+        <util:set>
+          <util:constant static-field="org.fao.geonet.domain.StatusValue.Status.APPROVED"/>
+        </util:set>
+      </property>
+    </bean>
 </beans>

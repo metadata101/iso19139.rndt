@@ -15,14 +15,16 @@ import org.fao.geonet.kernel.datamanager.IMetadataIndexer;
 import org.fao.geonet.kernel.datamanager.IMetadataOperations;
 import org.fao.geonet.kernel.datamanager.IMetadataSchemaUtils;
 import org.fao.geonet.kernel.datamanager.IMetadataValidator;
-import org.fao.geonet.kernel.datamanager.base.BaseMetadataManager;
+import org.fao.geonet.kernel.datamanager.draft.DraftMetadataManager;
 import org.fao.geonet.kernel.schema.MetadataSchema;
+import org.fao.geonet.kernel.search.IndexingMode;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.kernel.setting.Settings;
 import org.fao.geonet.lib.Lib;
 import org.fao.geonet.repository.GroupRepository;
 import org.fao.geonet.repository.UserRepository;
 import org.fao.geonet.utils.Xml;
+import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.Namespace;
@@ -43,7 +45,13 @@ import java.util.HashMap;
 import java.util.List;
 import org.fao.geonet.kernel.datamanager.base.BaseMetadataUtils;
 
-public class RNDTMetadataManager extends BaseMetadataManager {
+/**
+ * Metadata manager of the RNDT profile: RNDT rules when a record is inserted, on top of the working copies of
+ * GeoNetwork 4. It replaces the core manager (bean "metadataManager", primary), so it extends DraftMetadataManager:
+ * with BaseMetadataManager, editing an approved record changed the published record instead of creating a working
+ * copy, because the core creates working copies only when the metadata manager is a DraftMetadataManager.
+ */
+public class RNDTMetadataManager extends DraftMetadataManager {
     @Autowired
     @Lazy
     private SettingManager settingManager;
@@ -80,13 +88,17 @@ public class RNDTMetadataManager extends BaseMetadataManager {
 
     @Override
     public AbstractMetadata insertMetadata(ServiceContext context, AbstractMetadata newMetadata, Element metadataXml,
-                                           boolean notifyChange, boolean index, boolean updateFixedInfo, UpdateDatestamp updateDatestamp,
+                                           IndexingMode indexingMode, boolean updateFixedInfo, UpdateDatestamp updateDatestamp,
                                            boolean fullRightsForGroup, boolean forceRefreshReaders) throws Exception {
         final String schema = newMetadata.getDataInfo().getSchemaId();
 
         // Check if the schema is allowed by settings
         String mdImportSetting = settingManager.getValue(Settings.METADATA_IMPORT_RESTRICT);
-        if (mdImportSetting != null && !mdImportSetting.equals("")) {
+        if (mdImportSetting != null) {
+            // Remove spaces from the list so that "iso19115-3.2018, dublin-core" will also work
+            mdImportSetting = mdImportSetting.replace(" ", "");
+        }
+        if (!StringUtils.isBlank(mdImportSetting)) {
             if (!newMetadata.getHarvestInfo().isHarvested()
                 && !Arrays.asList(mdImportSetting.split(",")).contains(schema)) {
                 throw new IllegalArgumentException(
@@ -138,13 +150,8 @@ public class RNDTMetadataManager extends BaseMetadataManager {
         }
         metadataOperations.copyDefaultPrivForGroup(context, stringId, groupId, fullRightsForGroup);
 
-        if (index) {
-            metadataIndexer.indexMetadata(stringId, forceRefreshReaders, null);
-        }
-
-        if (notifyChange) {
-            // Notifies the metadata change to metatada notifier service
-            metadataUtils.notifyMetadataChange(metadataXml, stringId);
+        if (indexingMode != IndexingMode.none) {
+            metadataIndexer.indexMetadata(stringId, forceRefreshReaders, indexingMode);
         }
         return savedMetadata;
     }
@@ -297,8 +304,8 @@ public class RNDTMetadataManager extends BaseMetadataManager {
 
 
     private Group getGroup(Integer groupOwner){
-        Group group = groupRepository.findOne(Integer.valueOf(groupOwner));
-        return group;
+        // Records may have no owner group (e.g. imported or harvested): findById does not accept null
+        return groupOwner == null ? null : groupRepository.findById(groupOwner).orElse(null);
     }
 
     private Element addGroupToEnv(Element env, AbstractMetadata metadata){
@@ -308,7 +315,9 @@ public class RNDTMetadataManager extends BaseMetadataManager {
     private Element addGroupToEnv(Element env, Integer groupOwner){
             Group group=getGroup(groupOwner);
             Element groupEl = new Element ("group");
-            groupEl.addContent(new Element("description").setText(group.getDescription()));
+            // No group, or a group without description: no iPA code (update-fixed-info.xsl keeps the identifier)
+            String description = group == null || group.getDescription() == null ? "" : group.getDescription();
+            groupEl.addContent(new Element("description").setText(description));
             env.addContent(groupEl);
             return env;
     }

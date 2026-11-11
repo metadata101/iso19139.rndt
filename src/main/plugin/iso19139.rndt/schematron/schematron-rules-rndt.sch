@@ -130,8 +130,10 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<sch:pattern>
 		<sch:title>$loc/strings/M5</sch:title>
 		<sch:rule context="//gmd:MD_Metadata">
-			<sch:assert test="(gmd:metadataStandardName/gco:CharacterString and
-			gmd:metadataStandardName/gco:CharacterString = 'Linee Guida RNDT')">
+			<!-- RNDT 2.0 records published by the RNDT itself use gmx:Anchor
+			     (xlink:href="http://registry.geodati.gov.it/document/rndt-lg"): both encodings are valid. -->
+			<sch:assert test="normalize-space(gmd:metadataStandardName/gco:CharacterString) = 'Linee Guida RNDT'
+			or normalize-space(gmd:metadataStandardName/gmx:Anchor) = 'Linee Guida RNDT'">
 			 $loc/strings/alert.M5
 			 </sch:assert>
 			<!--			<sch:assert test="gmd:metadataStandardName/gco:CharacterString and contains(gmd:metadataStandardName/gco:CharacterString,'DM - Regole tecniche RNDT')">$loc/strings/alert.M5</sch:assert>-->
@@ -372,10 +374,15 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 	<sch:pattern>
 		<sch:title>$loc/strings/M45</sch:title>
 		<sch:rule context="//gmd:MD_Metadata[gmd:hierarchyLevel/gmd:MD_ScopeCode/@codeListValue!='service']">
-			<sch:assert test="(gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:name/gco:CharacterString
-			and gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:name/gco:CharacterString!='')
-			and (gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:version/gco:CharacterString
-			and gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format/gmd:version/gco:CharacterString!='')">$loc/strings/alert.M45</sch:assert>
+			<!-- Manuale RNDT 2, requisito 2.6 e raccomandazione R1.9: every format has a name
+			     (gco:CharacterString or gmx:Anchor to the INSPIRE media-types register) and a version,
+			     or an empty version with nilReason "unknown" or "inapplicable". -->
+			<sch:let name="formats" value="gmd:distributionInfo/gmd:MD_Distribution/gmd:distributionFormat/gmd:MD_Format"/>
+			<sch:assert test="count($formats) &gt; 0
+			and count($formats[not(gmd:name/*[normalize-space(.)!=''])]) = 0
+			and count($formats[not(gmd:version/*[normalize-space(.)!='']
+			                        or gmd:version/@gco:nilReason='unknown'
+			                        or gmd:version/@gco:nilReason='inapplicable')]) = 0">$loc/strings/alert.M45</sch:assert>
 		</sch:rule>
 	</sch:pattern>
 
@@ -452,54 +459,52 @@ temporalSamplingService;temporalProximityAnalysisService;metadataProcessingServi
 		</sch:rule>
 	</sch:pattern>
 
+	<!-- RASTER DATA (M60-M65). Linee Guida RNDT 2.0.1, par. 4.1.1 and tables II-IV: for images and DTMs the
+	     "Contenuto dei dati raster" and "Rappresentazione spaziale dei dati raster" sections MAY be documented
+	     (optional, 0..1); when a section is there, its mandatory elements must be filled. The rules apply only to
+	     the sections present. The content section is MD_CoverageDescription or its subclass MD_ImageDescription. -->
 	<!--CONTENT INFO - CONTENT TYPE (RASTER DATA)-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M60</sch:title>
-		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']">
-			<sch:assert test="gmd:contentInfo/gmd:MD_ImageDescription/gmd:contentType/gmd:MD_CoverageContentTypeCode/@codeListValue">$loc/strings/alert.M60</sch:assert>
+		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']/gmd:contentInfo/*[self::gmd:MD_CoverageDescription or self::gmd:MD_ImageDescription]">
+			<sch:assert test="gmd:contentType/gmd:MD_CoverageContentTypeCode/@codeListValue">$loc/strings/alert.M60</sch:assert>
 		</sch:rule>
 	</sch:pattern>
 	<!--CONTENT INFO - ATTRIBUTE DESCRIPTION (RASTER DATA)-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M61</sch:title>
-		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']">
-			<sch:assert test="gmd:contentInfo/gmd:MD_ImageDescription/gmd:attributeDescription/gco:RecordType">$loc/strings/alert.M61</sch:assert>
+		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']/gmd:contentInfo/*[self::gmd:MD_CoverageDescription or self::gmd:MD_ImageDescription]">
+			<sch:assert test="gmd:attributeDescription/gco:RecordType">$loc/strings/alert.M61</sch:assert>
 		</sch:rule>
 	</sch:pattern>
 	<!--SPATIAL REPRESENTATION INFO - DIMENSIONS NUMBER (RASTER DATA)-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M62</sch:title>
-		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']">
-			<sch:assert test="gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:numberOfDimensions/gco:Integer
-			or gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:numberOfDimensions/gco:Integer">$loc/strings/alert.M62</sch:assert>
+		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']/gmd:spatialRepresentationInfo/*[self::gmd:MD_GridSpatialRepresentation or self::gmd:MD_Georectified or self::gmd:MD_Georeferenceable]">
+			<sch:assert test="gmd:numberOfDimensions/gco:Integer">$loc/strings/alert.M62</sch:assert>
 		</sch:rule>
 	</sch:pattern>
 	<!--SPATIAL REPRESENTATION INFO - AXIS DIMENSION PROPERTIES (RASTER DATA)-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M63</sch:title>
-		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']">
-			<sch:assert test="(gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:axisDimensionProperties/gmd:MD_Dimension/gmd:dimensionName/gmd:MD_DimensionNameTypeCode/@codeListValue
-			and gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:axisDimensionProperties/gmd:MD_Dimension/gmd:dimensionSize/gco:Integer
-			and gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:axisDimensionProperties/gmd:MD_Dimension/gmd:dimensionSize/gco:Integer!='')
-			or (gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:axisDimensionProperties/gmd:MD_Dimension/gmd:dimensionName/gmd:MD_DimensionNameTypeCode/@codeListValue
-			and gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:axisDimensionProperties/gmd:MD_Dimension/gmd:dimensionSize/gco:Integer
-			and gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:axisDimensionProperties/gmd:MD_Dimension/gmd:dimensionSize/gco:Integer!='')">$loc/strings/alert.M63</sch:assert>
+		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']/gmd:spatialRepresentationInfo/*[self::gmd:MD_GridSpatialRepresentation or self::gmd:MD_Georectified or self::gmd:MD_Georeferenceable]">
+			<sch:assert test="gmd:axisDimensionProperties/gmd:MD_Dimension/gmd:dimensionName/gmd:MD_DimensionNameTypeCode/@codeListValue
+			and gmd:axisDimensionProperties/gmd:MD_Dimension/gmd:dimensionSize/gco:Integer
+			and gmd:axisDimensionProperties/gmd:MD_Dimension/gmd:dimensionSize/gco:Integer!=''">$loc/strings/alert.M63</sch:assert>
 		</sch:rule>
 	</sch:pattern>
 	<!--SPATIAL REPRESENTATION INFO - CELL GEOMETRY (RASTER DATA)-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M64</sch:title>
-		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']">
-			<sch:assert test="gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:cellGeometry/gmd:MD_CellGeometryCode/@codeListValue
-			or gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:cellGeometry/gmd:MD_CellGeometryCode/@codeListValue">$loc/strings/alert.M64</sch:assert>
+		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']/gmd:spatialRepresentationInfo/*[self::gmd:MD_GridSpatialRepresentation or self::gmd:MD_Georectified or self::gmd:MD_Georeferenceable]">
+			<sch:assert test="gmd:cellGeometry/gmd:MD_CellGeometryCode/@codeListValue">$loc/strings/alert.M64</sch:assert>
 		</sch:rule>
 	</sch:pattern>
 	<!--SPATIAL REPRESENTATION INFO - TRANSFORMATION PARAMETER AVAILABILITY (RASTER DATA)-->
 	<sch:pattern>
 		<sch:title>$loc/strings/M65</sch:title>
-		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']">
-			<sch:assert test="gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:transformationParameterAvailability/gco:Boolean
-			or gmd:spatialRepresentationInfo//gmd:MD_Georeferenceable/gmd:transformationParameterAvailability/gco:Boolean">$loc/strings/alert.M65</sch:assert>
+		<sch:rule context="//gmd:MD_Metadata[gmd:identificationInfo/gmd:MD_DataIdentification/gmd:spatialRepresentationType/gmd:MD_SpatialRepresentationTypeCode/@codeListValue='grid']/gmd:spatialRepresentationInfo/*[self::gmd:MD_GridSpatialRepresentation or self::gmd:MD_Georectified or self::gmd:MD_Georeferenceable]">
+			<sch:assert test="gmd:transformationParameterAvailability/gco:Boolean">$loc/strings/alert.M65</sch:assert>
 		</sch:rule>
 	</sch:pattern>
 	<!--SPATIAL REPRESENTATION INFO - CHECK POINT AVAILABILITY (GEORECTIFIED RASTER DATA)-->

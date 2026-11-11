@@ -623,7 +623,7 @@
           <section name="descriptiveKeywords">
 
             <!-- Keywords con thesauri (non quelli gestiti altrove) -->
-            <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords[boolean(gmd:MD_Keywords/gmd:thesaurusName)
+            <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords[boolean(gmd:MD_Keywords/gmd:thesaurusName)
                      and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'GEMET - INSPIRE themes, version 1.0'))
                      and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'INSPIRE priority data set'))
                      and not(contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(), 'Spatial scope'))
@@ -639,7 +639,7 @@
                      ]"
                    notDisplayedIfMissing="true"
                    name="keyword_con_thesaurus"
-                   or = "descriptiveKeywords" in = "gmd:MD_Metadata/gmd:identificationInfo/*"
+                   or = "descriptiveKeywords" in = "/gmd:MD_Metadata/gmd:identificationInfo/*"
                    del="."
             >
             </field>
@@ -705,7 +705,7 @@
               <!-- Non esiste OD, count > 1 ->  alla cancellazione elimina solo gmd:keyword -->
               <!-- Non esiste OD, count = 1 ->  alla cancellazione elimina gmd:descriptiveKeywords -->
               
-              <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+              <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
                            [not(../gmd:thesaurusName) 
                             and not(./gco:CharacterString='open data') 
                             and not(./gco:CharacterString='opendata')
@@ -716,7 +716,7 @@
               />
 
               <!-- Se c'e' solo una keyword, alla cancellazione elimina da gmd:descriptiveKeywords -->
-              <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
+              <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword
                            [not(../gmd:thesaurusName) 
                             and not(./gco:CharacterString='open data') 
                             and not(./gco:CharacterString='opendata')
@@ -731,7 +731,7 @@
               <action type="add"
                       btnLabel="keyword_libera"
                       or="descriptiveKeywords"
-                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*"
                       if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[not(../gmd:thesaurusName)])=0"
               >
                 <template>
@@ -749,7 +749,7 @@
 
               <!-- Aggiunge solo gmd:keyword all'interno dell'elemento esistente gmd:descriptiveKeywords -->
               <action type="add" btnLabel="keyword_libera" or="keyword"
-                      in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[not(gmd:thesaurusName)]"
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords[not(gmd:thesaurusName)]"
                       if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/gmd:MD_Keywords/gmd:keyword[not(../gmd:thesaurusName)])>0"
               >
                 <template>
@@ -849,14 +849,14 @@
           <section name="rndtDataConstraints">
 
             <field
-              xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation"
+              xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation"
               del="../.."
             />
 
             <action type="add"
                     btnLabel="useLimitation"
                     or="resourceConstraints"
-                    in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/*"
                     if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_Constraints/gmd:useLimitation) = 0">
 
               <template>
@@ -875,7 +875,7 @@
             <section name="accessConstraints">
 
               <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[
+                xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[
                 gmd:MD_LegalConstraints/gmd:accessConstraints/gmd:MD_RestrictionCode/@codeListValue='otherRestrictions'
                 and  contains(gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess')]"
                 del="."
@@ -883,7 +883,7 @@
 
 
               <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints
+                xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints
                      [boolean(gmd:MD_LegalConstraints/gmd:accessConstraints) and not(gmd:MD_LegalConstraints/gmd:otherConstraints)]"
                 del="."
               />
@@ -894,7 +894,7 @@
 
               <action type="add" or="resourceConstraints"
                       btnLabel="accessConstraints"
-                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*"
               >
                 <template>
                   <snippet>
@@ -919,14 +919,14 @@
             <section name="useConstraints">
 
               <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[
+                xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints[
                 gmd:MD_LegalConstraints/*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions']
                 [not(contains(gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor/@xlink:href, 'LimitationsOnPublicAccess'))
                 and boolean(gmd:MD_LegalConstraints/gmd:otherConstraints/gmx:Anchor)]"
                 del="."/>
 
               <field
-                xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints[
+                xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:resourceConstraints/gmd:MD_LegalConstraints/gmd:otherConstraints[
                 ../*/gmd:MD_RestrictionCode/@codeListValue ='otherRestrictions']
                 [boolean(gco:CharacterString)]"
                 del="../.."/>
@@ -935,7 +935,7 @@
               <action type="add"
                       btnLabel="useConstraints"
                       or="resourceConstraints"
-                      in="gmd:MD_Metadata/gmd:identificationInfo/*">
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*">
                 <template>
                   <snippet label="noConditionApply">
                     <gmd:resourceConstraints>
@@ -1219,7 +1219,7 @@
 
           <action name="gmd:otherCitationsDetails" type="add" btnLabel="otherCitationDetails"
                   or="otherCitationDetails"
-                  in="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation"
+                  in="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation"
                   if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:otherCitationDetails)=0">
 
             <template>
@@ -1244,7 +1244,7 @@
              <section name="keyword_inspire_theme">
                <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/theme">GEMET - INSPIRE themes, version 1.0</gmx:Anchor> -->
 
-               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
+               <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'GEMET - INSPIRE themes, version 1.0') ]"
                       del="." >
                    <directiveAttributes  />
@@ -1255,7 +1255,7 @@
                <action type="add"
                        btnLabel="keyword_add_inspire_theme"
                        or="descriptiveKeywords"
-                       in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                       in="/gmd:MD_Metadata/gmd:identificationInfo/*"
 
                        if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
                           gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/*/text() = 'GEMET - INSPIRE themes, version 1.0'])=0">
@@ -1308,14 +1308,14 @@
 
              <section name="keyword_dataset_prioritari">
                <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/PriorityDataset">INSPIRE priority data set</gmx:Anchor> -->
-               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
+               <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'INSPIRE priority data set') ]"
                       del="."/>
 
                <action type="add"
                        btnLabel="keyword_add_dataset_prioritari"
                        or="descriptiveKeywords"
-                       in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                       in="/gmd:MD_Metadata/gmd:identificationInfo/*"
                        if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:descriptiveKeywords/
                           gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/*/text() = 'INSPIRE priority data set'])=0">
 
@@ -1366,7 +1366,7 @@
              <section name="keyword_ambito_territoriale">
                <!-- <gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/SpatialScope">Spatial scope</gmx:Anchor> -->
 
-               <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
+               <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [boolean(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*
                         [contains(text(),'Spatial scope') or contains(text(),'Ambito di applicazione territoriale')])]"
                       del="."/>
@@ -1374,7 +1374,7 @@
                <action type="add"
                     btnLabel="keyword_add_ambito_territoriale"
                       or="descriptiveKeywords"
-                      in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                      in="/gmd:MD_Metadata/gmd:identificationInfo/*"
 
                     if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [boolean(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*
@@ -1435,7 +1435,7 @@
             <action type="add"
                     btnLabel="keyword_interesse_generale"
                     or="descriptiveKeywords"
-                    in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/*"
                     if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/
                        gmd:MD_Keywords/gmd:thesaurusName[gmd:CI_Citation/gmd:title/*/text() = 'Registro dei dati di interesse generale per il RNDT'])=0">
 
@@ -2714,7 +2714,7 @@
             <action type="add"
                     btnLabel="referenceSystem"
                     or="referenceSystemInfo"
-                    in="gmd:MD_Metadata">
+                    in="/gmd:MD_Metadata">
               <template>
                 <snippet label="addRsAnchor">
                   <gmd:referenceSystemInfo>
@@ -3044,7 +3044,7 @@
 
           <action type="add" btnLabel="hierarchyLevelName"
                   or="hierarchyLevelName"
-                  in="gmd:MD_Metadata"
+                  in="/gmd:MD_Metadata"
                   if="not(gmd:MD_Metadata/hierarchyLevelName)"
           >
             <template>
@@ -3062,14 +3062,14 @@
 
           <section name="serviceClassification">
 
-            <field xpath="gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
+            <field xpath="/gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords
                         [contains(gmd:MD_Keywords/gmd:thesaurusName/gmd:CI_Citation/gmd:title/*/text(),'REGOLAMENTO (CE) N. 1205/2008') ]"
                    del="." />
 
             <action type="add"
                     btnLabel="serviceClassification"
                     or="descriptiveKeywords"
-                    in="gmd:MD_Metadata/gmd:identificationInfo/*"
+                    in="/gmd:MD_Metadata/gmd:identificationInfo/*"
 
                     if="count(gmd:MD_Metadata/gmd:identificationInfo/*/gmd:descriptiveKeywords/
                           gmd:MD_Keywords/gmd:thesaurusName[starts-with(gmd:CI_Citation/gmd:title/*/text(), 'REGOLAMENTO (CE) N. 1205/2008')])=0">
@@ -3126,7 +3126,7 @@
             xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType"
             name="serviceType"
             or="serviceType"
-            in="gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification">
+            in="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification">
             <template>
               <values>
                 <key label="serviceType" xpath="gco:LocalName">
@@ -3862,9 +3862,9 @@
         </section>
 
         <section name="referenceSystems">
-          <section name="spatialReferenceSystem" displayIfRecord="count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])>0
+          <section name="spatialReferenceSystem" displayIfRecord="(count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])>0
           or count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code[contains(.,'RDN') or starts-with(.,'ED50')
-          or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])>0">
+          or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])>0)">
 
             <field
               xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier[boolean(gmd:RS_Identifier/gmd:code/gmx:Anchor)]"
@@ -3925,9 +3925,9 @@
                   btnLabel="spatialReferenceSystem"
                   or="referenceSystemInfo"
                   in="/gmd:MD_Metadata"
-                  if="count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])=0
+                  if="(count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier[boolean(./gmd:code/gmx:Anchor) or boolean(./gmd:codeSpace/gco:CharacterString)])=0
                   and count(gmd:MD_Metadata/gmd:referenceSystemInfo/gmd:MD_ReferenceSystem/gmd:referenceSystemIdentifier/gmd:RS_Identifier/gmd:code[contains(.,'RDN') or starts-with(.,'ED50')
-                  or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])=0"
+                  or contains(.,'MonteMario') or contains(.,'ETRS') or contains(.,'ITRS') or contains(.,'WGS') or contains(.,'EPSG')])=0)"
           >
             <template>
               <snippet label="anchor">
@@ -4345,17 +4345,17 @@
 
         <section name ="contentInfo">
 
-          <field xpath="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:attributeDescription"
+          <field xpath="/gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:attributeDescription"
                  or ="gmd:attributeDescription"
-                 in="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"/>
+                 in="/gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"/>
 
-          <field xpath="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:contentType"
+          <field xpath="/gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:contentType"
                  or ="gmd:contentType"
-                 in="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"/>
+                 in="/gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"/>
 
-          <field xpath="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:dimension/gmd:MD_Band/gmd:bitsPerValue"
+          <field xpath="/gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:dimension/gmd:MD_Band/gmd:bitsPerValue"
                  />
-          <action type="add" name="bitsPerValue" or="dimension" in="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"
+          <action type="add" name="bitsPerValue" or="dimension" in="/gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"
                   if="count(gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:dimension/gmd:MD_Band/gmd:bitsPerValue)=0"
           >
             <template>
@@ -4371,10 +4371,10 @@
             </template>
           </action>
 
-          <field xpath="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:triangulationIndicator"
+          <field xpath="/gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:triangulationIndicator"
                  />
           <action type="add" btnLabel="triangulationIndicator" or ="triangulationIndicator"
-                  in="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"
+                  in="/gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"
                   if="count(gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription/gmd:triangulationIndicator)=0"
           >
             <template>
@@ -4389,11 +4389,11 @@
         </section>
 
         <section name="spatialRepresentation">
-          <field xpath ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/*/gmd:numberOfDimensions"/>
+          <field xpath ="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/*/gmd:numberOfDimensions"/>
           <action type="add" name="gmd:numberOfDimensions"
                   btnLabel="numberOfDimensions"
                   or ="numberOfDimensions"
-                  in = "gmd:MD_Metadata/gmd:spatialRepresentationInfo/*"
+                  in = "/gmd:MD_Metadata/gmd:spatialRepresentationInfo/*"
                   if="count(gmd:MD_Metadata/gmd:spatialRepresentationInfo/*/gmdNumberOfDimension)=0">
             <template>
               <snippet>
@@ -4405,13 +4405,13 @@
           </action>
 
           <field name="axisDimensionProperties"
-            xpath ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/*/gmd:axisDimensionProperties"/>
+            xpath ="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/*/gmd:axisDimensionProperties"/>
 
           <action type="add"
                   btnLabel="axisDimensionProperties"
                   name="axisDimensionProperty"
                   or ="axisDimensionProperties"
-                  in = "gmd:MD_Metadata/gmd:spatialRepresentationInfo/*"
+                  in = "/gmd:MD_Metadata/gmd:spatialRepresentationInfo/*"
           >
             <template>
               <snippet>
@@ -4435,21 +4435,21 @@
             </template>
           </action>
 
-          <field xpath ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/*/gmd:cellGeometry"
+          <field xpath ="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/*/gmd:cellGeometry"
                  or ="cellGeometry"
                  in="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/*"/>
 
-          <field xpath ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/*/gmd:transformationParameterAvailability"
+          <field xpath ="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/*/gmd:transformationParameterAvailability"
                  or ="transformationParameterAvailability"
                  in="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/*"/>
 
           <section name="georectifiedRaster" displayIfRecord="count(gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified)>0">
 
-            <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:checkPointAvailability"
-                   or="checkPointAvailability" in = "gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified"/>
+            <field xpath="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:checkPointAvailability"
+                   or="checkPointAvailability" in = "/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified"/>
 
-            <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:checkPointDescription"
-                   or="checkPointDescription" in = "gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified"/>
+            <field xpath="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:checkPointDescription"
+                   or="checkPointDescription" in = "/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified"/>
 
 
               <field name="cornerPoints" 
@@ -4472,7 +4472,7 @@
               </field>
 
               <action type="add" btnLabel="cornerPoints" name="gmd:cornerPoints" or="cornerPoints" 
-                      in ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified">
+                      in ="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified">
                 <template>
                   <snippet>
                     <gmd:cornerPoints>
@@ -4485,25 +4485,25 @@
                 </template>
               </action>
 
-            <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:pointInPixel/gmd:MD_PixelOrientationCode"
+            <field xpath="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified/gmd:pointInPixel/gmd:MD_PixelOrientationCode"
                    name="pointInPixel"
                    or ="pointInPixel"
-                   in="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified"
+                   in="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georectified"
                    del="."/>
 
           </section>
 
           <section name="georeferenceableRaster" displayIfRecord="count(gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable)>0">
 
-            <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:controlPointAvailability"
-                   or="controlPointAvailability" in = "gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable"/>
+            <field xpath="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:controlPointAvailability"
+                   or="controlPointAvailability" in = "/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable"/>
 
-            <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:orientationParameterAvailability"
-                   or="orientationParameterAvailability" in = "gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable"/>
+            <field xpath="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:orientationParameterAvailability"
+                   or="orientationParameterAvailability" in = "/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable"/>
 
-            <field xpath="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:georeferencedParameters"/>
+            <field xpath="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable/gmd:georeferencedParameters"/>
 
-            <action type="add" name="georeferencedParameters" or="georeferencedParameters" in ="gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable">
+            <action type="add" name="georeferencedParameters" or="georeferencedParameters" in ="/gmd:MD_Metadata/gmd:spatialRepresentationInfo/gmd:MD_Georeferenceable">
               <template>
                 <snippet>
                   <gmd:georeferencedParameters>
@@ -4544,10 +4544,10 @@
 
       <tab id="metadata" default="true">
         <section name="metadata">
-          <field xpath="/gmd:MD_Metadata/gmd:fileIdentifier" or="fileIdentifier" in="gmd:MD_Metadata"/>
+          <field xpath="/gmd:MD_Metadata/gmd:fileIdentifier" or="fileIdentifier" in="/gmd:MD_Metadata"/>
 
           <field
-            xpath="/gmd:MD_Metadata/gmd:language" or ="language" in ="gmd:MD_Metadata"/>
+            xpath="/gmd:MD_Metadata/gmd:language" or ="language" in ="/gmd:MD_Metadata"/>
 
 
           <field xpath="/gmd:MD_Metadata/gmd:characterSet" or="characterSet" in ="/gmd:MD_Metadata"/>
@@ -4563,12 +4563,12 @@
           />
           <action type="add" btnLabel="standardName"
                   or="metadataStandardName"
-                  in="gmd:MD_Metadata"
+                  in="/gmd:MD_Metadata"
                   if="count(gmd:MD_Metadata/gmd:metadataStandardName)=0">
             <template>
               <snippet>
                 <gmd:metadataStandardName>
-                  <gmx:Anchor xlink:href="https://registry.geodati.gov.it/document/lgrndt">Linee Guida RNDT</gmx:Anchor>
+                  <gmx:Anchor xlink:href="https://registry.geodati.gov.it/document/lg-rndt">Linee Guida RNDT</gmx:Anchor>
                 </gmd:metadataStandardName>
               </snippet>
             </template>
@@ -4617,11 +4617,11 @@
       <tab id="identificationInfo">
         <section xpath="/gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification"
                  or="SV_ServiceIdentification"
-                 in="gmd:MD_Metadata/gmd:identificationInfo"
+                 in="/gmd:MD_Metadata/gmd:identificationInfo"
         />
         <section xpath="/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification"
                  or="gmd:MD_MetadataIdentification"
-                 in="gmd:MD_Metadata/gmd:identificationInfo"/>
+                 in="/gmd:MD_Metadata/gmd:identificationInfo"/>
       </tab>
       <tab id="dataDistribution">
         <section xpath="/gmd:MD_Metadata/gmd:distributionInfo" or="distributionInfo"
@@ -4699,8 +4699,8 @@
           <action type="add" name="conformity" or="report"
                   btnLabel="conformitySpecifications"
                   in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0 and
-                    count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult)=0">
+                  if="(count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0 and
+                    count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult)=0)">
             <template>
               <snippet>
                 <gmd:report>
@@ -4747,8 +4747,8 @@
           <action type="add" name="serviceSpecification" or="report"
                   btnLabel="conformitySpecifications"
                   in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
-                  if="count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0 and
-                    count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult) = 0">
+                  if="(count(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification) > 0 and
+                    count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult) = 0)">
             <template>
               <snippet label="network_services">
                 <gmd:report>
@@ -4869,10 +4869,10 @@
           <action type="add" or="report"
                   btnLabel="sds-category"
                   in="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality"
-                  if="gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType/
+                  if="(gmd:MD_Metadata/gmd:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType/
                   gco:LocalName/text()='other' and count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/
                   gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult[gmd:specification/
-                  gmd:CI_Citation/gmd:title/gmx:Anchor/text()!='invocable']) = 0">
+                  gmd:CI_Citation/gmd:title/gmx:Anchor/text()!='invocable']) = 0)">
             <template>
               <snippet>
                 <gmd:report>
@@ -4921,8 +4921,8 @@
 
           <action type="process"
                   process="sds-add-dataquality"
-                  if="count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service'])=0
-            and count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0"/>
+                  if="(count(gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality[gmd:scope/gmd:DQ_Scope/gmd:level/gmd:MD_ScopeCode/@codeListValue='service'])=0
+            and count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0)"/>
 
           <field
             xpath="/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:report/gmd:DQ_ConceptualConsistency"/>
@@ -5095,9 +5095,9 @@
         </section>
       </tab>
       <tab id ="contentInfo" displayIfRecord="count(gmd:MD_Metadata/gmd:contentInfo)>0">
-        <section xpath ="gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"
+        <section xpath ="/gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription"
                  or="MD_ImageDescription"
-                 in="gmd:MD_Metadata/gmd:contentInfo"
+                 in="/gmd:MD_Metadata/gmd:contentInfo"
                  />
       </tab>
       <tab id="spatialRepresentation"  displayIfRecord="count(gmd:MD_Metadata/gmd:contentInfo/gmd:MD_ImageDescription)>0">
@@ -5107,7 +5107,7 @@
         />
       </tab>
       <tab id="referenceSystemInfo" displayIfRecord="count(gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification) > 0">
-        <section xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo" or="gmd:referenceSystemInfo" in="gmd:MD_Metadata"/>
+        <section xpath="/gmd:MD_Metadata/gmd:referenceSystemInfo" or="gmd:referenceSystemInfo" in="/gmd:MD_Metadata"/>
       </tab>
     </view>
 

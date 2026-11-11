@@ -11,6 +11,7 @@
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:gn="http://www.fao.org/geonetwork"
                 xmlns:gn-fn-metadata="http://geonetwork-opensource.org/xsl/functions/metadata"
+                xmlns:gn-fn-rndt="http://geonetwork-opensource.org/xsl/functions/profiles/iso19139.rndt"
                 xmlns:java-xsl-util="java:org.fao.geonet.util.XslUtil"
                 xmlns:saxon="http://saxon.sf.net/"
                 xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -23,6 +24,16 @@
   <xsl:include xmlns:svrl="http://purl.oclc.org/dsdl/svrl" href="../../../xsl/utils-fn.xsl"/>
 
   <xsl:variable name="thesaurusDir" select="java:getThesaurusDir()"/>
+
+  <!-- Value for a single-quoted JavaScript string: labels such as
+       "Nessuna condizione per l'accesso e l'uso" would otherwise end the
+       string and break the script. -->
+  <xsl:function name="gn-fn-rndt:js-string" as="xs:string">
+    <xsl:param name="value"/>
+    <xsl:value-of select="replace(replace(replace(string-join($value, ''),
+                            '\\', '\\\\'), &quot;'&quot;, &quot;\\'&quot;),
+                            '[&#13;&#10;]+', ' ')"/>
+  </xsl:function>
 
   <!-- Readonly element -->
   <xsl:template mode="mode-iso19139" priority="2000" match="gmd:fileIdentifier|gmd:dateStamp|
@@ -53,7 +64,11 @@
     <xsl:call-template name="render-element">
       <xsl:with-param name="label"
                       select="$labelConfig/*"/>
-      <xsl:with-param name="value" select="*"/>
+      <!-- Skip the gn:element nodes added by the editor (GeoNetwork 4 passes
+           a single value); for code lists (hierarchyLevel) use the code. -->
+      <xsl:with-param name="value"
+                      select="if (*/@codeListValue) then */@codeListValue
+                              else *[namespace-uri(.) != 'http://www.fao.org/geonetwork']"/>
       <xsl:with-param name="cls" select="local-name()"/>
       <xsl:with-param name="xpath" select="$xpath"/>
       <xsl:with-param name="type" select="gn-fn-metadata:getFieldType($editorConfig, name(), '', $xpath)"/>
@@ -63,6 +78,26 @@
       <xsl:with-param name="isDisabled" select="true()"/>
     </xsl:call-template>
 
+  </xsl:template>
+
+  <!-- RNDT encodes quantitative results as gmd:value/gco:Record/gco:Real
+       (rule M35). The iso19139 layout of GeoNetwork 4 renders gmd:value
+       using the text of gco:Record, which here is only whitespace, and the
+       editor fails ("more than one item ... normalize-space()"). Render the
+       typed value inside gco:Record instead, with the label of gmd:value. -->
+  <xsl:template mode="mode-iso19139" priority="2000"
+                match="gmd:value[gco:Record/(gco:Real|gco:Integer|gco:Decimal)]">
+    <xsl:param name="schema" select="$schema" required="no"/>
+    <xsl:param name="labels" select="$labels" required="no"/>
+
+    <xsl:variable name="labelConfig"
+                  select="gn-fn-metadata:getLabel($schema, name(), $labels, name(..), '', '')"/>
+
+    <xsl:apply-templates mode="mode-iso19139" select="gco:Record">
+      <xsl:with-param name="schema" select="$schema"/>
+      <xsl:with-param name="labels" select="$labels"/>
+      <xsl:with-param name="overrideLabel" select="string($labelConfig/label)"/>
+    </xsl:apply-templates>
   </xsl:template>
 
   <xsl:template mode="mode-iso19139" match="gmd:resourceConstraints[not(gmd:MD_Constraints) and boolean(gmd:MD_LegalConstraints/*/gmx:Anchor)]">
@@ -201,8 +236,8 @@
       <script type="text/javascript">
         $(document).ready(function(){
         var id = <xsl:value-of select="$currElement/gmx:Anchor/geonet:element/@ref"/>;
-        var currAnchorVal='<xsl:value-of select="$currElement/gmx:Anchor/text()"/>';
-        var currXlinkVal='<xsl:value-of select="$currElement/gmx:Anchor/@xlink:href"/>';
+        var currAnchorVal='<xsl:value-of select="gn-fn-rndt:js-string($currElement/gmx:Anchor/text())"/>';
+        var currXlinkVal='<xsl:value-of select="gn-fn-rndt:js-string($currElement/gmx:Anchor/@xlink:href)"/>';
         var gnHidden = "_" + id + "_xlinkCOLONhref";
         var selectName="select-"+id;
         var gnAnchor = "_" + id;

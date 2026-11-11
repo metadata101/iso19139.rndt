@@ -2,12 +2,14 @@ package org.fao.geonet.schema.iso19139_rndt;
 
 
 import com.google.common.collect.ImmutableSet;
+import org.fao.geonet.kernel.schema.AssociatedResource;
 import org.fao.geonet.schema.iso19139.ISO19139SchemaPlugin;
 import org.fao.geonet.utils.Xml;
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.fao.geonet.schema.iso19139.ISO19139Namespaces.*;
 import org.fao.geonet.utils.Log;
@@ -38,11 +40,17 @@ public class ISO19139RNDTSchemaPlugin extends ISO19139SchemaPlugin {
         return IDENTIFIER;
     }
 
+    /**
+     * RNDT encodes the parent (series) as gmd:citation/gmd:CI_Citation/gmd:series/gmd:CI_Series/gmd:issueIdentification,
+     * not as gmd:parentIdentifier, which is ignored as in the GeoNetwork 3 version of this plugin. GeoNetwork 4 looks
+     * parents up with this method (associated resources, DCAT formatters): the parents are the issueIdentification
+     * values, except the identifier of the resource itself.
+     */
     @Override
-    public Set<String> getAssociatedParentUUIDs(Element metadata) {
-       
-       String resourceId = getResourceId(metadata);
-       
+    public Set<AssociatedResource> getAssociatedParents(Element metadata) {
+        Set<AssociatedResource> parents = new HashSet<>();
+
+        String resourceId = getResourceId(metadata);
         ElementFilter elementFilter = new ElementFilter("issueIdentification", GMD);
         Set<String> filtered = Xml.filterElementValues(
             metadata,
@@ -50,9 +58,20 @@ public class ISO19139RNDTSchemaPlugin extends ISO19139SchemaPlugin {
             "CharacterString", GCO,
             null);
         filtered.removeIf(s -> s.equals(resourceId));
-        return filtered;
+        for (String uuid : filtered) {
+            parents.add(new AssociatedResource(uuid, "", ""));
+        }
+        return parents;
     }
-           
+
+    @Override
+    public Set<String> getAssociatedParentUUIDs(Element metadata) {
+        return getAssociatedParents(metadata)
+            .stream()
+            .map(AssociatedResource::getUuid)
+            .collect(Collectors.toSet());
+    }
+
     protected String getResourceId(Element metadata) {
        final String resourceIdPath = "gmd:identificationInfo/*/gmd:citation/gmd:CI_Citation/gmd:identifier/gmd:MD_Identifier/gmd:code/gco:CharacterString";
        
