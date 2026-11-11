@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CSW output of RNDT records: same as the iso19139 schema of the GeoNetwork core. -->
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                version="2.0">
+  <xsl:import href="../../../iso19139/present/csw/csw-summary.xsl"/>
+</xsl:stylesheet>
