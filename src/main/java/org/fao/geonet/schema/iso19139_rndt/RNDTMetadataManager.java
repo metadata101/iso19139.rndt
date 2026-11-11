@@ -15,7 +15,7 @@ import org.fao.geonet.kernel.datamanager.IMetadataIndexer;
 import org.fao.geonet.kernel.datamanager.IMetadataOperations;
 import org.fao.geonet.kernel.datamanager.IMetadataSchemaUtils;
 import org.fao.geonet.kernel.datamanager.IMetadataValidator;
-import org.fao.geonet.kernel.datamanager.base.BaseMetadataManager;
+import org.fao.geonet.kernel.datamanager.draft.DraftMetadataManager;
 import org.fao.geonet.kernel.schema.MetadataSchema;
 import org.fao.geonet.kernel.search.IndexingMode;
 import org.fao.geonet.kernel.setting.SettingManager;
@@ -45,7 +45,13 @@ import java.util.HashMap;
 import java.util.List;
 import org.fao.geonet.kernel.datamanager.base.BaseMetadataUtils;
 
-public class RNDTMetadataManager extends BaseMetadataManager {
+/**
+ * Metadata manager of the RNDT profile: RNDT rules when a record is inserted, on top of the working copies of
+ * GeoNetwork 4. It replaces the core manager (bean "metadataManager", primary), so it extends DraftMetadataManager:
+ * with BaseMetadataManager, editing an approved record changed the published record instead of creating a working
+ * copy, because the core creates working copies only when the metadata manager is a DraftMetadataManager.
+ */
+public class RNDTMetadataManager extends DraftMetadataManager {
     @Autowired
     @Lazy
     private SettingManager settingManager;
